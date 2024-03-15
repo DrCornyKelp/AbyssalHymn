@@ -5,6 +5,7 @@
 #include <windows.h>
 #include <iostream>
 #include <vector>
+#include <stdio.h>
 
 #include "game.h"
 #include "player.h"
@@ -24,6 +25,10 @@ int main(int argc, char *argv[])
     // Game
     Game *game = new Game();
     game->drawIcon();
+
+    // Audio
+    Mix_Music *music = Mix_LoadMUS("music.mp3");
+    Mix_PlayMusic(music, -1);
 
     // Player + Hud
     Player *player0 = new Player();
