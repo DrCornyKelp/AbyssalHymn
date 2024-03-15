@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     game->drawIcon();
 
     // Audio
-    Audio::playBGM("res/Audio/Stage1.wav");
+    Audio::playBGM("res/Audio/TidalWave.wav");
 
     // Player + Hud
     Player *player0 = new Player();
