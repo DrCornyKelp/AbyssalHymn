@@ -493,6 +493,8 @@ void Player::playerTileCollision(Block *object[])
             {
                 setX(obj->getX() + hit_dist_x);
 
+                bool hug_wall_right = true;
+
                 vel_x = vel_x < -1.8 ? -vel_x * .5 : 0;
                 continue;
             }
@@ -525,6 +527,7 @@ void Player::playerTileCollision(Block *object[])
     }
 
     if (!on_aleast_ground) on_ground = false;
+    std::cout << hug_wall_left << " " hug_wall_right << "\n";
 }
 
 // void Player::playerEventTrigger(EventTrigger *event[])
