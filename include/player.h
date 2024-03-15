@@ -44,7 +44,6 @@ private:
     // "Airborne" movement
     int air_cur = 3;
     int air_max = 3;
-    bool on_ground = false;
 
     // Jumping
     bool jump_hold = false;
@@ -80,6 +79,9 @@ private:
     Sprite *PlayerLeft;
     Sprite *PlayerRight;
     Sprite *hitbox;
+
+    // Collision
+    bool on_ground = false;
 
     // ====== EXPERIMENTATION VALUES ======
     bool display_hitbox = false;
