@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
     int test = Mix_Init(0); // Initialize audio in wav format
                             // somehow other formats don't work but here's the code:
                             // wav = 0, flac = 1, mp3 = 8
-    Audio::playBGM("res/Audio/Stage1.wav");
+    Audio::playBGM("res/Audio/UsagiFlap.wav");
 
     // Player + Hud
     Player *player0 = new Player();
@@ -58,37 +58,44 @@ int main(int argc, char *argv[])
     // });
 
     // BG
-    Sprite *bg = new Sprite(756, 360, 1, "res/Background/Mountain.jpg");
-    bg->setTexture(bg->loadTexture(game->getRenderer(), bg->getSpritePath()));
+    // Sprite *bg = new Sprite(756, 360, 1, "res/Background/Mountain.png");
+    // bg->setTexture(bg->loadTexture(game->getRenderer(), bg->getSpritePath()));
 
     // DECORATION
-    DecorationStatic *staticBack[3];
-    staticBack[0] = new DecorationStatic(game->getRenderer(), "res/Decoration/House1.png", 550, 510, 1000, 770, false);
-    staticBack[1] = new DecorationStatic(game->getRenderer(), "res/Decoration/TreeX2.png", 132, 64, 64, 128, false);
-    staticBack[2] = new DecorationStatic(game->getRenderer(), "res/Decoration/Pole.png", 540, 0, 98, 196, false);
+    DecorationStatic *staticBack[7];
+    staticBack[0] = new DecorationStatic(game->getRenderer(), "res/DayNight/Day.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true);
+    staticBack[1] = new DecorationStatic(game->getRenderer(), "res/DayNight/Night.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true);
+    staticBack[1]->setAlpha(0);
+    staticBack[2] = new DecorationStatic(game->getRenderer(), "res/Background/MountainDay.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true);
+    staticBack[3] = new DecorationStatic(game->getRenderer(), "res/Background/MountainNight.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true);
+    staticBack[3]->setAlpha(0);
+    
+    staticBack[4] = new DecorationStatic(game->getRenderer(), "res/Decoration/House1.png", 550, 510, 1000, 770, false);
+    staticBack[5] = new DecorationStatic(game->getRenderer(), "res/Decoration/TreeX2.png", 132, 64, 64, 128, false);
+    staticBack[6] = new DecorationStatic(game->getRenderer(), "res/Decoration/Pole.png", 540, 0, 98, 196, false);
 
-    DecorationDynamic *dynamicBack[2];
+    DecorationDynamic *dynamicBack[1];
     dynamicBack[0] = new DecorationDynamic(game->getRenderer(), "res/NakuSheet/NakuLeft.png", 870, 164, 32, 32, 30, 2, 4, false);
     dynamicBack[0]->setAlpha(200);
     // dynamicBack[1] = new DecorationDynamic(game->getRenderer(), "res/Fire.png", 540, 240, 74, 154, 10, 8, 1, false);
-    dynamicBack[1] = new DecorationDynamic(game->getRenderer(), "res/Sun.png", 1100, -70, 64, 64, 30, 2, 4, true);
+    // dynamicBack[1] = new DecorationDynamic(game->getRenderer(), "res/Sun.png", 1100, -70, 64, 64, 30, 2, 4, true);
 
     DecorationStatic *staticFront[2];
     staticFront[0] = new DecorationStatic(game->getRenderer(), "res/Decoration/House1_Rail.png", 550, 513, 1000, 770, false);
     staticFront[1] = new DecorationStatic(game->getRenderer(), "res/BlockTile/Grass.png", 630, 80, 1300, 196, false);
-    // staticFront[2] = new DecorationStatic(game->getRenderer(), "res/Lighttest.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true);
-    // staticFront[2]->setAlpha(0);
 
     // Game loop
     float time = 0;
-    float time_max = 1200;
+    float time_max = 2400;
     bool pause;
 
-    SDL_Delay(100);
+    SDL_Delay(1000);
     while (!quit)
     {
-        // time++;
-        // staticFront[0]->setAlpha(time / time_max * 255);
+        time++;
+        staticBack[1]->setAlpha(time / time_max * 255);
+        staticBack[3]->setAlpha(time / time_max * 255);
+        // staticBack[1]->setAlpha(255 - time / time_max * 255);
 
         // Event handler
         SDL_PollEvent(&event);
@@ -119,12 +126,12 @@ int main(int argc, char *argv[])
         // std::cout << player0->getX() << " " << player0->getY() << "\n";
 
         // Update
-        SDL_SetRenderDrawColor(game->getRenderer(), 255, 255, 255, 255);
+        SDL_SetRenderDrawColor(game->getRenderer(), 0, 150, 200, 255);
         SDL_RenderClear(game->getRenderer());
 
         // Draw Background
-        SDL_Rect bgDestRect = {player0->getX() * 0.04 - 300, 0, game->getWIDTH() * 1.3, game->getHEIGHT() * 1.2};
-        SDL_RenderCopy(game->getRenderer(), bg->getTexture(), NULL, &bgDestRect);
+        // SDL_Rect bgDestRect = {player0->getX() * 0.04 - 300, 0, game->getWIDTH() * 1.3, game->getHEIGHT() * 1.2};
+        // SDL_RenderCopy(game->getRenderer(), bg->getTexture(), NULL, &bgDestRect);
 
         // Draw Decoration (back)
         for (DecorationStatic *decor : staticBack) {

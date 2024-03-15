@@ -49,7 +49,7 @@ private:
     // Jumping
     bool jump_hold = false;
     float vel_y = 0;
-    float vel_terminal = 5;
+    float vel_terminal = 10;
     float accel_y = 0.05;
 
     // Air dash
