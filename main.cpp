@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
     int test = Mix_Init(0); // Initialize audio in wav format
                             // somehow other formats don't work but here's the code:
                             // wav = 0, flac = 1, mp3 = 8
-    Audio::playBGM("res/Audio/UsagiFlapLofi.wav");
+    Audio::playBGM("res/Audio/ComfortChain.wav");
 
     // Player + Hud
     Player *player0 = new Player();
@@ -41,14 +41,13 @@ int main(int argc, char *argv[])
     Hud *hud0 = new Hud(game->getRenderer(), player0);
 
     // Block
-    Block *allBlock[5];
+    Block *allBlock[4];
     allBlock[0] = new Block(770, 330, 240, 64, false);
     allBlock[1] = new Block(755, 480, 210, 64);
-
-    allBlock[2] = new Block(200, 700, 80, 728);
-    allBlock[3] = new Block(2400, 300, 80, 728);
-    
-    allBlock[4] = new Block(640, 64, 1280, 128); // Gorund
+    // Boundary
+    allBlock[2] = new Block(-40, 800, 80, 1600);
+    // Gorund
+    allBlock[3] = new Block(640, 64, 1280, 128); 
 
     for (Block *block : allBlock)
         block->initBlock(game->getRenderer(), "res/WhiteSpace.png");
@@ -65,33 +64,28 @@ int main(int argc, char *argv[])
     // bg->setTexture(bg->loadTexture(game->getRenderer(), bg->getSpritePath()));
 
     // DECORATION
-    DecorationStatic *staticBack[7];
+    DecorationStatic *staticBack[5];
     staticBack[0] = new DecorationStatic(game->getRenderer(), "res/DayNight/Day.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true);
     staticBack[1] = new DecorationStatic(game->getRenderer(), "res/DayNight/Night.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true);
     staticBack[1]->setAlpha(0);
     staticBack[2] = new DecorationStatic(game->getRenderer(), "res/Background/MountainDay.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true);
     staticBack[3] = new DecorationStatic(game->getRenderer(), "res/Background/MountainNight.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true);
     staticBack[3]->setAlpha(0);
-    
     staticBack[4] = new DecorationStatic(game->getRenderer(), "res/Decoration/House1.png", 550, 510, 1000, 770, false);
-    staticBack[5] = new DecorationStatic(game->getRenderer(), "res/Decoration/TreeX2.png", 132, 64, 64, 128, false);
-    staticBack[6] = new DecorationStatic(game->getRenderer(), "res/Decoration/Pole.png", 540, 0, 98, 196, false);
-
+    
     DecorationDynamic *dynamicBack[1];
     dynamicBack[0] = new DecorationDynamic(game->getRenderer(), "res/NakuSheet/NakuLeft.png", 870, 164, 32, 32, 30, 2, 4, false);
     dynamicBack[0]->setAlpha(200);
     // dynamicBack[1] = new DecorationDynamic(game->getRenderer(), "res/Fire.png", 540, 240, 74, 154, 10, 8, 1, false);
     // dynamicBack[1] = new DecorationDynamic(game->getRenderer(), "res/Sun.png", 1100, -70, 64, 64, 30, 2, 4, true);
 
-    DecorationStatic *staticFront[2];
-    staticFront[0] = new DecorationStatic(game->getRenderer(), "res/Decoration/House1_Rail.png", 550, 513, 1000, 770, false);
-    staticFront[1] = new DecorationStatic(game->getRenderer(), "res/BlockTile/Grass.png", 630, 80, 1300, 196, false);
+    DecorationStatic *staticFront[1];
+    staticFront[0] = new DecorationStatic(game->getRenderer(), "res/BlockTile/Grass.png", 630, 80, 1300, 196, false);
 
     // Game loop
     float time = 0;
-    float time_max = 600;
+    float time_max = 9600;
     short dayForward = 1;
-
 
     // I have no fucking clue why i need this delay
     SDL_Delay(1000);
@@ -106,8 +100,6 @@ int main(int argc, char *argv[])
 
         staticBack[1]->setAlpha(time / time_max * 250);
         staticBack[3]->setAlpha(time / time_max * 250);
-
-        // staticBack[1]->setAlpha(255 - time / time_max * 255);
 
         // SDL and shit
         SDL_PollEvent(&event);
@@ -153,8 +145,8 @@ int main(int argc, char *argv[])
             decor->draw(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
 
         // Draw block
-        for (Block *block : allBlock)
-            block->renderBlock(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
+        // for (Block *block : allBlock)
+        //     block->renderBlock(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
         
         // Update player
         player0->playerUpdate(game->getRenderer(), allBlock);

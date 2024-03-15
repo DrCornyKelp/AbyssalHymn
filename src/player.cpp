@@ -254,7 +254,7 @@ void Player::playerInput()
     }
 
     // Crawling
-    crawl = state[SDL_SCANCODE_S] && !g_dash && on_ground;
+    crawl = state[SDL_SCANCODE_S] && !g_dash && on_ground && abs(vel_x) < vel_crawl ;
 
     if (crawl && state[SDL_SCANCODE_A]) {
         vel_x = -vel_crawl;
@@ -286,6 +286,16 @@ void Player::playerInput()
         vel_x = g_dash_vel * (vel_x > 0 ? 1 : -1);
     }
 
+    // Air dash
+    if (state[SDL_SCANCODE_LSHIFT] && !hug_wall && !on_ground && !crawl && !g_dash &&
+        !a_dash && vel_x != 0 && air_cur > 0 && !jump_hold)
+    {
+        air_cur--;
+
+        a_dash = true;
+        vel_x = (1 + 24 / (air_max - air_cur + 6)) * (vel_x > 0 ? 1 : -1);
+    }
+
     // Jump held key
     if (state[SDL_SCANCODE_SPACE] && decel_x == 0 && air_cur > 0 && !jump_hold && !g_dash && !a_dash && !crawl)
     {
@@ -294,10 +304,10 @@ void Player::playerInput()
 
         vel_y = 1 + 24 / (air_max - air_cur + 8);
 
+        // Wall jump
         if (!hug_wall) air_cur--;
         if (hug_wall_left) vel_x = 5;
         if (hug_wall_right) vel_x = -5;
-
         hug_wall_left = false;
         hug_wall_right = false;
 
@@ -308,17 +318,6 @@ void Player::playerInput()
     {
         jump_hold = false;
     }
-
-    // Air dash
-    if (state[SDL_SCANCODE_LSHIFT] && !hug_wall && !on_ground && !crawl && !g_dash &&
-        !a_dash && vel_x != 0 && air_cur > 0 && !jump_hold)
-    {
-        air_cur--;
-
-        a_dash = true;
-        vel_x = a_dash_vel * (vel_x > 0 ? 1 : -1);
-    }
-
     
     // ===============EXPERIMENTATION input===============
     display_hitbox = state[SDL_SCANCODE_H];
@@ -455,7 +454,7 @@ void Player::playerAction()
     if (hug_wall_left || hug_wall_right)
     {
         setAct(7, hug_wall_right);
-        setSprite(4, 8);
+        setSprite(4, 12);
     }
 }
 
@@ -464,7 +463,7 @@ void Player::playerTileCollision(Block *object[])
     bool on_aleast_ground = false;
     bool hug_aleast_wall = false;
 
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 4; i++)
     {
         Block *obj = object[i];
         // ==Distance with each other==
@@ -498,7 +497,7 @@ void Player::playerTileCollision(Block *object[])
 
         int colli_x = abs(getX() - obj->getX());
         int colli_y = abs(getY() - obj->getY());
-        
+
         if (obj->getCollideDown()) {
             // Hit Left wall
             if (getX() < obj->getX() && colli_x < hit_dist_x &&
@@ -506,7 +505,7 @@ void Player::playerTileCollision(Block *object[])
                 getY() > obj->getY() - hit_dist_y + 10)
             {
 
-                if (vel_x < 1.5)
+                if (vel_x < 1.5 && !on_ground)
                 {
                     hug_aleast_wall = true;
                     hug_wall_left = true;
@@ -528,7 +527,7 @@ void Player::playerTileCollision(Block *object[])
                 getY() > obj->getY() - hit_dist_y + 10)
             {
 
-                if (vel_x > -1.5)
+                if (vel_x > -1.5 && !on_ground)
                 {
                     setX(obj->getX() + hit_dist_x - 3);
                     hug_aleast_wall = true;
@@ -556,8 +555,6 @@ void Player::playerTileCollision(Block *object[])
             }
         }
 
-        // if (i == 2) std::cout << getY() << " " << colli_y << "\n";
-
         // Stand on block
         if (!(!obj->getCollideDown() && getY() < obj->getY() + obj->getHitHeight()) &&
             getY() > obj->getY() &&
@@ -566,16 +563,17 @@ void Player::playerTileCollision(Block *object[])
             (getX() > obj->getX() - hit_dist_x)) 
         {
             // vel_y = 0;
-            on_ground = true;
             on_aleast_ground = true;
 
             hug_wall_left = false;
             hug_wall_right = false;
             continue;
         }
+
+        // if (i == 2) std::cout << getY() << " " << colli_y << "\n";
     }
 
-    if (!on_aleast_ground) on_ground = false;
+    on_ground = on_aleast_ground;
     if (!hug_aleast_wall)
     {
         hug_wall_left = false;

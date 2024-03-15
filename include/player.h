@@ -43,7 +43,7 @@ private:
 
     // "Airborne" movement
     int air_cur = 3;
-    int air_max = 3;
+    int air_max = 30;
 
     // Jumping
     bool jump_hold = false;
@@ -53,7 +53,6 @@ private:
 
     // Air dash
     bool a_dash = false;
-    int a_dash_vel = 5;
     int a_dash_frame = 0;
     int a_dash_frame_max = 100;
 
