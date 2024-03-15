@@ -32,8 +32,8 @@ int main(int argc, char *argv[])
     // Block
     Block *allBlock[3];
     allBlock[0] = new Block(100, 200);
-    allBlock[1] = new Block(1000, 400, 400, 100);
-    allBlock[2] = new Block(640, 64, 1280, 128);
+    allBlock[1] = new Block(1000, 400, 400, 1);
+    allBlock[2] = new Block(640, 64, 128000, 128);
     
     for (Block *block : allBlock)
     {
@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
 
     // DECORATION
     DecorationStatic *staticBack[4];
-    staticBack[0] = new DecorationStatic(game->getRenderer(), "res/Decoration/House.png", 320, 160, 640, 320, false);
+    staticBack[0] = new DecorationStatic(game->getRenderer(), "res/Decoration/House1.png", 550, 513, 1000, 770, false);
     staticBack[1] = new DecorationStatic(game->getRenderer(), "res/Decoration/TreeX2.png", 132, 64, 64, 128, false);
     staticBack[2] = new DecorationStatic(game->getRenderer(), "res/Decoration/Pole.png", 540, 0, 98, 196, false);
     staticBack[3] = new DecorationStatic(game->getRenderer(), "res/BlockTile/Grass.png", 0, -128, 2000, 128, false);
@@ -71,6 +71,7 @@ int main(int argc, char *argv[])
     // Game loop
     float time = 0;
     float time_max = 1200;
+    bool pause;
 
     while (!quit)
     {
@@ -84,7 +85,23 @@ int main(int argc, char *argv[])
         case SDL_QUIT:
             quit = true;
             break;
+        case SDL_KEYDOWN:
+            switch (event.key.keysym.sym) {
+                case SDLK_p:
+                    pause = !pause;
+                    std::cout << (pause ? "Continue" : "Pause") << std::endl;
+                        break;
+                    default:
+                        break;
+                case SDLK_ESCAPE:
+                    quit = true;
+            }
         }
+
+        // Menu handler
+
+        // ====Pausing====
+        if (pause) continue;
 
         // Logging Player (i want my log in her)
         // std::cout << player0->getX() << " " << player0->getY() << "\n";

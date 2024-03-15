@@ -1,7 +1,7 @@
 #include "block.h"
 
 // Constructor
-Block::Block(float X, float Y, int w, int h, int hw, int hh) : 
+Block::Block(float X, float Y, int w, int h) : 
     Object2D(X, Y, w, h, w, h)
 {}
 
@@ -12,6 +12,11 @@ void Block::initBlock(SDL_Renderer *renderer)
     setHitHeight(getHeight());
     blockSprite = new Sprite(getWidth(), getHeight(), 1, "res/BlockTile/Grass.png");
     blockSprite->setTexture(Sprite::loadTexture(renderer, blockSprite->getSpritePath()));
+}
+
+void Block::setCollisionUnder(bool colli)
+{
+
 }
 
 void Block::renderBlock(SDL_Renderer *renderer, int px, int py, bool focusX, int offsetX, bool focusY, int offsetY)

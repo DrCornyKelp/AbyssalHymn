@@ -478,8 +478,6 @@ void Player::playerTileCollision(Block *object[])
             vel_y = -vel_y * .2;
             break;
         }
-
-        // if (getX())
     }
 
     if (!on_aleast_ground) on_ground = false;
