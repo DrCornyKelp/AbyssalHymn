@@ -64,9 +64,10 @@ int main(int argc, char *argv[])
     dynamicBack[1] = new DecorationDynamic(game->getRenderer(), "res/Fire.png", 540, 200, 74, 154, 10, 8, 1, false);
     dynamicBack[2] = new DecorationDynamic(game->getRenderer(), "res/Sun.png", 1100, -70, 64, 64, 30, 2, 4, true);
 
-    DecorationStatic *staticFront[1];
-    staticFront[0] = new DecorationStatic(game->getRenderer(), "res/Lighttest.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true);
-    staticFront[0]->setAlpha(0);
+    DecorationStatic *staticFront[2];
+    staticFront[0] = new DecorationStatic(game->getRenderer(), "res/Decoration/House1_Rail.png", 550, 513, 1000, 770, false);
+    staticFront[1] = new DecorationStatic(game->getRenderer(), "res/Lighttest.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true);
+    staticFront[1]->setAlpha(0);
     
     // Game loop
     float time = 0;
