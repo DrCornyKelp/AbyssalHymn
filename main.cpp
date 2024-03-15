@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
     staticBack[3] = new DecorationStatic(game->getRenderer(), "res/Background/MountainNight.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true);
     staticBack[3]->setAlpha(0);
     staticBack[4] = new DecorationStatic(game->getRenderer(), "res/Decoration/House1.png", 550, 510, 1000, 770, false);
-    
+
     DecorationDynamic *dynamicBack[1];
     dynamicBack[0] = new DecorationDynamic(game->getRenderer(), "res/NakuSheet/NakuLeft.png", 870, 164, 32, 32, 30, 2, 4, false);
     dynamicBack[0]->setAlpha(200);
@@ -84,7 +84,7 @@ int main(int argc, char *argv[])
 
     // Game loop
     float time = 0;
-    float time_max = 9600;
+    float time_max = 600;
     short dayForward = 1;
 
     // I have no fucking clue why i need this delay
