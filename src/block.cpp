@@ -23,7 +23,5 @@ void Block::renderBlock(SDL_Renderer *renderer, int px, int py, bool focusX, int
     int rel_y = focusY ? offsetY + getY() - py : getY();
 
     SDL_Rect desRect = {rel_x - getWidth() / 2, 720 - rel_y - getHeight() / 2, getWidth(), getHeight()};
-
-    // SDL_Rect desRect = {int(getX()), int(getY()), getSprSize(), getSprSize()};
     SDL_RenderCopy(renderer, blockSprite->getTexture(), NULL, &desRect);
 }

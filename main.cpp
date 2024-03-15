@@ -41,14 +41,15 @@ int main(int argc, char *argv[])
     Hud *hud0 = new Hud(game->getRenderer(), player0);
 
     // Block
-    Block *allBlock[3];
+    Block *allBlock[4];
     allBlock[0] = new Block(770, 340, 240, 64, false);
     allBlock[1] = new Block(770, 480, 240, 64);
-    allBlock[2] = new Block(640, 64, 1280, 128);
+    allBlock[2] = new Block(200, 196, 80, 128);
+    allBlock[3] = new Block(640, 64, 1280, 128); // Gorund
 
     for (Block *block : allBlock)
     {
-        block->initBlock(game->getRenderer(), "res/Grass.png");
+        block->initBlock(game->getRenderer(), "res/WhiteSpace.png");
     }
 
     // Event
@@ -148,10 +149,10 @@ int main(int argc, char *argv[])
         }
 
         // Draw block
-        // for (Block *block : allBlock)
-        // {
-        //     block->renderBlock(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
-        // }
+        for (Block *block : allBlock)
+        {
+            block->renderBlock(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
+        }
         
         // Update player
         player0->playerUpdate(game->getRenderer(), allBlock);
