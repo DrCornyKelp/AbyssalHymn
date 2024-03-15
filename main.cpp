@@ -92,8 +92,11 @@ int main(int argc, char *argv[])
     float time_max = 600;
     short dayForward = 1;
 
-    bool pause;
+
+    // I have no fucking clue why i need this delay
     SDL_Delay(1000);
+
+    bool pause;
     while (!quit)
     {
         // EXPERIMENTATION
