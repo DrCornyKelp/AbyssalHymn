@@ -30,14 +30,15 @@ int main(int argc, char *argv[])
     Hud *hud0 = new Hud(game->getRenderer(), player0);
     
     // Block
-    Block *allBlock[3];
+    Block *allBlock[4];
     allBlock[0] = new Block(100, 200);
-    allBlock[1] = new Block(770, 320, 240, 64, false);
-    allBlock[2] = new Block(640, 64, 128000, 128);
+    allBlock[1] = new Block(770, 340, 240, 64, false);
+    allBlock[2] = new Block(770, 480, 240, 64);
+    allBlock[3] = new Block(640, 64, 128000, 128);
     
     for (Block *block : allBlock)
     {
-        block->initBlock(game->getRenderer());
+        block->initBlock(game->getRenderer(), "res/Grass.png");
     }
 
     // Event
@@ -56,12 +57,12 @@ int main(int argc, char *argv[])
     staticBack[0] = new DecorationStatic(game->getRenderer(), "res/Decoration/House1.png", 550, 513, 1000, 770, false);
     staticBack[1] = new DecorationStatic(game->getRenderer(), "res/Decoration/TreeX2.png", 132, 64, 64, 128, false);
     staticBack[2] = new DecorationStatic(game->getRenderer(), "res/Decoration/Pole.png", 540, 0, 98, 196, false);
-    staticBack[3] = new DecorationStatic(game->getRenderer(), "res/BlockTile/Grass.png", 0, -128, 2000, 128, false);
+    staticBack[3] = new DecorationStatic(game->getRenderer(), "res/Grass.png", 640, 64, 1280, 128, false);
 
     DecorationDynamic *dynamicBack[3];
-    dynamicBack[0] = new DecorationDynamic(game->getRenderer(), "res/NakuSheet/NakuLeft.png", 870, 37, 32, 32, 30, 2, 4, false);
-    dynamicBack[0]->setAlpha(100);
-    dynamicBack[1] = new DecorationDynamic(game->getRenderer(), "res/Fire.png", 540, 200, 74, 154, 10, 8, 1, false);
+    dynamicBack[0] = new DecorationDynamic(game->getRenderer(), "res/NakuSheet/NakuLeft.png", 870, 180, 32, 32, 30, 2, 4, false);
+    dynamicBack[0]->setAlpha(200);
+    dynamicBack[1] = new DecorationDynamic(game->getRenderer(), "res/Fire.png", 540, 240, 74, 154, 10, 8, 1, false);
     dynamicBack[2] = new DecorationDynamic(game->getRenderer(), "res/Sun.png", 1100, -70, 64, 64, 30, 2, 4, true);
 
     DecorationStatic *staticFront[2];
@@ -120,10 +121,10 @@ int main(int argc, char *argv[])
             decor->draw(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
         }
 
-        for (Block *block : allBlock)
-        {
-            block->renderBlock(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
-        }
+        // for (Block *block : allBlock)
+        // {
+        //     block->renderBlock(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
+        // }
         
         player0->playerUpdate(game->getRenderer(), allBlock);
 

@@ -5,10 +5,10 @@ Block::Block(float X, float Y, int w, int h, bool collideDown) :
     Object2D(X, Y, w, h, w, h), isCollideDown(collideDown)
 {}
 
-void Block::initBlock(SDL_Renderer *renderer)
+void Block::initBlock(SDL_Renderer *renderer, const char* path)
 {
     // Grid sprite
-    blockSprite = new Sprite(getWidth(), getHeight(), 1, "res/BlockTile/Grass.png");
+    blockSprite = new Sprite(getWidth(), getHeight(), 1, path);
     blockSprite->setTexture(Sprite::loadTexture(renderer, blockSprite->getSpritePath()));
 }
 

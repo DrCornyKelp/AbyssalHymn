@@ -18,7 +18,7 @@ private:
 public:
     // using::Object2D; // Allow direct usage of Object2D's contructor
     Block(float X = 0, float Y = 0, int w = 64, int h = 64, bool collideDown = true);
-    void initBlock(SDL_Renderer *renderer);
+    void initBlock(SDL_Renderer *renderer, const char* path);
 
     bool getCollideDown();
 

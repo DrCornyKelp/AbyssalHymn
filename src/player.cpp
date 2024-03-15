@@ -427,7 +427,7 @@ void Player::playerTileCollision(Block *object[])
 {
     bool on_aleast_ground = false;
 
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 4; i++)
     {
         Block *obj = object[i];
         // int colli_x = abs(getX() - obj->getX());
@@ -471,8 +471,6 @@ void Player::playerTileCollision(Block *object[])
         (getX() > obj->getX() - hit_dist_x)) {
             on_ground = true;
             on_aleast_ground = true;
-            if (i == 1)
-                std::cout << "Hit Floor \n";
             break;
         }
 
@@ -485,9 +483,7 @@ void Player::playerTileCollision(Block *object[])
         (getX() < obj->getX() + hit_dist_x) &&
         (getX() > obj->getX() - hit_dist_x)) {
             setY(obj->getY() - obj->getHeight());
-            
-            if (i == 1)
-                std::cout << getY();
+
             vel_y = -vel_y * .2;
             break;
         }
