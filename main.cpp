@@ -1,0 +1,128 @@
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <chrono>
+#include <windows.h>
+#include <iostream>
+#include <vector>
+
+#include "game.h"
+#include "player.h"
+#include "block.h"
+#include "decoration_dynamic.h"
+#include "decoration_static.h"
+// #include "event_trigger.h"
+#include "hud.h"
+
+int main(int argc, char *argv[])
+{
+    SDL_Init(SDL_INIT_EVERYTHING);
+
+    bool quit = false;
+    SDL_Event event;
+
+    // Game
+    Game *game = new Game();
+    game->drawIcon();
+
+    // Player + Hud
+    Player *player0 = new Player();
+    player0->initPlayer(game->getRenderer());
+    Hud *hud0 = new Hud(game->getRenderer(), player0);
+    
+    // Block
+    Block *allBlock[3];
+    allBlock[0] = new Block(100, 200);
+    allBlock[1] = new Block(1000, 400, 400, 100);
+    allBlock[2] = new Block(640, 64, 1280, 128);
+    
+    for (Block *block : allBlock)
+    {
+        block->initBlock(game->getRenderer());
+    }
+
+    // Event
+    // EventTrigger *allEvent[1];
+    // allEvent[0] = new EventTrigger(100, 100, 100, 100);
+    // allEvent[0]->setEvent([](Player *player) {
+    //     std::cout << "yee \n";
+    // });
+
+    // BG
+    Sprite *bg = new Sprite(2880, 1600, 1, "res/IdiotBackground.jpg");
+    bg->setTexture(bg->loadTexture(game->getRenderer(), bg->getSpritePath()));
+
+    // DECORATION
+    DecorationStatic *staticBack[4];
+    staticBack[0] = new DecorationStatic(game->getRenderer(), "res/Decoration/House.png", 320, 160, 640, 320, false);
+    staticBack[1] = new DecorationStatic(game->getRenderer(), "res/Decoration/TreeX2.png", 132, 64, 64, 128, false);
+    staticBack[2] = new DecorationStatic(game->getRenderer(), "res/Decoration/Pole.png", 540, 0, 98, 196, false);
+    staticBack[3] = new DecorationStatic(game->getRenderer(), "res/BlockTile/Grass.png", 0, -128, 2000, 128, false);
+
+    DecorationDynamic *dynamicBack[3];
+    dynamicBack[0] = new DecorationDynamic(game->getRenderer(), "res/NakuSheet/NakuLeft.png", 870, 37, 32, 32, 30, 2, 4, false);
+    dynamicBack[0]->setAlpha(100);
+    dynamicBack[1] = new DecorationDynamic(game->getRenderer(), "res/Fire.png", 540, 200, 74, 154, 10, 8, 1, false);
+    dynamicBack[2] = new DecorationDynamic(game->getRenderer(), "res/Sun.png", 1100, -70, 64, 64, 30, 2, 4, true);
+
+    DecorationStatic *staticFront[1];
+    staticFront[0] = new DecorationStatic(game->getRenderer(), "res/Lighttest.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true);
+    staticFront[0]->setAlpha(0);
+    
+    // Game loop
+    float time = 0;
+    float time_max = 1200;
+
+    while (!quit)
+    {
+        // time++;
+        // staticFront[0]->setAlpha(time / time_max * 255);
+
+        // Event handler
+        SDL_PollEvent(&event);
+        switch (event.type)
+        {
+        case SDL_QUIT:
+            quit = true;
+            break;
+        }
+
+        // Logging Player (i want my log in her)
+        // std::cout << player0->getX() << " " << player0->getY() << "\n";
+
+        // Update
+        SDL_RenderClear(game->getRenderer());
+
+        SDL_Rect bgRect = {-100, -500, 2880, 1600};
+        SDL_RenderCopy(game->getRenderer(), bg->getTexture(), NULL, &bgRect);
+
+        for (DecorationStatic *decor : staticBack) {
+            decor->draw(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
+        }
+        for (DecorationDynamic *decor : dynamicBack) {
+            decor->draw(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
+        }
+
+        for (Block *block : allBlock)
+        {
+            block->renderBlock(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
+        }
+        
+        player0->playerUpdate(game->getRenderer(), allBlock);
+
+        for (DecorationStatic *decor : staticFront) {
+            decor->draw(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
+        }
+
+        hud0->draw(game->getRenderer());
+
+        SDL_RenderPresent(game->getRenderer());
+
+        game->frameHandler(game->getDELAYTIME());
+    }
+
+    SDL_DestroyRenderer(game->getRenderer());
+    SDL_DestroyWindow(game->getWindow());
+    SDL_Quit();
+
+    return EXIT_SUCCESS;
+}
