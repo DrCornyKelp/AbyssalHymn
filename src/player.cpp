@@ -502,8 +502,8 @@ void Player::playerTileCollision(Block *object[])
         if (obj->getCollideDown()) {
             // Hit Left wall
             if (getX() < obj->getX() && colli_x < hit_dist_x &&
-                getY() < obj->getY() + hit_dist_y - 16 &&
-                getY() > obj->getY() - hit_dist_y + 16)
+                getY() < obj->getY() + hit_dist_y - 10 &&
+                getY() > obj->getY() - hit_dist_y + 10)
             {
 
                 if (vel_x < 1.5)
@@ -524,8 +524,8 @@ void Player::playerTileCollision(Block *object[])
 
             // Hit Right wall
             if (getX() > obj->getX() && colli_x < hit_dist_x &&
-                getY() < obj->getY() + hit_dist_y - 16 &&
-                getY() > obj->getY() - hit_dist_y + 16)
+                getY() < obj->getY() + hit_dist_y - 10 &&
+                getY() > obj->getY() - hit_dist_y + 10)
             {
 
                 if (vel_x > -1.5)
@@ -549,12 +549,14 @@ void Player::playerTileCollision(Block *object[])
                 (getX() < obj->getX() + hit_dist_x) &&
                 (getX() > obj->getX() - hit_dist_x)) 
             {
-                setY(obj->getY() - obj->getHeight());
+                setY(obj->getY() - obj->getHeight() / 2 - 30);
 
                 vel_y = -vel_y * 0.1;
                 continue;
             }
         }
+
+        // if (i == 2) std::cout << getY() << " " << colli_y << "\n";
 
         // Stand on block
         if (!(!obj->getCollideDown() && getY() < obj->getY() + obj->getHitHeight()) &&
@@ -579,7 +581,6 @@ void Player::playerTileCollision(Block *object[])
         hug_wall_left = false;
         hug_wall_right = false;
     };
-    std::cout << hug_wall_left << " " << hug_wall_right << "\n";
 }
 
 // void Player::playerEventTrigger(EventTrigger *event[])
