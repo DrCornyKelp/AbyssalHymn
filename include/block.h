@@ -13,15 +13,14 @@ private:
     Sprite *blockSprite;
 
     bool isBlock = true;
-    bool collisionUnder = true;
+    bool isCollideDown = true;
 
 public:
     // using::Object2D; // Allow direct usage of Object2D's contructor
-    Block(float X = 0, float Y = 0, int w = 64, int h = 64);
+    Block(float X = 0, float Y = 0, int w = 64, int h = 64, bool collideDown = true);
     void initBlock(SDL_Renderer *renderer);
-    void setCollisionUnder(bool colli);
 
-    bool getCollisionUnder();
+    bool getCollideDown();
 
     void renderBlock(SDL_Renderer *renderer, int px, int py, bool focusX, int offsetX, bool focusY, int offsetY);
 };

@@ -1,26 +1,20 @@
 #include "block.h"
 
 // Constructor
-Block::Block(float X, float Y, int w, int h) : 
-    Object2D(X, Y, w, h, w, h)
+Block::Block(float X, float Y, int w, int h, bool collideDown) : 
+    Object2D(X, Y, w, h, w, h), isCollideDown(collideDown)
 {}
 
 void Block::initBlock(SDL_Renderer *renderer)
 {
     // Grid sprite
-    setHitWidth(getWidth());
-    setHitHeight(getHeight());
     blockSprite = new Sprite(getWidth(), getHeight(), 1, "res/BlockTile/Grass.png");
     blockSprite->setTexture(Sprite::loadTexture(renderer, blockSprite->getSpritePath()));
 }
 
-void Block::setCollisionUnder(bool colli)
+bool Block::getCollideDown()
 {
-    collisionUnder = colli;
-}
-bool Block::getCollisionUnder()
-{
-    return collisionUnder;
+    return isColliDown;
 }
 
 void Block::renderBlock(SDL_Renderer *renderer, int px, int py, bool focusX, int offsetX, bool focusY, int offsetY)
