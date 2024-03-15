@@ -324,6 +324,8 @@ void Player::playerMovement()
     // Vertigo is a bad map
     if (on_ground) {
         vel_y = 0;
+    } else if (hug_wall_left || hug_wall_right) {
+        vel_y = -1;
     } else {
         vel_y -= (accel_y / 1.2);
     }
@@ -480,9 +482,16 @@ void Player::playerTileCollision(Block *object[])
             {
                 setX(obj->getX() - hit_dist_x);
 
-                bool hug_wall_right = true;
-                
-                vel_x = vel_x > 1.8 ? -vel_x * .5 : 0;
+                if (vel_x < 1.5)
+                {
+                    hug_wall_right = true;
+                    vel_x = 0;
+                }
+                else
+                {
+                    vel_x = -vel_x * .5;
+                }
+
                 continue;
             }
 
@@ -493,9 +502,15 @@ void Player::playerTileCollision(Block *object[])
             {
                 setX(obj->getX() + hit_dist_x);
 
-                bool hug_wall_right = true;
-
-                vel_x = vel_x < -1.8 ? -vel_x * .5 : 0;
+                if (vel_x > -1.5)
+                {
+                    hug_wall_right = true;
+                    vel_x = 0;
+                }
+                else
+                {
+                    vel_x = -vel_x * .5;
+                }
                 continue;
             }
 
@@ -527,7 +542,7 @@ void Player::playerTileCollision(Block *object[])
     }
 
     if (!on_aleast_ground) on_ground = false;
-    std::cout << hug_wall_left << " " hug_wall_right << "\n";
+    std::cout << hug_wall_left << " " << hug_wall_right << "\n";
 }
 
 // void Player::playerEventTrigger(EventTrigger *event[])
