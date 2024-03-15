@@ -471,7 +471,8 @@ void Player::playerTileCollision(Block *object[])
             break;
         }
         // Hit ceiling
-        if (getY() < obj->getY() && colli_y < hit_dist_y &&
+        if (obj->getCollisionUnder() &&
+        getY() < obj->getY() && colli_y < hit_dist_y &&
         (getX() < obj->getX() + hit_dist_x) &&
         (getX() > obj->getX() - hit_dist_x)) {
             setY(obj->getY() - obj->getHeight());

@@ -16,7 +16,11 @@ void Block::initBlock(SDL_Renderer *renderer)
 
 void Block::setCollisionUnder(bool colli)
 {
-
+    collisionUnder = colli;
+}
+bool Block::getCollisionUnder()
+{
+    return collisionUnder;
 }
 
 void Block::renderBlock(SDL_Renderer *renderer, int px, int py, bool focusX, int offsetX, bool focusY, int offsetY)

@@ -21,6 +21,8 @@ public:
     void initBlock(SDL_Renderer *renderer);
     void setCollisionUnder(bool colli);
 
+    bool getCollisionUnder();
+
     void renderBlock(SDL_Renderer *renderer, int px, int py, bool focusX, int offsetX, bool focusY, int offsetY);
 };
 
