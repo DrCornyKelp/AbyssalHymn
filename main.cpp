@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
     bool pause;
     SDL_Delay(1000);
     while (!quit)
-    {   
+    {
         if (time > time_max) dayForward = -1;
         if (time < 0) dayForward = 1;
         time += dayForward;
