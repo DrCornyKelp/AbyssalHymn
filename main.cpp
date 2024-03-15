@@ -19,9 +19,7 @@
 int main(int argc, char *argv[])
 {
     SDL_Init(SDL_INIT_EVERYTHING);
-    int test = Mix_Init(0); // Initialize audio in wav format
-                            // somehow other formats don't work but here's the code:
-                            // wav = 0, flac = 1, mp3 = 8
+    
 
     bool quit = false;
     SDL_Event event;
@@ -31,6 +29,9 @@ int main(int argc, char *argv[])
     game->drawIcon();
 
     // Audio
+    int test = Mix_Init(0); // Initialize audio in wav format
+                            // somehow other formats don't work but here's the code:
+                            // wav = 0, flac = 1, mp3 = 8
     Audio::playBGM("res/Audio/Stage1.wav");
 
     // Player + Hud
@@ -61,22 +62,22 @@ int main(int argc, char *argv[])
     bg->setTexture(bg->loadTexture(game->getRenderer(), bg->getSpritePath()));
 
     // DECORATION
-    DecorationStatic *staticBack[4];
-    staticBack[0] = new DecorationStatic(game->getRenderer(), "res/Decoration/House1.png", 550, 513, 1000, 770, false);
+    DecorationStatic *staticBack[3];
+    staticBack[0] = new DecorationStatic(game->getRenderer(), "res/Decoration/House1.png", 550, 510, 1000, 770, false);
     staticBack[1] = new DecorationStatic(game->getRenderer(), "res/Decoration/TreeX2.png", 132, 64, 64, 128, false);
     staticBack[2] = new DecorationStatic(game->getRenderer(), "res/Decoration/Pole.png", 540, 0, 98, 196, false);
-    staticBack[3] = new DecorationStatic(game->getRenderer(), "res/Grass.png", 640, 64, 1280, 128, false);
 
-    DecorationDynamic *dynamicBack[3];
+    DecorationDynamic *dynamicBack[2];
     dynamicBack[0] = new DecorationDynamic(game->getRenderer(), "res/NakuSheet/NakuLeft.png", 870, 164, 32, 32, 30, 2, 4, false);
     dynamicBack[0]->setAlpha(200);
-    dynamicBack[1] = new DecorationDynamic(game->getRenderer(), "res/Fire.png", 540, 240, 74, 154, 10, 8, 1, false);
-    dynamicBack[2] = new DecorationDynamic(game->getRenderer(), "res/Sun.png", 1100, -70, 64, 64, 30, 2, 4, true);
+    // dynamicBack[1] = new DecorationDynamic(game->getRenderer(), "res/Fire.png", 540, 240, 74, 154, 10, 8, 1, false);
+    dynamicBack[1] = new DecorationDynamic(game->getRenderer(), "res/Sun.png", 1100, -70, 64, 64, 30, 2, 4, true);
 
     DecorationStatic *staticFront[2];
     staticFront[0] = new DecorationStatic(game->getRenderer(), "res/Decoration/House1_Rail.png", 550, 513, 1000, 770, false);
-    staticFront[1] = new DecorationStatic(game->getRenderer(), "res/Lighttest.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true);
-    staticFront[1]->setAlpha(0);
+    staticFront[1] = new DecorationStatic(game->getRenderer(), "res/BlockTile/Grass.png", 630, 80, 1300, 196, false);
+    // staticFront[2] = new DecorationStatic(game->getRenderer(), "res/Lighttest.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true);
+    // staticFront[2]->setAlpha(0);
 
     // Game loop
     float time = 0;
