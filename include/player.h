@@ -82,6 +82,7 @@ private:
 
     // Collision
     bool on_ground = false;
+    bool hug_wall_resist = false;
     bool hug_wall_left = false;
     bool hug_wall_right = false;
 

@@ -210,11 +210,18 @@ void Player::playerInput()
     // Input handler
     const Uint8 *state = SDL_GetKeyboardState(NULL);
 
+    bool hug_wall = hug_wall_left || hug_wall_right;
+
     // ===============Main input===============
 
     // Moving L/R
-    if (state[SDL_SCANCODE_A] && !g_dash && !a_dash && !crawl)
+    if (state[SDL_SCANCODE_A] && !hug_wall_right && !g_dash && !a_dash && !crawl)
     {
+        if (hug_wall_left)
+        {
+            hug_wall_left = false;
+            setX(getX() + 40);
+        }
         if (vel_x > .6)
         {
             decel_x = 1;
@@ -226,8 +233,14 @@ void Player::playerInput()
             vel_x -= accel_x;
         }
     }
-    if (state[SDL_SCANCODE_D] && !g_dash && !a_dash && !crawl)
+    if (state[SDL_SCANCODE_D] && !hug_wall_left && !g_dash && !a_dash && !crawl)
     {
+        if (hug_wall_right)
+        {
+            hug_wall_right = false;
+            setX(getX() + 4);
+        }
+
         if (vel_x < -.6)
         {
             decel_x = -1;
@@ -279,9 +292,14 @@ void Player::playerInput()
         setY(getY() + 10);
         on_ground = false;
 
-        air_cur--;
         vel_y = 1 + 24 / (air_max - air_cur + 8);
 
+        if (!hug_wall) air_cur--;
+        if (hug_wall_left) vel_x = 5;
+        if (hug_wall_right) vel_x = -5;
+
+        hug_wall_left = false;
+        hug_wall_right = false;
 
         jump_hold = true;
     }
@@ -292,7 +310,7 @@ void Player::playerInput()
     }
 
     // Air dash
-    if (state[SDL_SCANCODE_LSHIFT] && !on_ground && !crawl && !g_dash &&
+    if (state[SDL_SCANCODE_LSHIFT] && !hug_wall && !on_ground && !crawl && !g_dash &&
         !a_dash && vel_x != 0 && air_cur > 0 && !jump_hold)
     {
         air_cur--;
@@ -432,11 +450,19 @@ void Player::playerAction()
 
         setSprite((abs(vel_x) > 0 ? 4 : 1), 10);
     }
+
+    // Wall Sliding
+    if (hug_wall_left || hug_wall_right)
+    {
+        setAct(7, hug_wall_right);
+        setSprite(4, 8);
+    }
 }
 
 void Player::playerTileCollision(Block *object[])
 {
     bool on_aleast_ground = false;
+    bool hug_aleast_wall = false;
 
     for (int i = 0; i < 5; i++)
     {
@@ -472,43 +498,46 @@ void Player::playerTileCollision(Block *object[])
 
         int colli_x = abs(getX() - obj->getX());
         int colli_y = abs(getY() - obj->getY());
-
         
         if (obj->getCollideDown()) {
-            // Hit right wall
+            // Hit Left wall
             if (getX() < obj->getX() && colli_x < hit_dist_x &&
                 getY() < obj->getY() + hit_dist_y - 10 &&
                 getY() > obj->getY() - hit_dist_y + 10)
             {
-                setX(obj->getX() - hit_dist_x);
 
                 if (vel_x < 1.5)
                 {
-                    hug_wall_right = true;
+                    hug_aleast_wall = true;
+                    hug_wall_left = true;
                     vel_x = 0;
+                    setX(obj->getX() - hit_dist_x + 3);
                 }
                 else
                 {
+                    setX(obj->getX() - hit_dist_x);
                     vel_x = -vel_x * .5;
                 }
 
                 continue;
             }
 
-            // Hit left wall
+            // Hit Right wall
             if (getX() > obj->getX() && colli_x < hit_dist_x &&
                 getY() < obj->getY() + hit_dist_y - 10 &&
                 getY() > obj->getY() - hit_dist_y + 10)
             {
-                setX(obj->getX() + hit_dist_x);
 
                 if (vel_x > -1.5)
                 {
+                    setX(obj->getX() + hit_dist_x - 3);
+                    hug_aleast_wall = true;
                     hug_wall_right = true;
                     vel_x = 0;
                 }
                 else
                 {
+                    setX(obj->getX() + hit_dist_x);
                     vel_x = -vel_x * .5;
                 }
                 continue;
@@ -537,11 +566,19 @@ void Player::playerTileCollision(Block *object[])
             // vel_y = 0;
             on_ground = true;
             on_aleast_ground = true;
+
+            hug_wall_left = false;
+            hug_wall_right = false;
             continue;
         }
     }
 
     if (!on_aleast_ground) on_ground = false;
+    if (!hug_aleast_wall)
+    {
+        hug_wall_left = false;
+        hug_wall_right = false;
+    };
     std::cout << hug_wall_left << " " << hug_wall_right << "\n";
 }
 

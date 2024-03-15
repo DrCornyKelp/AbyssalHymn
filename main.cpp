@@ -45,15 +45,13 @@ int main(int argc, char *argv[])
     allBlock[0] = new Block(770, 330, 240, 64, false);
     allBlock[1] = new Block(755, 480, 210, 64);
 
-    allBlock[2] = new Block(200, 300, 80, 728);
-    allBlock[3] = new Block(400, 300, 80, 728);
+    allBlock[2] = new Block(200, 700, 80, 728);
+    allBlock[3] = new Block(2400, 300, 80, 728);
     
     allBlock[4] = new Block(640, 64, 1280, 128); // Gorund
 
     for (Block *block : allBlock)
-    {
         block->initBlock(game->getRenderer(), "res/WhiteSpace.png");
-    }
 
     // Event
     // EventTrigger *allEvent[1];
@@ -98,6 +96,7 @@ int main(int argc, char *argv[])
     SDL_Delay(1000);
     while (!quit)
     {
+        // EXPERIMENTATION
         if (time > time_max) dayForward = -1;
         if (time < 0) dayForward = 1;
         time += dayForward;
@@ -107,7 +106,7 @@ int main(int argc, char *argv[])
 
         // staticBack[1]->setAlpha(255 - time / time_max * 255);
 
-        // Event handler
+        // SDL and shit
         SDL_PollEvent(&event);
         switch (event.type)
         {
@@ -144,32 +143,28 @@ int main(int argc, char *argv[])
         // SDL_RenderCopy(game->getRenderer(), bg->getTexture(), NULL, &bgDestRect);
 
         // Draw Decoration (back)
-        for (DecorationStatic *decor : staticBack) {
+        for (DecorationStatic *decor : staticBack)
             decor->draw(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
-        }
-        for (DecorationDynamic *decor : dynamicBack) {
+
+        for (DecorationDynamic *decor : dynamicBack) 
             decor->draw(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
-        }
 
         // Draw block
         for (Block *block : allBlock)
-        {
             block->renderBlock(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
-        }
         
         // Update player
         player0->playerUpdate(game->getRenderer(), allBlock);
 
         // Draw Decoration (front)
-        for (DecorationStatic *decor : staticFront) {
+        for (DecorationStatic *decor : staticFront)
             decor->draw(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
-        }
 
         // Draw Hud
         hud0->draw(game->getRenderer());
 
+        // SDL and shit
         SDL_RenderPresent(game->getRenderer());
-
         game->frameHandler(game->getDELAYTIME());
     }
 
