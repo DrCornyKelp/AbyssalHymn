@@ -482,7 +482,7 @@ void Player::playerTileCollision(Block *object[])
         // if (getX())
     }
 
-    if (!on_aleast_ground) on_ground = 0;
+    if (!on_aleast_ground) on_ground = false;
 }
 
 // void Player::playerEventTrigger(EventTrigger *event[])
