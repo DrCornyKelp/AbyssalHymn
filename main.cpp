@@ -1,11 +1,12 @@
+#include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
-#include <chrono>
 #include <windows.h>
-#include <iostream>
-#include <vector>
 #include <stdio.h>
+#include <math.h>
+#include <vector>
+#include <chrono>
 
 #include "game.h"
 #include "player.h"
@@ -32,7 +33,7 @@ int main(int argc, char *argv[])
     int test = Mix_Init(0); // Initialize audio in wav format
                             // somehow other formats don't work but here's the code:
                             // wav = 0, flac = 1, mp3 = 8
-    Audio::playBGM("res/Audio/UsagiFlap.wav");
+    Audio::playBGM("res/Audio/UsagiFlapLofi.wav");
 
     // Player + Hud
     Player *player0 = new Player();
@@ -86,15 +87,20 @@ int main(int argc, char *argv[])
 
     // Game loop
     float time = 0;
-    float time_max = 2400;
-    bool pause;
+    float time_max = 600;
+    short dayForward = 1;
 
+    bool pause;
     SDL_Delay(1000);
     while (!quit)
-    {
-        time++;
-        staticBack[1]->setAlpha(time / time_max * 255);
-        staticBack[3]->setAlpha(time / time_max * 255);
+    {   
+        if (time > time_max) dayForward = -1;
+        if (time < 0) dayForward = 1;
+        time += dayForward;
+
+        staticBack[1]->setAlpha(time / time_max * 250);
+        staticBack[3]->setAlpha(time / time_max * 250);
+
         // staticBack[1]->setAlpha(255 - time / time_max * 255);
 
         // Event handler
