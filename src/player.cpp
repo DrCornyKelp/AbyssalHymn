@@ -438,9 +438,6 @@ void Player::playerTileCollision(Block *object[])
     for (int i = 0; i < 4; i++)
     {
         Block *obj = object[i];
-        int colli_x = abs(getX() - obj->getX());
-        int colli_y = abs(getY() - obj->getY());
-
         // ==Distance with each other==
         // I don't wanna only call your name when I'm brokenhearted (yeah)
         // I already know how much you've got to lose (oh-oh, oh-oh)
@@ -470,8 +467,30 @@ void Player::playerTileCollision(Block *object[])
         int hit_dist_x = (getHitWidth() + obj->getHitWidth()) / 2;
         int hit_dist_y = (getHitHeight() + obj->getHitHeight()) / 2;
 
-        // Stand on block
+        int colli_x = abs(getX() - obj->getX());
+        int colli_y = abs(getY() - obj->getY());
 
+        // Hit right wall
+        if (getX() < obj->getX() && colli_x < hit_dist_x && 
+            getY() < obj->getY() + hit_dist_y - 10 &&
+            getY() > obj->getY() - hit_dist_y)
+        {
+            setX(obj->getX() - hit_dist_x);
+            vel_x = -vel_x;
+            continue;
+        }
+
+        // Hit left wall
+        if (getX() > obj->getX() && colli_x < hit_dist_x && 
+            getY() < obj->getY() + hit_dist_y - 10 &&
+            getY() > obj->getY() - hit_dist_y)
+        {
+            setX(obj->getX() + hit_dist_x);
+            vel_x = -vel_x;
+            continue;
+        }
+
+        // Stand on block
         if (!(!obj->getCollideDown() && getY() < obj->getY() + obj->getHitHeight()) &&
             getY() > obj->getY() &&
             colli_y < hit_dist_y &&
@@ -492,26 +511,6 @@ void Player::playerTileCollision(Block *object[])
             setY(obj->getY() - obj->getHeight());
 
             vel_y = -vel_y * 0.1;
-            continue;
-        }
-        
-        // Hit right wall
-        if (getX() < obj->getX() && colli_x < hit_dist_x && 
-            getY() < obj->getY() + hit_dist_y - 10 &&
-            getY() > obj->getY() - hit_dist_y)
-        {
-            setX(obj->getX() - hit_dist_x);
-            vel_x = -vel_x;
-            continue;
-        }
-
-        // Hit left wall
-        if (getX() > obj->getX() && colli_x < hit_dist_x && 
-            getY() < obj->getY() + hit_dist_y - 10 &&
-            getY() > obj->getY() - hit_dist_y)
-        {
-            setX(obj->getX() + hit_dist_x);
-            vel_x = -vel_x;
             continue;
         }
     }
