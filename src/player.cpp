@@ -304,7 +304,7 @@ void Player::playerInput()
 void Player::playerMovement()
 {
     setHitWidth(58);
-    setHitHeight(78);
+    setHitHeight(80);
 
     // Cap X velocity
     if (!g_dash && !a_dash) {
@@ -462,9 +462,26 @@ void Player::playerTileCollision(Block *object[])
         int hit_dist_x = (getHitWidth() + obj->getHitWidth()) / 2;
         int hit_dist_y = (getHitHeight() + obj->getHitHeight()) / 2;
 
+        // Stand on block
+
+        if (!(!obj->getCollideDown() && getY() < obj->getY() + obj->getHitHeight()) &&
+        getY() > obj->getY() &&
+        colli_y < hit_dist_y &&
+        (getX() < obj->getX() + hit_dist_x) &&
+        (getX() > obj->getX() - hit_dist_x)) {
+            on_ground = true;
+            on_aleast_ground = true;
+            if (i == 1)
+                std::cout << "Hit Floor \n";
+            break;
+        }
+
+        if (!obj->getCollideDown()) continue;
+
         // Hit ceiling
         if (vel_y > 0 &&
-        getY() < obj->getY() && colli_y < hit_dist_y &&
+        getY() < obj->getY() &&
+        colli_y < hit_dist_y &&
         (getX() < obj->getX() + hit_dist_x) &&
         (getX() > obj->getX() - hit_dist_x)) {
             setY(obj->getY() - obj->getHeight());
@@ -472,16 +489,6 @@ void Player::playerTileCollision(Block *object[])
             if (i == 1)
                 std::cout << getY();
             vel_y = -vel_y * .2;
-            break;
-        }
-        // Stand on block
-        if (getY() > obj->getY() && colli_y < hit_dist_y &&
-        (getX() < obj->getX() + hit_dist_x) &&
-        (getX() > obj->getX() - hit_dist_x)) {
-            on_ground = true;
-            on_aleast_ground = true;
-            if (i == 1)
-                std::cout << "Hit Floor \n";
             break;
         }
     }

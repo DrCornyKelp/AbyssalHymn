@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
     // Block
     Block *allBlock[3];
     allBlock[0] = new Block(100, 200);
-    allBlock[1] = new Block(1000, 400, 400, 64);
+    allBlock[1] = new Block(770, 320, 240, 64, false);
     allBlock[2] = new Block(640, 64, 128000, 128);
     
     for (Block *block : allBlock)
