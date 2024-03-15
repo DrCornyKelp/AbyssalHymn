@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_mixer.h>
 #include <chrono>
 #include <windows.h>
 #include <iostream>
@@ -28,14 +29,14 @@ int main(int argc, char *argv[])
     Player *player0 = new Player();
     player0->initPlayer(game->getRenderer());
     Hud *hud0 = new Hud(game->getRenderer(), player0);
-    
+
     // Block
     Block *allBlock[4];
     allBlock[0] = new Block(100, 200);
     allBlock[1] = new Block(770, 340, 240, 64, false);
     allBlock[2] = new Block(770, 480, 240, 64);
     allBlock[3] = new Block(640, 64, 128000, 128);
-    
+
     for (Block *block : allBlock)
     {
         block->initBlock(game->getRenderer(), "res/Grass.png");
@@ -69,7 +70,7 @@ int main(int argc, char *argv[])
     staticFront[0] = new DecorationStatic(game->getRenderer(), "res/Decoration/House1_Rail.png", 550, 513, 1000, 770, false);
     staticFront[1] = new DecorationStatic(game->getRenderer(), "res/Lighttest.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true);
     staticFront[1]->setAlpha(0);
-    
+
     // Game loop
     float time = 0;
     float time_max = 1200;
