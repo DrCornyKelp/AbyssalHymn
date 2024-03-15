@@ -14,7 +14,7 @@ void Block::initBlock(SDL_Renderer *renderer)
 
 bool Block::getCollideDown()
 {
-    return isColliDown;
+    return isCollideDown;
 }
 
 void Block::renderBlock(SDL_Renderer *renderer, int px, int py, bool focusX, int offsetX, bool focusY, int offsetY)
