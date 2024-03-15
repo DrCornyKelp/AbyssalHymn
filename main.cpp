@@ -14,10 +14,14 @@
 #include "decoration_static.h"
 // #include "event_trigger.h"
 #include "hud.h"
+#include "audio.h"
 
 int main(int argc, char *argv[])
 {
     SDL_Init(SDL_INIT_EVERYTHING);
+    int test = Mix_Init(0); // Initialize audio in wav format
+                            // somehow other formats don't work but here's the code:
+                            // wav = 0, flac = 1, mp3 = 8
 
     bool quit = false;
     SDL_Event event;
@@ -27,8 +31,7 @@ int main(int argc, char *argv[])
     game->drawIcon();
 
     // Audio
-    Mix_Music *music = Mix_LoadMUS("music.mp3");
-    Mix_PlayMusic(music, -1);
+    Audio::playBGM("res/Audio/Stage1.wav");
 
     // Player + Hud
     Player *player0 = new Player();
