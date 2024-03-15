@@ -176,6 +176,8 @@ int Player::getOffsetY()
 
 void Player::playerSprite(SDL_Renderer *renderer)
 {
+    // Camera focus or not
+    setFocus();
     if (getSprFrame() < getSprFrameMax())
         setSprFrame(getSprFrame() + 1);
     else
@@ -190,17 +192,16 @@ void Player::playerSprite(SDL_Renderer *renderer)
         else
             setSprIndex(0);
 
-    setFocus();
-
     int drawX = focus_x ? 640 : getHitX();
     int drawY = focus_y ? 360 : 720 - getHitY();
+
+    if (display_hitbox) {
+        SDL_Rect hitRect = {drawX - getHitWidth() / 2, drawY - getHitHeight() / 2, getHitWidth(), getHitHeight()};
+        SDL_RenderCopy(renderer, hitbox->getTexture(), NULL, &hitRect);
+    }
+
     SDL_Rect desRect = {drawX - getWidth() / 2, drawY - getWidth() / 2, getWidth(), getHeight()};
     SDL_Rect srcRect = {getSprIndex() * 32, act_index * 32, 32, 32};
-
-
-    SDL_Rect hitRect = {drawX - getHitWidth() / 2, drawY - getHitHeight() / 2, getHitWidth(), getHitHeight()};
-
-    SDL_RenderCopy(renderer, hitbox->getTexture(), NULL, &hitRect);
     SDL_RenderCopy(renderer, act_right ? PlayerRight->getTexture() : PlayerLeft->getTexture(), &srcRect, &desRect);
 }
 
@@ -209,7 +210,7 @@ void Player::playerInput()
     // Input handler
     const Uint8 *state = SDL_GetKeyboardState(NULL);
 
-    // ===============Working===============
+    // ===============Main input===============
 
     // Moving L/R
     if (state[SDL_SCANCODE_A] && !g_dash && !a_dash && !crawl)
@@ -299,6 +300,10 @@ void Player::playerInput()
         a_dash = true;
         vel_x = a_dash_vel * (vel_x > 0 ? 1 : -1);
     }
+
+    
+    // ===============EXPERIMENTATION input===============
+    display_hitbox = state[SDL_SCANCODE_H];
 }
 
 void Player::playerMovement()
@@ -427,7 +432,7 @@ void Player::playerTileCollision(Block *object[])
 {
     bool on_aleast_ground = false;
 
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 3; i++)
     {
         Block *obj = object[i];
         // int colli_x = abs(getX() - obj->getX());

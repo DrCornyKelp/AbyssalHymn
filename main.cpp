@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     game->drawIcon();
 
     // Audio
-    Audio::playBGM("res/Audio/TidalWave.wav");
+    Audio::playBGM("res/Audio/Stage1.wav");
 
     // Player + Hud
     Player *player0 = new Player();
@@ -39,11 +39,10 @@ int main(int argc, char *argv[])
     Hud *hud0 = new Hud(game->getRenderer(), player0);
 
     // Block
-    Block *allBlock[4];
-    allBlock[0] = new Block(100, 200);
-    allBlock[1] = new Block(770, 340, 240, 64, false);
-    allBlock[2] = new Block(770, 480, 240, 64);
-    allBlock[3] = new Block(640, 64, 128000, 128);
+    Block *allBlock[3];
+    allBlock[0] = new Block(770, 340, 240, 64, false);
+    allBlock[1] = new Block(770, 480, 240, 64);
+    allBlock[2] = new Block(640, 64, 1280, 128);
 
     for (Block *block : allBlock)
     {
@@ -58,7 +57,7 @@ int main(int argc, char *argv[])
     // });
 
     // BG
-    Sprite *bg = new Sprite(2880, 1600, 1, "res/IdiotBackground.jpg");
+    Sprite *bg = new Sprite(756, 360, 1, "res/Background/Mountain.jpg");
     bg->setTexture(bg->loadTexture(game->getRenderer(), bg->getSpritePath()));
 
     // DECORATION
@@ -69,7 +68,7 @@ int main(int argc, char *argv[])
     staticBack[3] = new DecorationStatic(game->getRenderer(), "res/Grass.png", 640, 64, 1280, 128, false);
 
     DecorationDynamic *dynamicBack[3];
-    dynamicBack[0] = new DecorationDynamic(game->getRenderer(), "res/NakuSheet/NakuLeft.png", 870, 180, 32, 32, 30, 2, 4, false);
+    dynamicBack[0] = new DecorationDynamic(game->getRenderer(), "res/NakuSheet/NakuLeft.png", 870, 164, 32, 32, 30, 2, 4, false);
     dynamicBack[0]->setAlpha(200);
     dynamicBack[1] = new DecorationDynamic(game->getRenderer(), "res/Fire.png", 540, 240, 74, 154, 10, 8, 1, false);
     dynamicBack[2] = new DecorationDynamic(game->getRenderer(), "res/Sun.png", 1100, -70, 64, 64, 30, 2, 4, true);
@@ -84,6 +83,7 @@ int main(int argc, char *argv[])
     float time_max = 1200;
     bool pause;
 
+    SDL_Delay(100);
     while (!quit)
     {
         // time++;
@@ -118,11 +118,14 @@ int main(int argc, char *argv[])
         // std::cout << player0->getX() << " " << player0->getY() << "\n";
 
         // Update
+        SDL_SetRenderDrawColor(game->getRenderer(), 255, 255, 255, 255);
         SDL_RenderClear(game->getRenderer());
 
-        SDL_Rect bgRect = {-100, -500, 2880, 1600};
-        SDL_RenderCopy(game->getRenderer(), bg->getTexture(), NULL, &bgRect);
+        // Draw Background
+        SDL_Rect bgDestRect = {player0->getX() * 0.04 - 300, 0, game->getWIDTH() * 1.3, game->getHEIGHT() * 1.2};
+        SDL_RenderCopy(game->getRenderer(), bg->getTexture(), NULL, &bgDestRect);
 
+        // Draw Decoration (back)
         for (DecorationStatic *decor : staticBack) {
             decor->draw(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
         }
@@ -130,17 +133,21 @@ int main(int argc, char *argv[])
             decor->draw(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
         }
 
+        // Draw block
         // for (Block *block : allBlock)
         // {
         //     block->renderBlock(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
         // }
         
+        // Update player
         player0->playerUpdate(game->getRenderer(), allBlock);
 
+        // Draw Decoration (front)
         for (DecorationStatic *decor : staticFront) {
             decor->draw(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
         }
 
+        // Draw Hud
         hud0->draw(game->getRenderer());
 
         SDL_RenderPresent(game->getRenderer());

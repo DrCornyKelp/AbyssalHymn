@@ -81,7 +81,8 @@ private:
     Sprite *PlayerRight;
     Sprite *hitbox;
 
-    int alwaysUpdate = 300;
+    // ====== EXPERIMENTATION VALUES ======
+    bool display_hitbox = false;
 
 public:
     // Constructor
