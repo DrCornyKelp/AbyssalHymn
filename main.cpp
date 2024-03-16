@@ -70,11 +70,12 @@ int main(int argc, char *argv[])
     std::vector<DecorationDynamic*> dynamicBack;
     dynamicBack.push_back(new DecorationDynamic(game->getRenderer(), "res/NakuSheet/NakuLeft.png", 870, 164, 32, 32, 30, 2, 4, false));
     dynamicBack[0]->setAlpha(200);
-    // dynamicBack[1] = new DecorationDynamic(game->getRenderer(), "res/Fire.png", 540, 240, 74, 154, 10, 8, 1, false);
+    dynamicBack.push_back(new DecorationDynamic(game->getRenderer(), "res/Fire.png", 1200, 220, 74, 154, 10, 8, 1, false));
     // dynamicBack[1] = new DecorationDynamic(game->getRenderer(), "res/Sun.png", 1100, -70, 64, 64, 30, 2, 4, true);
 
     std::vector<DecorationStatic*> staticFront;
-    staticFront.push_back(new DecorationStatic(game->getRenderer(), "res/BlockTile/Grass.png", 630, 78, 1300, 196, false));
+    staticFront.push_back(new DecorationStatic(game->getRenderer(), "res/BlockTile/Grass1.png", 630, 78, 1300, 196, false));
+    staticFront.push_back(new DecorationStatic(game->getRenderer(), "res/BlockTile/Grass2.png", 1100, 340, 240, 80, false));
 
     // Game loop
     float time = 0;
@@ -135,9 +136,9 @@ int main(int argc, char *argv[])
         // Update player
         player0->playerUpdate(game->getRenderer(), stage1->getBlockVec());
 
-        // Draw block
-        for (Block *block : stage1->getBlockVec())
-            block->renderBlock(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
+        // // Draw block
+        // for (Block *block : stage1->getBlockVec())
+        //     block->renderBlock(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
 
         // Draw Decoration (front)
         for (DecorationStatic *decor : staticFront)
