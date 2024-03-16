@@ -84,16 +84,14 @@ private:
     // Le Sprite itself (do not touch)
     Sprite *PlayerLeft;
     Sprite *PlayerRight;
-    Sprite *hitbox;
 
     // Collision
     bool on_ground = false;
-    bool hug_wall_resist = false;
-    // !!! NOTE !!!
     bool hug_wall_left = false;
     bool hug_wall_right = false;
 
     // ====== EXPERIMENTATION VALUES ======
+    Sprite *hitbox;
     bool display_hitbox = false;
 
 public:

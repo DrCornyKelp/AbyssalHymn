@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
     // dynamicBack[1] = new DecorationDynamic(game->getRenderer(), "res/Sun.png", 1100, -70, 64, 64, 30, 2, 4, true);
 
     DecorationStatic *staticFront[1];
-    staticFront[0] = new DecorationStatic(game->getRenderer(), "res/BlockTile/Grass.png", 630, 80, 1300, 196, false);
+    staticFront[0] = new DecorationStatic(game->getRenderer(), "res/BlockTile/Grass.png", 630, 78, 1300, 196, false);
 
     // Game loop
     float time = 0;
@@ -144,17 +144,17 @@ int main(int argc, char *argv[])
         for (DecorationDynamic *decor : dynamicBack) 
             decor->draw(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
 
-        // Draw block
-        // for (Block *block : allBlock)
-        //     block->renderBlock(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
-        
         // Update player
         player0->playerUpdate(game->getRenderer(), allBlock);
 
         // Draw Decoration (front)
         for (DecorationStatic *decor : staticFront)
             decor->draw(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
-
+        
+        // Draw block
+        // for (Block block : allBlock)
+        //     block.renderBlock(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
+        
         // Draw Hud
         hud0->draw(game->getRenderer());
 
