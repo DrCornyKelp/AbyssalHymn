@@ -23,38 +23,45 @@ private:
 
     // Ground movement
     float vel_x = 0;
-    float vel_x_max = 3;
-    float accel_x = 0.04;
+    float vel_x_max = 5;
+    float accel_x = 0.1;
 
     // Crawling
     bool crawl = false;
-    float vel_crawl = .4;
+    float vel_crawl = .8;
     int hit_offset_x = 0;
     int hit_offset_y = 0;
 
     // Ground Dash
     bool g_dash = false;
-    int g_dash_vel = 5;
+    int g_dash_vel = 10;
     int g_dash_frame = 0;
-    int g_dash_frame_max = 90;
+    int g_dash_frame_max = 40;
+    int g_dash_delay = 0;
+    int g_dash_delay_max = 100;
 
     // Decelleration
     int decel_x = 0; // 0: none, -1: LEFT, 1: RIGHT
 
     // "Airborne" movement
     int air_cur = 3;
-    int air_max = 30;
+    int air_max = 3;
 
     // Jumping
     bool jump_hold = false;
     float vel_y = 0;
     float vel_terminal = 10;
-    float accel_y = 0.05;
+    float accel_y = 0.1;
+    float accel_hold = 0.1;
+    float accel_tap = 0.2;
+    // SUPER JUMPING
+    int jump_super = 0;
+    int jump_super_max = 80;
 
     // Air dash
     bool a_dash = false;
     int a_dash_frame = 0;
-    int a_dash_frame_max = 100;
+    int a_dash_frame_max = 20;
 
     // Action indexing and stuff idk
     int act_index = 0;
@@ -108,8 +115,6 @@ public:
     void setFocus();
 
     // Getter
-    int getGridX();
-    int getGridY();
     float getVelX();
     float getVelY();
     int getActIndex();

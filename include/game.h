@@ -9,7 +9,7 @@ class Game
 {
 private:
     int WIDTH = 1280, HEIGHT = 720;
-    int FPS = 144;
+    int FPS = 100;
     int DELAY_TIME = 1000 / FPS;
     bool QUIT = false;
 

@@ -45,7 +45,7 @@ void Player::setAct(int index, bool right)
     if (act_index != index || act_right != right)
     {
         act_index = index;
-        act_right = right || false;
+        act_right = right;
     }
 }
 
@@ -96,14 +96,6 @@ void Player::setFocus()
 }
 
 // Getter
-int Player::getGridX()
-{
-    return getX() / getWidth();
-}
-int Player::getGridY()
-{
-    return getY() / getHeight();
-}
 float Player::getVelX()
 {
     return vel_x;
@@ -254,7 +246,7 @@ void Player::playerInput()
     }
 
     // Crawling
-    crawl = state[SDL_SCANCODE_S] && !g_dash && on_ground && abs(vel_x) < vel_crawl ;
+    crawl = state[SDL_SCANCODE_S] && on_ground && !g_dash && !decel_x && g_dash_delay == 0 && abs(vel_x) < vel_x_max / 2 ;
 
     if (crawl && state[SDL_SCANCODE_A]) {
         vel_x = -vel_crawl;
@@ -280,34 +272,38 @@ void Player::playerInput()
     }
 
     // Ground dash (more like sliding but whatever)
-    if (state[SDL_SCANCODE_LSHIFT] && on_ground && !crawl && !g_dash && !a_dash && vel_x != 0)
+    if (state[SDL_SCANCODE_LSHIFT] && on_ground && !g_dash && !a_dash && g_dash_delay == 0)
     {
         g_dash = true;
-        vel_x = g_dash_vel * (vel_x > 0 ? 1 : -1);
+        g_dash_delay = g_dash_delay_max * (crawl ? 1.2 : 1);
+        vel_x = g_dash_vel * (act_right ? 1 : -1) * (crawl ? 1.2 : 1);
     }
 
     // Air dash
-    if (state[SDL_SCANCODE_LSHIFT] && !hug_wall && !on_ground && !crawl && !g_dash &&
+    if (state[SDL_SCANCODE_LSHIFT] && !on_ground && !hug_wall && !crawl && !g_dash &&
         !a_dash && vel_x != 0 && air_cur > 0 && !jump_hold)
     {
         air_cur--;
 
         a_dash = true;
-        vel_x = (1 + 24 / (air_max - air_cur + 6)) * (vel_x > 0 ? 1 : -1);
+        vel_x = (1 + 90 / (air_max - air_cur + 6)) * (vel_x > 0 ? 1 : -1);
     }
 
     // Jump held key
-    if (state[SDL_SCANCODE_SPACE] && decel_x == 0 && air_cur > 0 && !jump_hold && !g_dash && !a_dash && !crawl)
+    if (state[SDL_SCANCODE_SPACE] && !jump_hold && air_cur > 0 && !g_dash && !a_dash  && decel_x == 0  )
     {
         setY(getY() + 10);
         on_ground = false;
 
-        vel_y = 1 + 24 / (air_max - air_cur + 8);
+        vel_y = 1 + 40 / (air_max - air_cur + 8);
+        if (jump_super == jump_super_max)
+            vel_y = 8;
+        accel_y = accel_hold;
 
         // Wall jump
         if (!hug_wall) air_cur--;
-        if (hug_wall_left) vel_x = 5;
-        if (hug_wall_right) vel_x = -5;
+        if (hug_wall_left) vel_x = 10;
+        if (hug_wall_right) vel_x = -10;
         hug_wall_left = false;
         hug_wall_right = false;
 
@@ -317,6 +313,7 @@ void Player::playerInput()
     if (!state[SDL_SCANCODE_SPACE])
     {
         jump_hold = false;
+        accel_y = accel_tap;
     }
     
     // ===============EXPERIMENTATION input===============
@@ -339,28 +336,29 @@ void Player::playerMovement()
     setX(getX() + vel_x);
 
     // Vertigo is a bad map
+    if (vel_y < 0) accel_y = accel_tap;
+
     if (on_ground) {
         vel_y = 0;
     } else if (hug_wall_left || hug_wall_right) {
         vel_y = -1;
     } else {
-        vel_y -= (accel_y / 1.2);
+        vel_y -= accel_y;
     }
     // Terminal Velocity
     if (vel_y <= -vel_terminal) {
         vel_y = -vel_terminal;
     }
-    // Dashing
+    // Air Dashing
     if (a_dash) vel_y = 0;
-    
-    // std::cout << getY() << " " << vel_y << "\n";
-    // std::cout << vel_y << "\n";
 
-    if (on_ground) {
-        air_cur = air_max;
+    // Ground Stuff
+    if (crawl && vel_x == 0) {
+        jump_super += jump_super < jump_super_max;
+    } else {
+        jump_super = 0;
     }
 
-    // g_Dashing
     if (g_dash)
     {
         g_dash_frame++;
@@ -369,6 +367,10 @@ void Player::playerMovement()
             g_dash_frame = 0;
             g_dash = false;
         }
+    }
+    if (g_dash_delay > 0)
+    {
+        g_dash_delay--;
     }
     // a_Dashing
     if (a_dash)
@@ -381,46 +383,54 @@ void Player::playerMovement()
         }
     }
 
+    if (on_ground) {
+        air_cur = air_max;
+    }
+
     setY(getY() + vel_y);
 
     if (getY() < 0) {
         setX(640);
         setY(200);
     }
+
+    // std::cout << getY() << " " << vel_y << "\n";
+    // std::cout << getY() << "\n";
 }
 
 void Player::playerAction()
 {
+    act_right = vel_x > .2 ? 1 : vel_x < -.2 ? 0 : act_right;
     if (abs(vel_x) <= .2)
     {
         // Idling
         setAct(0, act_right);
-        setSprite(2, 100);
+        setSprite(2, 64);
     }
     else
     {
         // Moving
-        setAct(1, vel_x > 0);
-        setSprite(8, 50 - abs(vel_x) * 16);
+        setAct(1, act_right);
+        setSprite(8, 30 - abs(vel_x) * 5);
     }
 
     // Decelerating
     if (decel_x != 0)
     {
         setAct(2, decel_x > 0);
-        setSprite(2, 4);
+        setSprite(2, 2);
     }
 
     // Jumping
     if (vel_y > .2 && !on_ground)
     {
         setAct(3, act_right);
-        setSprite(4, 25);
+        setSprite(4, 16);
     }
     if (vel_y < .2 && !on_ground)
     {
         setAct(3, act_right);
-        setSprite(8, 5);
+        setSprite(8, 4);
     }
 
     // Ground Dashing
@@ -428,14 +438,14 @@ void Player::playerAction()
     {
         setEndLock(true);
         setAct(4, act_right);
-        setSprite(4, 18);
+        setSprite(4, 5);
     }
     // Air Dashing
     if (a_dash)
     {
         setEndLock(true);
         setAct(5, act_right);
-        setSprite(4, 20);
+        setSprite(4, 10);
     }
     // Not ground nor air dashing
     if (!a_dash && !g_dash)
@@ -447,14 +457,14 @@ void Player::playerAction()
     if (crawl) {
         setAct(6, act_right);
 
-        setSprite((abs(vel_x) > 0 ? 4 : 1), 10);
+        setSprite((abs(vel_x) > 0 ? 4 : 1), 8);
     }
 
     // Wall Sliding
     if (hug_wall_left || hug_wall_right)
     {
         setAct(7, hug_wall_right);
-        setSprite(4, 12);
+        setSprite(4, 8);
     }
 }
 
@@ -515,6 +525,7 @@ void Player::playerTileCollision(std::vector<Block> BlockVec)
                 {
                     setX(obj.getX() - hit_dist_x);
                     vel_x = -vel_x * .5;
+                    act_right = 0;
                 }
 
                 continue;
@@ -537,6 +548,7 @@ void Player::playerTileCollision(std::vector<Block> BlockVec)
                 {
                     setX(obj.getX() + hit_dist_x);
                     vel_x = -vel_x * .5;
+                    act_right = 0;
                 }
                 continue;
             }
@@ -568,8 +580,6 @@ void Player::playerTileCollision(std::vector<Block> BlockVec)
             hug_wall_right = false;
             continue;
         }
-
-        // if (i == 2) std::cout << getY() << " " << colli_y << "\n";
     }
 
     on_ground = on_aleast_ground;

@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
     int test = Mix_Init(0); // Initialize audio in wav format
                             // somehow other formats don't work but here's the code:
                             // wav = 0, flac = 1, mp3 = 8
-    Audio::playBGM("res/Audio/ComfortChain.wav");
+    Audio::playBGM("res/Audio/MidnightTripLofi.wav");
 
     // Player + Hud
     Player *player0 = new Player();
@@ -84,7 +84,7 @@ int main(int argc, char *argv[])
 
     // Game loop
     float time = 0;
-    float time_max = 600;
+    float time_max = 4800;
     short dayForward = 1;
 
     // I have no fucking clue why i need this delay
