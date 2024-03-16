@@ -18,7 +18,7 @@ private:
     SDL_Surface *icon = SDL_LoadBMP("res/icon.bmp");
 
 public:
-    static const int WIDTH = 1280, HEIGHT = 720;
+    static const int WIDTH = 1600, HEIGHT = 900;
     // Setter
     // void setWIDTH(int w);
     // void setHEIGHT(int h);

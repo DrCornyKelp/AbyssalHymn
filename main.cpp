@@ -64,13 +64,14 @@ int main(int argc, char *argv[])
     staticBack.push_back(new DecorationStatic(game->getRenderer(), "res/Decoration/House1.png", 550, 510, 1000, 770, false));
     // =====================================================
     std::vector<DecorationDynamic*> dynamicBack;
-    dynamicBack.push_back(new DecorationDynamic(game->getRenderer(), "res/NakuSheet/NakuLeft.png", 870, 164, 32, 32, 30, 2, 4, false));
-    dynamicBack[0]->setAlpha(200);
-    dynamicBack.push_back(new DecorationDynamic(game->getRenderer(), "res/Fire.png", 1200, 220, 74, 154, 10, 8, 1, false));
+    dynamicBack.push_back(new DecorationDynamic(game->getRenderer(), "res/Fire.png", 1100, 470, 74, 154, 10, 8, 1, false));
     // =====================================================
+    // Map Decoration
     std::vector<DecorationStatic*> staticFront;
-    staticFront.push_back(new DecorationStatic(game->getRenderer(), "res/BlockTile/Grass1.png", 630, 78, 1300, 196, false));
+    staticFront.push_back(new DecorationStatic(game->getRenderer(), "res/BlockTile/Grass1.png", 650, 78, 1300, 196, false));
     staticFront.push_back(new DecorationStatic(game->getRenderer(), "res/BlockTile/Grass2.png", 1100, 340, 240, 80, false));
+    staticFront.push_back(new DecorationStatic(game->getRenderer(), "res/BlockTile/Tree1.png", 1700, 736, 276, 320, false));
+    staticFront.push_back(new DecorationStatic(game->getRenderer(), "res/BlockTile/Grass3.png", 1880, 320, 880, 640, false));
 
     // NPCS DIALOGUE
     std::vector<NpcDialogue *> npcs;

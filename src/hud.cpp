@@ -41,7 +41,7 @@ void Hud::drawAirborne(SDL_Renderer *renderer)
     
     int green = 200 * (airRatio);
     int red = 200 * (1 - (airCur - 1) / airMax);
-    SDL_SetRenderDrawColor(renderer, red, green, 0, 255);
+    SDL_SetRenderDrawColor(renderer, red, green, 50, 255);
     SDL_Rect inRect = {bar_h, bar_off + bar_down, airbornDisplay, bar_h - bar_off * 2};
     SDL_RenderFillRect(renderer, &inRect);
 

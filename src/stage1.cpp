@@ -8,8 +8,8 @@ void Stage1::initBlocks(SDL_Renderer *renderer)
     BlockVec.push_back(new Block(-40, 800, 80, 1600));
     // // Gorund
     BlockVec.push_back(new Block(640, 64, 1280, 128));
-    // // Test Ceiling
     BlockVec.push_back(new Block(1100, 340, 240, 80));
+    BlockVec.push_back(new Block(1880, 260, 880, 640));
 
     // Gorund
     // BlockVec.push_back(new Block(1280, 64, 2560, 128));
