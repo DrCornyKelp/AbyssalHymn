@@ -19,11 +19,11 @@ void Player::initPlayer(SDL_Renderer *renderer)
     hitbox->setTexture(Sprite::loadTexture(renderer, hitbox->getSpritePath()));
 
     setFocusXCondition([](int x, int y) {
-        if (x > 640) FocusReturn(640, true);
+        if (x > Game::WIDTH / 2) FocusReturn(Game::WIDTH / 2, true);
         FocusReturn(0, false);
     });
     setFocusYCondition([](int x, int y) {
-        if (y > 360) FocusReturn(360, true);
+        if (y > Game::HEIGHT / 2) FocusReturn(Game::HEIGHT / 2, true);
         FocusReturn(0, false);
     });
 
@@ -184,12 +184,12 @@ void Player::playerSprite(SDL_Renderer *renderer)
         else
             setSprIndex(0);
 
-    int drawX = focus_x ? 640 : getX();
-    int drawY = focus_y ? 360 : 720 - getY();
+    int drawX = focus_x ? Game::WIDTH / 2 : getX();
+    int drawY = focus_y ? Game::HEIGHT / 2 : Game::HEIGHT - getY();
 
     if (display_hitbox) {
-        int drawHitX = focus_x ? 640 - hit_offset_x : getHitX();
-        int drawHitY = focus_y ? 360 - hit_offset_y : 720 - getHitY();
+        int drawHitX = focus_x ? Game::WIDTH / 2 - hit_offset_x : getHitX();
+        int drawHitY = focus_y ? Game::HEIGHT / 2 - hit_offset_y : Game::HEIGHT - getHitY();
         SDL_Rect hitRect = {drawHitX - getHitWidth() / 2, drawHitY - getHitHeight() / 2, getHitWidth(), getHitHeight()};
         SDL_RenderCopy(renderer, hitbox->getTexture(), NULL, &hitRect);
     }

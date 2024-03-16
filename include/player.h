@@ -1,6 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include "game.h"
 #include "block.h"
 // #include "event_trigger.h"
 

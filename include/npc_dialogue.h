@@ -24,7 +24,7 @@ private:
     int bubble_width, bubble_height;
 
 public:
-    NpcDialogue(float nx = 0, float ny = 0, int w = 128, int h = 128, int hw = 64, int hh = 64, int bw = 128, int bh = 32, int sw = 32, int sh = 32, int sim = 0, int sfm = 0, int si = 0, int sf = 0, int alpm = 200, bool f_player = true);
+    NpcDialogue(float nx = 0, float ny = 0, int w = 128, int h = 128, int hw = 64, int hh = 64, int bw = 128, int bh = 32, int sw = 32, int sh = 32, int sim = 0, int sfm = 0, int si = 0, int sf = 0, int alpm = 150, bool f_player = true);
 
     void initNpc(SDL_Renderer *renderer, const char* nPath, const char* bPath);
 
