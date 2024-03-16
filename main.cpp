@@ -17,6 +17,7 @@
 #include "hud.h"
 #include "audio.h"
 #include "stage1.h"
+#include "npc_dialogue.h"
 
 int main(int argc, char *argv[])
 {
@@ -34,7 +35,7 @@ int main(int argc, char *argv[])
     int test = Mix_Init(0); // Initialize audio in wav format
                             // somehow other formats don't work but here's the code:
                             // wav = 0, flac = 1, mp3 = 8
-    Audio::playBGM("res/Audio/UsagiFlapLofi.wav");
+    // Audio::playBGM("res/Audio/UsagiFlapLofi.wav");
 
     // Player + Hud
     Player *player0 = new Player();
@@ -52,12 +53,7 @@ int main(int argc, char *argv[])
     //     std::cout << "yee \n";
     // });
 
-    // BG
-    // Sprite *bg = new Sprite(756, 360, 1, "res/Background/Mountain.png");
-    // bg->setTexture(bg->loadTexture(game->getRenderer(), bg->getSpritePath()));
-
     // DECORATION
-
     std::vector<DecorationStatic*> staticBack;
     staticBack.push_back(new DecorationStatic(game->getRenderer(), "res/DayNight/Day.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true));
     staticBack.push_back(new DecorationStatic(game->getRenderer(), "res/DayNight/Night.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true));
@@ -66,20 +62,24 @@ int main(int argc, char *argv[])
     staticBack.push_back(new DecorationStatic(game->getRenderer(), "res/Background/MountainNight.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true));
     staticBack[3]->setAlpha(0);
     staticBack.push_back(new DecorationStatic(game->getRenderer(), "res/Decoration/House1.png", 550, 510, 1000, 770, false));
-
+    // =====================================================
     std::vector<DecorationDynamic*> dynamicBack;
     dynamicBack.push_back(new DecorationDynamic(game->getRenderer(), "res/NakuSheet/NakuLeft.png", 870, 164, 32, 32, 30, 2, 4, false));
     dynamicBack[0]->setAlpha(200);
     dynamicBack.push_back(new DecorationDynamic(game->getRenderer(), "res/Fire.png", 1200, 220, 74, 154, 10, 8, 1, false));
-    // dynamicBack[1] = new DecorationDynamic(game->getRenderer(), "res/Sun.png", 1100, -70, 64, 64, 30, 2, 4, true);
-
+    // =====================================================
     std::vector<DecorationStatic*> staticFront;
     staticFront.push_back(new DecorationStatic(game->getRenderer(), "res/BlockTile/Grass1.png", 630, 78, 1300, 196, false));
     staticFront.push_back(new DecorationStatic(game->getRenderer(), "res/BlockTile/Grass2.png", 1100, 340, 240, 80, false));
 
+    // NPCS DIALOGUE
+    std::vector<NpcDialogue *> npcs;
+    npcs.push_back(new NpcDialogue(200, 166, 128, 128, 200, 200, 128, 51, 32, 32, 2, 30));
+    npcs[0]->initNpc(game->getRenderer(), "res/NpcDialogue/Npc1/DemoNaku.png", "res/NpcDialogue/Npc1/DemoNakuBubble.png");
+
     // Game loop
     float time = 0;
-    float time_max = 2400;
+    float time_max = 1200;
     short dayForward = 1;
 
     // I have no fucking clue why i need this delay
@@ -129,10 +129,12 @@ int main(int argc, char *argv[])
         // Draw Decoration (back)
         for (DecorationStatic *decor : staticBack)
             decor->draw(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
-
         for (DecorationDynamic *decor : dynamicBack) 
             decor->draw(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
 
+        // Npc Dialogue logic and shit idc
+        for (NpcDialogue *npc : npcs)
+            npc->drawNpc(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
         // Update player
         player0->playerUpdate(game->getRenderer(), stage1->getBlockVec());
 
