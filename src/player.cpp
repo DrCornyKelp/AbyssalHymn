@@ -279,8 +279,8 @@ void Player::playerInput()
     if (state[SDL_SCANCODE_LSHIFT] && on_ground && !g_dash && !crawl_lock && !a_dash && g_dash_delay == 0)
     {
         g_dash = true;
-        g_dash_delay = g_dash_delay_max * (crawl ? 1.2 : 1);
-        vel_x = g_dash_vel * (act_right ? 1 : -1) * (crawl ? 1.2 : 1);
+        g_dash_delay = g_dash_delay_max * (crawl ? 1.5 : 1);
+        vel_x = g_dash_vel * (act_right ? 1 : -1) * (crawl ? 1.4 : 1);
     }
 
     // Air dash
@@ -331,6 +331,7 @@ void Player::playerInput()
 
 void Player::playerMovement()
 {
+    vel_x_max = on_ground ? vel_x_max_ground : vel_x_max_air;
     // Cap X velocity
     if (!g_dash && !a_dash) {
         if (vel_x < -vel_x_max)

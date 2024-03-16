@@ -25,6 +25,8 @@ private:
     // Ground movement
     float vel_x = 0;
     float vel_x_max = 5;
+    float vel_x_max_ground = 5;
+    float vel_x_max_air = 6;
     float accel_x = 0.1;
 
     // Crawling
@@ -64,7 +66,7 @@ private:
     bool a_dash = false;
     bool a_dash_hold = false;
     int a_dash_frame = 0;
-    int a_dash_frame_max = 20;
+    int a_dash_frame_max = 30;
 
     // Action indexing and stuff idk
     int act_index = 0;
