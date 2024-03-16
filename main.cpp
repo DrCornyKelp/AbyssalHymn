@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
     int test = Mix_Init(0); // Initialize audio in wav format
                             // somehow other formats don't work but here's the code:
                             // wav = 0, flac = 1, mp3 = 8
-    // Audio::playBGM("res/Audio/UsagiFlapLofi.wav");
+    Audio::playBGM("res/Audio/MidnightTripLofi.wav");
 
     // Player + Hud
     Player *player0 = new Player();
@@ -62,6 +62,8 @@ int main(int argc, char *argv[])
     staticBack.push_back(new DecorationStatic(game->getRenderer(), "res/Background/MountainNight.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true));
     staticBack[3]->setAlpha(0);
     staticBack.push_back(new DecorationStatic(game->getRenderer(), "res/Decoration/House1.png", 550, 510, 1000, 770, false));
+    staticBack.push_back(new DecorationStatic(game->getRenderer(), "res/Decoration/House1Dark.png", 550, 510, 1000, 770, false));
+    staticBack[5]->setAlpha(0);
     // =====================================================
     std::vector<DecorationDynamic*> dynamicBack;
     dynamicBack.push_back(new DecorationDynamic(game->getRenderer(), "res/Fire.png", 1100, 470, 74, 154, 10, 8, 1, false));
@@ -75,12 +77,12 @@ int main(int argc, char *argv[])
 
     // NPCS DIALOGUE
     std::vector<NpcDialogue *> npcs;
-    npcs.push_back(new NpcDialogue(200, 166, 128, 128, 200, 200, 150, 60, 32, 32, 2, 30));
+    npcs.push_back(new NpcDialogue(200, 166, 128, 128, 200, 200, 200, 80, 32, 32, 2, 100));
     npcs[0]->initNpc(game->getRenderer(), "res/NpcDialogue/Npc1/DemoNaku.png", "res/NpcDialogue/Npc1/DemoNakuBubble.png");
 
     // Game loop
     float time = 0;
-    float time_max = 1200;
+    float time_max = 2400;
     short dayForward = 1;
 
     // I have no fucking clue why i need this delay
@@ -96,6 +98,7 @@ int main(int argc, char *argv[])
 
         staticBack[1]->setAlpha(time / time_max * 250);
         staticBack[3]->setAlpha(time / time_max * 250);
+        staticBack[5]->setAlpha(time / time_max * 150);
 
         // SDL and shit
         SDL_PollEvent(&event);
