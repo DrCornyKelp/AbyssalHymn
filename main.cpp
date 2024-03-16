@@ -16,6 +16,7 @@
 // #include "event_trigger.h"
 #include "hud.h"
 #include "audio.h"
+#include "stage1.h"
 
 int main(int argc, char *argv[])
 {
@@ -40,19 +41,9 @@ int main(int argc, char *argv[])
     player0->initPlayer(game->getRenderer());
     Hud *hud0 = new Hud(game->getRenderer(), player0);
 
-    // Block
-    std::vector<Block> allBlock;
-    allBlock.push_back(Block(770, 330, 240, 64, false));
-    allBlock.push_back(Block(755, 480, 210, 64));
-    // Boundary
-    allBlock.push_back(Block(-40, 800, 80, 1600));
-    // Gorund
-    allBlock.push_back(Block(640, 64, 1280, 128));
-    // Test Ceiling
-    allBlock.push_back(Block(640, 240, 128, 128)); 
-
-    for (Block block : allBlock)
-        block.initBlock(game->getRenderer(), "res/WhiteSpace.png");
+    // Stage 1
+    Stage1 *stage1 = new Stage1();
+    stage1->initBlocks(game->getRenderer());
 
     // Event
     // EventTrigger *allEvent[1];
@@ -66,23 +57,24 @@ int main(int argc, char *argv[])
     // bg->setTexture(bg->loadTexture(game->getRenderer(), bg->getSpritePath()));
 
     // DECORATION
-    DecorationStatic *staticBack[5];
-    staticBack[0] = new DecorationStatic(game->getRenderer(), "res/DayNight/Day.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true);
-    staticBack[1] = new DecorationStatic(game->getRenderer(), "res/DayNight/Night.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true);
-    staticBack[1]->setAlpha(0);
-    staticBack[2] = new DecorationStatic(game->getRenderer(), "res/Background/MountainDay.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true);
-    staticBack[3] = new DecorationStatic(game->getRenderer(), "res/Background/MountainNight.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true);
-    staticBack[3]->setAlpha(0);
-    staticBack[4] = new DecorationStatic(game->getRenderer(), "res/Decoration/House1.png", 550, 510, 1000, 770, false);
 
-    DecorationDynamic *dynamicBack[1];
-    dynamicBack[0] = new DecorationDynamic(game->getRenderer(), "res/NakuSheet/NakuLeft.png", 870, 164, 32, 32, 30, 2, 4, false);
-    dynamicBack[0]->setAlpha(200);
+    std::vector<DecorationStatic> staticBack;
+    staticBack.push_back(DecorationStatic(game->getRenderer(), "res/DayNight/Day.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true));
+    staticBack.push_back(DecorationStatic(game->getRenderer(), "res/DayNight/Night.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true));
+    staticBack[1].setAlpha(0);
+    staticBack.push_back(DecorationStatic(game->getRenderer(), "res/Background/MountainDay.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true));
+    staticBack.push_back(DecorationStatic(game->getRenderer(), "res/Background/MountainNight.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true));
+    staticBack[3].setAlpha(0);
+    staticBack.push_back(DecorationStatic(game->getRenderer(), "res/Decoration/House1.png", 550, 510, 1000, 770, false));
+
+    std::vector<DecorationDynamic> dynamicBack;
+    dynamicBack.push_back(DecorationDynamic(game->getRenderer(), "res/NakuSheet/NakuLeft.png", 870, 164, 32, 32, 30, 2, 4, false));
+    dynamicBack[0].setAlpha(200);
     // dynamicBack[1] = new DecorationDynamic(game->getRenderer(), "res/Fire.png", 540, 240, 74, 154, 10, 8, 1, false);
     // dynamicBack[1] = new DecorationDynamic(game->getRenderer(), "res/Sun.png", 1100, -70, 64, 64, 30, 2, 4, true);
 
-    DecorationStatic *staticFront[1];
-    staticFront[0] = new DecorationStatic(game->getRenderer(), "res/BlockTile/Grass.png", 630, 78, 1300, 196, false);
+    std::vector<DecorationStatic> staticFront;
+    staticFront.push_back(DecorationStatic(game->getRenderer(), "res/BlockTile/Grass.png", 630, 78, 1300, 196, false));
 
     // Game loop
     float time = 0;
@@ -100,8 +92,8 @@ int main(int argc, char *argv[])
         if (time < 0) dayForward = 1;
         time += dayForward;
 
-        staticBack[1]->setAlpha(time / time_max * 250);
-        staticBack[3]->setAlpha(time / time_max * 250);
+        staticBack[1].setAlpha(time / time_max * 250);
+        staticBack[3].setAlpha(time / time_max * 250);
 
         // SDL and shit
         SDL_PollEvent(&event);
@@ -140,22 +132,22 @@ int main(int argc, char *argv[])
         // SDL_RenderCopy(game->getRenderer(), bg->getTexture(), NULL, &bgDestRect);
 
         // Draw Decoration (back)
-        for (DecorationStatic *decor : staticBack)
-            decor->draw(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
+        for (DecorationStatic decor : staticBack)
+            decor.draw(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
 
-        for (DecorationDynamic *decor : dynamicBack) 
-            decor->draw(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
+        for (DecorationDynamic decor : dynamicBack) 
+            decor.draw(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
 
-         // Draw block
-        // for (Block block : allBlock)
-        //     block.renderBlock(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
+        // Draw block
+        for (Block block : stage1->getBlockVec())
+            block.renderBlock(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
         
         // Update player
-        player0->playerUpdate(game->getRenderer(), allBlock);
+        player0->playerUpdate(game->getRenderer(), stage1->getBlockVec());
 
         // Draw Decoration (front)
-        for (DecorationStatic *decor : staticFront)
-            decor->draw(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
+        for (DecorationStatic decor : staticFront)
+            decor.draw(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
         // Draw Hud
         hud0->draw(game->getRenderer());
 
