@@ -249,6 +249,8 @@ void Player::playerInput()
 
     // Crawling
     crawl = state[SDL_SCANCODE_S] && on_ground && !g_dash && !decel_x && g_dash_delay == 0 && abs(vel_x) < vel_x_max / 2 ;
+    crawl = crawl_lock || crawl;
+    std::cout << crawl_lock << "\n";
 
     if (crawl && state[SDL_SCANCODE_A]) {
         vel_x = -vel_crawl;
@@ -471,17 +473,16 @@ void Player::playerTileCollision(std::vector<Block> BlockVec)
 {
     bool on_aleast_ground = false;
     bool hug_aleast_wall = false;
+    bool crawl_lock_atleast = false;
 
-    if (!crawl && !g_dash)
+    if (!crawl && !g_dash && !crawl_lock)
     {
-        std::cout << "yes \n";
         setHitWidth(58);
         setHitHeight(80);
         hit_offset_y = 0;
     }
     else
     {
-        std::cout << "no \n";
         setHitWidth(78);
         setHitHeight(40);
         hit_offset_y = -20;
@@ -518,9 +519,11 @@ void Player::playerTileCollision(std::vector<Block> BlockVec)
         // Yeah, I ain't gonna keep my distance from you (oh, yeah)
         int hit_dist_x = (getHitWidth() + obj.getHitWidth()) / 2;
         int hit_dist_y = (getHitHeight() + obj.getHitHeight()) / 2;
+        int hit_dist_y_stand = (80 + obj.getHitHeight()) / 2;
 
         int colli_x = abs(getHitX() - obj.getX());
         int colli_y = abs(getHitY() - obj.getY());
+        int colli_y_stand = abs(getY() - obj.getY());
 
         if (obj.getCollideDown()) {
             // Hit Left wall
@@ -577,6 +580,22 @@ void Player::playerTileCollision(std::vector<Block> BlockVec)
                 vel_y = -vel_y * 0.1;
                 continue;
             }
+
+            // Predict Ceiling
+            // Idk how to express this in short term
+            // But basically when you ducking
+            // And ontop of you is a ceiling
+            // That make you cant stand up
+            // Then you wont be able to
+            // Exit the crawl state
+            if (!g_dash &&
+                getY() < obj.getY() &&
+                colli_y_stand < hit_dist_y_stand &&
+                (getHitX() < obj.getX() + hit_dist_x) &&
+                (getHitX() > obj.getX() - hit_dist_x)) 
+            {
+                crawl_lock_atleast = true;
+            }
         }
 
         // Stand on block
@@ -596,6 +615,7 @@ void Player::playerTileCollision(std::vector<Block> BlockVec)
     }
 
     on_ground = on_aleast_ground;
+    crawl_lock = crawl_lock_atleast;
     if (!hug_aleast_wall)
     {
         hug_wall_left = false;

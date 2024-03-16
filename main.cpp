@@ -47,7 +47,9 @@ int main(int argc, char *argv[])
     // Boundary
     allBlock.push_back(Block(-40, 800, 80, 1600));
     // Gorund
-    allBlock.push_back(Block(640, 64, 1280, 128)); 
+    allBlock.push_back(Block(640, 64, 1280, 128));
+    // Test Ceiling
+    allBlock.push_back(Block(640, 240, 128, 128)); 
 
     for (Block block : allBlock)
         block.initBlock(game->getRenderer(), "res/WhiteSpace.png");
@@ -144,17 +146,16 @@ int main(int argc, char *argv[])
         for (DecorationDynamic *decor : dynamicBack) 
             decor->draw(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
 
+         // Draw block
+        // for (Block block : allBlock)
+        //     block.renderBlock(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
+        
         // Update player
         player0->playerUpdate(game->getRenderer(), allBlock);
 
         // Draw Decoration (front)
         for (DecorationStatic *decor : staticFront)
             decor->draw(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
-        
-        // Draw block
-        // for (Block block : allBlock)
-        //     block.renderBlock(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
-        
         // Draw Hud
         hud0->draw(game->getRenderer());
 

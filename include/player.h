@@ -28,6 +28,7 @@ private:
 
     // Crawling
     bool crawl = false;
+    bool crawl_lock = false;
     float vel_crawl = .8;
     int hit_offset_x = 0;
     int hit_offset_y = 0;
@@ -69,14 +70,12 @@ private:
 
     // Sprite handler
     int sprite_alpha = 255;
-
     bool sprite_end_lock = false;
 
     // Drawing focus on player
     FocusXCondition fxcondition;
     bool focus_x = true;
     int offset_x;
-
     FocusYCondition fycondition;
     bool focus_y = false;
     int offset_y = 0;
