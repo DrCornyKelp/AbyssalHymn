@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
 
     // NPCS DIALOGUE
     std::vector<NpcDialogue *> npcs;
-    npcs.push_back(new NpcDialogue(200, 166, 128, 128, 200, 200, 128, 51, 32, 32, 2, 30));
+    npcs.push_back(new NpcDialogue(200, 166, 128, 128, 200, 200, 150, 60, 32, 32, 2, 30));
     npcs[0]->initNpc(game->getRenderer(), "res/NpcDialogue/Npc1/DemoNaku.png", "res/NpcDialogue/Npc1/DemoNakuBubble.png");
 
     // Game loop

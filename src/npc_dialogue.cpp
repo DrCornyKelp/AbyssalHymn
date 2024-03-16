@@ -40,17 +40,6 @@ void NpcDialogue::drawNpc(SDL_Renderer *renderer, int px, int py, bool focusX, i
     if (getSprIndex() >= getSprIndexMax())
         setSprIndex(0);
 
-    // Drawing Npc itself
-    SDL_Rect nDesRect = {rel_x - getWidth() / 2, 720 - rel_y - getHeight() / 2,getWidth(), getHeight()};
-    
-    SDL_Rect nSrcRect;
-    if (getSprIndexMax() > 0) 
-    {
-        nSrcRect = {getSprIndex() * sprite_width, 0, sprite_width, sprite_height};
-    } else nSrcRect = {0, 0, sprite_width, sprite_height};
-
-    SDL_RenderCopy(renderer, npc->getTexture(), &nSrcRect, &nDesRect);
-
     // Colliding => Draw bubble
     if (abs(px - getX()) < getHitWidth() &&
         abs(py - getY()) < getHitHeight())
@@ -63,11 +52,25 @@ void NpcDialogue::drawNpc(SDL_Renderer *renderer, int px, int py, bool focusX, i
     if (alpha_cur > alpha_max) alpha_cur = alpha_max;
     if (alpha_cur < 0) alpha_cur = 0;
 
-    if (alpha_cur > 10)
+    if (alpha_cur > 20)
     {
-        SDL_Rect bDesRect = {rel_x - bubble_width / 2, 720 - rel_y / 2 - bubble_height - getHeight(), bubble_width, bubble_height};
+        int offsetY = bubble_height + getHeight();
+        int effectY = float(alpha_cur) / alpha_max * 10 - 10;
+
+        SDL_Rect bDesRect = {rel_x - bubble_width / 2, 720 - rel_y / 2 - offsetY - effectY, bubble_width, bubble_height};
         if (alpha_cur % 5 == 0 || alpha_cur == alpha_max)
             SDL_SetTextureAlphaMod(bubble->getTexture(), alpha_cur);
         SDL_RenderCopy(renderer, bubble->getTexture(), NULL, &bDesRect);
-    } 
+    }
+
+    // Drawing Npc itself
+    SDL_Rect nDesRect = {rel_x - getWidth() / 2, 720 - rel_y - getHeight() / 2,getWidth(), getHeight()};
+    
+    SDL_Rect nSrcRect;
+    if (getSprIndexMax() > 0) 
+    {
+        nSrcRect = {getSprIndex() * sprite_width, 0, sprite_width, sprite_height};
+    } else nSrcRect = {0, 0, sprite_width, sprite_height};
+
+    SDL_RenderCopy(renderer, npc->getTexture(), &nSrcRect, &nDesRect);
 }
