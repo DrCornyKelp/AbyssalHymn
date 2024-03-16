@@ -26,7 +26,7 @@ void DecorationStatic::draw(SDL_Renderer *renderer, int px, int py, bool focusX,
 
     SDL_Rect desRect;
     if (absolute) desRect = {x, y, span_x, span_y};
-    else desRect = {rel_x - span_x / 2, 720 - rel_y - span_y / 2, span_x, span_y};
+    else desRect = {rel_x - span_x / 2, Game::HEIGHT - rel_y - span_y / 2, span_x, span_y};
 
     SDL_RenderCopy(renderer, texture, NULL, &desRect);
 }

@@ -36,7 +36,7 @@ void DecorationDynamic::draw(SDL_Renderer *renderer, int px, int py, bool focusX
     // Where to draw
     SDL_Rect desRect;
     if (absolute) desRect = {x, y, sprite_width * scale, sprite_height * scale};
-    else desRect = {rel_x - sprite_width * scale / 2, 720 - rel_y - sprite_width * scale / 2, sprite_width * scale, sprite_height * scale};
+    else desRect = {rel_x - sprite_width * scale / 2, Game::HEIGHT - rel_y - sprite_width * scale / 2, sprite_width * scale, sprite_height * scale};
     // Which sprite
     SDL_Rect srcRect = {sprite_width * sprite_index, 0, sprite_width, sprite_height};
 

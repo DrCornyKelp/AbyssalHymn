@@ -57,14 +57,14 @@ void NpcDialogue::drawNpc(SDL_Renderer *renderer, int px, int py, bool focusX, i
         int offsetY = bubble_height + getHeight();
         int effectY = float(alpha_cur) / alpha_max * 10 - 10;
 
-        SDL_Rect bDesRect = {rel_x - bubble_width / 2, 720 - rel_y / 2 - offsetY - effectY, bubble_width, bubble_height};
+        SDL_Rect bDesRect = {rel_x - bubble_width / 2, Game::HEIGHT - rel_y / 2 - offsetY - effectY, bubble_width, bubble_height};
         if (alpha_cur % 5 == 0 || alpha_cur == alpha_max)
             SDL_SetTextureAlphaMod(bubble->getTexture(), alpha_cur);
         SDL_RenderCopy(renderer, bubble->getTexture(), NULL, &bDesRect);
     }
 
     // Drawing Npc itself
-    SDL_Rect nDesRect = {rel_x - getWidth() / 2, 720 - rel_y - getHeight() / 2,getWidth(), getHeight()};
+    SDL_Rect nDesRect = {rel_x - getWidth() / 2, Game::HEIGHT - rel_y - getHeight() / 2,getWidth(), getHeight()};
     
     SDL_Rect nSrcRect;
     if (getSprIndexMax() > 0) 

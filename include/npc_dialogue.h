@@ -5,6 +5,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+#include <game.h>
 #include <object2D.h>
 #include <sprite.h>
 

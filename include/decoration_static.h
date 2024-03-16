@@ -6,6 +6,7 @@
 #include <SDL2/SDL_image.h>
 #include <tuple>
 
+#include "game.h"
 #include "sprite.h"
 
 class DecorationStatic

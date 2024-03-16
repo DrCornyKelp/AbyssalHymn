@@ -1,6 +1,7 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 
+#include "game.h"
 #include "object2D.h"
 #include "sprite.h"
 
