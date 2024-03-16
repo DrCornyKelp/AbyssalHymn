@@ -133,13 +133,13 @@ public:
     // Method
     void playerInput();
     void playerMovement();
-    void playerTileCollision(Block *object[]);
+    void playerTileCollision(std::vector<Block> BlockVec);
     void playerNpcCollision();
     // void playerEventTrigger(EventTrigger *event[]);
 
     void playerAction();
     void playerSprite(SDL_Renderer *renderer);
-    void playerUpdate(SDL_Renderer *renderer, Block *object[]);
+    void playerUpdate(SDL_Renderer *renderer, std::vector<Block> Blockvec);
 };
 
 #endif

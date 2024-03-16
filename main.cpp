@@ -41,16 +41,16 @@ int main(int argc, char *argv[])
     Hud *hud0 = new Hud(game->getRenderer(), player0);
 
     // Block
-    Block *allBlock[4];
-    allBlock[0] = new Block(770, 330, 240, 64, false);
-    allBlock[1] = new Block(755, 480, 210, 64);
+    std::vector<Block> allBlock;
+    allBlock.push_back(Block(770, 330, 240, 64, false));
+    allBlock.push_back(Block(755, 480, 210, 64));
     // Boundary
-    allBlock[2] = new Block(-40, 800, 80, 1600);
+    allBlock.push_back(Block(-40, 800, 80, 1600));
     // Gorund
-    allBlock[3] = new Block(640, 64, 1280, 128); 
+    allBlock.push_back(Block(640, 64, 1280, 128)); 
 
-    for (Block *block : allBlock)
-        block->initBlock(game->getRenderer(), "res/WhiteSpace.png");
+    for (Block block : allBlock)
+        block.initBlock(game->getRenderer(), "res/WhiteSpace.png");
 
     // Event
     // EventTrigger *allEvent[1];

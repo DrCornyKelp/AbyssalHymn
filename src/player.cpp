@@ -458,14 +458,13 @@ void Player::playerAction()
     }
 }
 
-void Player::playerTileCollision(Block *object[])
+void Player::playerTileCollision(std::vector<Block> BlockVec)
 {
     bool on_aleast_ground = false;
     bool hug_aleast_wall = false;
 
-    for (int i = 0; i < 4; i++)
+    for (Block obj : BlockVec)
     {
-        Block *obj = object[i];
         // ==Distance with each other==
         // I don't wanna only call your name when I'm brokenhearted (yeah)
         // I already know how much you've got to lose (oh-oh, oh-oh)
@@ -492,17 +491,17 @@ void Player::playerTileCollision(Block *object[])
         // Yeah, I already know what distance can do
         // If I let you get away, bury me today
         // Yeah, I ain't gonna keep my distance from you (oh, yeah)
-        int hit_dist_x = (getHitWidth() + obj->getHitWidth()) / 2;
-        int hit_dist_y = (getHitHeight() + obj->getHitHeight()) / 2;
+        int hit_dist_x = (getHitWidth() + obj.getHitWidth()) / 2;
+        int hit_dist_y = (getHitHeight() + obj.getHitHeight()) / 2;
 
-        int colli_x = abs(getX() - obj->getX());
-        int colli_y = abs(getY() - obj->getY());
+        int colli_x = abs(getX() - obj.getX());
+        int colli_y = abs(getY() - obj.getY());
 
-        if (obj->getCollideDown()) {
+        if (obj.getCollideDown()) {
             // Hit Left wall
-            if (getX() < obj->getX() && colli_x < hit_dist_x &&
-                getY() < obj->getY() + hit_dist_y - 10 &&
-                getY() > obj->getY() - hit_dist_y + 10)
+            if (getX() < obj.getX() && colli_x < hit_dist_x &&
+                getY() < obj.getY() + hit_dist_y - 10 &&
+                getY() > obj.getY() - hit_dist_y + 10)
             {
 
                 if (vel_x < 1.5 && !on_ground)
@@ -510,11 +509,11 @@ void Player::playerTileCollision(Block *object[])
                     hug_aleast_wall = true;
                     hug_wall_left = true;
                     vel_x = 0;
-                    setX(obj->getX() - hit_dist_x + 3);
+                    setX(obj.getX() - hit_dist_x + 3);
                 }
                 else
                 {
-                    setX(obj->getX() - hit_dist_x);
+                    setX(obj.getX() - hit_dist_x);
                     vel_x = -vel_x * .5;
                 }
 
@@ -522,33 +521,33 @@ void Player::playerTileCollision(Block *object[])
             }
 
             // Hit Right wall
-            if (getX() > obj->getX() && colli_x < hit_dist_x &&
-                getY() < obj->getY() + hit_dist_y - 10 &&
-                getY() > obj->getY() - hit_dist_y + 10)
+            if (getX() > obj.getX() && colli_x < hit_dist_x &&
+                getY() < obj.getY() + hit_dist_y - 10 &&
+                getY() > obj.getY() - hit_dist_y + 10)
             {
 
                 if (vel_x > -1.5 && !on_ground)
                 {
-                    setX(obj->getX() + hit_dist_x - 3);
+                    setX(obj.getX() + hit_dist_x - 3);
                     hug_aleast_wall = true;
                     hug_wall_right = true;
                     vel_x = 0;
                 }
                 else
                 {
-                    setX(obj->getX() + hit_dist_x);
+                    setX(obj.getX() + hit_dist_x);
                     vel_x = -vel_x * .5;
                 }
                 continue;
             }
 
             // Hit ceiling
-            if (vel_y > 0 && getY() < obj->getY() &&
+            if (vel_y > 0 && getY() < obj.getY() &&
                 colli_y < hit_dist_y &&
-                (getX() < obj->getX() + hit_dist_x) &&
-                (getX() > obj->getX() - hit_dist_x)) 
+                (getX() < obj.getX() + hit_dist_x) &&
+                (getX() > obj.getX() - hit_dist_x)) 
             {
-                setY(obj->getY() - obj->getHeight() / 2 - 30);
+                setY(obj.getY() - obj.getHeight() / 2 - 30);
 
                 vel_y = -vel_y * 0.1;
                 continue;
@@ -556,11 +555,11 @@ void Player::playerTileCollision(Block *object[])
         }
 
         // Stand on block
-        if (!(!obj->getCollideDown() && getY() < obj->getY() + obj->getHitHeight()) &&
-            getY() > obj->getY() &&
+        if (!(!obj.getCollideDown() && getY() < obj.getY() + obj.getHitHeight()) &&
+            getY() > obj.getY() &&
             colli_y < hit_dist_y &&
-            (getX() < obj->getX() + hit_dist_x) &&
-            (getX() > obj->getX() - hit_dist_x)) 
+            (getX() < obj.getX() + hit_dist_x) &&
+            (getX() > obj.getX() - hit_dist_x)) 
         {
             // vel_y = 0;
             on_aleast_ground = true;
@@ -598,10 +597,10 @@ void Player::playerTileCollision(Block *object[])
 //     }
 // }
 
-void Player::playerUpdate(SDL_Renderer *renderer, Block *object[])
+void Player::playerUpdate(SDL_Renderer *renderer, std::vector<Block> BlockVec)
 {
     playerInput();
-    playerTileCollision(object);
+    playerTileCollision(BlockVec);
     // playerEventTrigger(event);
 
     playerMovement();
