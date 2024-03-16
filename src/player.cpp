@@ -216,7 +216,7 @@ void Player::playerInput()
             hug_wall_left = false;
             setX(getX() + 40);
         }
-        if (vel_x > .6)
+        if (vel_x > 1)
         {
             decel_x = 1;
             vel_x -= accel_x * 2.5;
@@ -235,7 +235,7 @@ void Player::playerInput()
             setX(getX() + 4);
         }
 
-        if (vel_x < -.6)
+        if (vel_x < -1)
         {
             decel_x = -1;
             vel_x += accel_x * 2.5;
@@ -284,13 +284,18 @@ void Player::playerInput()
     }
 
     // Air dash
-    if (state[SDL_SCANCODE_LSHIFT] && !on_ground && !hug_wall && !crawl && !g_dash &&
+    if (state[SDL_SCANCODE_LSHIFT] && !a_dash_hold && !on_ground && !hug_wall && !crawl && !g_dash &&
         !a_dash && vel_x != 0 && air_cur > 0 && !jump_hold)
     {
+        a_dash_hold = true;
         air_cur--;
 
         a_dash = true;
         vel_x = (1 + 90 / (air_max - air_cur + 6)) * (vel_x > 0 ? 1 : -1);
+    }
+    if (!state[SDL_SCANCODE_LSHIFT])
+    {
+        a_dash_hold = false;
     }
 
     // Jump held key
@@ -531,21 +536,18 @@ void Player::playerTileCollision(std::vector<Block*> BlockVec)
                 getHitY() < obj->getY() + hit_dist_y - 10 &&
                 getHitY() > obj->getY() - hit_dist_y + 10)
             {
-                if (vel_x < 1.5 && !on_ground &&
-                getY() < obj->getY() - getHitHeight() / 2)
-                {
-                    hug_aleast_wall = true;
-                    hug_wall_left = true;
-                    vel_x = 0;
-                    setX(obj->getX() - hit_dist_x + 3);
-                }
-                else
-                {
-                    setX(obj->getX() - hit_dist_x);
-                    vel_x = -vel_x * .5;
-                    act_right = 0;
-                }
+                // if (vel_x < 1.5 && !on_ground &&
+                //     getY() < obj->getY() - getHitHeight() / 2)
+                // {
+                //     hug_aleast_wall = true;
+                //     hug_wall_left = true;
+                //     vel_x = 0;
+                //     setX(obj->getX() - hit_dist_x + 3);
+                // }
 
+                setX(obj->getX() - hit_dist_x);
+                if (a_dash || g_dash) vel_x = -vel_x * .5;
+                act_right = 1;
                 continue;
             }
 
@@ -554,20 +556,18 @@ void Player::playerTileCollision(std::vector<Block*> BlockVec)
                 getHitY() < obj->getY() + hit_dist_y - 10 &&
                 getHitY() > obj->getY() - hit_dist_y + 10)
             {
-                if (vel_x > -1.5 && !on_ground &&
-                getY() < obj->getY() - getHitHeight() / 2)
-                {
-                    setX(obj->getX() + hit_dist_x - 3);
-                    hug_aleast_wall = true;
-                    hug_wall_right = true;
-                    vel_x = 0;
-                }
-                else
-                {
-                    setX(obj->getX() + hit_dist_x);
-                    vel_x = -vel_x * .5;
-                    act_right = 0;
-                }
+                // if (vel_x > -1.5 && !on_ground &&
+                // getY() < obj->getY() - getHitHeight() / 2)
+                // {
+                //     setX(obj->getX() + hit_dist_x - 3);
+                //     hug_aleast_wall = true;
+                //     hug_wall_right = true;
+                //     vel_x = 0;
+                // }
+
+                setX(obj->getX() + hit_dist_x);
+                if (a_dash || g_dash) vel_x = -vel_x * .5;
+                act_right = 0;
                 continue;
             }
 
@@ -578,13 +578,13 @@ void Player::playerTileCollision(std::vector<Block*> BlockVec)
                 if (vel_y > 0 && getHitY() < obj->getY() &&
                     colli_y < hit_dist_y)
                 {
-                    setY(obj->getY() - obj->getHeight() / 2 - 30);
+                    setY(obj->getY() - obj->getHeight() / 2 - 40 - vel_y);
                     vel_y = -vel_y * 0.1;
                     continue;
                 }
 
-                if (getY() < obj->getY() &&
-                    colli_y_stand < hit_dist_y_stand) 
+                if (on_ground && getY() < obj->getY() &&
+                    colli_y_stand < hit_dist_y_stand)
                 {
                     crawl_lock_atleast = true;
                 }

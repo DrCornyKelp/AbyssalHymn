@@ -61,6 +61,7 @@ private:
 
     // Air dash
     bool a_dash = false;
+    bool a_dash_hold = false;
     int a_dash_frame = 0;
     int a_dash_frame_max = 20;
 

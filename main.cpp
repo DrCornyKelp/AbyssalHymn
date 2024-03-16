@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
     int test = Mix_Init(0); // Initialize audio in wav format
                             // somehow other formats don't work but here's the code:
                             // wav = 0, flac = 1, mp3 = 8
-    Audio::playBGM("res/Audio/MidnightTripLofi.wav");
+    Audio::playBGM("res/Audio/UsagiFlapLofi.wav");
 
     // Player + Hud
     Player *player0 = new Player();
@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
 
     // Game loop
     float time = 0;
-    float time_max = 600;
+    float time_max = 2400;
     short dayForward = 1;
 
     // I have no fucking clue why i need this delay
@@ -132,12 +132,12 @@ int main(int argc, char *argv[])
         for (DecorationDynamic *decor : dynamicBack) 
             decor->draw(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
 
-        // // Draw block
-        for (Block *block : stage1->getBlockVec())
-            block->renderBlock(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
-        
         // Update player
         player0->playerUpdate(game->getRenderer(), stage1->getBlockVec());
+
+        // Draw block
+        for (Block *block : stage1->getBlockVec())
+            block->renderBlock(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
 
         // Draw Decoration (front)
         for (DecorationStatic *decor : staticFront)
