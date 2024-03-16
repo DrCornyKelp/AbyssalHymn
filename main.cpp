@@ -138,9 +138,9 @@ int main(int argc, char *argv[])
         for (DecorationDynamic decor : dynamicBack) 
             decor.draw(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
 
-        // Draw block
-        for (Block block : stage1->getBlockVec())
-            block.renderBlock(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
+        // // Draw block
+        // for (Block block : stage1->getBlockVec())
+        //     block.renderBlock(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
         
         // Update player
         player0->playerUpdate(game->getRenderer(), stage1->getBlockVec());

@@ -250,12 +250,12 @@ void Player::playerInput()
     // Crawling
     crawl = state[SDL_SCANCODE_S] && on_ground && !g_dash && !decel_x && g_dash_delay == 0 && abs(vel_x) < vel_x_max / 2 ;
     crawl = crawl_lock || crawl;
-    std::cout << crawl_lock << "\n";
+    // std::cout << crawl_lock << "\n";
 
-    if (crawl && state[SDL_SCANCODE_A]) {
+    if (crawl && state[SDL_SCANCODE_A] && !g_dash) {
         vel_x = -vel_crawl;
     }
-    if (crawl && state[SDL_SCANCODE_D]) {
+    if (crawl && state[SDL_SCANCODE_D] && !g_dash) {
         vel_x = vel_crawl;
     }
 
@@ -276,7 +276,7 @@ void Player::playerInput()
     }
 
     // Ground dash (more like sliding but whatever)
-    if (state[SDL_SCANCODE_LSHIFT] && on_ground && !g_dash && !a_dash && g_dash_delay == 0)
+    if (state[SDL_SCANCODE_L] && on_ground && !g_dash && !crawl_lock && !a_dash && g_dash_delay == 0)
     {
         g_dash = true;
         g_dash_delay = g_dash_delay_max * (crawl ? 1.2 : 1);
@@ -284,7 +284,7 @@ void Player::playerInput()
     }
 
     // Air dash
-    if (state[SDL_SCANCODE_LSHIFT] && !on_ground && !hug_wall && !crawl && !g_dash &&
+    if (state[SDL_SCANCODE_L] && !on_ground && !hug_wall && !crawl && !g_dash &&
         !a_dash && vel_x != 0 && air_cur > 0 && !jump_hold)
     {
         air_cur--;
@@ -294,7 +294,7 @@ void Player::playerInput()
     }
 
     // Jump held key
-    if (state[SDL_SCANCODE_SPACE] && !jump_hold && air_cur > 0 && !g_dash && !a_dash  && decel_x == 0  )
+    if (state[SDL_SCANCODE_SPACE] && !jump_hold && air_cur > 0 && !g_dash && !crawl_lock && !a_dash  && decel_x == 0)
     {
         setY(getY() + 10);
         on_ground = false;
@@ -569,37 +569,29 @@ void Player::playerTileCollision(std::vector<Block> BlockVec)
                 continue;
             }
 
-            // Hit ceiling
-            if (vel_y > 0 && getHitY() < obj.getY() &&
-                colli_y < hit_dist_y &&
-                (getHitX() < obj.getX() + hit_dist_x) &&
-                (getHitX() > obj.getX() - hit_dist_x)) 
+            // Ceiling logic
+            if ((getHitX() < obj.getX() + hit_dist_x) &&
+                (getHitX() > obj.getX() - hit_dist_x))
             {
-                setY(obj.getY() - obj.getHeight() / 2 - 30);
+                if (vel_y > 0 && getHitY() < obj.getY() &&
+                    colli_y < hit_dist_y)
+                {
+                    setY(obj.getY() - obj.getHeight() / 2 - 30);
+                    vel_y = -vel_y * 0.1;
+                    continue;
+                }
 
-                vel_y = -vel_y * 0.1;
-                continue;
-            }
-
-            // Predict Ceiling
-            // Idk how to express this in short term
-            // But basically when you ducking
-            // And ontop of you is a ceiling
-            // That make you cant stand up
-            // Then you wont be able to
-            // Exit the crawl state
-            if (!g_dash &&
-                getY() < obj.getY() &&
-                colli_y_stand < hit_dist_y_stand &&
-                (getHitX() < obj.getX() + hit_dist_x) &&
-                (getHitX() > obj.getX() - hit_dist_x)) 
-            {
-                crawl_lock_atleast = true;
+                if (getY() < obj.getY() &&
+                    colli_y_stand < hit_dist_y_stand) 
+                {
+                    crawl_lock_atleast = true;
+                }
             }
         }
 
         // Stand on block
-        if (!(!obj.getCollideDown() && getY() < obj.getY() + obj.getHitHeight()) &&
+        if (!on_aleast_ground &&
+            !(!obj.getCollideDown() && getY() < obj.getY() + obj.getHitHeight()) &&
             getHitY() > obj.getY() &&
             colli_y < hit_dist_y &&
             (getHitX() < obj.getX() + hit_dist_x) &&
@@ -607,7 +599,6 @@ void Player::playerTileCollision(std::vector<Block> BlockVec)
         {
             // vel_y = 0;
             on_aleast_ground = true;
-
             hug_wall_left = false;
             hug_wall_right = false;
             continue;
