@@ -30,6 +30,8 @@ void DecorationDynamic::draw(SDL_Renderer *renderer, int px, int py, bool focusX
         sprite_index++;
     }
     if (sprite_index >= sprite_max_index) sprite_index = 0;
+
+    std::cout << sprite_frame << "/" << sprite_max_frame << "\n";
     
     int rel_x = focusX ? offsetX + x - px : x;
     int rel_y = focusY ? offsetY + y - py : y;

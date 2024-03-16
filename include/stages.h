@@ -15,15 +15,15 @@ class Stages
 private:
 
 public:
-    std::vector<Block> BlockVec;
-    std::vector<Enemies> EnemyVec;
+    std::vector<Block*> BlockVec;
+    std::vector<Enemies*> EnemyVec;
 
     virtual void initBlocks(SDL_Renderer *renderer);
     virtual void initDecors(SDL_Renderer *renderer);
     virtual void initEnemies(SDL_Renderer *renderer);
 
-    std::vector<Block>& getBlockVec();
-    std::vector<Enemies>& getEnemyVec();
+    std::vector<Block*> getBlockVec();
+    std::vector<Enemies*> getEnemyVec();
 };
 
 #endif

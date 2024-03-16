@@ -15,12 +15,12 @@ void Stages::initEnemies(SDL_Renderer *renderer)
     std::cout << "No enemy" << "\n";
 }
 
-std::vector<Block>& Stages::getBlockVec()
+std::vector<Block*> Stages::getBlockVec()
 {
     return BlockVec;
 }
 
-std::vector<Enemies>& Stages::getEnemyVec()
-{
-    return EnemyVec;
-}
+// std::vector<Enemies*>& Stages::getEnemyVec()
+// {
+//     return EnemyVec;
+// }
