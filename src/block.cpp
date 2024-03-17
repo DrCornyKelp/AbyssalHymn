@@ -1,7 +1,7 @@
 #include "block.h"
 
 // Constructor
-Block::Block(float X, float Y, int w, int h, bool collideDown) : 
+Block::Block(float X, float Y, int w, int h, bool grid = false, bool collideDown) : 
     Object2D(X + w/2, Y + h/2, w, h, w, h), isCollideDown(collideDown)
 {}
 
