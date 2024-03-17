@@ -23,7 +23,7 @@ private:
 
 public:
     Object2D(float X, float Y, int w, int h, int hw, int hh);
-    Object2D(float X, float Y, int w, int h, int hw, int hh, int si, int sim, int sf, int sfm);
+    Object2D(float X, float Y, int w, int h, int hw, int hh, int sim, int sfm, int si, int sf);
     
     // Setters
     void setX(float X);

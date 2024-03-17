@@ -10,28 +10,21 @@
 #include "object2D.h"
 #include "sprite.h"
 
-class Decoration
+class Decoration : Object2D
 {
 private:
-    int x;
-    int y;
-    int span_x;
-    int span_y;
-    // Drawing using screen cord
-    // instead of relative player coord
     bool absolute;
-    bool front = false;
     int alpha = 255;
 
     const char *decor_path;
 
-    SDL_Texture *texture;
+    Sprite *decor_sprite;
 public:
-    Decoration(const char *dPath, int dx, int dy, int sx, int sy, bool ab);
+    Decoration(const char *dPath = "", float X = 0, float Y = 0, float w = 0, float h = 0, int sw = 0, int sh = 0, int sim = 0, int sfm = 0, int si = 0, int sf = 0, int grid = 1, bool ab = false);
 
-    void initDecoration(SDL_Renderer *renderer, const char *path);
+    void setAbs(bool ab);
+    void initDecoration(SDL_Renderer *renderer);
     void setAlpha(int a);
-    void bringToFront();
     void draw(SDL_Renderer *renderer, int px, int py, bool focusX, int offsetX, bool focusY, int offsetY);
 };
 

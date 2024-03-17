@@ -44,11 +44,9 @@ void NpcDialogue::drawNpc(SDL_Renderer *renderer, int px, int py, bool focusX, i
     // Colliding => Draw bubble
     if (abs(px - getX()) < getHitWidth() &&
         abs(py - getY()) < getHitHeight())
-    {
         alpha_cur += 10;
-    } else {
+    else 
         alpha_cur -= 10;
-    }
 
     if (alpha_cur > alpha_max) alpha_cur = alpha_max;
     if (alpha_cur < 0) alpha_cur = 0;
@@ -63,6 +61,7 @@ void NpcDialogue::drawNpc(SDL_Renderer *renderer, int px, int py, bool focusX, i
             SDL_SetTextureAlphaMod(bubble->getTexture(), alpha_cur);
         SDL_RenderCopy(renderer, bubble->getTexture(), NULL, &bDesRect);
     }
+    // =======================================================
 
     // Drawing Npc itself
     SDL_Rect nDesRect = {rel_x - getWidth() / 2, Game::HEIGHT - rel_y - getHeight() / 2,getWidth(), getHeight()};
