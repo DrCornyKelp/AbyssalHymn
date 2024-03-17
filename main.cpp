@@ -150,8 +150,8 @@ int main(int argc, char *argv[])
             block->renderBlock(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
 
         // Draw Decoration (front)
-        // for (Decoration *decor : staticFront)
-        //     decor->draw(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
+        for (Decoration *decor : staticFront)
+            decor->draw(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
         // Draw Hud
         hud0->draw(game->getRenderer());
 

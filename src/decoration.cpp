@@ -1,11 +1,8 @@
 #include "decoration.h"
 
-DecorationStatic::DecorationStatic(const char int dx, int dy, int sx, int sy, bool ab)
-{
-    x = dx; y = dy;
-    span_x = sx; span_y = sy;
-    absolute = ab;
-};
+Decoration::Decoration(const char *dPath, int dx, int dy, int sx, int sy, bool ab) :
+x(dx), y(dy), span_x(sx), span_y(sy), absolute(ab)
+{}
 
 void Decoration::initDecoration(SDL_Renderer *renderer, const char *path)
 {
@@ -14,16 +11,16 @@ void Decoration::initDecoration(SDL_Renderer *renderer, const char *path)
     delete path;
 }
 
-void DecorationStatic::setAlpha(int a)
+void Decoration::setAlpha(int a)
 {
     alpha = a;
     SDL_SetTextureAlphaMod(texture, a);
 }
-void DecorationStatic::bringToFront()
+void Decoration::bringToFront()
 {
     front = true;
 }
-void DecorationStatic::draw(SDL_Renderer *renderer, int px, int py, bool focusX, int offsetX, bool focusY, int offsetY)
+void Decoration::draw(SDL_Renderer *renderer, int px, int py, bool focusX, int offsetX, bool focusY, int offsetY)
 {
     int rel_x = focusX ? offsetX + x - px : x;
     int rel_y = focusY ? offsetY + y - py : y;

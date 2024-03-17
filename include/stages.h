@@ -7,8 +7,8 @@
 
 #include "block.h"
 #include "enemies.h"
+#include "decoration.h"
 #include "decoration_dynamic.h"
-#include "decoration_static.h"
 
 class Stages
 {
