@@ -12,7 +12,7 @@ private:
     const char *sprite_path;
     Sprite *block_sprite;
 
-    bool isMoving = false;
+    bool isMoving;
     bool isStepOn = false;
     float vel_x = 0, vel_y = 0;
 

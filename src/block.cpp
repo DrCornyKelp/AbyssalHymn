@@ -53,8 +53,9 @@ float Block::getVelY()
 
 void Block::updateBlock(SDL_Renderer *renderer, int px, int py, bool focusX, int offsetX, bool focusY, int offsetY)
 {
-    if (isMoving)
+    if (vel_x != 0 || vel_y != 0)
     {
+        isMoving = true;
         setX(getX() + vel_x);
         setY(getY() + vel_y);
     }
