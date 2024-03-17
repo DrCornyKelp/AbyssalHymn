@@ -12,7 +12,7 @@
 #include "player.h"
 #include "block.h"
 #include "decoration_dynamic.h"
-#include "decoration_static.h"
+#include "decoration.h"
 // #include "event_trigger.h"
 #include "hud.h"
 #include "audio.h"
@@ -53,31 +53,35 @@ int main(int argc, char *argv[])
     // });
 
     // DECORATION
-    std::vector<DecorationStatic*> staticBack;
-    staticBack.push_back(new DecorationStatic(game->getRenderer(), "res/DayNight/Day.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true));
-    staticBack.push_back(new DecorationStatic(game->getRenderer(), "res/DayNight/Night.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true));
+    std::vector<Decoration*> staticBack;
+    staticBack.push_back(new Decoration("res/DayNight/Day.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true));
+    staticBack.push_back(new Decoration("res/DayNight/Night.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true));
     staticBack[1]->setAlpha(0);
-    staticBack.push_back(new DecorationStatic(game->getRenderer(), "res/Background/MountainDay.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true));
-    staticBack.push_back(new DecorationStatic(game->getRenderer(), "res/Background/MountainNight.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true));
+    staticBack.push_back(new Decoration("res/Background/MountainDay.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true));
+    staticBack.push_back(new Decoration("res/Background/MountainNight.png", 0, 0, game->getWIDTH(), game->getHEIGHT(), true));
     staticBack[3]->setAlpha(0);
-    staticBack.push_back(new DecorationStatic(game->getRenderer(), "res/Decoration/House1.png", 550, 510, 1000, 770, false));
-    staticBack.push_back(new DecorationStatic(game->getRenderer(), "res/Decoration/House1Dark.png", 550, 510, 1000, 770, false));
+    staticBack.push_back(new Decoration("res/Decoration/House1.png", 550, 510, 1000, 770, false));
+    staticBack.push_back(new Decoration("res/Decoration/House1Dark.png", 550, 510, 1000, 770, false));
     staticBack[5]->setAlpha(0);
     // =====================================================
     std::vector<DecorationDynamic*> dynamicBack;
     dynamicBack.push_back(new DecorationDynamic(game->getRenderer(), "res/Fire.png", 1100, 342, 74, 154, 10, 8, 1, false));
     // =====================================================
     // Map Decoration
-    std::vector<DecorationStatic*> staticFront;
-    staticFront.push_back(new DecorationStatic(game->getRenderer(), "res/BlockTile/Grass1.png", 634, 78, 1300, 196, false));
-    staticFront.push_back(new DecorationStatic(game->getRenderer(), "res/BlockTile/Grass2.png", 1100, 212, 240, 80, false));
-    staticFront.push_back(new DecorationStatic(game->getRenderer(), "res/BlockTile/Tree1.png", 1700, 736, 276, 320, false));
-    staticFront.push_back(new DecorationStatic(game->getRenderer(), "res/BlockTile/Bridge1.png", 1270, 500, 362, 64, false));
-    staticFront.push_back(new DecorationStatic(game->getRenderer(), "res/BlockTile/Grass3.png", 1880, 320, 880, 640, false));
+    std::vector<Decoration*> staticFront;
+    staticFront.push_back(new Decoration("res/BlockTile/Grass1.png", 634, 78, 1300, 196, false));
+    staticFront.push_back(new Decoration("res/BlockTile/Grass2.png", 1100, 212, 240, 80, false));
+    staticFront.push_back(new Decoration("res/BlockTile/Tree1.png", 1700, 736, 276, 320, false));
+    staticFront.push_back(new Decoration("res/BlockTile/Bridge1.png", 1270, 500, 362, 64, false));
+    staticFront.push_back(new Decoration("res/BlockTile/Grass3.png", 1880, 320, 880, 640, false));
+    
     // NPCS DIALOGUE
     std::vector<NpcDialogue *> npcs;
-    npcs.push_back(new NpcDialogue(920, 190, 128, 128, 200, 200, 480, 225, 32, 32, 4, 25, 0, 0, 230));
-    npcs[0]->initNpc(game->getRenderer(), "res/NpcDialogue/Npc2/Squid.png", "res/NpcDialogue/Npc2/DemoNakuBubble1.png");
+    npcs.push_back(new NpcDialogue("res/NpcDialogue/Npc2/Squid.png", "res/NpcDialogue/Npc2/DemoNakuBubble1.png",
+                                    920, 190, 128, 128, 200, 200, 480, 225, 32, 32, 4, 25, 0, 0, 230));
+    
+    for (NpcDialogue *npc : npcs)
+        npc->initNpc(game->getRenderer());
 
     // Game loop
     float time = 0;
@@ -130,7 +134,7 @@ int main(int argc, char *argv[])
         SDL_RenderClear(game->getRenderer());
 
         // Draw Decoration (back)
-        for (DecorationStatic *decor : staticBack)
+        for (Decoration *decor : staticBack)
             decor->draw(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
         for (DecorationDynamic *decor : dynamicBack) 
             decor->draw(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
@@ -146,7 +150,7 @@ int main(int argc, char *argv[])
             block->renderBlock(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
 
         // Draw Decoration (front)
-        // for (DecorationStatic *decor : staticFront)
+        // for (Decoration *decor : staticFront)
         //     decor->draw(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
         // Draw Hud
         hud0->draw(game->getRenderer());

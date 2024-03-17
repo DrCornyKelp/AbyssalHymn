@@ -15,7 +15,7 @@ void Stage1::initBlocks(SDL_Renderer *renderer)
     // BlockVec.push_back(new Block(-40, 800, 80, 1600));
     // Ground
     // BlockVec.push_back(new Block(500, 100, 1000, 100));
-    BlockVec.push_back(new Block(0, 0, 1280, 128));
+    BlockVec.push_back(new Block("res/Grass.png", 0, 0, 10, 1, 128));
 
     // BlockVec.push_back(new Block(1150, 125, 300, 150));
     // BlockVec.push_back(new Block(1450, 200, 300, 100));
@@ -32,7 +32,7 @@ void Stage1::initBlocks(SDL_Renderer *renderer)
 
 
     for (Block *block : BlockVec)
-        block->initBlock(renderer, "res/Grass.png");
+        block->initBlock(renderer);
 }
 
 void Stage1::initDecors(SDL_Renderer *renderer)

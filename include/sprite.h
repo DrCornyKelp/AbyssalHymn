@@ -19,6 +19,7 @@ private:
 public:
     Sprite(int sw, int sh, float dr, const char *spritePath);
 
+    void setSpritePath(const char *sp);
     const char *getSpritePath();
 
     void setTexture(SDL_Texture *texture);

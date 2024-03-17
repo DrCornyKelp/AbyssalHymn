@@ -9,17 +9,16 @@ class Block : public Object2D
 {
 private:
     // Sprite handler
-    const char *spritePath;
-
-    Sprite *blockSprite;
+    const char *sprite_path;
+    Sprite *block_sprite;
 
     bool isBlock = true;
     bool isCollideDown = true;
 
 public:
     // using::Object2D; // Allow direct usage of Object2D's contructor
-    Block(float X = 0, float Y = 0, int w = 64, int h = 64, bool grid = false, bool collideDown = true);
-    void initBlock(SDL_Renderer *renderer, const char* path);
+    Block(const char* sPath, float X = 0, float Y = 0, float w = 64, float h = 64, int grid = 32, bool collideDown = true);
+    void initBlock(SDL_Renderer *renderer);
 
     bool getCollideDown();
 

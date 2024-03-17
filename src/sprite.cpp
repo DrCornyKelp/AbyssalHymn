@@ -7,6 +7,11 @@ Sprite::Sprite(int sw, int sh, float dr, const char *sPath) :
     display_ratio(dr)
 {}
 
+void Sprite::setSpritePath(const char *sp)
+{
+    sprite_path = sp;
+}
+
 const char *Sprite::getSpritePath()
 {
     return sprite_path;
@@ -15,6 +20,7 @@ const char *Sprite::getSpritePath()
 void Sprite::setTexture(SDL_Texture *texture)
 {
     spriteTexture = texture;
+    delete sprite_path;
 }
 
 SDL_Texture *Sprite::getTexture()

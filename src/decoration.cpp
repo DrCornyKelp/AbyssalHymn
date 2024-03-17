@@ -1,14 +1,18 @@
-#include "decoration_static.h"
+#include "decoration.h"
 
-DecorationStatic::DecorationStatic(SDL_Renderer *renderer, const char *path, int dx, int dy, int sx, int sy, bool ab)
+DecorationStatic::DecorationStatic(const char int dx, int dy, int sx, int sy, bool ab)
 {
-    texture = Sprite::loadTexture(renderer, path);
-    SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
-
     x = dx; y = dy;
     span_x = sx; span_y = sy;
     absolute = ab;
 };
+
+void Decoration::initDecoration(SDL_Renderer *renderer, const char *path)
+{
+    SDL_Texture *texture = Sprite::loadTexture(renderer, path);
+    SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+    delete path;
+}
 
 void DecorationStatic::setAlpha(int a)
 {
