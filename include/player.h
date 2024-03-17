@@ -48,8 +48,8 @@ private:
     int decel_x = 0; // 0: none, -1: LEFT, 1: RIGHT
 
     // "Airborne" movement
-    int air_cur = 5;
-    int air_max = 2;
+    int air_cur = 3;
+    int air_max = 3;
 
     // Jumping
     bool jump_hold = false;
