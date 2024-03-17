@@ -15,7 +15,7 @@ void Stage1::initBlocks(SDL_Renderer *renderer)
     BlockVec.push_back(new Block(-40, 800, 80, 1600));
     // Ground
     BlockVec.push_back(new Block(500, 100, 1000, 100));
-    BlockVec.push_back(new Block(6400, 32, 12800, 64));
+    BlockVec.push_back(new Block(5000, 32, 10000, 64));
 
     BlockVec.push_back(new Block(1150, 125, 300, 150));
     BlockVec.push_back(new Block(1450, 200, 300, 100));
