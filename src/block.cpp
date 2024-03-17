@@ -47,7 +47,6 @@ void Block::updateBlock(SDL_Renderer *renderer, int px, int py, bool focusX, int
 {
     if (isMoving)
     {
-        std::cout << vel_x << "\n";
         setX(getX() + vel_x);
         setY(getY() + vel_y);
     }

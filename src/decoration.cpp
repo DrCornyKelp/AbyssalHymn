@@ -4,9 +4,7 @@ Decoration::Decoration(const char *dPath, float X, float Y, float w, float h, in
     Object2D((X + w/2)*grid, (Y + h/2)*grid, w*grid, h*grid, sw*grid, sh*grid, sim, sfm, si, sf),
     decor_path(dPath), absolute(ab),
     sprite_width(sw), sprite_height(sh)
-{
-    std::cout << dPath << " " << getSprIndex() << " " << getSprFrame() << "\n";
-}
+{}
 
 void Decoration::setAbs(bool ab)
 {

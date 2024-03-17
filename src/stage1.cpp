@@ -27,9 +27,9 @@ void Stage1::initBlocks(SDL_Renderer *renderer)
     BlockVec.push_back(new Block("res/BlockTile/Test.png", 32, 2, 5, 4, 64));
 
     // Test 28 - 30
-    BlockVec.push_back(new Block("res/BlockTile/x64/GrassCorner1.png", 14, 4, 1, 1, 64, true));
-    BlockVec.push_back(new Block("res/BlockTile/x64/Grass.png", 15, 4, 1, 1, 64, true));
-    BlockVec.push_back(new Block("res/BlockTile/x64/GrassCorner2.png", 16, 4, 1, 1, 64, true));
+    BlockVec.push_back(new Block("res/BlockTile/x64/GrassCorner1.png", 14, 6, 1, 1, 64, true));
+    BlockVec.push_back(new Block("res/BlockTile/x64/Grass.png", 15, 6, 1, 1, 64, true));
+    BlockVec.push_back(new Block("res/BlockTile/x64/GrassCorner2.png", 16, 6, 1, 1, 64, true));
 
 
     for (int i = 0; i < 200; i++)
