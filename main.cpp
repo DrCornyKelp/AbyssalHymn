@@ -77,8 +77,8 @@ int main(int argc, char *argv[])
     staticFront.push_back(new DecorationStatic(game->getRenderer(), "res/BlockTile/Grass3.png", 1880, 320, 880, 640, false));
     // NPCS DIALOGUE
     std::vector<NpcDialogue *> npcs;
-    npcs.push_back(new NpcDialogue(920, 166, 128, 128, 200, 200, 192, 90, 32, 32, 2, 100));
-    npcs[0]->initNpc(game->getRenderer(), "res/NpcDialogue/Npc1/DemoNaku.png", "res/NpcDialogue/Npc1/DemoNakuBubble2.png");
+    npcs.push_back(new NpcDialogue(920, 236, 128, 128, 200, 200, 480, 270, 32, 32, 2, 100, 0, 0, 230));
+    npcs[0]->initNpc(game->getRenderer(), "res/NpcDialogue/Npc1/DemoNaku.png", "res/NpcDialogue/Npc1/Hitsui.jpg");
 
     // Game loop
     float time = 0;
@@ -142,13 +142,13 @@ int main(int argc, char *argv[])
         // Update player
         player0->playerUpdate(game->getRenderer(), stage1->getBlockVec());
 
-        // // Draw block
+        // Draw block
         for (Block *block : stage1->getBlockVec())
             block->renderBlock(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
 
         // Draw Decoration (front)
-        for (DecorationStatic *decor : staticFront)
-            decor->draw(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
+        // for (DecorationStatic *decor : staticFront)
+        //     decor->draw(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
         // Draw Hud
         hud0->draw(game->getRenderer());
 

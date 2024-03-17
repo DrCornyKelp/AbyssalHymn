@@ -22,6 +22,14 @@ private:
     int sta = 2;
     int sta_max = 2;
 
+    // Moveset availability
+    bool can_move = true;
+    bool can_jump = true;
+    bool can_a_dash = true;
+    bool can_g_dash = true;
+    bool can_crawl = true;
+    bool can_hug_wall = true;
+
     // Ground movement
     float vel_x = 0;
     float vel_x_max = 5;
@@ -61,6 +69,9 @@ private:
     // SUPER JUMPING
     int jump_super = 0;
     int jump_super_max = 80;
+    // Ceiling Knockout
+    int ceiling_knockout = 0;
+    int ceiling_knockout_delay = 50;
 
     // Air dash
     bool a_dash = false;

@@ -2,14 +2,34 @@
 
 void Stage1::initBlocks(SDL_Renderer *renderer)
 {
+    // // Boundary
+    // BlockVec.push_back(new Block(-40, 800, 80, 1600));
+    // // Gorund
+    // BlockVec.push_back(new Block(640, 64, 1280, 128));
+    // BlockVec.push_back(new Block(1100, 212, 240, 80));
+    // BlockVec.push_back(new Block(1880, 260, 880, 640));
+    // // Nridge
+    // BlockVec.push_back(new Block(1280, 475, 362, 16));
+    
     // Boundary
     BlockVec.push_back(new Block(-40, 800, 80, 1600));
-    // Gorund
-    BlockVec.push_back(new Block(640, 64, 1280, 128));
-    BlockVec.push_back(new Block(1100, 212, 240, 80));
-    BlockVec.push_back(new Block(1880, 260, 880, 640));
-    // Nridge
-    BlockVec.push_back(new Block(1280, 475, 362, 10));
+    // Ground
+    BlockVec.push_back(new Block(640, 128, 1280, 128));
+    BlockVec.push_back(new Block(6400, 32, 12800, 64));
+
+    BlockVec.push_back(new Block(1280, 128, 300, 150));
+    BlockVec.push_back(new Block(1280 + 320, 224, 300, 100));
+    BlockVec.push_back(new Block(1280 + 320, 224, 300, 200));
+    BlockVec.push_back(new Block(2050, 225, 300, 250));
+
+    BlockVec.push_back(new Block(2500, 350, 100, 50));
+    BlockVec.push_back(new Block(2900, 350, 100, 50));
+    BlockVec.push_back(new Block(3500, 350, 100, 50));
+
+    BlockVec.push_back(new Block(4000, 275, 200, 2*150));
+    BlockVec.push_back(new Block(4200, 525, 200, 100));
+    BlockVec.push_back(new Block(4350, 275, 200, 300));
+
 
     for (Block *block : BlockVec)
         block->initBlock(renderer, "res/Grass.png");
