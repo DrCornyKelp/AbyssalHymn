@@ -77,8 +77,8 @@ int main(int argc, char *argv[])
     staticFront.push_back(new DecorationStatic(game->getRenderer(), "res/BlockTile/Grass3.png", 1880, 320, 880, 640, false));
     // NPCS DIALOGUE
     std::vector<NpcDialogue *> npcs;
-    npcs.push_back(new NpcDialogue(920, 236, 128, 128, 200, 200, 480, 270, 32, 32, 2, 100, 0, 0, 230));
-    npcs[0]->initNpc(game->getRenderer(), "res/NpcDialogue/Npc1/DemoNaku.png", "res/NpcDialogue/Npc1/Hitsui.jpg");
+    npcs.push_back(new NpcDialogue(920, 190, 128, 128, 200, 200, 480, 225, 32, 32, 2, 100, 0, 0, 230));
+    npcs[0]->initNpc(game->getRenderer(), "res/NpcDialogue/Npc1/DemoNaku.png", "res/NpcDialogue/Npc1/DemoNakuBubble1.png");
 
     // Game loop
     float time = 0;
