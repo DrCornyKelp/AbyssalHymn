@@ -612,7 +612,6 @@ void Player::playerTileCollision(std::vector<Block*> BlockVec)
 
         // Stand on block
         if (!on_aleast_ground &&
-            !(!obj->getCollideDown() && getY() < obj->getY() + obj->getHitHeight()) &&
             getHitY() > obj->getY() &&
             colli_y < hit_dist_y &&
             (getHitX() < obj->getX() + hit_dist_x) &&

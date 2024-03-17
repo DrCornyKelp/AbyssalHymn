@@ -66,19 +66,19 @@ int main(int argc, char *argv[])
     staticBack[5]->setAlpha(0);
     // =====================================================
     std::vector<DecorationDynamic*> dynamicBack;
-    dynamicBack.push_back(new DecorationDynamic(game->getRenderer(), "res/Fire.png", 1100, 470, 74, 154, 10, 8, 1, false));
+    dynamicBack.push_back(new DecorationDynamic(game->getRenderer(), "res/Fire.png", 1100, 342, 74, 154, 10, 8, 1, false));
     // =====================================================
     // Map Decoration
     std::vector<DecorationStatic*> staticFront;
-    staticFront.push_back(new DecorationStatic(game->getRenderer(), "res/BlockTile/Grass1.png", 650, 78, 1300, 196, false));
-    staticFront.push_back(new DecorationStatic(game->getRenderer(), "res/BlockTile/Grass2.png", 1100, 340, 240, 80, false));
+    staticFront.push_back(new DecorationStatic(game->getRenderer(), "res/BlockTile/Grass1.png", 634, 78, 1300, 196, false));
+    staticFront.push_back(new DecorationStatic(game->getRenderer(), "res/BlockTile/Grass2.png", 1100, 212, 240, 80, false));
     staticFront.push_back(new DecorationStatic(game->getRenderer(), "res/BlockTile/Tree1.png", 1700, 736, 276, 320, false));
+    staticFront.push_back(new DecorationStatic(game->getRenderer(), "res/BlockTile/Bridge1.png", 1270, 500, 362, 64, false));
     staticFront.push_back(new DecorationStatic(game->getRenderer(), "res/BlockTile/Grass3.png", 1880, 320, 880, 640, false));
-
     // NPCS DIALOGUE
     std::vector<NpcDialogue *> npcs;
-    npcs.push_back(new NpcDialogue(200, 166, 128, 128, 200, 200, 200, 80, 32, 32, 2, 100));
-    npcs[0]->initNpc(game->getRenderer(), "res/NpcDialogue/Npc1/DemoNaku.png", "res/NpcDialogue/Npc1/DemoNakuBubble.png");
+    npcs.push_back(new NpcDialogue(920, 166, 128, 128, 200, 200, 192, 90, 32, 32, 2, 100));
+    npcs[0]->initNpc(game->getRenderer(), "res/NpcDialogue/Npc1/DemoNaku.png", "res/NpcDialogue/Npc1/DemoNakuBubble2.png");
 
     // Game loop
     float time = 0;
@@ -143,8 +143,8 @@ int main(int argc, char *argv[])
         player0->playerUpdate(game->getRenderer(), stage1->getBlockVec());
 
         // // Draw block
-        // for (Block *block : stage1->getBlockVec())
-        //     block->renderBlock(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
+        for (Block *block : stage1->getBlockVec())
+            block->renderBlock(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
 
         // Draw Decoration (front)
         for (DecorationStatic *decor : staticFront)
