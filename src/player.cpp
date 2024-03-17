@@ -1,8 +1,7 @@
 #include "player.h"
 
 // Constructor
-Player::Player(float X, float Y, int w, int h, int hw, int hh, int sim, int sfm, int si, int sf) : 
-    Object2D(X, Y, w, h, hw, hh, sim, sfm, si, sf) {}
+Player::Player(float X, float Y, int w, int h, int hw, int hh, int sim, int sfm, int si, int sf) : Object2D(X, Y, w, h, hw, hh, sim, sfm, si, sf) {}
 
 // Fuck her 2nite
 void Player::initPlayer(SDL_Renderer *renderer)
@@ -18,14 +17,14 @@ void Player::initPlayer(SDL_Renderer *renderer)
     hitbox = new Sprite(100, 100, 1, "res/HitboxMyass.png");
     hitbox->setTexture(Sprite::loadTexture(renderer, hitbox->getSpritePath()));
 
-    setFocusXCondition([](int x, int y) {
+    setFocusXCondition([](int x, int y)
+                       {
         if (x > Game::WIDTH / 2) FocusReturn(Game::WIDTH / 2, true);
-        FocusReturn(0, false);
-    });
-    setFocusYCondition([](int x, int y) {
+        FocusReturn(0, false); });
+    setFocusYCondition([](int x, int y)
+                       {
         if (y > Game::HEIGHT / 2) FocusReturn(Game::HEIGHT / 2, true);
-        FocusReturn(0, false);
-    });
+        FocusReturn(0, false); });
 
     // Testing out the invinsibility and stuff
     setSpriteAlpha(255);
@@ -57,7 +56,8 @@ void Player::setSprite(int m_index, int m_frame)
 
 void Player::setSpriteAlpha(int alpha)
 {
-    if (sprite_alpha != alpha) {
+    if (sprite_alpha != alpha)
+    {
         sprite_alpha = alpha;
         SDL_SetTextureAlphaMod(PlayerLeft->getTexture(), alpha);
         SDL_SetTextureAlphaMod(PlayerRight->getTexture(), alpha);
@@ -75,12 +75,12 @@ void Player::setEndLock(bool lock)
 }
 
 void Player::setFocusXCondition(FocusXCondition fcond)
-{   
+{
     fxcondition = fcond;
 }
 
 void Player::setFocusYCondition(FocusYCondition fcond)
-{   
+{
     fycondition = fcond;
 }
 
@@ -187,7 +187,8 @@ void Player::playerSprite(SDL_Renderer *renderer)
     int drawX = focus_x ? Game::WIDTH / 2 : getX();
     int drawY = focus_y ? Game::HEIGHT / 2 : Game::HEIGHT - getY();
 
-    if (display_hitbox) {
+    if (display_hitbox)
+    {
         int drawHitX = focus_x ? Game::WIDTH / 2 - hit_offset_x : getHitX();
         int drawHitY = focus_y ? Game::HEIGHT / 2 - hit_offset_y : Game::HEIGHT - getHitY();
         SDL_Rect hitRect = {drawHitX - getHitWidth() / 2, drawHitY - getHitHeight() / 2, getHitWidth(), getHitHeight()};
@@ -252,14 +253,16 @@ void Player::playerInput()
     }
 
     // Crawling
-    crawl = can_crawl && state[SDL_SCANCODE_S] && on_ground && !g_dash && !decel_x && !g_dash_delay && abs(vel_x) < vel_x_max / 2 ;
+    crawl = can_crawl && state[SDL_SCANCODE_S] && on_ground && !g_dash && !decel_x && !g_dash_delay && abs(vel_x) < vel_x_max / 2;
     crawl = crawl_lock || crawl;
     // std::cout << crawl_lock << "\n";
 
-    if (crawl && state[SDL_SCANCODE_A] && !g_dash) {
+    if (crawl && state[SDL_SCANCODE_A] && !g_dash)
+    {
         vel_x = -vel_crawl;
     }
-    if (crawl && state[SDL_SCANCODE_D] && !g_dash) {
+    if (crawl && state[SDL_SCANCODE_D] && !g_dash)
+    {
         vel_x = vel_crawl;
     }
 
@@ -300,8 +303,7 @@ void Player::playerInput()
         a_dash_hold = false;
 
     // Jump held key
-    if (can_jump && state[SDL_SCANCODE_SPACE] && !jump_hold && (air_cur > 0 || hug_wall)
-        && !g_dash && !a_dash && !decel_x && !crawl_lock && !ceiling_knockout)
+    if (can_jump && state[SDL_SCANCODE_SPACE] && !jump_hold && (air_cur > 0 || hug_wall) && !g_dash && !a_dash && !decel_x && !crawl_lock && !ceiling_knockout)
     {
         setY(getY() + 10);
         on_ground = false;
@@ -312,7 +314,8 @@ void Player::playerInput()
         accel_y = accel_hold;
 
         // Wall jump
-        if (!hug_wall) air_cur--;
+        if (!hug_wall)
+            air_cur--;
         if (hug_wall_left)
         {
             vel_x = -10;
@@ -325,7 +328,7 @@ void Player::playerInput()
             vel_y = 4;
             setX(getX() + getHitWidth() / 2);
         }
-        
+
         hug_wall_left = false;
         hug_wall_right = false;
 
@@ -337,7 +340,7 @@ void Player::playerInput()
         jump_hold = false;
         accel_y = accel_tap;
     }
-    
+
     // ===============EXPERIMENTATION input===============
     display_hitbox = state[SDL_SCANCODE_H];
 }
@@ -346,7 +349,8 @@ void Player::playerMovement()
 {
     vel_x_max = on_ground ? vel_x_max_ground : vel_x_max_air;
     // Cap X velocity
-    if (!g_dash && !a_dash) {
+    if (!g_dash && !a_dash)
+    {
         if (vel_x < -vel_x_max)
             vel_x = -vel_x_max;
         if (vel_x > vel_x_max)
@@ -356,26 +360,37 @@ void Player::playerMovement()
     setX(getX() + vel_x);
 
     // Vertigo is a bad map
-    if (vel_y < 0) accel_y = accel_tap;
+    if (vel_y < 0)
+        accel_y = accel_tap;
 
-    if (on_ground) {
+    if (on_ground)
+    {
         vel_y = 0;
-    } else if (hug_wall_left || hug_wall_right) {
+    }
+    else if (hug_wall_left || hug_wall_right)
+    {
         vel_y = -1;
-    } else {
+    }
+    else
+    {
         vel_y -= accel_y;
     }
     // Terminal Velocity
-    if (vel_y <= -vel_terminal) {
+    if (vel_y <= -vel_terminal)
+    {
         vel_y = -vel_terminal;
     }
     // Air Dashing
-    if (a_dash) vel_y = 0;
+    if (a_dash)
+        vel_y = 0;
 
     // Ground Stuff
-    if (crawl && vel_x == 0) {
+    if (crawl && vel_x == 0)
+    {
         jump_super += jump_super < jump_super_max;
-    } else {
+    }
+    else
+    {
         jump_super = 0;
     }
 
@@ -404,15 +419,18 @@ void Player::playerMovement()
     }
 
     // Ceiling knock out
-    if (ceiling_knockout > 0) ceiling_knockout--;
+    if (ceiling_knockout > 0)
+        ceiling_knockout--;
 
-    if (on_ground) {
+    if (on_ground)
+    {
         air_cur = air_max;
     }
 
     setY(getY() + vel_y);
 
-    if (getY() < 0) {
+    if (getY() < 0)
+    {
         setX(640);
         setY(200);
     }
@@ -423,7 +441,8 @@ void Player::playerMovement()
 
 void Player::playerAction()
 {
-    act_right = vel_x > .2 ? 1 : vel_x < -.2 ? 0 : act_right;
+    act_right = vel_x > .2 ? 1 : vel_x < -.2 ? 0
+                                             : act_right;
     if (abs(vel_x) <= .2)
     {
         // Idling
@@ -477,7 +496,8 @@ void Player::playerAction()
     }
 
     // Crawl
-    if (crawl) {
+    if (crawl)
+    {
         setAct(6, act_right);
 
         setSprite((abs(vel_x) > 0 ? 4 : 1), 8);
@@ -491,7 +511,7 @@ void Player::playerAction()
     }
 }
 
-void Player::playerTileCollision(std::vector<Block*> BlockVec)
+void Player::playerTileCollision(std::vector<Block *> BlockVec)
 {
     bool on_aleast_ground = false;
     bool hug_aleast_wall = false;
@@ -509,7 +529,6 @@ void Player::playerTileCollision(std::vector<Block*> BlockVec)
         setHitHeight(40);
         hit_offset_y = -20;
     }
-
 
     for (Block *obj : BlockVec)
     {
@@ -547,71 +566,71 @@ void Player::playerTileCollision(std::vector<Block*> BlockVec)
         int colli_y = abs(getHitY() - obj->getY());
         int colli_y_stand = abs(getY() - obj->getY());
 
-        if (obj->getCollideDown()) {
-            // Hit Left wall
-            if (getHitX() < obj->getX() && colli_x < hit_dist_x &&
-                getHitY() < obj->getY() + hit_dist_y - 10 &&
-                getHitY() > obj->getY() - hit_dist_y + 10)
+        // Hit Left wall
+        if (getHitX() < obj->getX() && colli_x < hit_dist_x &&
+            getHitY() < obj->getY() + hit_dist_y - 10 &&
+            getHitY() > obj->getY() - hit_dist_y + 10)
+        {
+            if (can_hug_wall && !on_ground && !a_dash)
             {
-                if (can_hug_wall && !on_ground && !a_dash)
-                {
-                    // std::cout << "HUG LEFT \n";
-                    hug_aleast_wall = true;
-                    hug_wall_left = true;
-                    vel_x = 0;
-                    setX(obj->getX() - hit_dist_x + 3);
-                }
-                else
-                {
-                    setX(obj->getX() - hit_dist_x);
-                    if (a_dash || g_dash) vel_x = -vel_x * .5;
-                    act_right = 1;
-                }
-                
-                continue;
+                // std::cout << "HUG LEFT \n";
+                hug_aleast_wall = true;
+                hug_wall_left = true;
+                vel_x = 0;
+                setX(obj->getX() - hit_dist_x + 3);
+            }
+            else
+            {
+                setX(obj->getX() - hit_dist_x);
+                if (a_dash || g_dash)
+                    vel_x = -vel_x * .5;
+                act_right = 1;
             }
 
-            // Hit Right wall
-            if (getHitX() > obj->getX() && colli_x < hit_dist_x &&
-                getHitY() < obj->getY() + hit_dist_y - 10 &&
-                getHitY() > obj->getY() - hit_dist_y + 10)
+            continue;
+        }
+
+        // Hit Right wall
+        if (getHitX() > obj->getX() && colli_x < hit_dist_x &&
+            getHitY() < obj->getY() + hit_dist_y - 10 &&
+            getHitY() > obj->getY() - hit_dist_y + 10)
+        {
+            if (can_hug_wall && !on_ground && !a_dash)
             {
-                if (can_hug_wall && !on_ground && !a_dash)
-                {
-                    // std::cout << "HUG Right \n";
-                    setX(obj->getX() + hit_dist_x - 3);
-                    hug_aleast_wall = true;
-                    hug_wall_right = true;
-                    vel_x = 0;
-                }
-                else {
-                    setX(obj->getX() + hit_dist_x);
-                if (a_dash || g_dash) vel_x = -vel_x * .5;
+                // std::cout << "HUG Right \n";
+                setX(obj->getX() + hit_dist_x - 3);
+                hug_aleast_wall = true;
+                hug_wall_right = true;
+                vel_x = 0;
+            }
+            else
+            {
+                setX(obj->getX() + hit_dist_x);
+                if (a_dash || g_dash)
+                    vel_x = -vel_x * .5;
                 act_right = 0;
-                }
+            }
 
-                
+            continue;
+        }
+
+        // Ceiling logic
+        if ((getHitX() < obj->getX() + hit_dist_x) &&
+            (getHitX() > obj->getX() - hit_dist_x))
+        {
+            if (vel_y > 0 && getHitY() < obj->getY() &&
+                colli_y < hit_dist_y - vel_y)
+            {
+                ceiling_knockout = ceiling_knockout_delay;
+                setY(obj->getY() - obj->getHeight() / 2 - 40 - vel_y);
+                vel_y = -vel_y * 0.1;
                 continue;
             }
 
-            // Ceiling logic
-            if ((getHitX() < obj->getX() + hit_dist_x) &&
-                (getHitX() > obj->getX() - hit_dist_x))
+            if (on_ground && getY() < obj->getY() &&
+                colli_y_stand < hit_dist_y_stand)
             {
-                if (vel_y > 0 && getHitY() < obj->getY() &&
-                    colli_y < hit_dist_y - vel_y)
-                {
-                    ceiling_knockout = ceiling_knockout_delay;
-                    setY(obj->getY() - obj->getHeight() / 2 - 40 - vel_y);
-                    vel_y = -vel_y * 0.1;
-                    continue;
-                }
-
-                if (on_ground && getY() < obj->getY() &&
-                    colli_y_stand < hit_dist_y_stand)
-                {
-                    crawl_lock_atleast = true;
-                }
+                crawl_lock_atleast = true;
             }
         }
 
@@ -620,8 +639,9 @@ void Player::playerTileCollision(std::vector<Block*> BlockVec)
             getHitY() > obj->getY() &&
             colli_y < hit_dist_y &&
             (getHitX() < obj->getX() + hit_dist_x) &&
-            (getHitX() > obj->getX() - hit_dist_x)) 
+            (getHitX() > obj->getX() - hit_dist_x))
         {
+            if (obj->getMoving()) setX(getX() + obj->getVelX());
             // vel_y = 0;
             on_aleast_ground = true;
             hug_wall_left = false;
@@ -649,14 +669,14 @@ void Player::playerTileCollision(std::vector<Block*> BlockVec)
 //         int hit_dist_x = (getHitWidth() + eve->getHitWidth()) / 2;
 //         int hit_dist_y = (getHitHeight() + eve->getHitHeight()) / 2;
 
-//         if (colli_x < hit_dist_x && colli_y < hit_dist_y) 
+//         if (colli_x < hit_dist_x && colli_y < hit_dist_y)
 //         {
 //             eve->triggerEvent(1);
 //         }
 //     }
 // }
 
-void Player::playerUpdate(SDL_Renderer *renderer, std::vector<Block*> BlockVec)
+void Player::playerUpdate(SDL_Renderer *renderer, std::vector<Block *> BlockVec)
 {
     playerInput();
     playerMovement();

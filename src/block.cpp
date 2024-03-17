@@ -1,10 +1,10 @@
 #include "block.h"
 
 // Constructor
-Block::Block(const char* sPath, float X, float Y, float w, float h, int grid, bool collideDown) : 
+Block::Block(const char* sPath, float X, float Y, float w, float h, int grid, bool moving) : 
     Object2D((X + w/2) * grid, (Y + h/2) * grid,
             w * grid, h * grid, w * grid, h * grid),
-    isCollideDown(collideDown), sprite_path(sPath)
+    sprite_path(sPath), isMoving(moving)
 {}
 
 void Block::initBlock(SDL_Renderer *renderer)
@@ -15,13 +15,43 @@ void Block::initBlock(SDL_Renderer *renderer)
     delete sprite_path;
 }
 
-bool Block::getCollideDown()
+// Setter
+void Block::setMoving(bool move)
 {
-    return isCollideDown;
+    isMoving = move;
+}
+void Block::setVelX(float vx)
+{
+    vel_x = vx;
+}
+void Block::setVelY(float vy)
+{
+    vel_y = vy;
 }
 
-void Block::renderBlock(SDL_Renderer *renderer, int px, int py, bool focusX, int offsetX, bool focusY, int offsetY)
+// Getter
+bool Block::getMoving()
 {
+    return isMoving;
+}
+float Block::getVelX()
+{
+    return vel_x;
+}
+float Block::getVelY()
+{
+    return vel_y;
+}
+
+void Block::updateBlock(SDL_Renderer *renderer, int px, int py, bool focusX, int offsetX, bool focusY, int offsetY)
+{
+    if (isMoving)
+    {
+        std::cout << vel_x << "\n";
+        setX(getX() + vel_x);
+        setY(getY() + vel_y);
+    }
+
     int rel_x = focusX ? offsetX + getX() - px : getX();
     int rel_y = focusY ? offsetY + getY() - py : getY();
 

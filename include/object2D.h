@@ -22,6 +22,7 @@ private:
     int sprite_frame, sprite_frame_max;
 
 public:
+    Object2D(float X, float Y, int w, int h);
     Object2D(float X, float Y, int w, int h, int hw, int hh);
     Object2D(float X, float Y, int w, int h, int hw, int hh, int sim, int sfm, int si, int sf);
     

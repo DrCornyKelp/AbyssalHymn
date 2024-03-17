@@ -12,17 +12,23 @@ private:
     const char *sprite_path;
     Sprite *block_sprite;
 
-    bool isBlock = true;
-    bool isCollideDown = true;
+    bool isMoving = false;
+    float vel_x = 0, vel_y = 0;
 
 public:
     // using::Object2D; // Allow direct usage of Object2D's contructor
-    Block(const char* sPath, float X = 0, float Y = 0, float w = 64, float h = 64, int grid = 32, bool collideDown = true);
+    Block(const char* sPath, float X = 0, float Y = 0, float w = 64, float h = 64, int grid = 32, bool moving = false);
     void initBlock(SDL_Renderer *renderer);
 
-    bool getCollideDown();
+    void setMoving(bool move);
+    void setVelX(float X);
+    void setVelY(float Y);
 
-    void renderBlock(SDL_Renderer *renderer, int px, int py, bool focusX, int offsetX, bool focusY, int offsetY);
+    bool getMoving();
+    float getVelX();
+    float getVelY();
+
+    void updateBlock(SDL_Renderer *renderer, int px, int py, bool focusX, int offsetX, bool focusY, int offsetY);
 };
 
 #endif

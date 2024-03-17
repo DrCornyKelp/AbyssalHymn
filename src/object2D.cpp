@@ -1,5 +1,10 @@
 #include "object2D.h"
 
+Object2D::Object2D(float X, float Y, int w, int h) : 
+    x(X), y(Y),
+    width(w), height(h)
+{}
+
 Object2D::Object2D(float X, float Y, int w, int h, int hw, int hh) : 
     x(X), y(Y),
     width(w), height(h),
