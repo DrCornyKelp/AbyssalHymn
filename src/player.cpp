@@ -300,7 +300,8 @@ void Player::playerInput()
         a_dash_hold = false;
 
     // Jump held key
-    if (can_jump && state[SDL_SCANCODE_SPACE] && !jump_hold && air_cur > 0 && !g_dash && !crawl_lock && !a_dash && !decel_x && !ceiling_knockout)
+    if (can_jump && state[SDL_SCANCODE_SPACE] && !jump_hold && (air_cur > 0 || hug_wall)
+        && !g_dash && !a_dash && !decel_x && !crawl_lock && !ceiling_knockout)
     {
         setY(getY() + 10);
         on_ground = false;
