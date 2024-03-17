@@ -214,7 +214,7 @@ void Player::playerInput()
         if (hug_wall_left)
         {
             hug_wall_left = false;
-            setX(getX() + 40);
+            setX(getX() - 4);
         }
         if (vel_x > 1)
         {
@@ -304,6 +304,7 @@ void Player::playerInput()
         setY(getY() + 10);
         on_ground = false;
 
+
         vel_y = 1 + 40 / (air_max - air_cur + 8);
         if (jump_super == jump_super_max)
             vel_y = 7;
@@ -311,8 +312,17 @@ void Player::playerInput()
 
         // Wall jump
         if (!hug_wall) air_cur--;
-        if (hug_wall_left) vel_x = 10;
-        if (hug_wall_right) vel_x = -10;
+        if (hug_wall_left)
+        {
+            vel_x = -10;
+            setX(getX() - getHitWidth() / 2);
+        }
+        if (hug_wall_right)
+        {
+            vel_x = 10;
+            setX(getX() + getHitWidth() / 2);
+        }
+        
         hug_wall_left = false;
         hug_wall_right = false;
 
@@ -537,18 +547,21 @@ void Player::playerTileCollision(std::vector<Block*> BlockVec)
                 getHitY() < obj->getY() + hit_dist_y - 10 &&
                 getHitY() > obj->getY() - hit_dist_y + 10)
             {
-                // if (vel_x < 1.5 && !on_ground &&
-                //     getY() < obj->getY() - getHitHeight() / 2)
-                // {
-                //     hug_aleast_wall = true;
-                //     hug_wall_left = true;
-                //     vel_x = 0;
-                //     setX(obj->getX() - hit_dist_x + 3);
-                // }
-
-                setX(obj->getX() - hit_dist_x);
-                if (a_dash || g_dash) vel_x = -vel_x * .5;
-                act_right = 1;
+                if (!on_ground && !a_dash)
+                {
+                    std::cout << "HUG LEFT \n";
+                    hug_aleast_wall = true;
+                    hug_wall_left = true;
+                    vel_x = 0;
+                    setX(obj->getX() - hit_dist_x + 3);
+                }
+                else
+                {
+                    setX(obj->getX() - hit_dist_x);
+                    if (a_dash || g_dash) vel_x = -vel_x * .5;
+                    act_right = 1;
+                }
+                
                 continue;
             }
 
@@ -557,18 +570,21 @@ void Player::playerTileCollision(std::vector<Block*> BlockVec)
                 getHitY() < obj->getY() + hit_dist_y - 10 &&
                 getHitY() > obj->getY() - hit_dist_y + 10)
             {
-                // if (vel_x > -1.5 && !on_ground &&
-                // getY() < obj->getY() - getHitHeight() / 2)
-                // {
-                //     setX(obj->getX() + hit_dist_x - 3);
-                //     hug_aleast_wall = true;
-                //     hug_wall_right = true;
-                //     vel_x = 0;
-                // }
-
-                setX(obj->getX() + hit_dist_x);
+                if (!on_ground && !a_dash)
+                {
+                    std::cout << "HUG Right \n";
+                    setX(obj->getX() + hit_dist_x - 3);
+                    hug_aleast_wall = true;
+                    hug_wall_right = true;
+                    vel_x = 0;
+                }
+                else {
+                    setX(obj->getX() + hit_dist_x);
                 if (a_dash || g_dash) vel_x = -vel_x * .5;
                 act_right = 0;
+                }
+
+                
                 continue;
             }
 
@@ -637,10 +653,10 @@ void Player::playerTileCollision(std::vector<Block*> BlockVec)
 void Player::playerUpdate(SDL_Renderer *renderer, std::vector<Block*> BlockVec)
 {
     playerInput();
+    playerMovement();
     playerTileCollision(BlockVec);
     // playerEventTrigger(event);
 
-    playerMovement();
     playerAction();
     playerSprite(renderer);
 }
