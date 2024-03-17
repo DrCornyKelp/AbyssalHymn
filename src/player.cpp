@@ -189,6 +189,16 @@ void Player::playerSprite(SDL_Renderer *renderer)
 
     if (display_hitbox)
     {
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+        for (int i = 0; i < 200; i++)
+        {
+            int drawGridX = focus_x ? i * 64 + offset_x - getX() : i * 64;
+            int drawGridY = focus_y ? i * 64 + offset_y - getY() : i * 64;
+
+            SDL_RenderDrawLine(renderer, 0, 720 - drawGridY, Game::WIDTH, 720 - drawGridY);  
+            SDL_RenderDrawLine(renderer, drawGridX, 0, drawGridX, Game::HEIGHT);
+        }
+        std::cout << int(getX() / 64) << " " << int(getY() / 64) << "\n";
         int drawHitX = focus_x ? Game::WIDTH / 2 - hit_offset_x : getHitX();
         int drawHitY = focus_y ? Game::HEIGHT / 2 - hit_offset_y : Game::HEIGHT - getHitY();
         SDL_Rect hitRect = {drawHitX - getHitWidth() / 2, drawHitY - getHitHeight() / 2, getHitWidth(), getHitHeight()};
@@ -342,7 +352,13 @@ void Player::playerInput()
     }
 
     // ===============EXPERIMENTATION input===============
-    display_hitbox = state[SDL_SCANCODE_H];
+    if (state[SDL_SCANCODE_H] && !hitbox_hold)
+    {
+        hitbox_hold = true;
+        // WHAT THE FUCK????????????
+        display_hitbox = display_hitbox ? false : true;
+    }
+    if (!state[SDL_SCANCODE_H]) hitbox_hold = false;
 }
 
 void Player::playerMovement()
@@ -441,8 +457,7 @@ void Player::playerMovement()
 
 void Player::playerAction()
 {
-    act_right = vel_x > .2 ? 1 : vel_x < -.2 ? 0
-                                             : act_right;
+    act_right = vel_x > .2 ? 1 : vel_x < -.2 ? 0 : act_right;
     if (abs(vel_x) <= .2)
     {
         // Idling
@@ -646,7 +661,7 @@ void Player::playerTileCollision(std::vector<Block *> BlockVec)
             }
             
             // vel_y = 0;
-            
+
             on_aleast_ground = true;
             hug_wall_left = false;
             hug_wall_right = false;

@@ -107,6 +107,7 @@ private:
     // ====== EXPERIMENTATION VALUES ======
     Sprite *hitbox;
     bool display_hitbox = false;
+    bool hitbox_hold;
 
 public:
     // Constructor
