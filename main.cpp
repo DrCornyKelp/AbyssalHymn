@@ -77,7 +77,6 @@ int main(int argc, char *argv[])
 
     for (Decoration *sBack : staticBack)
         sBack->initDecoration(game->getRenderer());
-        
 
     for (Decoration *sFront : staticFront)
         sFront->initDecoration(game->getRenderer());
@@ -92,7 +91,7 @@ int main(int argc, char *argv[])
 
     // Game loop
     float time = 0;
-    float time_max = 2400;
+    float time_max = 600;
     short dayForward = 1;
 
     // I have no fucking clue why i need this delay
