@@ -315,11 +315,13 @@ void Player::playerInput()
         if (hug_wall_left)
         {
             vel_x = -10;
+            vel_y = 4;
             setX(getX() - getHitWidth() / 2);
         }
         if (hug_wall_right)
         {
             vel_x = 10;
+            vel_y = 4;
             setX(getX() + getHitWidth() / 2);
         }
         
