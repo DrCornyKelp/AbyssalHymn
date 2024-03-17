@@ -35,30 +35,30 @@ void Stage1::initBlocks(SDL_Renderer *renderer)
     for (int i = 0; i < 200; i++)
         BlockVec.push_back(new Block("res/BlockTile/x64/Grass.png", 25 + i, 0, 1, 1, 64));
 
-    // BlockVec.push_back(new Block("res/BlockTile/Test.png", 41, 5, 2, 1, 64));
-    // BlockVec.push_back(new Block("res/BlockTile/Test.png", 48, 5, 2, 1, 64));
-    // BlockVec.push_back(new Block("res/BlockTile/Test.png", 59, 5, 2, 1, 64));
-    // BlockVec.push_back(new Block("res/BlockTile/Test.png", 69, 2, 3, 5, 64));
-    // BlockVec.push_back(new Block("res/BlockTile/Test.png", 75, 2, 3, 5, 64));
-    // BlockVec.push_back(new Block("res/BlockTile/Test.png", 78, 5, 7, 2, 64));
-    // BlockVec.push_back(new Block("res/BlockTile/Test.png", 78, 8, 3, 12, 64));
-    // BlockVec.push_back(new Block("res/BlockTile/Test.png", 78, 20, 2, 7, 64));
-    // BlockVec.push_back(new Block("res/BlockTile/Test.png", 84, 11, 3, 9, 64));
+    BlockVec.push_back(new Block("res/BlockTile/Test.png", 41, 5, 2, 1, 64));
+    BlockVec.push_back(new Block("res/BlockTile/Test.png", 48, 5, 2, 1, 64));
+    BlockVec.push_back(new Block("res/BlockTile/Test.png", 59, 5, 2, 1, 64));
+    BlockVec.push_back(new Block("res/BlockTile/Test.png", 69, 2, 3, 5, 64));
+    BlockVec.push_back(new Block("res/BlockTile/Test.png", 75, 2, 3, 5, 64));
+    BlockVec.push_back(new Block("res/BlockTile/Test.png", 78, 5, 7, 2, 64));
+    BlockVec.push_back(new Block("res/BlockTile/Test.png", 78, 8, 3, 12, 64));
+    BlockVec.push_back(new Block("res/BlockTile/Test.png", 78, 20, 2, 7, 64));
+    BlockVec.push_back(new Block("res/BlockTile/Test.png", 84, 11, 3, 9, 64));
 
-    // BlockVec.push_back(new Block("res/BlockTile/Test.png", 84, 1, 2, 1, 64));
-    // BlockVec.push_back(new Block("res/BlockTile/Test.png", 99, 1, 2, 1, 64));
+    BlockVec.push_back(new Block("res/BlockTile/Test.png", 84, 1, 2, 1, 64));
+    BlockVec.push_back(new Block("res/BlockTile/Test.png", 99, 1, 2, 1, 64));
 
-    // BlockVec.push_back(new Block("res/BlockTile/Test.png", 92, 19, 5, 2, 64));
-    // BlockVec.push_back(new Block("res/BlockTile/Test.png", 92, 18, 4, 1, 64));
+    BlockVec.push_back(new Block("res/BlockTile/Test.png", 92, 19, 5, 2, 64));
+    BlockVec.push_back(new Block("res/BlockTile/Test.png", 92, 18, 4, 1, 64));
 
-    // BlockVec.push_back(new Block("res/BlockTile/Test.png", 92, 6, 20, 2, 64));
-    // BlockVec.push_back(new Block("res/BlockTile/Test.png", 95, 8, 4, 3, 64));
+    BlockVec.push_back(new Block("res/BlockTile/Test.png", 92, 6, 20, 2, 64));
+    BlockVec.push_back(new Block("res/BlockTile/Test.png", 95, 8, 4, 3, 64));
     
-    // BlockVec.push_back(new Block("res/BlockTile/Test.png", 105, 19, 5, 2, 64));
-    // BlockVec.push_back(new Block("res/BlockTile/Test.png", 107, 18, 3, 1, 64));
+    BlockVec.push_back(new Block("res/BlockTile/Test.png", 105, 19, 5, 2, 64));
+    BlockVec.push_back(new Block("res/BlockTile/Test.png", 107, 18, 3, 1, 64));
     
 
-    // BlockVec.push_back(new Block("res/BlockTile/Test.png", 25, 0, 100, 1, 64));
+    BlockVec.push_back(new Block("res/BlockTile/Test.png", 25, 0, 100, 1, 64));
 
     // // Ground
     // BlockVec.push_back(new Block("res/BlockTile/x64/GrassCorner1.png", 0, 0, 1, 1, 128));

@@ -13,6 +13,7 @@ private:
     Sprite *block_sprite;
 
     bool isMoving = false;
+    bool isStepOn = false;
     float vel_x = 0, vel_y = 0;
 
 public:
@@ -21,10 +22,12 @@ public:
     void initBlock(SDL_Renderer *renderer);
 
     void setMoving(bool move);
+    void setStepOn(bool step);
     void setVelX(float X);
     void setVelY(float Y);
 
     bool getMoving();
+    bool getStepOn();
     float getVelX();
     float getVelY();
 

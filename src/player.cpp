@@ -573,7 +573,6 @@ void Player::playerTileCollision(std::vector<Block *> BlockVec)
         {
             if (can_hug_wall && !on_ground && !a_dash)
             {
-                // std::cout << "HUG LEFT \n";
                 hug_aleast_wall = true;
                 hug_wall_left = true;
                 vel_x = 0;
@@ -597,7 +596,6 @@ void Player::playerTileCollision(std::vector<Block *> BlockVec)
         {
             if (can_hug_wall && !on_ground && !a_dash)
             {
-                // std::cout << "HUG Right \n";
                 setX(obj->getX() + hit_dist_x - 3);
                 hug_aleast_wall = true;
                 hug_wall_right = true;
@@ -641,8 +639,14 @@ void Player::playerTileCollision(std::vector<Block *> BlockVec)
             (getHitX() < obj->getX() + hit_dist_x) &&
             (getHitX() > obj->getX() - hit_dist_x))
         {
-            if (obj->getMoving()) setX(getX() + obj->getVelX());
+            if (obj->getMoving())
+            {
+                setX(getX() + obj->getVelX());
+                setY(getY() + obj->getVelY());
+            }
+            
             // vel_y = 0;
+            
             on_aleast_ground = true;
             hug_wall_left = false;
             hug_wall_right = false;

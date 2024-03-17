@@ -20,6 +20,10 @@ void Block::setMoving(bool move)
 {
     isMoving = move;
 }
+void Block::setStepOn(bool step)
+{
+    isStepOn = step;
+}
 void Block::setVelX(float vx)
 {
     vel_x = vx;
@@ -33,6 +37,10 @@ void Block::setVelY(float vy)
 bool Block::getMoving()
 {
     return isMoving;
+}
+bool Block::getStepOn()
+{
+    return isStepOn;
 }
 float Block::getVelX()
 {

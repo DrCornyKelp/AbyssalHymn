@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
     int test = Mix_Init(0); // Initialize audio in wav format
                             // somehow other formats don't work but here's the code:
                             // wav = 0, flac = 1, mp3 = 8
-    // Audio::playBGM("res/Audio/Stage1.wav");
+    Audio::playBGM("res/Audio/KoiIsLoveLofi.wav");
 
     // Player + Hud
     Player *player0 = new Player();
@@ -68,8 +68,8 @@ int main(int argc, char *argv[])
 
     // NPCS DIALOGUE
     std::vector<NpcDialogue *> npcs;
-    npcs.push_back(new NpcDialogue("res/NpcDialogue/Npc2/Squid.png", "res/NpcDialogue/Npc2/SquidMU.jpg",
-        920, 190, 128, 128, 200, 200, 300, 168, 32, 32, 4, 25, 0, 0, 230));
+    npcs.push_back(new NpcDialogue("res/NpcDialogue/Npc2/Squid.png", "res/NpcDialogue/Npc2/SquidJumpTutorial.png",
+        920, 190, 128, 128, 200, 200, 300, 138, 32, 32, 4, 25, 0, 0, 230));
     
     for (NpcDialogue *npc : npcs)
         npc->initNpc(game->getRenderer());
@@ -138,7 +138,7 @@ int main(int argc, char *argv[])
         // Update block
         for (Block *block : stage1->getBlockVec())
         {    
-            if (block->getMoving()) block->setVelX(dayForward);
+            if (block->getMoving()) block->setVelY(dayForward);
 
             block->updateBlock(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
         }
