@@ -33,7 +33,7 @@ private:
     // Ground movement
     float vel_x = 0;
     float vel_x_max = 5;
-    float vel_x_max_ground = 5;
+    float vel_x_max_ground = 7;
     float vel_x_max_air = 6;
     float accel_x = 0.1;
 
@@ -57,7 +57,7 @@ private:
 
     // "Airborne" movement
     int air_cur = 0;
-    int air_max = 1;
+    int air_max = 3;
 
     // Jumping
     bool jump_hold = false;
@@ -104,10 +104,16 @@ private:
     bool hug_wall_left = false;
     bool hug_wall_right = false;
 
-    // ====== EXPERIMENTATION VALUES ======
+    // Collision but fancier
+    bool on_ice = false;
+
+    // ====== DEVELOPER VALUES ======
     Sprite *hitbox;
-    bool display_hitbox = false;
-    bool hitbox_hold;
+    bool godmode = false;
+    bool godmode_hold;
+
+    bool grid = false;
+    bool grid_hold;
 
 public:
     // Constructor
@@ -149,7 +155,6 @@ public:
     int getOffsetY();
 
     // Method
-    void playerDeveloper();
     void playerInput();
     void playerMovement();
     void playerTileCollision(std::vector<Block*> BlockVec);
@@ -158,6 +163,9 @@ public:
     void playerAction();
     void playerSprite(SDL_Renderer *renderer);
     void playerUpdate(SDL_Renderer *renderer, std::vector<Block*> Blockvec);
+
+    void playerDeveloper();
+    void playerGrid(SDL_Renderer *renderer);
 };
 
 #endif

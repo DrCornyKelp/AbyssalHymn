@@ -46,13 +46,21 @@ void Decoration::draw(SDL_Renderer *renderer, int px, int py, bool focusX, int o
     if (getSprIndex() >= getSprIndexMax())
         setSprIndex(0);
 
+    int colli_x = abs(px - getX());
+    int colli_y = abs(py - getY());
 
-    SDL_Rect desRect;
-    if (absolute) 
-        desRect = {int(getX() - getWidth() / 2), int(getY() - getHeight() / 2), getWidth(), getHeight()};
-    else
-        desRect = {rel_x - getWidth() / 2, Game::HEIGHT - rel_y - getHeight() / 2, getWidth(), getHeight()};
-    SDL_Rect srcRect = {getSprIndex() * getHitWidth(), 0, getHitWidth(), getHitHeight()};
+    // Only render if box is in sight
+    if (absolute || (
+        colli_x - getWidth() / 2 < Game::WIDTH &&
+        colli_y - getHeight() / 2 < Game::HEIGHT
+    )){
+        SDL_Rect desRect;
+        if (absolute) 
+            desRect = {int(getX() - getWidth() / 2), int(getY() - getHeight() / 2), getWidth(), getHeight()};
+        else
+            desRect = {rel_x - getWidth() / 2, Game::HEIGHT - rel_y - getHeight() / 2, getWidth(), getHeight()};
+        SDL_Rect srcRect = {getSprIndex() * getHitWidth(), 0, getHitWidth(), getHitHeight()};
 
-    SDL_RenderCopy(renderer, decor_sprite->getTexture(), (getSprIndexMax() > 0 ? &srcRect : NULL), &desRect);
+        SDL_RenderCopy(renderer, decor_sprite->getTexture(), (getSprIndexMax() > 0 ? &srcRect : NULL), &desRect);
+    }
 }

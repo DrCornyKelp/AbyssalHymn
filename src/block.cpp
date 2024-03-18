@@ -24,6 +24,14 @@ void Block::setStepOn(bool step)
 {
     isStepOn = step;
 }
+void Block::setOutBound(bool oob)
+{
+    isOutBound = oob;
+}
+void Block::setHugged(short hug)
+{
+    isHugged = hug;
+}
 void Block::setVelX(float vx)
 {
     vel_x = vx;
@@ -41,6 +49,14 @@ bool Block::getMoving()
 bool Block::getStepOn()
 {
     return isStepOn;
+}
+bool Block::getOutBound()
+{
+    return isOutBound;
+}
+short Block::getHugged()
+{
+    return isHugged;
 }
 float Block::getVelX()
 {
@@ -60,9 +76,13 @@ void Block::updateBlock(SDL_Renderer *renderer, int px, int py, bool focusX, int
         setY(getY() + vel_y);
     }
 
-    int rel_x = focusX ? offsetX + getX() - px : getX();
-    int rel_y = focusY ? offsetY + getY() - py : getY();
+    if (!isOutBound)
+    {
+        int rel_x = focusX ? offsetX + getX() - px : getX();
+        int rel_y = focusY ? offsetY + getY() - py : getY();
 
-    SDL_Rect desRect = {rel_x - getWidth() / 2, Game::HEIGHT - rel_y - getHeight() / 2, getWidth(), getHeight()};
-    SDL_RenderCopy(renderer, block_sprite->getTexture(), NULL, &desRect);
+        SDL_Rect desRect = {rel_x - getWidth() / 2, Game::HEIGHT - rel_y - getHeight() / 2, getWidth(), getHeight()};
+        SDL_RenderCopy(renderer, block_sprite->getTexture(), NULL, &desRect);
+    }
+    
 }

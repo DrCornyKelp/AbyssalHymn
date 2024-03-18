@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
     int test = Mix_Init(0); // Initialize audio in wav format
                             // somehow other formats don't work but here's the code:
                             // wav = 0, flac = 1, mp3 = 8
-    Audio::playBGM("res/Audio/KoiIsLoveLofi.wav");
+    Audio::playBGM("res/Audio/UsagiFlapLofi.wav");
 
     // Player + Hud
     Player *player0 = new Player();
@@ -133,21 +133,22 @@ int main(int argc, char *argv[])
         // Npc Dialogue logic and shit idc
         for (NpcDialogue *npc : npcs)
             npc->drawNpc(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
-
+        
+        // Update player
+        player0->playerUpdate(game->getRenderer(), stage1->getBlockVec());
+        
         // Update block
         for (Block *block : stage1->getBlockVec())
         {    
-            if (block->getMoving()) 
+            if (block->getMoving())
             {
-                block->setVelY(dayForward);
+                block->setVelX(-dayForward);
             }
 
             block->updateBlock(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
         }
 
-        // Update player
-        player0->playerUpdate(game->getRenderer(), stage1->getBlockVec());
-
+        
         // Draw Hud
         hud0->draw(game->getRenderer());
 
