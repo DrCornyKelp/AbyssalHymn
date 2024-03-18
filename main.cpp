@@ -143,16 +143,6 @@ int main(int argc, char *argv[])
             block->updateBlock(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
         }
 
-        for (int i = 0; i < 200; i++)
-        {
-            SDL_SetRenderDrawColor(game->getRenderer(), 255, 0, 0, 255);
-            int drawX = player0->getFocusX() ? i * 64 + player0->getOffsetX() - player0->getX() : i * 64;
-            int drawY = player0->getFocusY() ? i * 64 + player0->getOffsetY() - player0->getY() : i * 64;
-
-            SDL_RenderDrawLine(game->getRenderer(), 0, 720 - drawY, Game::WIDTH, 720 - drawY);  
-            SDL_RenderDrawLine(game->getRenderer(), drawX, 0, drawX, Game::HEIGHT);
-        }
-
         // Update player
         player0->playerUpdate(game->getRenderer(), stage1->getBlockVec());
 
