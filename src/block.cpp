@@ -84,5 +84,4 @@ void Block::updateBlock(SDL_Renderer *renderer, int px, int py, bool focusX, int
         SDL_Rect desRect = {rel_x - getWidth() / 2, Game::HEIGHT - rel_y - getHeight() / 2, getWidth(), getHeight()};
         SDL_RenderCopy(renderer, block_sprite->getTexture(), NULL, &desRect);
     }
-    
 }
