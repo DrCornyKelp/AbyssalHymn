@@ -695,11 +695,37 @@ void Player::playerTileCollision(std::vector<Block *> BlockVec)
 //     }
 // }
 
+void Player::playerDeveloper()
+{
+    const Uint8 *state = SDL_GetKeyboardState(NULL);
+
+    if (state[SDL_SCANCODE_H] && !hitbox_hold)
+    {
+        hitbox_hold = true;
+        // WHAT THE FUCK????????????
+        display_hitbox = display_hitbox ? false : true;
+    }
+    if (!state[SDL_SCANCODE_H]) hitbox_hold = false;
+
+    int vel_developer = state[SDL_SCANCODE_LSHIFT] ? 10 : 4;
+    if (state[SDL_SCANCODE_W]) setY(getY() + vel_developer);
+    if (state[SDL_SCANCODE_S]) setY(getY() - vel_developer);
+    if (state[SDL_SCANCODE_D]) setX(getX() + vel_developer);
+    if (state[SDL_SCANCODE_A]) setX(getX() - vel_developer);
+}
+
 void Player::playerUpdate(SDL_Renderer *renderer, std::vector<Block *> BlockVec)
 {
-    playerInput();
-    playerMovement();
-    playerTileCollision(BlockVec);
+    if (!display_hitbox)
+    {
+        playerInput();
+        playerMovement();
+        playerTileCollision(BlockVec);
+    }
+    else
+    {
+        playerDeveloper();
+    }
     // playerEventTrigger(event);
 
     playerAction();
