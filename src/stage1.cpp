@@ -5,15 +5,15 @@ void Stage1::initBlocks(SDL_Renderer *renderer)
     // // 0
     // BlockVec.push_back(new Block("res/BlockTile/Test.png", -1, 0, 1, 64, 64));
 
-    // // 1 -> 18
-    // for (int i = 0; i < 19; i++) {
-    //     BlockVec.push_back(new Block("res/BlockTile/x64/Dirt1.png", i, 0, 1, 1, 64));
-    //     BlockVec.push_back(new Block("res/BlockTile/x64/Grass.png", i, 1, 1, 1, 64));
-    // }
+    // 1 -> 18
+    for (int i = 0; i < 19; i++) {
+        BlockVec.push_back(new Block("res/BlockTile/x64/Dirt1.png", i, 0, 1, 1, 64));
+        BlockVec.push_back(new Block("res/BlockTile/x64/Grass.png", i, 1, 1, 1, 64));
+    }
     
     // // 19 - 20
-    // BlockVec.push_back(new Block("res/BlockTile/x64/Dirt1.png", 19, 0, 6, 2, 64));
-    // BlockVec.push_back(new Block("res/BlockTile/x64/Grass.png", 19, 1, 1, 1, 64));
+    BlockVec.push_back(new Block("res/BlockTile/x64/Dirt1.png", 19, 0, 6, 2, 64));
+    BlockVec.push_back(new Block("res/BlockTile/x64/Grass.png", 19, 1, 1, 1, 64));
 
     // // 21 - 24
     // BlockVec.push_back(new Block("res/BlockTile/x64/GrassCorner1.png", 20, 2, 1, 1, 64));
@@ -27,9 +27,9 @@ void Stage1::initBlocks(SDL_Renderer *renderer)
     // BlockVec.push_back(new Block("res/BlockTile/Test.png", 32, 2, 5, 4, 64));
 
     // // Test 28 - 30
-    // BlockVec.push_back(new Block("res/BlockTile/x64/GrassCorner1.png", 14, 6, 1, 1, 64, true));
-    // BlockVec.push_back(new Block("res/BlockTile/x64/Grass.png", 15, 6, 1, 1, 64, true));
-    // BlockVec.push_back(new Block("res/BlockTile/x64/GrassCorner2.png", 16, 6, 1, 1, 64, true));
+    BlockVec.push_back(new Block("res/BlockTile/x64/GrassCorner1.png", 14, 6, 1, 1, 64, true));
+    BlockVec.push_back(new Block("res/BlockTile/x64/Grass.png", 15, 6, 1, 1, 64, true));
+    BlockVec.push_back(new Block("res/BlockTile/x64/GrassCorner2.png", 16, 6, 1, 1, 64, true));
 
 
     // for (int i = 0; i < 200; i++)
@@ -68,11 +68,11 @@ void Stage1::initBlocks(SDL_Renderer *renderer)
     // }
     // BlockVec.push_back(new Block("res/BlockTile/x64/GrassCorner2.png", 9, 0, 1, 1, 128));
     BlockVec.push_back(new Block("res/Test.png", -1, 0, 1, 10, 64));
-    for (int i = 0; i < 25; i++)
-    {
-        BlockVec.push_back(new Block("res/Test.png", i, 0, 1, 1, 64));
-        BlockVec.push_back(new Block("res/Test.png", i, 1, 1, 1, 64));
-    }
+    // for (int i = 0; i < 25; i++)
+    // {
+    //     BlockVec.push_back(new Block("res/Test.png", i, 0, 1, 1, 64));
+    //     BlockVec.push_back(new Block("res/Test.png", i, 1, 1, 1, 64));
+    // }
 
     BlockVec.push_back(new Block("res/Test.png", 20, 2, 5, 1, 64));
     BlockVec.push_back(new Block("res/Test.png", 24, 3, 4, 1, 64));

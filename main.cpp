@@ -11,7 +11,6 @@
 #include "game.h"
 #include "player.h"
 #include "block.h"
-#include "decoration_dynamic.h"
 #include "decoration.h"
 // #include "event_trigger.h"
 #include "hud.h"
@@ -138,7 +137,10 @@ int main(int argc, char *argv[])
         // Update block
         for (Block *block : stage1->getBlockVec())
         {    
-            if (block->getMoving()) block->setVelY(dayForward);
+            if (block->getMoving()) 
+            {
+                block->setVelY(dayForward);
+            }
 
             block->updateBlock(game->getRenderer(), player0->getX(), player0->getY(), player0->getFocusX(), player0->getOffsetX(), player0->getFocusY(), player0->getOffsetY());
         }
