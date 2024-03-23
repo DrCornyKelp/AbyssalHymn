@@ -691,6 +691,7 @@ void Player::playerCombat()
 // ===================== COMBAT (VERY LEGENDARY) ====================
 
     if (invincible_time) {
+        invincible_time--;
         if (invincible_time > invincible_time_max * .8)
         {
             // When got hit reset all movement and stuff
@@ -705,7 +706,6 @@ void Player::playerCombat()
             combat_time = 0;
             combat_index = 0;
         }
-        invincible_time--;
         SDL_SetTextureAlphaMod(playerCurrentTexture, (invincible_time % 15 > 0) ? 200 : 160);
     }
 
