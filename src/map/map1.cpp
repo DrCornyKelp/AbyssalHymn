@@ -372,7 +372,9 @@ void Map1::updateMapExclusive(SDL_Renderer *renderer, Player *player)
 
     // ====================== UPDATE PROJECTILE ========================
     for (Projectile *projectile : ProjectileVec)
+    {
         projectile->updateProjectile(renderer, player, this);
+    }
 
     // Erase Dead Bullet
     ProjectileVec.erase(std::remove_if(ProjectileVec.begin(), ProjectileVec.end(),

@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     int test = Mix_Init(0); // Initialize audio in wav format
                             // somehow other formats don't work but here's the code:
                             // wav = 0, flac = 1, mp3 = 8
-    // Audio::playBGM("res/Audio/BGM/Cybergrind.wav");
+    Audio::playBGM("res/Audio/BGM/UsagiFlapLofi.wav");
 
     // Player + Hud
     Player *player0 = new Player();
@@ -44,6 +44,8 @@ int main(int argc, char *argv[])
     // Stage 1
     Map1 *map1 = new Map1();
     map1->initAll(game->getRenderer(), player0);
+
+    SDL_Delay(2000);
 
     bool pause = false;
     while (!quit)

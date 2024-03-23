@@ -44,6 +44,8 @@ public:
 
     // Getter
     bool getBulletDead();
+    bool getBulletParried();
+    // Setter
     void setBulletDead(bool dead);
     
     // ================== Deadly =======================

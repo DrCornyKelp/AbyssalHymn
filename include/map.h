@@ -19,6 +19,7 @@ class Map
 {
 public:
     // =============== ATTRIBUTE =================
+
     // Npc
     std::vector<Enemy*> EnemyVec;
     std::vector<NpcDialogue*> NpcVec;

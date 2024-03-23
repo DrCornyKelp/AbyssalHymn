@@ -74,12 +74,11 @@ void Projectile::playerCollision(Player *player)
         harm_enemy = true;
 
         vel_parry_x = player->getActRight() ? 5 : -5;
-        std::cout << generateRandomFloat() << "\n";
         vel_parry_y = player->getVelY() + generateRandomFloat() * player->getCombatParryError();
 
         // Bullet Stop Motion
-        vel_x *= .2;
-        vel_y *= .2;
+        vel_x = 0;
+        vel_y = 0;
         accel_x = 0;
         accel_y = 0;
 
@@ -124,10 +123,9 @@ void Projectile::enemyCollision(std::vector<Enemy *> EnemyVec)
             // Player Hit Animation Here
             enemy->enemyGetHit(bullet_damage);
         }       
-    } 
-    
+    }
 
-    // NGL miggt actually make enemy parry
+    // NGL might actually make enemy parry
     // that would be really insane but hey!
 }
 
@@ -156,7 +154,7 @@ void Projectile::projectileAction(SDL_Renderer *renderer, Player* player, Map *m
         {
             vel_x = vel_parry_x;
             vel_y = vel_parry_y;
-            // Audio::playSFX("res/Audio/SFX/Parry.wav");
+            Audio::playSFX("res/Audio/SFX/Parry.wav");
             SDL_Delay(100);
         }
     }
@@ -212,6 +210,10 @@ void Projectile::draw(SDL_Renderer *renderer, Player *player)
 bool Projectile::getBulletDead()
 {
     return bullet_dead;
+}
+bool Projectile::getBulletParried()
+{
+    return bullet_parried;
 }
 
 // Setter

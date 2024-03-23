@@ -1005,7 +1005,9 @@ void Player::playerEnemyCollision(std::vector<Enemy *> EnemyVec)
             colli_y < hit_dist_y)
         {
             if (enemy->getCollideDamage())
+            {
                 playerGetHit(enemy->getCollideDamage());
+            }
 
             // Addition enemy logic
             enemy->enemyPlayerCollision(this);
@@ -1033,6 +1035,7 @@ void Player::playerEnemyCollision(std::vector<Enemy *> EnemyVec)
 void Player::playerGetHit(int dmg)
 {
     if (invincible_time) return;
+    Audio::playSFX("res/Audio/SFX/NakuHurt.wav");
     invincible_time = invincible_time_max;
     hp -= dmg;
 }
