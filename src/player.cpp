@@ -789,24 +789,39 @@ void Player::playerCombat()
     }
 
     // =================== Combat Attack Pattern ===================
+    const Uint8 *state = SDL_GetKeyboardState(NULL);
     bool hug_wall = hug_wall_left || hug_wall_right;
 
     // On ground
     if (!combat_delay && combat_keytap && !hug_wall && !crawl && !g_dash && on_ground)
-        if (!combat_combo_time && !combat_index)
-        {
-            combat_index = 1;
-            combat_time = 15;
-            combat_combo_time = 40;
-            setEndLock(false);
-        }
-        else if (!combat_time && combat_index == 1 && combat_combo_time)
-        {
-            combat_index = 2;
-            combat_time = 15;
-            combat_combo_time = 35;
-            setEndLock(false);
-        }
+    {
+        if (!state[SDL_SCANCODE_W])
+            if (!combat_combo_time && !combat_index)
+            {
+                combat_index = 1;
+                combat_time = 15;
+                combat_combo_time = 40;
+                setEndLock(false);
+            }
+            else if (!combat_time && combat_index == 1 && combat_combo_time)
+            {
+                combat_index = 2;
+                combat_time = 15;
+                combat_combo_time = 35;
+                setEndLock(false);
+            }
+        else
+            if (!combat_combo_time && !combat_index)
+            {
+                combat_index = 4;
+                combat_time = 15;
+                combat_combo_time = 40;
+
+                std::cout << "upward attack \n";
+                setEndLock(false);
+            }
+    }
+        
 
     // Charge Attack
     if (!combat_delay && combat_charge_time > 0)
