@@ -308,9 +308,9 @@ void Map1::initMapPlayer(Player *player)
 
 void Map1::initEnemies(SDL_Renderer *renderer)
 {
-    EnemyVec.push_back(new Slime(5, 2.5, 1, 20, 1));
-    // EnemyVec.push_back(new Slime(26, 3.5, 24.5, 29.5, 1));
-    // EnemyVec.push_back(new Slime(45, 4.5, 40, 60, 1));
+    EnemyVec.push_back(new Slime(5, 2.5, 1, 19.5, 1));
+    EnemyVec.push_back(new Slime(26, 3.5, 24.5, 29.5, 1));
+    EnemyVec.push_back(new Slime(45, 4.5, 40, 60, 1));
 
     for (Enemy *enemy : EnemyVec)
         enemy->initEnemy(renderer);
@@ -320,11 +320,6 @@ void Map1::updateMapExclusive(SDL_Renderer *renderer, Player *player)
 {
     // EXPERIMENTATION
     const Uint8 *keystate = SDL_GetKeyboardState(NULL);
-
-    // if (keystate[SDL_SCANCODE_L])
-    //     DecorFrontVec[DecorFrontVec.size() - 1]->setAlpha(0);
-    // else
-    //     DecorFrontVec[DecorFrontVec.size() - 1]->setAlpha(255);
 
     if (time > time_max) dayForward = -1;
     if (time < 0) dayForward = 1;
