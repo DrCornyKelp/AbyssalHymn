@@ -115,7 +115,7 @@ private:
     // ================== Combat ===================
 
     // Invincibility (is when you are god)
-    int invincible_time = 0;
+    int invincible_time = 10000;
     // Invurnable time (is when you get hurt)
     int invurnable_time = 0;
     int invurnable_time_max = 100;

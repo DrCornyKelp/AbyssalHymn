@@ -27,6 +27,33 @@ int main(int argc, char *argv[])
     Game *game = new Game();
     game->drawIcon();
 
+    // Controller Detection
+    SDL_GameController *controller;
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER) != 0)
+    {
+        printf("SDL initialization failed: %s\n", SDL_GetError());
+        return 1;
+    }
+
+    // Check for controller support
+    if (SDL_NumJoysticks() < 1)
+    {
+        printf("No controller connected!\n");
+    }
+    else
+    {
+        controller = SDL_GameControllerOpen(0);
+        // Open controller devices
+        if (controller == NULL)
+        {
+            printf("Failed to open controller: %s\n", SDL_GetError());
+        }
+        else
+        {
+            printf("Controller connected!\n");
+        }
+    }
+
     // Audio
     int test = Mix_Init(0); // Initialize audio in wav format
                             // somehow other formats don't work but here's the code:

@@ -72,7 +72,7 @@ void Hud::drawHeadUpStat(SDL_Renderer *renderer)
     if (player->getSuperJump())
         SDL_RenderCopy(renderer, superJumpReadyTexture, &srcRect, &desRect);
     
-    if (player->getInvincibleTime())
+    if (player->getInvincibleTime() || player->getInvurnableTime())
         SDL_RenderCopy(renderer, invincibleTexture, &srcRect, &desRect);
 }
 
