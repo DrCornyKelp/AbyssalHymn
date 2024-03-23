@@ -28,6 +28,12 @@ private:
     bool can_a_dash = false;
     bool can_hug_wall = false;
 
+    // Buff Effect
+    float buff_move = 1;
+    float buff_jump = 1;
+    float buff_combat_speed = 1;
+    float buff_combat_damage = 1;
+
     // Condition
     bool on_ice = false;
     bool on_ground = false;
@@ -114,11 +120,11 @@ private:
     int weapon_equip_delay_max = 30;
 
     // Time the atk exist
-    int combat_time = 0; 
+    float combat_time = 0; 
     // Time you perform follow up
-    int combat_combo_time = 0;
+    float combat_combo_time = 0;
     // The ...well, delay lmao
-    int combat_delay = 0; 
+    float combat_delay = 0; 
     // The ...umm, are you blind
     bool combat_keytap = false;
     bool combat_keyhold = false;
@@ -200,7 +206,7 @@ public:
     void setCanCrawl(bool can);
     void setCanHugWall(bool can);
 
-    void setCombatDelay(int delay);
+    void setCombatDelay(float delay);
 
     // Getter
     float getVelX();
@@ -219,8 +225,8 @@ public:
     int getCombatHitD();
     int getCombatHitL();
     int getCombatHitR();
-    int getCombatTime();
-    int getCombatDelay();
+    float getCombatTime();
+    float getCombatDelay();
     float getCombatParryError();
 
     int getAirCur();

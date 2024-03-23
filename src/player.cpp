@@ -123,7 +123,7 @@ void Player::setCanHugWall(bool can)
     can_hug_wall = can;
 }
 
-void Player::setCombatDelay(int delay)
+void Player::setCombatDelay(float delay)
 {
     combat_delay = delay;
 }
@@ -206,11 +206,11 @@ int Player::getCombatHitR()
 {
     return combat_hit_right;
 }
-int Player::getCombatTime()
+float Player::getCombatTime()
 {
     return combat_time;
 }
-int Player::getCombatDelay()
+float Player::getCombatDelay()
 {
     return combat_delay;
 }
@@ -379,21 +379,21 @@ void Player::playerSpriteIndex()
         if (combat_index == 1 && combat_time)
         {
             setAct(10, act_right);
-            setSprite(8, 2);
+            setSprite(8, buff_combat_speed < 1.2 ? 2 : 1);
             setEndLock(true);
         }
 
         if (combat_index == 2 && combat_time)
         {
             setAct(11, act_right);
-            setSprite(8, 2);
+            setSprite(8, buff_combat_speed < 1.2 ? 2 : 1);
             setEndLock(true);
         }
 
         if (combat_index == 3)
         {
             setAct(12, act_right);
-            setSprite(combat_keyhold ? 1 : 4, 2);
+            setSprite(combat_keyhold ? 1 : 4, buff_combat_speed < 1.2 ? 2 : 1);
         }
     }
 
@@ -595,13 +595,17 @@ void Player::playerMovement()
     // Velcovity
     vel_x_max = on_ground ? vel_x_max_ground : vel_x_max_air;
     vel_x_max *= weapon_equip ? .8 : 1;
+    vel_x_max *= buff_move;
     // Acelecreaitm
     accel_x = on_ice ? accel_x_ice : accel_x_ground;
     accel_x *= weapon_equip ? .8 : 1;
+    accel_x *= buff_move;
     accel_y = jump_keyhold ? accel_hold : accel_tap;
     accel_y *= weapon_equip ? 1.2 : 1;
+    accel_y /= buff_jump;
     // G_dash
     g_dash_vel = weapon_equip ? g_dash_vel_weapon : g_dash_vel_normal;
+    g_dash_vel *= buff_move;
     g_dash_frame_max = weapon_equip ? g_dash_frame_weapon : g_dash_frame_normal;
     g_dash_delay_max = weapon_equip ? g_dash_delay_weapon : g_dash_delay_normal;
     // A_dash
@@ -711,18 +715,25 @@ void Player::playerCombat()
 
     // Weapon draw delay
     if (weapon_equip_delay > 0)
-        weapon_equip_delay--;
+        weapon_equip_delay -= buff_combat_speed;
 
-    if (combat_time)
-        combat_time--;
-    
-    if (combat_combo_time)
-        combat_combo_time--;
+    if (combat_time > 0)
+        combat_time -= buff_combat_speed;
     else
+        combat_time = 0;
+    
+    if (combat_combo_time > 0)
+        combat_combo_time --;
+    else
+    {
+        combat_combo_time = 0;
         combat_index = 0;
+    }
 
-    if (combat_delay)
-        combat_delay--;
+    if (combat_delay > 0)
+        combat_delay -= buff_combat_speed;
+    else
+        combat_delay = 0;
 
     if (!weapon_equip) return;
 
@@ -766,6 +777,8 @@ void Player::playerCombat()
         combat_hit_left = act_right ? 0 : 100;
         combat_damage = 10;
         combat_parry_error = 3;
+
+        vel_x *= .8;
     }
 
     if (combat_index == 2)
@@ -776,6 +789,8 @@ void Player::playerCombat()
         combat_hit_left = act_right ? 0 : 120;
         combat_damage = 20;
         combat_parry_error = 1;
+
+        vel_x *= .4;
     }
 
     if (combat_index == 3)
@@ -796,6 +811,7 @@ void Player::playerCombat()
     if (!combat_delay && combat_keytap && !hug_wall && !crawl && !g_dash && on_ground)
     {
         if (!state[SDL_SCANCODE_W])
+        {
             if (!combat_combo_time && !combat_index)
             {
                 combat_index = 1;
@@ -810,16 +826,20 @@ void Player::playerCombat()
                 combat_combo_time = 35;
                 setEndLock(false);
             }
+        }
         else
+        {
             if (!combat_combo_time && !combat_index)
             {
+                std::cout << "upward attack \n";
                 combat_index = 4;
                 combat_time = 15;
                 combat_combo_time = 40;
 
-                std::cout << "upward attack \n";
                 setEndLock(false);
             }
+        }
+            
     }
         
 

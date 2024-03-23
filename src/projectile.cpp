@@ -73,7 +73,7 @@ void Projectile::playerCollision(Player *player)
         harm_player = false;
         harm_enemy = true;
 
-        vel_parry_x = player->getActRight() ? 5 : -5;
+        vel_parry_x = player->getActRight() ? 10 : -10;
         vel_parry_y = player->getVelY() + generateRandomFloat() * player->getCombatParryError();
 
         // Bullet Stop Motion
