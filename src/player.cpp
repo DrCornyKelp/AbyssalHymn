@@ -991,8 +991,8 @@ void Player::playerCombat(Map *map)
     {
         combat_hit_up = 80;
         combat_hit_down = 60;
-        combat_hit_right = act_right ? 100 : 0;
-        combat_hit_left = act_right ? 0 : 100;
+        combat_hit_right = act_right ? 130 : 0;
+        combat_hit_left = act_right ? 0 : 130;
         combat_damage = 30;
         combat_parry_error = 0;
     }
