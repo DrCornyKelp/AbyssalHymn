@@ -154,7 +154,7 @@ void Projectile::projectileAction(SDL_Renderer *renderer, Player* player, Map *m
         
         if (!parry_effect) 
         {
-            setSprFrameMax(getSprFrameMax() / 2);
+            setSprFrameMax(getSprFrameMax() / 3);
             vel_x = vel_parry_x;
             vel_y = vel_parry_y;
             Audio::playSFX("res/Audio/SFX/Parry.wav");
