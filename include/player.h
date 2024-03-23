@@ -50,18 +50,6 @@ private:
     int hit_offset_x = 0;
     int hit_offset_y = 0;
 
-    // Ground Dash
-    bool g_dash = false;
-    int g_dash_vel = 10;
-    int g_dash_frame = 0;
-    int g_dash_frame_max = 0;
-    int g_dash_frame_normal = 40;
-    int g_dash_frame_weapon = 30;
-    int g_dash_delay = 0;
-    int g_dash_delay_max = 0;
-    int g_dash_delay_normal = 40;
-    int g_dash_delay_weapon = 40;
-
     // Decelleration
     int decel_x = 0; // 0: none, -1: LEFT, 1: RIGHT
 
@@ -94,12 +82,23 @@ private:
     int a_dash_delay_normal = 40;
     int a_dash_delay_weapon = 100;
 
+    // Ground Dash
+    bool g_dash = false;
+    int g_dash_vel = 10;
+    int g_dash_frame = 0;
+    int g_dash_frame_max = 0;
+    int g_dash_frame_normal = 40;
+    int g_dash_frame_weapon = 30;
+    int g_dash_delay = 0;
+    int g_dash_delay_max = 0;
+    int g_dash_delay_normal = 40;
+    int g_dash_delay_weapon = 100;
+
     // ================== Combat ===================
 
     // Invincibility
     int invincible_time = 0;
-    bool is_flicker = false;
-    int flicker_time = 0;
+    int invincible_time_max = 100;
 
     // Weapon handler
     bool weapon_equip = true;
@@ -129,7 +128,7 @@ private:
 
     // ================= DRAWING ====================
     // Le Sprite itself (do not touch)
-    SDL_Texture *playerCurrentSprite;
+    SDL_Texture *playerCurrentTexture;
     Sprite *PlayerLeft;
     Sprite *PlayerRight;
     Sprite *PlayerLeftWeapon;
@@ -202,7 +201,8 @@ public:
     
     int getHitX();
     int getHitY();
-
+    
+    int getInvincibleTime();
     bool getWeaponEquip();
     int getCombatHitU();
     int getCombatHitD();

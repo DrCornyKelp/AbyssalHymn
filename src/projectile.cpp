@@ -50,6 +50,7 @@ void Projectile::playerCollision(Player *player)
     {
         bullet_dead = !can_pierce && true;
         // Player Hit Animation Here
+        player->playerGetHit(bullet_damage);
     }
 
     // Player Hit The Bullet Back, Get Parried Lmao

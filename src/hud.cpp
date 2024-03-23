@@ -5,6 +5,7 @@ Hud::Hud(SDL_Renderer *renderer, Player *p) : player(p)
     airbornTexture = Sprite::loadTexture(renderer, "res/HudElement/AirBorne.png");
     combatReadyTexture = Sprite::loadTexture(renderer, "res/HudElement/CombatReady.png");
     superJumpReadyTexture = Sprite::loadTexture(renderer, "res/HudElement/SuperJumpReady.png");
+    invincibleTexture = Sprite::loadTexture(renderer, "res/HudElement/Invincible.png");
 }
 void Hud::setAlpha(int a)
 {
@@ -59,13 +60,16 @@ void Hud::drawHeadUpStat(SDL_Renderer *renderer)
     int drawX = player->getFocusX() ? Game::WIDTH / 2 : player->getHitX();
     int drawY = player->getFocusY() ? Game::HEIGHT / 2 - 10 : Game::HEIGHT - 10 - player->getHitY();
 
-    SDL_Rect desRect = {drawX - 64, drawY - 64 + (player->getIsCrawl() ? 20 : 0), 128, 128};
+    SDL_Rect desRect = {drawX - 64, drawY - 64 + (player->getIsCrawl() ? 10 : 0), 128, 128};
     SDL_Rect srcRect = {0, 0, 64, 64};
 
     if (player->getWeaponEquip() && !player->getCombatDelay()) 
         SDL_RenderCopy(renderer, combatReadyTexture, &srcRect, &desRect);
     if (player->getSuperJump())
         SDL_RenderCopy(renderer, superJumpReadyTexture, &srcRect, &desRect);
+
+    if (player->getInvincibleTime())
+        SDL_RenderCopy(renderer, invincibleTexture, &srcRect, &desRect);
 }
 
 void Hud::update(SDL_Renderer *renderer)

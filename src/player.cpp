@@ -62,8 +62,7 @@ void Player::setSpriteAlpha(int alpha)
     if (sprite_alpha != alpha)
     {
         sprite_alpha = alpha;
-        SDL_SetTextureAlphaMod(PlayerLeft->getTexture(), alpha);
-        SDL_SetTextureAlphaMod(PlayerRight->getTexture(), alpha);
+        SDL_SetTextureAlphaMod(playerCurrentTexture, alpha);
     }
 }
 
@@ -182,6 +181,11 @@ int Player::getHpMax()
     return hp_max;
 }
 
+int Player::getInvincibleTime()
+{
+    return invincible_time;
+}
+
 bool Player::getWeaponEquip()
 {
     return weapon_equip;
@@ -286,13 +290,22 @@ void Player::playerDrawSprite(SDL_Renderer *renderer)
     SDL_Rect desRect = {drawX - sprite_size * 2, drawY - sprite_size * 2, sprite_size * 4, sprite_size * 4};
     SDL_Rect srcRect = {getSprIndex() * sprite_size, act_index * sprite_size, sprite_size, sprite_size};
 
-    SDL_RenderCopy(renderer, playerCurrentSprite, &srcRect, &desRect);
+    if (!invincible_time) 
+        SDL_SetTextureAlphaMod(playerCurrentTexture, 255);
+    SDL_RenderCopy(renderer, playerCurrentTexture, &srcRect, &desRect);
 }
 
 void Player::playerSpriteIndex()
 {
     // Set index and stuff
     act_right = vel_x > .2 ? 1 : vel_x < -.2 ? 0 : act_right;
+
+    if (invincible_time > invincible_time_max * .8)
+    {
+        setAct(8, act_right);
+        setSprite(1, 0);
+        return;
+    }
 
     // Movement
     if (!combat_index)
@@ -388,7 +401,7 @@ void Player::playerSpriteIndex()
     // Weapon draw
         if (weapon_equip_delay && weapon_equip)
         {
-            setAct(8, act_right);
+            setAct(9, act_right);
             setSprite(8, 3);
             setEndLock(true);
         }
@@ -398,7 +411,7 @@ void Player::playerSpriteIndex()
 
     // ============= SET SPRITE ==============
 
-    playerCurrentSprite = act_right ? 
+    playerCurrentTexture = act_right ? 
             (weapon_equip ? PlayerRightWeapon->getTexture() :
                             PlayerRight->getTexture()) :
             (weapon_equip ? PlayerLeftWeapon->getTexture() :
@@ -486,11 +499,10 @@ void Player::playerInput()
     }
 
     // Ground dash (more like sliding but whatever)
-    if (can_g_dash && state[SDL_SCANCODE_LSHIFT] && !combat_index && on_ground && !g_dash && !crawl_lock && !a_dash && !g_dash_delay)
+    if (can_g_dash && state[SDL_SCANCODE_LSHIFT] && !g_dash_delay && !combat_index && on_ground && !g_dash && !crawl_lock && !a_dash)
     {
         g_dash = true;
         g_dash_delay = g_dash_delay_max * (crawl ? 1.5 : 1);
-        vel_x = g_dash_vel * (act_right ? 1 : -1) * (crawl ? 1.4 : 1);
 
         if (weapon_equip)
         {
@@ -641,6 +653,7 @@ void Player::playerMovement()
     if (g_dash)
     {
         g_dash_frame++;
+        vel_x = g_dash_vel * (act_right ? 1 : -1) * (crawl ? 1.4 : 1);
         if (g_dash_frame >= g_dash_frame_max)
         {
             g_dash_frame = 0;
@@ -685,6 +698,16 @@ void Player::playerMovement()
 void Player::playerCombat()
 {
 // ===================== COMBAT (VERY LEGENDARY) ====================
+
+    if (invincible_time) {
+        if (invincible_time > invincible_time_max * .8)
+        {
+            vel_x = 0;
+            vel_y = 0;
+        }
+        invincible_time--;
+        SDL_SetTextureAlphaMod(playerCurrentTexture, (invincible_time % 20 > 0) ? 200 : 160);
+    }
 
     // Weapon draw delay
     if (weapon_equip_delay > 0)
@@ -776,7 +799,7 @@ void Player::playerCombat()
         }
     }
 
-    if (!combat_delay && combat_keyhold && !vel_x)
+    if (!combat_delay && combat_keyhold && !crawl && !vel_x)
         combat_charge_time++;
     else
         combat_charge_time = 0;
@@ -985,6 +1008,8 @@ void Player::playerEnemyCollision(std::vector<Enemy *> EnemyVec)
 
 void Player::playerGetHit(int dmg)
 {
+    if (invincible_time) return;
+    invincible_time = invincible_time_max;
     hp -= dmg;
 }
 

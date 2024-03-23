@@ -30,6 +30,7 @@ private:
     // Head Up texture
     SDL_Texture *combatReadyTexture;
     SDL_Texture *superJumpReadyTexture;
+    SDL_Texture *invincibleTexture;
 public:
     Hud(SDL_Renderer *renderer, Player *p);
 
