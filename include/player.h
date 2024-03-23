@@ -144,7 +144,7 @@ private:
     Sprite *PlayerRight;
     Sprite *PlayerLeftWeapon;
     Sprite *PlayerRightWeapon;
-    Sprite *PlayerParryEffect;
+    Sprite *PlayerSquid;
     
     // Action indexing and stuff idk
     int act_index = 0;
@@ -222,7 +222,6 @@ public:
     int getCombatTime();
     int getCombatDelay();
     float getCombatParryError();
-    Sprite *getPlayerParrySprite();
 
     int getAirCur();
     int getAirMax();

@@ -21,9 +21,9 @@ void Player::initPlayer(SDL_Renderer *renderer)
     PlayerLeftWeapon = new Sprite(64, 64, 1, "res/NakuSheet/NakuLeftWeapon.png");
     PlayerLeftWeapon->setTexture(Sprite::loadTexture(renderer, PlayerLeftWeapon->getSpritePath()));
 
-    // FUNNNNN
-    PlayerParryEffect = new Sprite(64, 64, 1, "res/NakuSheet/NakuParryEffect.png");
-    PlayerParryEffect->setTexture(Sprite::loadTexture(renderer, PlayerParryEffect->getSpritePath()));
+    // Nakuru Squid Game
+    PlayerSquid = new Sprite(64, 64, 1, "res/NakuSheet/NakuSquid.png");
+    PlayerSquid->setTexture(Sprite::loadTexture(renderer, PlayerSquid->getSpritePath()));
 
     // EXPERIMENTATION
     hitbox = new Sprite(100, 100, 1, "res/HitboxMyass.png");
@@ -217,10 +217,6 @@ int Player::getCombatDelay()
 float Player::getCombatParryError()
 {
     return combat_parry_error;
-}
-Sprite *Player::getPlayerParrySprite()
-{
-    return PlayerParryEffect;
 }
 
 // Focus Offset Stuff
@@ -586,7 +582,7 @@ void Player::playerInput(Map *map)
     {
         jelly_keyhold = true;
         map->ProjectileVec.push_back(new Projectile(
-            hitbox->getTexture(), getX(), getY(), 16, 16, 16, 16, .8, vel_y + 10, 0, -.2, 10, 1000, -1
+            PlayerSquid->getTexture(), getX(), getY(), 16, 16, 32, 32, act_right * 2 - 1, vel_y + 10, 0, -.2, 10, 1000, -1, 1, 1, 0, 4, 10
         ));
     }
     
@@ -1023,7 +1019,6 @@ void Player::playerEnemyCollision(std::vector<Enemy *> EnemyVec)
                 (enemy->getY() > getHitY()? colli_y < combat_hit_up    + enemy->getHitHeight() / 2 :
                                             colli_y < combat_hit_down  + enemy->getHitHeight() / 2))
             {
-                Audio::playSFX("res/Audio/SFX/Bonk.wav");
                 enemy->enemyGetHit(combat_damage);
 
                 if (a_dash || g_dash) vel_x = -vel_x;

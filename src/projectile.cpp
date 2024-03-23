@@ -92,6 +92,8 @@ void Projectile::blockCollision(std::vector<Block *> BlockVec)
 {
     for (Block *block : BlockVec)
     {
+        if (block->getGoThru() || block->getSeeThru()) continue;
+
         int colli_x = abs(getX() - block->getX());
         int colli_y = abs(getY() - block->getY());
         int hit_dist_x = (getWidth() + block->getWidth()) / 2;
@@ -152,10 +154,10 @@ void Projectile::projectileAction(SDL_Renderer *renderer, Player* player, Map *m
         
         if (!parry_effect) 
         {
+            setSprFrameMax(getSprFrameMax() / 2);
             vel_x = vel_parry_x;
             vel_y = vel_parry_y;
             Audio::playSFX("res/Audio/SFX/Parry.wav");
-            SDL_Delay(100);
         }
     }
 }

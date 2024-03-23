@@ -45,8 +45,6 @@ int main(int argc, char *argv[])
     Map1 *map1 = new Map1();
     map1->initAll(game->getRenderer(), player0);
 
-    SDL_Delay(2000);
-
     bool pause = false;
     while (!quit)
     {
