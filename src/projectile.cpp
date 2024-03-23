@@ -83,7 +83,7 @@ void Projectile::playerCollision(Player *player)
         accel_y = 0;
 
         // Other stuff
-        player->setCombatDelay(150);
+        player->setCombatDelay(50);
         parry_effect = player->getCombatTime();
     }
 }
@@ -157,7 +157,7 @@ void Projectile::projectileAction(SDL_Renderer *renderer, Player* player, Map *m
             setSprFrameMax(getSprFrameMax() / 3);
             vel_x = vel_parry_x;
             vel_y = vel_parry_y;
-            Audio::playSFX("res/Audio/SFX/Parry.wav");
+            Audio::playSFX("res/Audio/SFX/Parry.wav", -1);
         }
     }
 }

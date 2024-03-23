@@ -37,21 +37,15 @@ int main(int argc, char *argv[])
 
     // Check for controller support
     if (SDL_NumJoysticks() < 1)
-    {
         printf("No controller connected!\n");
-    }
     else
     {
         controller = SDL_GameControllerOpen(0);
         // Open controller devices
         if (controller == NULL)
-        {
             printf("Failed to open controller: %s\n", SDL_GetError());
-        }
         else
-        {
             printf("Controller connected!\n");
-        }
     }
 
     // Audio
@@ -73,28 +67,9 @@ int main(int argc, char *argv[])
     map1->initAll(game->getRenderer(), player0);
 
     bool pause = false;
-    while (!quit)
+    while (!player0->playerInput(controller))
     {
-
-        // SDL and shit
-        SDL_PollEvent(&event);
-        switch (event.type)
-        {
-        case SDL_QUIT:
-            quit = true;
-            break;
-        case SDL_KEYDOWN:
-            switch (event.key.keysym.sym) {
-                case SDLK_p:
-                    pause = !pause;
-                    std::cout << (pause ? "Continue" : "Pause") << std::endl;
-                        break;
-                    default:
-                        break;
-                case SDLK_ESCAPE:
-                    quit = true;
-            }
-        }
+        player0->playerInput(controller);
 
         // ====Pausing====
         if (pause) continue;

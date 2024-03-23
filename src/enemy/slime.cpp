@@ -117,7 +117,7 @@ void Slime::enemyPlayerCollision(Player *player)
 void Slime::enemyGetHit(int dmg)
 {
     if (getInvinTime()) return;
-    Audio::playSFX("res/Audio/SFX/Hurt.wav");
+    Audio::playSFX("res/Audio/SFX/Hurt.wav", 3);
     setInvinTime(100);
     setHp(getHp() - dmg);
 }

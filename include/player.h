@@ -20,6 +20,19 @@ private:
     int mp = 100;
     int mp_max = 100;
 
+    // Input
+    std::vector<bool> button;   // 0: up
+                                // 1: down
+                                // 2: left
+                                // 3: right
+                                // 4: jump
+                                // 5: dash
+                                // 6: attack
+                                // 7: swap
+                                // 8: throw
+                                // 9: grid
+                                // 10: dev
+
     // Moveset availability
     bool can_move = true;
     bool can_jump = false;
@@ -115,7 +128,7 @@ private:
     // ================== Combat ===================
 
     // Invincibility (is when you are god)
-    int invincible_time = 10000;
+    int invincible_time = 0;
     // Invurnable time (is when you get hurt)
     int invurnable_time = 0;
     int invurnable_time_max = 100;
@@ -256,9 +269,9 @@ public:
     bool getIsHugWall();
 
     // Method
-    void playerInput(Map *map);
+    bool playerInput(SDL_GameController *controller);
     void playerMovement();
-    void playerCombat();
+    void playerCombat(Map *map);
 
     void playerBlockCollision(std::vector<Block*> BlockVec);
     void playerEnemyCollision(std::vector<Enemy*> Enemy);

@@ -10,7 +10,7 @@ class Audio
 private:
 public:
     static void playBGM(const char *wavPath);
-    static void playSFX(const char *wavPath);
+    static void playSFX(const char *wavPath, int channel);
 };
 
 #endif

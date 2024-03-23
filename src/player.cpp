@@ -7,6 +7,10 @@ Player::Player(float X, float Y, int w, int h, int hw, int hh, int sim, int sfm,
 // Fuck her 2nite
 void Player::initPlayer(SDL_Renderer *renderer)
 {
+    // Initialize input
+    for (int i = 0; i < 11; i++)
+        button.push_back(false);
+
     // Nakuru normal mvoement
     PlayerRight = new Sprite(32, 32, 1, "res/NakuSheet/NakuRight.png");
     PlayerRight->setTexture(Sprite::loadTexture(renderer, PlayerRight->getSpritePath()));
@@ -400,8 +404,16 @@ void Player::playerSpriteIndex()
 
         if (combat_index == 3)
         {
-            setAct(12, act_right);
-            setSprite(combat_keyhold ? 1 : 4, buff_combat_speed < 1.2 ? 2 : 1);
+            if (combat_keyhold)
+            {
+                setAct(12, act_right);
+                setSprite(vel_x ? 4 : 1, 30 - abs(vel_x) * 4);
+            }
+            else
+            {
+                setAct(13, act_right);
+                setSprite(4, 2);
+            }
         }
     }
 
@@ -427,10 +439,167 @@ void Player::playerSpriteIndex()
     sprite_size = weapon_equip ? 64 : 32;
 }
 
-void Player::playerInput(Map *map)
+bool Player::playerInput(SDL_GameController *controller)
 {
-    // Input handler
-    const Uint8 *state = SDL_GetKeyboardState(NULL);
+    SDL_Event event;
+    while (SDL_PollEvent(&event))
+    {
+        switch (event.type)
+        {
+        case SDL_QUIT:
+            return true;
+            break;
+        case SDL_KEYDOWN:
+            switch (event.key.keysym.sym)
+            {
+            case SDLK_ESCAPE:
+                return true;
+                break;
+            case SDLK_w:
+                button[0] = true;
+                break;
+            case SDLK_s:
+                button[1] = true;
+                break;
+            case SDLK_a:
+                button[2] = true;
+                break;
+            case SDLK_d:
+                button[3] = true;
+                break;
+            case SDLK_SPACE:
+                button[4] = true;
+                break;
+            case SDLK_LSHIFT:
+                button[5] = true;
+                break;
+            case SDLK_l:
+                button[6] = true;
+                break;
+            case SDLK_q:
+                button[7] = true;
+                break;
+            case SDLK_e:
+                button[8] = true;
+                break;
+            case SDLK_g:
+                button[9] = true;
+                break;
+            case SDLK_h:
+                button[10] = true;
+                break;
+            }
+            break;
+        case SDL_KEYUP:
+            switch (event.key.keysym.sym)
+            {
+            case SDLK_w:
+                button[0] = false;
+                break;
+            case SDLK_s:
+                button[1] = false;
+                break;
+            case SDLK_a:
+                button[2] = false;
+                break;
+            case SDLK_d:
+                button[3] = false;
+                break;
+            case SDLK_SPACE:
+                button[4] = false;
+                break;
+            case SDLK_LSHIFT:
+                button[5] = false;
+                break;
+            case SDLK_l:
+                button[6] = false;
+                break;
+            case SDLK_q:
+                button[7] = false;
+                break;
+            case SDLK_e:
+                button[8] = false;
+                break;
+            case SDLK_g:
+                button[9] = false;
+                break;
+            case SDLK_h:
+                button[10] = false;
+                break;
+            }
+            break;
+        case SDL_CONTROLLERBUTTONDOWN:
+            switch (event.cbutton.button)
+            {
+            case SDL_CONTROLLER_BUTTON_DPAD_UP:
+                button[0] = true;
+                break;
+            case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
+                button[1] = true;
+                break;
+            case SDL_CONTROLLER_BUTTON_DPAD_LEFT:
+                button[2] = true;
+                break;
+            case SDL_CONTROLLER_BUTTON_DPAD_RIGHT:
+                button[3] = true;
+                break;
+            case SDL_CONTROLLER_BUTTON_A:
+                button[4] = true;
+                break;
+            case SDL_CONTROLLER_BUTTON_RIGHTSHOULDER:
+                button[5] = true;
+                break;
+            case SDL_CONTROLLER_BUTTON_X:
+                button[6] = true;
+                break;
+            case SDL_CONTROLLER_BUTTON_Y:
+                button[7] = true;
+                break;
+            case SDL_CONTROLLER_BUTTON_B:
+                button[8] = true;
+                break;
+            }
+            break;
+        case SDL_CONTROLLERBUTTONUP:
+            switch (event.cbutton.button)
+            {
+            case SDL_CONTROLLER_BUTTON_DPAD_UP:
+                button[0] = false;
+                break;
+            case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
+                button[1] = false;
+                break;
+            case SDL_CONTROLLER_BUTTON_DPAD_LEFT:
+                button[2] = false;
+                break;
+            case SDL_CONTROLLER_BUTTON_DPAD_RIGHT:
+                button[3] = false;
+                break;
+            case SDL_CONTROLLER_BUTTON_A:
+                button[4] = false;
+                break;
+            case SDL_CONTROLLER_BUTTON_RIGHTSHOULDER:
+                button[5] = false;
+                break;
+            case SDL_CONTROLLER_BUTTON_X:
+                button[6] = false;
+                break;
+            case SDL_CONTROLLER_BUTTON_Y:
+                button[7] = false;
+                break;
+            case SDL_CONTROLLER_BUTTON_B:
+                button[8] = false;
+                break;
+            }
+            break;
+        }
+    }
+
+    return false;    
+}
+
+void Player::playerMovement()
+{
 
     bool hug_wall = hug_wall_left || hug_wall_right;
 
@@ -439,7 +608,7 @@ void Player::playerInput(Map *map)
     // Moving L/R
     if (can_move && !g_dash && !a_dash && !crawl)
     {
-        if (state[SDL_SCANCODE_A] && !hug_wall_right)
+        if (button[2] && !hug_wall_right)
         {
             if (hug_wall_left)
             {
@@ -459,7 +628,7 @@ void Player::playerInput(Map *map)
             }
         }
 
-        if (state[SDL_SCANCODE_D] && !hug_wall_left)
+        if (button[3] && !hug_wall_left)
         {
             if (hug_wall_right)
             {
@@ -481,20 +650,20 @@ void Player::playerInput(Map *map)
     }
 
     // Crawling
-    crawl = can_crawl && state[SDL_SCANCODE_S] && on_ground && !g_dash && !decel_x && !g_dash_delay && abs(vel_x) < vel_x_max / 2;
+    crawl = can_crawl && button[1] && on_ground && !g_dash && !decel_x && !g_dash_delay && abs(vel_x) < vel_x_max / 2;
     crawl = crawl_lock || crawl;
 
-    if (crawl && state[SDL_SCANCODE_A] && !g_dash)
+    if (crawl && button[2] && !g_dash)
         vel_x = -vel_crawl;
-    if (crawl && state[SDL_SCANCODE_D] && !g_dash)
+    if (crawl && button[3] && !g_dash)
         vel_x = vel_crawl;
 
     // Deceleration
-    if ((!state[SDL_SCANCODE_A] && decel_x == 1) ||
-        (!state[SDL_SCANCODE_D] && decel_x == -1))
+    if ((!button[2] && decel_x == 1) ||
+        (!button[3] && decel_x == -1))
         decel_x = 0;
 
-    if (!state[SDL_SCANCODE_A] && !state[SDL_SCANCODE_D] && !g_dash && !a_dash)
+    if (!button[2] && !button[3] && !g_dash && !a_dash)
     {
         if (abs(vel_x) >= accel_x)
         {
@@ -506,14 +675,14 @@ void Player::playerInput(Map *map)
     }
 
     // Ground dash (more like sliding but whatever)
-    if (can_g_dash && state[SDL_SCANCODE_LSHIFT] && !g_dash_delay && !combat_index && on_ground && !g_dash && !crawl_lock && !a_dash)
+    if (can_g_dash && button[5] && !g_dash_delay && !combat_index && on_ground && !g_dash && !crawl_lock && !a_dash)
     {
         g_dash = true;
         g_dash_delay = g_dash_delay_max * (crawl ? 1.5 : 1);
     }
 
     // Air dash
-    if (can_a_dash && state[SDL_SCANCODE_LSHIFT] && !a_dash_delay && !combat_index && !on_ground && !hug_wall && !crawl && !g_dash && vel_x != 0 && air_cur > 0 && !jump_keyhold)
+    if (can_a_dash && button[5] && !a_dash_delay && !combat_index && !on_ground && !hug_wall && !crawl && !g_dash && vel_x != 0 && air_cur > 0 && !jump_keyhold)
     {
         a_dash = true;
         air_cur--;
@@ -521,7 +690,7 @@ void Player::playerInput(Map *map)
     }
 
     // Jump held key
-    if (can_jump && state[SDL_SCANCODE_SPACE] && !jump_keyhold && (air_cur > 0 || hug_wall) &&
+    if (can_jump && button[4] && !jump_keyhold && (air_cur > 0 || hug_wall) &&
         !g_dash && !a_dash && !decel_x && !crawl_lock && !ceiling_knockout)
     {
         setY(getY() + 10);
@@ -553,53 +722,11 @@ void Player::playerInput(Map *map)
         jump_keyhold = true;
     }
     // Jump release key
-    if (!state[SDL_SCANCODE_SPACE])
+    if (!button[4])
     {
         jump_keyhold = false;
     }
 
-    // ===================== COMBAT (EXTREMELY EPIC) ====================
-
-    // Weapom equipment
-    if (state[SDL_SCANCODE_Q] && (!weapon_equip_delay || weapon_equip) && !weapon_equip_keyhold &&
-        on_ground && vel_x == 0)
-    {
-        weapon_equip_delay = weapon_equip_delay_max;
-        weapon_equip_keyhold = true;
-        weapon_equip = weapon_equip ? false : true;
-    };
-    if (!state[SDL_SCANCODE_Q]) weapon_equip_keyhold = false;
-
-    if (!weapon_equip) return;
-
-    // Attack pattern (really fucking sophisicated)
-
-    if (state[SDL_SCANCODE_L])
-    {
-        combat_keytime++;
-        combat_keyhold = !combat_keytap && combat_keytime > 20;
-    }
-    else
-    {
-        combat_keytap = combat_keytime <= 20 && combat_keytime > 0;
-        combat_keyhold = false;
-        combat_keytime = 0;
-    }
-
-    if (state[SDL_SCANCODE_E] && !jelly_keyhold)
-    {
-        jelly_keyhold = true;
-        map->ProjectileVec.push_back(new Projectile(
-            PlayerSquid->getTexture(), getX(), getY(), 16, 16, 32, 32, act_right * 2 - 1, vel_y + 10, 0, -.2, 10, 1000, -1, 1, 1, 0, 4, 10
-        ));
-    }
-    
-    if (!state[SDL_SCANCODE_E] && jelly_keyhold)
-        jelly_keyhold = false;
-}
-
-void Player::playerMovement()
-{   
     // Buff Combat
     if (buff_move_time)
         buff_move_time--;
@@ -630,7 +757,7 @@ void Player::playerMovement()
     // A_dash
     a_dash_frame_max = weapon_equip ? a_dash_frame_weapon : a_dash_frame_normal;
     a_dash_delay_max = weapon_equip ? a_dash_delay_weapon : a_dash_delay_normal;
-    
+
     // Cap X velocity
     if (!g_dash && !a_dash)
     {
@@ -682,8 +809,9 @@ void Player::playerMovement()
     if (a_dash)
     {
         a_dash_frame++;
-
-        vel_x = (1 + 90 / (air_max - air_cur + 6)) * (vel_x > 0 ? 1 : -1);
+        
+        // :3
+        vel_x = (3 + 90 / (air_max - air_cur + 6)) * (vel_x > 0 ? 1 : -1);
         vel_y = 0;
 
         if (a_dash_frame >= a_dash_frame_max)
@@ -700,7 +828,7 @@ void Player::playerMovement()
     if (ceiling_knockout > 0)
         ceiling_knockout--;
 
-    // On groudn
+    // On ground
     if (!on_ground && air_cur == air_max)
         air_cur = air_max - 1;
     if (on_ground)
@@ -709,9 +837,10 @@ void Player::playerMovement()
     setY(getY() + vel_y);
 }
 
-void Player::playerCombat()
+void Player::playerCombat(Map *map)
 {
 // ===================== COMBAT (VERY LEGENDARY) ====================
+    bool hug_wall = hug_wall_left || hug_wall_right;
 
     // Buff Combat
     if (buff_combat_speed_time)
@@ -723,6 +852,45 @@ void Player::playerCombat()
         buff_combat_damage_time--;
     else
         buff_combat_damage = 1;
+
+    // Weapon equipment
+    if (button[7] && !weapon_equip_delay && !weapon_equip_keyhold &&
+        on_ground && vel_x == 0)
+    {
+        weapon_equip_keyhold = true;
+        weapon_equip_delay = weapon_equip_delay_max;
+        weapon_equip = weapon_equip ? false : true;
+    };
+    if (!button[7]) weapon_equip_keyhold = false;
+
+    // Weapon draw delay
+    if (weapon_equip_delay > 0)
+        weapon_equip_delay -= buff_combat_speed;
+
+    // Attack pattern (really fucking sophisicated)
+
+    if (button[6])
+    {
+        combat_keytime++;
+        combat_keyhold = !combat_keytap && combat_keytime > 20;
+    }
+    else
+    {
+        combat_keytap = combat_keytime <= 20 && combat_keytime > 0;
+        combat_keyhold = false;
+        combat_keytime = 0;
+    }
+
+    if (button[8] && !jelly_keyhold)
+    {
+        jelly_keyhold = true;
+        map->ProjectileVec.push_back(new Projectile(
+            PlayerSquid->getTexture(), getX(), getY(), 16, 16, 32, 32, act_right * 2 - 1, vel_y + 10, 0, -.2, 10, 1000, -1, 1, 1, 0, 4, 10
+        ));
+    }
+    
+    if (!button[8] && jelly_keyhold)
+        jelly_keyhold = false;
 
     // Invincibility frame
     if (invincible_time)
@@ -747,17 +915,13 @@ void Player::playerCombat()
         SDL_SetTextureAlphaMod(playerCurrentTexture, (invurnable_time % 15 > 0) ? 200 : 160);
     }
 
-    // Weapon draw delay
-    if (weapon_equip_delay > 0)
-        weapon_equip_delay -= buff_combat_speed;
-
     if (combat_time > 0)
         combat_time -= buff_combat_speed;
     else
         combat_time = 0;
     
     if (combat_combo_time > 0)
-        combat_combo_time --;
+        combat_combo_time--;
     else
     {
         combat_combo_time = 0;
@@ -834,21 +998,20 @@ void Player::playerCombat()
     }
 
     // =================== Combat Attack Pattern ===================
-    const Uint8 *state = SDL_GetKeyboardState(NULL);
-    bool hug_wall = hug_wall_left || hug_wall_right;
 
     // On ground
     if (!combat_delay && combat_keytap && !hug_wall && !crawl && !g_dash && on_ground)
     {
-        if (!state[SDL_SCANCODE_W])
+        if (!button[0])
         {
             if (!combat_combo_time && !combat_index)
             {
                 combat_index = 1;
                 combat_time = 15;
                 combat_combo_time = 40;
+
                 setEndLock(false);
-                
+
                 vel_x *= .8;
             }
             else if (!combat_time && combat_index == 1 && combat_combo_time)
@@ -856,8 +1019,9 @@ void Player::playerCombat()
                 combat_index = 2;
                 combat_time = 15;
                 combat_combo_time = 35;
+
                 setEndLock(false);
-    
+
                 vel_x *= .4;
             }
         }
@@ -874,7 +1038,6 @@ void Player::playerCombat()
             }
         }
     }
-        
 
     // Charge Attack
     if (!combat_delay && combat_charge_time > 0)
@@ -886,11 +1049,12 @@ void Player::playerCombat()
             combat_time = 10;
             combat_combo_time = 10;
             combat_delay = 100;
+
             setEndLock(false);
         }
     }
 
-    if (!combat_delay && combat_keyhold && !crawl && !vel_x)
+    if (!combat_delay && combat_keyhold && !crawl && !hug_wall && !a_dash && !g_dash)
         combat_charge_time++;
     else
         combat_charge_time = 0;
@@ -1103,7 +1267,7 @@ void Player::playerEnemyCollision(std::vector<Enemy *> EnemyVec)
 void Player::playerGetHit(int dmg)
 {
     if (invurnable_time || invincible_time) return;
-    Audio::playSFX("res/Audio/SFX/NakuHurt.wav");
+    Audio::playSFX("res/Audio/SFX/NakuHurt.wav", -1);
 
     invurnable_time = invurnable_time_max;
     hp -= dmg;
@@ -1111,12 +1275,11 @@ void Player::playerGetHit(int dmg)
 
 void Player::playerDeveloper()
 {
-    const Uint8 *state = SDL_GetKeyboardState(NULL);
-    int vel_developer = state[SDL_SCANCODE_LSHIFT] ? 20 : 4;
-    if (state[SDL_SCANCODE_W]) setY(getY() + vel_developer);
-    if (state[SDL_SCANCODE_S]) setY(getY() - vel_developer);
-    if (state[SDL_SCANCODE_D]) setX(getX() + vel_developer);
-    if (state[SDL_SCANCODE_A]) setX(getX() - vel_developer);
+    int vel_developer = button[5] ? 20 : 4;
+    if (button[0]) setY(getY() + vel_developer);
+    if (button[1]) setY(getY() - vel_developer);
+    if (button[3]) setX(getX() + vel_developer);
+    if (button[2]) setX(getX() - vel_developer);
 }
 
 void Player::playerGrid(SDL_Renderer *renderer)
@@ -1176,9 +1339,8 @@ void Player::playerUpdate(SDL_Renderer *renderer, Map *map)
 {
     if (!godmode)
     {
-        playerInput(map);
         playerMovement();
-        playerCombat();
+        playerCombat(map);
         playerBlockCollision(map->BlockVec);
         playerEnemyCollision(map->EnemyVec);
     }
@@ -1186,27 +1348,25 @@ void Player::playerUpdate(SDL_Renderer *renderer, Map *map)
     {
         playerDeveloper();
     }
-    // playerEventTrigger(event);
 
     playerSpriteIndex();
 
     // ===============DEVELOPER input===============
-    const Uint8 *state = SDL_GetKeyboardState(NULL);
     // GODMODE
-    if (state[SDL_SCANCODE_H] && !godmode_hold)
+    if (button[10] && !godmode_hold)
     {
         godmode_hold = true;
         godmode = godmode ? false : true;
     }
-    if (!state[SDL_SCANCODE_H]) godmode_hold = false;
+    if (!button[10]) godmode_hold = false;
 
     // DISPLAY GRID
-    if (state[SDL_SCANCODE_G] && !grid_hold)
+    if (button[9] && !grid_hold)
     {
         grid_hold = true;
         grid = grid ? false : true;
     };
-    if (!state[SDL_SCANCODE_G]) grid_hold = false;
+    if (!button[9]) grid_hold = false;
 }
 
 void Player::playerEnableAllMoveset()
