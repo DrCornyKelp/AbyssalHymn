@@ -77,7 +77,7 @@ private:
     int a_dash_frame = 0;
     int a_dash_frame_max = 0;
     int a_dash_frame_normal = 20;
-    int a_dash_frame_weapon = 10;
+    int a_dash_frame_weapon = 15;
     // Delay
     int a_dash_delay = 0;
     int a_dash_delay_max = 0;
