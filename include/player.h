@@ -15,10 +15,10 @@ class Player : public Object2D
 {
 private:
     // Elden ring
-    int hp = 3;
-    int hp_max = 3;
-    int mp = 2;
-    int mp_max = 2;
+    int hp = 100;
+    int hp_max = 100;
+    int mp = 100;
+    int mp_max = 100;
 
     // Moveset availability
     bool can_move = true;

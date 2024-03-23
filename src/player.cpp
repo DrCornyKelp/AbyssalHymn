@@ -693,8 +693,17 @@ void Player::playerCombat()
     if (invincible_time) {
         if (invincible_time > invincible_time_max * .8)
         {
+            // When got hit reset all movement and stuff
             vel_x = 0;
             vel_y = 0;
+
+            a_dash = 0;
+            g_dash = 0;
+
+            combat_charge_time = 0;
+            combat_combo_time = 0;
+            combat_time = 0;
+            combat_index = 0;
         }
         invincible_time--;
         SDL_SetTextureAlphaMod(playerCurrentTexture, (invincible_time % 15 > 0) ? 200 : 160);
@@ -713,11 +722,7 @@ void Player::playerCombat()
         combat_index = 0;
 
     if (combat_delay)
-    {
         combat_delay--;
-        // if (!combat_delay)
-        //     Audio::playSFX("res/Audio/SFX/CombatReady.wav");
-    }
 
     if (!weapon_equip) return;
 
@@ -1031,6 +1036,7 @@ void Player::playerGetHit(int dmg)
 {
     if (invincible_time) return;
     Audio::playSFX("res/Audio/SFX/NakuHurt.wav");
+
     invincible_time = invincible_time_max;
     hp -= dmg;
 }
