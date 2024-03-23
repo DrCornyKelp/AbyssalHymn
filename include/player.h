@@ -73,10 +73,12 @@ private:
 
     // Air dash
     bool a_dash = false;
+    // Frame
     int a_dash_frame = 0;
     int a_dash_frame_max = 0;
-    int a_dash_frame_normal = 30;
-    int a_dash_frame_weapon = 20;
+    int a_dash_frame_normal = 20;
+    int a_dash_frame_weapon = 10;
+    // Delay
     int a_dash_delay = 0;
     int a_dash_delay_max = 0;
     int a_dash_delay_normal = 40;
@@ -84,15 +86,20 @@ private:
 
     // Ground Dash
     bool g_dash = false;
-    int g_dash_vel = 10;
+    // Velo
+    int g_dash_vel = 0;
+    int g_dash_vel_normal = 10;
+    int g_dash_vel_weapon = 8;
+    // Frame
     int g_dash_frame = 0;
     int g_dash_frame_max = 0;
     int g_dash_frame_normal = 40;
     int g_dash_frame_weapon = 30;
+    // Delay
     int g_dash_delay = 0;
     int g_dash_delay_max = 0;
-    int g_dash_delay_normal = 40;
-    int g_dash_delay_weapon = 100;
+    int g_dash_delay_normal = 60;
+    int g_dash_delay_weapon = 120;
 
     // ================== Combat ===================
 

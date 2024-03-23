@@ -19,8 +19,8 @@ private:
 
     bool bullet_dead = false;
 
-    int bullet_age;
-    int bullet_damage;
+    int bullet_age = 0;
+    int bullet_damage = 0;
     int vel_x = 0, vel_y = 0;
     int vel_parry_x = 0, vel_parry_y = 0;
 
@@ -32,9 +32,9 @@ private:
 public:
     // Standard Projectile (can parry, no wall, no pierce)
     Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, float velX, float velY, int dmg, int age, short harm);
-
-    // Customizable Projectile
+    // Customizable No Animation Projectile
     Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, float velX, float velY, int dmg, int age, short harm, bool parry, bool pierce, bool thruWall);
+    // Customizable Yes Animation Projectile
     Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, float velX, float velY, int dmg, int age, short harm, bool parry, bool pierce, bool thruWall, int sim, int sfm);
 
     // Getter

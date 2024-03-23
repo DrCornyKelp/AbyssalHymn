@@ -98,7 +98,7 @@ void Slime::enemyAI(Player *player, Map *map)
         float vel_y = abs(colli_vy / colli_vx) * (colli_vy > 0 ? 1 : -1); 
 
         map->ProjectileVec.push_back(
-        new Projectile(bulletSprite->getTexture(), getX(), getY(), 16, 16, vel_x * 3, vel_y * 3, 10, 1000, 1, 1, 1, 0)
+        new Projectile(bulletSprite->getTexture(), getX(), getY(), 16, 16, vel_x * 3, vel_y * 3, 15, 1000, 1, 1, 1, 0)
         );
     }
 
@@ -117,6 +117,7 @@ void Slime::enemyPlayerCollision(Player *player)
 void Slime::enemyGetHit(int dmg)
 {
     if (getInvinTime()) return;
+
     setInvinTime(100);
     setHp(getHp() - dmg);
 }

@@ -542,7 +542,6 @@ void Player::playerInput()
         vel_y = 1 + 40 / (air_max - air_cur + 8);
         if (jump_super == jump_super_max)
             vel_y = 7;
-        accel_y = accel_hold;
 
         // Wall jump
         if (!hug_wall)
@@ -569,7 +568,6 @@ void Player::playerInput()
     if (!state[SDL_SCANCODE_SPACE])
     {
         jump_keyhold = false;
-        accel_y = accel_tap;
     }
 
     // ===================== COMBAT (EXTREMELY EPIC) ====================
@@ -610,7 +608,10 @@ void Player::playerMovement()
     // Acelecreaitm
     accel_x = on_ice ? accel_x_ice : accel_x_ground;
     accel_x *= weapon_equip ? .8 : 1;
+    accel_y = jump_keyhold ? accel_hold : accel_tap;
+    accel_y *= weapon_equip ? 1.2 : 1;
     // G_dash
+    g_dash_vel = weapon_equip ? g_dash_vel_weapon : g_dash_vel_normal;
     g_dash_frame_max = weapon_equip ? g_dash_frame_weapon : g_dash_frame_normal;
     g_dash_delay_max = weapon_equip ? g_dash_delay_weapon : g_dash_delay_normal;
     // A_dash

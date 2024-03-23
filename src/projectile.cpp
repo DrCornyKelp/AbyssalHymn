@@ -4,8 +4,8 @@
 Projectile::Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, float velX, float velY, int dmg, int age, short harm) :
     Object2D(X, Y, hw, hh, hw, hh),
 
-    // Im old
-    bullet_age(age),
+    // Bullet properties
+    bullet_age(age), bullet_damage(dmg),
     // Harm who?
     harm_player(harm == 1), harm_enemy(harm == -1),
     // Draw and Logic
@@ -15,8 +15,8 @@ Projectile::Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, 
 Projectile::Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, float velX, float velY, int dmg, int age, short harm, bool parry, bool pierece, bool thruWall) :
     Object2D(X, Y, hw, hh, hw, hh, 0, 0, 0, 0),
 
-    // Im old
-    bullet_age(age),
+    // Bullet properties
+    bullet_age(age), bullet_damage(dmg),
     // Harm who?
     harm_player(harm == 1), harm_enemy(harm == -1),
     // Draw and Logic
@@ -29,7 +29,7 @@ Projectile::Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, 
     Object2D(X, Y, hw, hh, hw, hh, sim, sfm, 0, 0),
 
     // Im old
-    bullet_age(age),
+    bullet_age(age), bullet_damage(dmg),
     // Harm who?
     harm_player(harm == 1), harm_enemy(harm == -1),
     // Draw and Logic
@@ -91,14 +91,31 @@ void Projectile::blockCollision(std::vector<Block *> BlockVec)
             bullet_dead = true;
             return;
         }
-        
-
     }
 }
 
 void Projectile::enemyCollision(std::vector<Enemy *> EnemyVec)
 {
+    // Enemy Get Hit Oof It hurt
 
+    for (Enemy *enemy : EnemyVec)
+    {
+        int colli_x = abs(getX() - enemy->getX());
+        int colli_y = abs(getY() - enemy->getY());
+        int hit_dist_x = (getWidth() + enemy->getHitWidth()) / 2;
+        int hit_dist_y = (getHeight() + enemy->getHitHeight()) / 2;
+
+        if (colli_x < hit_dist_x && colli_y < hit_dist_y)
+        {
+            bullet_dead = !can_pierce && true;
+            // Player Hit Animation Here
+            enemy->enemyGetHit(bullet_damage);
+        }       
+    } 
+    
+
+    // NGL miggt actually make enemy parry
+    // that would be really insane but hey!
 }
 
 void Projectile::objectCollision(Player *player, Map *map)
