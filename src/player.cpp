@@ -366,21 +366,21 @@ void Player::playerSpriteIndex()
         // Figthing
         if (combat_index == 1 && combat_time)
         {
-            setAct(9, act_right);
+            setAct(10, act_right);
             setSprite(8, 2);
             setEndLock(true);
         }
 
         if (combat_index == 2 && combat_time)
         {
-            setAct(10, act_right);
+            setAct(11, act_right);
             setSprite(8, 2);
             setEndLock(true);
         }
 
         if (combat_index == 3)
         {
-            setAct(11, act_right);
+            setAct(12, act_right);
             setSprite(combat_keyhold ? 1 : 4, 2);
         }
     }
@@ -981,6 +981,11 @@ void Player::playerEnemyCollision(std::vector<Enemy *> EnemyVec)
             }
         }
     }
+}
+
+void Player::playerGetHit(int dmg)
+{
+    hp -= dmg;
 }
 
 void Player::playerDeveloper()

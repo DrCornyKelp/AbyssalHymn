@@ -236,6 +236,7 @@ public:
 
     void playerBlockCollision(std::vector<Block*> BlockVec);
     void playerEnemyCollision(std::vector<Enemy*> Enemy);
+    void playerGetHit(int dmg);
 
     void playerSpriteIndex();
     void playerDrawSprite(SDL_Renderer *renderer);
