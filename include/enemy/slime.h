@@ -36,6 +36,7 @@ public:
 
     void enemyAI(Player *player, Map *map) override;
     void enemyPlayerCollision(Player *player) override;
+    void enemyGetHit(int dmg) override;
     void draw(SDL_Renderer *renderer, Player* player) override;
 };
 

@@ -29,7 +29,7 @@ void Enemy::enemyPlayerCollision(Player *player)
 
 void Enemy::enemyGetHit(int dmg)
 {
-    
+    std::cout << "you friendly af \n";
 }
 
 void Enemy::updateEnemy(Player *player, Map *map)

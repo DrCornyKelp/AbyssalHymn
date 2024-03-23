@@ -27,7 +27,8 @@ public:
 
     virtual void enemyAI(Player *player, Map *map);
     virtual void enemyPlayerCollision(Player *player);
-    
+    virtual void enemyGetHit(int dmg);
+
     void updateEnemy(Player *player, Map *map);
 
     // Getter

@@ -59,6 +59,9 @@ void Slime::draw(SDL_Renderer *renderer, Player *player)
 
     SDL_Rect desRect = {rel_x - getWidth() * 2, Game::HEIGHT - rel_y - getHeight() * 2, getWidth() * 4, getHeight() * 4};
     SDL_Rect srcRect = {getSprIndex() * 80, color, 80, 72};
+
+    if (!getInvinTime()) 
+        SDL_SetTextureAlphaMod(slimeTexture, 255);
     SDL_RenderCopy(renderer, slimeTexture, &srcRect, &desRect);
 }
 
@@ -66,9 +69,13 @@ void Slime::enemyAI(Player *player, Map *map)
 {
     if (getX() > limRight * 64) direction = -1;
     if (getX() < limLeft * 64) direction = 1;
-    
-    if (!getInvinTime())
-        setX(getX() + direction);
+    setX(getX() + direction);
+
+    if (getInvinTime())
+    {
+        setInvinTime(getInvinTime() - 1);
+        SDL_SetTextureAlphaMod(slimeTexture, (getInvinTime() % 15 > 0) ? 200 : 160);
+    }
 
     if (getHp() <= 0) 
     {
@@ -77,6 +84,7 @@ void Slime::enemyAI(Player *player, Map *map)
         setSprFrameMax(5);
         setSprIndexMax(13);
     };
+
 
     if (time < 200) time++;
     else
@@ -104,4 +112,11 @@ void Slime::enemyAI(Player *player, Map *map)
 void Slime::enemyPlayerCollision(Player *player)
 {
 
+}
+
+void Slime::enemyGetHit(int dmg)
+{
+    if (getInvinTime()) return;
+    setInvinTime(100);
+    setHp(getHp() - dmg);
 }

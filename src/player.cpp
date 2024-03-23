@@ -706,7 +706,7 @@ void Player::playerCombat()
             vel_y = 0;
         }
         invincible_time--;
-        SDL_SetTextureAlphaMod(playerCurrentTexture, (invincible_time % 20 > 0) ? 200 : 160);
+        SDL_SetTextureAlphaMod(playerCurrentTexture, (invincible_time % 15 > 0) ? 200 : 160);
     }
 
     // Weapon draw delay
@@ -724,8 +724,8 @@ void Player::playerCombat()
     if (combat_delay)
     {
         combat_delay--;
-        if (!combat_delay)
-            Audio::playSFX("res/Audio/SFX/CombatReady.wav");
+        // if (!combat_delay)
+        //     Audio::playSFX("res/Audio/SFX/CombatReady.wav");
     }
 
     // =================== Combat hitbox handler ===================
@@ -1000,7 +1000,7 @@ void Player::playerEnemyCollision(std::vector<Enemy *> EnemyVec)
                                             colli_y < combat_hit_down  + enemy->getHitHeight() / 2))
             {
                 Audio::playSFX("res/Audio/SFX/Bonk.wav");
-                enemy->setHp(0);
+                enemy->enemyGetHit(combat_damage);
 
                 if (a_dash || g_dash) vel_x = -vel_x;
             }
