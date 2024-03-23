@@ -93,8 +93,8 @@ private:
     // Frame
     int g_dash_frame = 0;
     int g_dash_frame_max = 0;
-    int g_dash_frame_normal = 40;
-    int g_dash_frame_weapon = 30;
+    int g_dash_frame_normal = 45;
+    int g_dash_frame_weapon = 35;
     // Delay
     int g_dash_delay = 0;
     int g_dash_delay_max = 0;

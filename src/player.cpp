@@ -573,7 +573,7 @@ void Player::playerInput()
     // ===================== COMBAT (EXTREMELY EPIC) ====================
 
     // Weapom equipment
-    if (state[SDL_SCANCODE_E] && !weapon_equip_delay && !weapon_equip_keyhold &&
+    if (state[SDL_SCANCODE_E] && (!weapon_equip_delay || weapon_equip) && !weapon_equip_keyhold &&
         on_ground && vel_x == 0)
     {
         weapon_equip_delay = weapon_equip_delay_max;

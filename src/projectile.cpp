@@ -2,7 +2,7 @@
 #include <map.h>
 
 Projectile::Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, float velX, float velY, int dmg, int age, short harm) :
-    Object2D(X, Y, hw, hh, hw, hh),
+    Object2D(X, Y, hw, hh, hw, hh, 0, 0, 0, 0),
 
     // Bullet properties
     bullet_age(age), bullet_damage(dmg),
