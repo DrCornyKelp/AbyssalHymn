@@ -34,6 +34,11 @@ private:
     float buff_combat_speed = 1;
     float buff_combat_damage = 1;
 
+    int buff_move_time = 0;
+    int buff_jump_time = 0;
+    int buff_combat_speed_time = 0;
+    int buff_combat_damage_time = 0;
+
     // Condition
     bool on_ice = false;
     bool on_ground = false;
@@ -109,9 +114,11 @@ private:
 
     // ================== Combat ===================
 
-    // Invincibility
+    // Invincibility (is when you are god)
     int invincible_time = 0;
-    int invincible_time_max = 100;
+    // Invurnable time (is when you get hurt)
+    int invurnable_time = 0;
+    int invurnable_time_max = 100;
 
     // Weapon handler
     bool weapon_equip = true;
@@ -207,6 +214,7 @@ public:
     void setCanHugWall(bool can);
 
     void setCombatDelay(float delay);
+    void setInvincibleTime(int time);
 
     // Getter
     float getVelX();
@@ -220,6 +228,7 @@ public:
     int getHitY();
     
     int getInvincibleTime();
+    int getInvurnableTime();
     bool getWeaponEquip();
     int getCombatHitU();
     int getCombatHitD();

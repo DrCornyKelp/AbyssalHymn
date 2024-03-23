@@ -97,7 +97,6 @@ void Player::setFocus()
     focus_y = FocusGet(resultY, 1);
 }
 
-
 void Player::setCanMove(bool can)
 {
     can_move = can;
@@ -126,6 +125,11 @@ void Player::setCanHugWall(bool can)
 void Player::setCombatDelay(float delay)
 {
     combat_delay = delay;
+}
+
+void Player::setInvincibleTime(int time)
+{
+    invincible_time = time;
 }
 
 // Getter
@@ -184,6 +188,10 @@ int Player::getHpMax()
 int Player::getInvincibleTime()
 {
     return invincible_time;
+}
+int Player::getInvurnableTime()
+{
+    return invurnable_time;
 }
 
 bool Player::getWeaponEquip()
@@ -289,7 +297,7 @@ void Player::playerDrawSprite(SDL_Renderer *renderer)
     SDL_Rect desRect = {drawX - sprite_size * 2, drawY - sprite_size * 2, sprite_size * 4, sprite_size * 4};
     SDL_Rect srcRect = {getSprIndex() * sprite_size, act_index * sprite_size, sprite_size, sprite_size};
 
-    if (!invincible_time) 
+    if (!invurnable_time)
         SDL_SetTextureAlphaMod(playerCurrentTexture, 255);
     SDL_RenderCopy(renderer, playerCurrentTexture, &srcRect, &desRect);
 }
@@ -299,7 +307,7 @@ void Player::playerSpriteIndex()
     // Set index and stuff
     act_right = vel_x > .2 ? 1 : vel_x < -.2 ? 0 : act_right;
 
-    if (invincible_time > invincible_time_max * .8)
+    if (invurnable_time > invurnable_time_max * .8)
     {
         setAct(8, act_right);
         setSprite(1, 0);
@@ -592,6 +600,17 @@ void Player::playerInput(Map *map)
 
 void Player::playerMovement()
 {   
+    // Buff Combat
+    if (buff_move_time)
+        buff_move_time--;
+    else
+        buff_move = 1;
+    
+    if (buff_jump_time)
+        buff_jump_time--;
+    else
+        buff_jump = 1;
+
     // Velcovity
     vel_x_max = on_ground ? vel_x_max_ground : vel_x_max_air;
     vel_x_max *= weapon_equip ? .8 : 1;
@@ -694,9 +713,24 @@ void Player::playerCombat()
 {
 // ===================== COMBAT (VERY LEGENDARY) ====================
 
-    if (invincible_time) {
+    // Buff Combat
+    if (buff_combat_speed_time)
+        buff_combat_speed_time--;
+    else
+        buff_combat_speed = 1;
+    
+    if (buff_combat_damage_time)
+        buff_combat_damage_time--;
+    else
+        buff_combat_damage = 1;
+
+    // Invincibility frame
+    if (invincible_time)
         invincible_time--;
-        if (invincible_time > invincible_time_max * .8)
+
+    if (invurnable_time) {
+        invurnable_time--;
+        if (invurnable_time > invurnable_time_max * .8)
         {
             // When got hit reset all movement and stuff
             vel_x = 0;
@@ -710,7 +744,7 @@ void Player::playerCombat()
             combat_time = 0;
             combat_index = 0;
         }
-        SDL_SetTextureAlphaMod(playerCurrentTexture, (invincible_time % 15 > 0) ? 200 : 160);
+        SDL_SetTextureAlphaMod(playerCurrentTexture, (invurnable_time % 15 > 0) ? 200 : 160);
     }
 
     // Weapon draw delay
@@ -777,8 +811,6 @@ void Player::playerCombat()
         combat_hit_left = act_right ? 0 : 100;
         combat_damage = 10;
         combat_parry_error = 3;
-
-        vel_x *= .8;
     }
 
     if (combat_index == 2)
@@ -789,8 +821,6 @@ void Player::playerCombat()
         combat_hit_left = act_right ? 0 : 120;
         combat_damage = 20;
         combat_parry_error = 1;
-
-        vel_x *= .4;
     }
 
     if (combat_index == 3)
@@ -818,6 +848,8 @@ void Player::playerCombat()
                 combat_time = 15;
                 combat_combo_time = 40;
                 setEndLock(false);
+                
+                vel_x *= .8;
             }
             else if (!combat_time && combat_index == 1 && combat_combo_time)
             {
@@ -825,6 +857,8 @@ void Player::playerCombat()
                 combat_time = 15;
                 combat_combo_time = 35;
                 setEndLock(false);
+    
+                vel_x *= .4;
             }
         }
         else
@@ -839,7 +873,6 @@ void Player::playerCombat()
                 setEndLock(false);
             }
         }
-            
     }
         
 
@@ -1051,7 +1084,7 @@ void Player::playerEnemyCollision(std::vector<Enemy *> EnemyVec)
 
 
     // ================== DEALING DAMAGE =======================
-        if (!(enemy->getInvinTime()) &&
+        if (weapon_equip && !(enemy->getInvinTime()) &&
             (combat_time || a_dash || g_dash))
         {
             if ((enemy->getX() > getHitX()? colli_x < combat_hit_right + enemy->getHitWidth() / 2 :
@@ -1069,10 +1102,10 @@ void Player::playerEnemyCollision(std::vector<Enemy *> EnemyVec)
 
 void Player::playerGetHit(int dmg)
 {
-    if (invincible_time) return;
+    if (invurnable_time || invincible_time) return;
     Audio::playSFX("res/Audio/SFX/NakuHurt.wav");
 
-    invincible_time = invincible_time_max;
+    invurnable_time = invurnable_time_max;
     hp -= dmg;
 }
 

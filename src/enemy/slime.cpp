@@ -85,8 +85,7 @@ void Slime::enemyAI(Player *player, Map *map)
         setSprIndexMax(13);
     };
 
-
-    if (time < 200) time++;
+    if (time < 500) time++;
     else
     {
         time = rand() % 50;
@@ -99,7 +98,7 @@ void Slime::enemyAI(Player *player, Map *map)
 
         map->ProjectileVec.push_back(
         new Projectile(bulletSprite->getTexture(), getX(), getY(), 16, 16, 16, 16,
-                        vel_x * 3, vel_y * 3, 0, 0, 15, 1000, 1)
+                        vel_x * 8, vel_y * 8, 0, 0, 15, 1000, 1)
         );
     }
 
