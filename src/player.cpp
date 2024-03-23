@@ -189,6 +189,10 @@ int Player::getHpMax()
     return hp_max;
 }
 
+bool Player::getWeaponEquip()
+{
+    return weapon_equip;
+}
 int Player::getInvincibleTime()
 {
     return invincible_time;
@@ -198,10 +202,6 @@ int Player::getInvurnableTime()
     return invurnable_time;
 }
 
-bool Player::getWeaponEquip()
-{
-    return weapon_equip;
-}
 int Player::getCombatHitU()
 {
     return combat_hit_up;
@@ -225,6 +225,10 @@ float Player::getCombatTime()
 float Player::getCombatDelay()
 {
     return combat_delay;
+}
+float Player::getCombatCharge()
+{
+    return combat_charge_time;
 }
 float Player::getCombatParryError()
 {
@@ -372,7 +376,6 @@ void Player::playerSpriteIndex()
         if (crawl && !(g_dash && crawl_lock))
         {
             setAct(6, act_right);
-
             setSprite((abs(vel_x) > 0 ? 4 : 1), 8);
         }
 
@@ -412,18 +415,25 @@ void Player::playerSpriteIndex()
             else
             {
                 setAct(13, act_right);
-                setSprite(4, 2);
+                setSprite(4, buff_combat_speed < 1.2 ? 2 : 1);
             }
+        }
+
+        if (combat_index == 4 && combat_time)
+        {
+            setAct(14, act_right);
+            setSprite(8, 2);
+            setEndLock(true);
         }
     }
 
     // Weapon draw
-        if (weapon_equip_delay && weapon_equip)
-        {
-            setAct(9, act_right);
-            setSprite(8, 3);
-            setEndLock(true);
-        }
+    if (weapon_equip_frame && weapon_equip)
+    {
+        setAct(9, act_right);
+        setSprite(8, 3);
+        setEndLock(true);
+    }
 
     if (!a_dash && !g_dash && !weapon_equip_delay && !combat_index)
         setEndLock(false);
@@ -431,10 +441,10 @@ void Player::playerSpriteIndex()
     // ============= SET SPRITE ==============
 
     playerCurrentTexture = act_right ? 
-            (weapon_equip ? PlayerRightWeapon->getTexture() :
-                            PlayerRight->getTexture()) :
-            (weapon_equip ? PlayerLeftWeapon->getTexture() :
-                            PlayerLeft->getTexture());
+        (weapon_equip ? PlayerRightWeapon->getTexture() :
+                        PlayerRight->getTexture()) :
+        (weapon_equip ? PlayerLeftWeapon->getTexture() :
+                        PlayerLeft->getTexture());
 
     sprite_size = weapon_equip ? 64 : 32;
 }
@@ -854,21 +864,19 @@ void Player::playerCombat(Map *map)
         buff_combat_damage = 1;
 
     // Weapon equipment
-    if (button[7] && !weapon_equip_delay && !weapon_equip_keyhold &&
-        on_ground && vel_x == 0)
+    if (button[7] && !weapon_equip_delay && on_ground)
     {
-        weapon_equip_keyhold = true;
+        weapon_equip_frame = 34;
         weapon_equip_delay = weapon_equip_delay_max;
         weapon_equip = weapon_equip ? false : true;
     };
-    if (!button[7]) weapon_equip_keyhold = false;
-
-    // Weapon draw delay
+    // Weapon draw ("draw" weapon, not "draw" painting) delay
     if (weapon_equip_delay > 0)
         weapon_equip_delay -= buff_combat_speed;
+    if (weapon_equip_frame) 
+        weapon_equip_frame --;
 
     // Attack pattern (really fucking sophisicated)
-
     if (button[6])
     {
         combat_keytime++;
@@ -881,14 +889,14 @@ void Player::playerCombat(Map *map)
         combat_keytime = 0;
     }
 
-    if (button[8] && !jelly_keyhold)
+    // Special Jelly Projectile
+    if (weapon_equip && button[8] && !jelly_keyhold)
     {
         jelly_keyhold = true;
         map->ProjectileVec.push_back(new Projectile(
             PlayerSquid->getTexture(), getX(), getY(), 16, 16, 32, 32, act_right * 2 - 1, vel_y + 10, 0, -.2, 10, 1000, -1, 1, 1, 0, 4, 10
         ));
     }
-    
     if (!button[8] && jelly_keyhold)
         jelly_keyhold = false;
 
@@ -997,6 +1005,16 @@ void Player::playerCombat(Map *map)
         combat_parry_error = 0;
     }
 
+    if (combat_index == 4)
+    {
+        combat_hit_up = 70;
+        combat_hit_down = 0;
+        combat_hit_right = 64;
+        combat_hit_left = 64;
+        combat_damage = 15;
+        combat_parry_error = 40;
+    }
+
     // =================== Combat Attack Pattern ===================
 
     // On ground
@@ -1055,7 +1073,7 @@ void Player::playerCombat(Map *map)
     }
 
     if (!combat_delay && combat_keyhold && !crawl && !hug_wall && !a_dash && !g_dash)
-        combat_charge_time++;
+        combat_charge_time += buff_combat_speed;
     else
         combat_charge_time = 0;
 

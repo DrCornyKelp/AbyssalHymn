@@ -131,13 +131,13 @@ private:
     int invincible_time = 0;
     // Invurnable time (is when you get hurt)
     int invurnable_time = 0;
-    int invurnable_time_max = 100;
+    int invurnable_time_max = 150;
 
     // Weapon handler
     bool weapon_equip = true;
-    bool weapon_equip_keyhold = false;
+    int weapon_equip_frame = 0; // Only use for drawing
     int weapon_equip_delay = 0;
-    int weapon_equip_delay_max = 30;
+    int weapon_equip_delay_max = 200;
 
     // Time the atk exist
     float combat_time = 0; 
@@ -240,15 +240,16 @@ public:
     int getHitX();
     int getHitY();
     
+    bool getWeaponEquip();
     int getInvincibleTime();
     int getInvurnableTime();
-    bool getWeaponEquip();
     int getCombatHitU();
     int getCombatHitD();
     int getCombatHitL();
     int getCombatHitR();
     float getCombatTime();
     float getCombatDelay();
+    float getCombatCharge();
     float getCombatParryError();
 
     int getAirCur();

@@ -30,6 +30,7 @@ private:
     // Head Up texture
     SDL_Texture *combatReadyTexture;
     SDL_Texture *combatDelayTexture;
+    SDL_Texture *combatChargeTexture;
     SDL_Texture *superJumpReadyTexture;
     SDL_Texture *invincibleTexture;
 public:

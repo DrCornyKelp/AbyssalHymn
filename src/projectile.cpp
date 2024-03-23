@@ -158,6 +158,7 @@ void Projectile::projectileAction(SDL_Renderer *renderer, Player* player, Map *m
             vel_x = vel_parry_x;
             vel_y = vel_parry_y;
             Audio::playSFX("res/Audio/SFX/Parry.wav", -1);
+            // Audio::playSFX("res/Audio/SFX/Coin.wav", -1);
         }
     }
 }

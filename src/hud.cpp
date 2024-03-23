@@ -6,6 +6,8 @@ Hud::Hud(SDL_Renderer *renderer, Player *p) : player(p)
 
     combatReadyTexture = Sprite::loadTexture(renderer, "res/HudElement/CombatReady.png");
     combatDelayTexture = Sprite::loadTexture(renderer, "res/HudElement/CombatDelay.png");
+    combatChargeTexture = Sprite::loadTexture(renderer, "res/HudElement/CombatCharge.png");
+    
     superJumpReadyTexture = Sprite::loadTexture(renderer, "res/HudElement/SuperJumpReady.png");
     invincibleTexture = Sprite::loadTexture(renderer, "res/HudElement/Invincible.png");
 }
@@ -64,10 +66,13 @@ void Hud::drawHeadUpStat(SDL_Renderer *renderer)
     SDL_Rect srcRect = {0, 0, 64, 64};
 
     if (player->getWeaponEquip())
-        SDL_RenderCopy(renderer,
+    {
+        SDL_Texture *combatTexture =
         (player->getCombatTime() || player->getCombatDelay()) ?
-            combatDelayTexture : combatReadyTexture,
-        &srcRect, &desRect);
+            combatDelayTexture : combatReadyTexture;
+        combatTexture = player->getCombatCharge() > 50 ? combatChargeTexture : combatTexture;
+        SDL_RenderCopy(renderer, combatTexture, &srcRect, &desRect);
+    }
     
     if (player->getSuperJump())
         SDL_RenderCopy(renderer, superJumpReadyTexture, &srcRect, &desRect);
