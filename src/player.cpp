@@ -420,7 +420,7 @@ void Player::playerSpriteIndex()
     sprite_size = weapon_equip ? 64 : 32;
 }
 
-void Player::playerInput()
+void Player::playerInput(Map *map)
 {
     // Input handler
     const Uint8 *state = SDL_GetKeyboardState(NULL);
@@ -573,14 +573,14 @@ void Player::playerInput()
     // ===================== COMBAT (EXTREMELY EPIC) ====================
 
     // Weapom equipment
-    if (state[SDL_SCANCODE_E] && (!weapon_equip_delay || weapon_equip) && !weapon_equip_keyhold &&
+    if (state[SDL_SCANCODE_Q] && (!weapon_equip_delay || weapon_equip) && !weapon_equip_keyhold &&
         on_ground && vel_x == 0)
     {
         weapon_equip_delay = weapon_equip_delay_max;
         weapon_equip_keyhold = true;
         weapon_equip = weapon_equip ? false : true;
     };
-    if (!state[SDL_SCANCODE_E]) weapon_equip_keyhold = false;
+    if (!state[SDL_SCANCODE_Q]) weapon_equip_keyhold = false;
 
     if (!weapon_equip) return;
 
@@ -591,13 +591,23 @@ void Player::playerInput()
         combat_keytime++;
         combat_keyhold = !combat_keytap && combat_keytime > 20;
     }
-
-    if (!state[SDL_SCANCODE_L])
+    else
     {
         combat_keytap = combat_keytime <= 20 && combat_keytime > 0;
         combat_keyhold = false;
         combat_keytime = 0;
     }
+
+    if (state[SDL_SCANCODE_E] && !jelly_keyhold)
+    {
+        jelly_keyhold = true;
+        map->ProjectileVec.push_back(new Projectile(
+            hitbox->getTexture(), getX(), getY(), 16, 16, 16, 16, .8, vel_y + 10, 0, -.2, 10, 1000, -1
+        ));
+    }
+    
+    if (!state[SDL_SCANCODE_E] && jelly_keyhold)
+        jelly_keyhold = false;
 }
 
 void Player::playerMovement()
@@ -1083,7 +1093,7 @@ void Player::playerUpdate(SDL_Renderer *renderer, Map *map)
 {
     if (!godmode)
     {
-        playerInput();
+        playerInput(map);
         playerMovement();
         playerCombat();
         playerBlockCollision(map->BlockVec);

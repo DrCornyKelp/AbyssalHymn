@@ -89,7 +89,7 @@ void Slime::enemyAI(Player *player, Map *map)
     if (time < 200) time++;
     else
     {
-        time = 0;
+        time = rand() % 50;
 
         float colli_vx = player->getX() - getX();
         float colli_vy = player->getY() - getY();
@@ -98,7 +98,8 @@ void Slime::enemyAI(Player *player, Map *map)
         float vel_y = abs(colli_vy / colli_vx) * (colli_vy > 0 ? 1 : -1); 
 
         map->ProjectileVec.push_back(
-        new Projectile(bulletSprite->getTexture(), getX(), getY(), 16, 16, vel_x * 3, vel_y * 3, 15, 1000, 1)
+        new Projectile(bulletSprite->getTexture(), getX(), getY(), 16, 16, 16, 16,
+                        vel_x * 3, vel_y * 3, 0, 0, 15, 1000, 1)
         );
     }
 

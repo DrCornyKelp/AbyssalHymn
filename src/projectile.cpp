@@ -1,39 +1,39 @@
 #include <projectile.h>
 #include <map.h>
 
-Projectile::Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, float velX, float velY, int dmg, int age, short harm) :
-    Object2D(X, Y, hw, hh, hw, hh, 0, 0, 0, 0),
+Projectile::Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, int sw, int sh, float velX, float velY, float accelX, float accelY, int dmg, int age, short harm) :
+    Object2D(X, Y, sw, sh, hw, hh, 0, 0, 0, 0),
 
     // Bullet properties
-    bullet_age(age), bullet_damage(dmg),
+    bullet_age(age), bullet_damage(dmg), bullet_texture(bTexture),
     // Harm who?
     harm_player(harm == 1), harm_enemy(harm == -1),
     // Draw and Logic
-    bullet_texture(bTexture), vel_x(velX), vel_y(velY)
+    vel_x(velX), vel_y(velY), accel_x(accelX), accel_y(accelY)
 {}
 
-Projectile::Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, float velX, float velY, int dmg, int age, short harm, bool parry, bool pierece, bool thruWall) :
-    Object2D(X, Y, hw, hh, hw, hh, 0, 0, 0, 0),
+Projectile::Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, int sw, int sh, float velX, float velY, float accelX, float accelY, int dmg, int age, short harm, bool parry, bool pierece, bool thruWall) :
+    Object2D(X, Y, sw, sh, hw, hh, 0, 0, 0, 0),
 
     // Bullet properties
-    bullet_age(age), bullet_damage(dmg),
+    bullet_age(age), bullet_damage(dmg), bullet_texture(bTexture),
     // Harm who?
     harm_player(harm == 1), harm_enemy(harm == -1),
-    // Draw and Logic
-    bullet_texture(bTexture), vel_x(velX), vel_y(velY),
+    // Speed and stuff
+    vel_x(velX), vel_y(velY), accel_x(accelX), accel_y(accelY),
     // Cool mechanic
     can_parry(parry), can_pierce(pierece), can_wall(thruWall)
 {}
 
-Projectile::Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, float velX, float velY, int dmg, int age, short harm, bool parry, bool pierece, bool thruWall, int sim, int sfm) :
-    Object2D(X, Y, hw, hh, hw, hh, sim, sfm, 0, 0),
+Projectile::Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, int sw, int sh, float velX, float velY, float accelX, float accelY, int dmg, int age, short harm, bool parry, bool pierece, bool thruWall, int sim, int sfm) :
+    Object2D(X, Y, sw, sh, hw, hh, sim, sfm, 0, 0),
 
     // Im old
-    bullet_age(age), bullet_damage(dmg),
+    bullet_age(age), bullet_damage(dmg), bullet_texture(bTexture),
     // Harm who?
     harm_player(harm == 1), harm_enemy(harm == -1),
     // Draw and Logic
-    bullet_texture(bTexture), vel_x(velX), vel_y(velY),
+    vel_x(velX), vel_y(velY), accel_x(accelX), accel_y(accelY),
     // Cool mechanic
     can_parry(parry), can_pierce(pierece), can_wall(thruWall)
 {}
@@ -43,10 +43,10 @@ void Projectile::playerCollision(Player *player)
     // Player Get Hit Oof It hurt
     int colli_x = abs(getX() - player->getHitX());
     int colli_y = abs(getY() - player->getHitY());
-    int hit_dist_x = (getWidth() + player->getHitWidth()) / 2;
-    int hit_dist_y = (getHeight() + player->getHitHeight()) / 2;
+    int hit_dist_x = (getHitWidth() + player->getHitWidth()) / 2;
+    int hit_dist_y = (getHitHeight() + player->getHitHeight()) / 2;
 
-    if (colli_x < hit_dist_x && colli_y < hit_dist_y)
+    if (harm_player && colli_x < hit_dist_x && colli_y < hit_dist_y)
     {
         bullet_dead = !can_pierce && true;
         // Player Hit Animation Here
@@ -54,23 +54,29 @@ void Projectile::playerCollision(Player *player)
     }
 
     // Player Hit The Bullet Back, Get Parried Lmao
-    if (can_parry &&
+    // Interesting mechanic, player could literally parry
+    //              their own bullet lmao
+    if (can_parry && !bullet_parried &&
         (player->getCombatTime() && !player->getIsADash() && !player->getIsGDash()) &&
-        (player->getX() < getX() ?  colli_x < player->getCombatHitR() + getWidth() / 2 : 
-                                    colli_x < player->getCombatHitL() + getWidth() / 2) &&
-        (player->getY() < getY() ?  colli_y < player->getCombatHitU() + getHeight() / 2 : 
-                                    colli_y < player->getCombatHitD() + getHeight() / 2))
+        (player->getX() < getX() ?  colli_x < player->getCombatHitR() + getHitWidth() / 2 : 
+                                    colli_x < player->getCombatHitL() + getHitWidth() / 2) &&
+        (player->getY() < getY() ?  colli_y < player->getCombatHitU() + getHitHeight() / 2 : 
+                                    colli_y < player->getCombatHitD() + getHitHeight() / 2))
     {
+        bullet_parried = true;
         harm_player = false;
         harm_enemy = true;
 
-        // std::cout << player->getVelX() << " " << player->getVelY() << "\n";
+        vel_parry_x = player->getActRight() ? 5 : -5;
+        vel_parry_y = 0;
 
-        vel_parry_x = abs(player->getVelX() * 2) > abs(vel_x) ?
-                            player->getVelX() * 2 : -vel_x;
-        vel_parry_y = abs(player->getVelY() * 2) > abs(vel_y) ?
-                            player->getVelY() * 2 : -vel_y;
+        // Bullet Stop Motion
+        vel_x *= .2;
+        vel_y *= .2;
+        accel_x = 0;
+        accel_y = 0;
 
+        // Other stuff
         player->setCombatDelay(150);
         parry_effect = player->getCombatTime();
     }
@@ -102,8 +108,8 @@ void Projectile::enemyCollision(std::vector<Enemy *> EnemyVec)
     {
         int colli_x = abs(getX() - enemy->getX());
         int colli_y = abs(getY() - enemy->getY());
-        int hit_dist_x = (getWidth() + enemy->getHitWidth()) / 2;
-        int hit_dist_y = (getHeight() + enemy->getHitHeight()) / 2;
+        int hit_dist_x = (getHitWidth() + enemy->getHitWidth()) / 2;
+        int hit_dist_y = (getHitHeight() + enemy->getHitHeight()) / 2;
 
         if (colli_x < hit_dist_x && colli_y < hit_dist_y)
         {
@@ -120,7 +126,7 @@ void Projectile::enemyCollision(std::vector<Enemy *> EnemyVec)
 
 void Projectile::objectCollision(Player *player, Map *map)
 {
-    if (harm_player) playerCollision(player);
+    playerCollision(player);
     if (harm_enemy) enemyCollision(map->EnemyVec);
     if (!can_wall) blockCollision(map->BlockVec);
 }
@@ -132,6 +138,8 @@ void Projectile::projectileAction(SDL_Renderer *renderer, Player* player, Map *m
 
     setX(getX() + vel_x);
     setY(getY() + vel_y);
+    vel_x += accel_x;
+    vel_y += accel_y;
 
     if (parry_effect > 0)
     {

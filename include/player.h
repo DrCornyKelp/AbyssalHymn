@@ -55,7 +55,7 @@ private:
 
     // "Airborne" movement
     int air_cur = 0;
-    int air_max = 3;
+    int air_max = 2;
 
     // Jumping
     bool jump_keyhold = false;
@@ -132,6 +132,9 @@ private:
     int combat_hit_down = 0;
     int combat_hit_left = 0;
     int combat_hit_right = 0;
+
+    // Combat Projectile
+    bool jelly_keyhold = false;
 
     // ================= DRAWING ====================
     // Le Sprite itself (do not touch)
@@ -237,7 +240,7 @@ public:
     bool getIsHugWall();
 
     // Method
-    void playerInput();
+    void playerInput(Map *map);
     void playerMovement();
     void playerCombat();
 
