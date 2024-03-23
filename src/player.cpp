@@ -982,6 +982,8 @@ void Player::playerEnemyCollision(std::vector<Enemy *> EnemyVec)
             colli_x < hit_dist_x &&
             colli_y < hit_dist_y)
         {
+            if (enemy->getCollideDamage())
+                playerGetHit(enemy->getCollideDamage());
 
             // Addition enemy logic
             enemy->enemyPlayerCollision(this);

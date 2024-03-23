@@ -17,7 +17,7 @@ private:
     // death come to us all :(
     bool dead = false;
     
-    int collide_damage = true;
+    int collide_damage = 0;
 
 public:
     Enemy(float X = 0, float Y = 0, int w = 2, int h = 2, int hw = 2, int hh = 2, int sim = 2, int sfm = 20);
@@ -40,7 +40,7 @@ public:
     void setHp(int h);
     void setDead(bool d);
     void setInvinTime(int time);
-    int setCollideDamage(int dmg);
+    void setCollideDamage(int dmg);
 };
 
 #endif

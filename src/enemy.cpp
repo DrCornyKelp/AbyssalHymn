@@ -27,6 +27,11 @@ void Enemy::enemyPlayerCollision(Player *player)
     std::cout << "enemy friendly af \n";
 }
 
+void Enemy::enemyGetHit(int dmg)
+{
+    
+}
+
 void Enemy::updateEnemy(Player *player, Map *map)
 {
     if (!dead)
@@ -49,6 +54,10 @@ int Enemy::getInvinTime()
 {
     return invincible_time;
 };
+int Enemy::getCollideDamage()
+{
+    return collide_damage;
+};
 
 // Setter
 void Enemy::setHp(int h)
@@ -62,4 +71,8 @@ void Enemy::setDead(bool d)
 void Enemy::setInvinTime(int time)
 {
     invincible_time = time;
+};
+void Enemy::setCollideDamage(int dmg)
+{
+    collide_damage = dmg;
 };

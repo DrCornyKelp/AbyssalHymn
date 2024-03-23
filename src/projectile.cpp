@@ -55,7 +55,7 @@ void Projectile::playerCollision(Player *player)
 
     // Player Hit The Bullet Back, Get Parried Lmao
     if (can_parry &&
-        (player->getCombatTime() || player->getIsADash() || player->getIsGDash()) &&
+        (player->getCombatTime() && !player->getIsADash() && !player->getIsGDash()) &&
         (player->getX() < getX() ?  colli_x < player->getCombatHitR() + getWidth() / 2 : 
                                     colli_x < player->getCombatHitL() + getWidth() / 2) &&
         (player->getY() < getY() ?  colli_y < player->getCombatHitU() + getHeight() / 2 : 
@@ -85,10 +85,14 @@ void Projectile::blockCollision(std::vector<Block *> BlockVec)
         int hit_dist_x = (getWidth() + block->getWidth()) / 2;
         int hit_dist_y = (getHeight() + block->getHeight()) / 2;
 
-        if (!can_wall &&
-            colli_x < hit_dist_x &&
+        if (colli_x < hit_dist_x &&
             colli_y < hit_dist_y)
-            bullet_dead =  true;
+        {
+            bullet_dead = true;
+            return;
+        }
+        
+
     }
 }
 
@@ -120,7 +124,7 @@ void Projectile::projectileAction(SDL_Renderer *renderer, Player* player, Map *m
         {
             vel_x = vel_parry_x;
             vel_y = vel_parry_y;
-            Audio::playSFX("res/Audio/SFX/Parry.wav");
+            // Audio::playSFX("res/Audio/SFX/Parry.wav");
             SDL_Delay(100);
         }
     }

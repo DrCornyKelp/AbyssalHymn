@@ -22,6 +22,7 @@ void Slime::initEnemy(SDL_Renderer *renderer)
     bulletSprite->setTexture(Sprite::loadTexture(renderer, bulletSprite->getSpritePath()));
 
     setHp(20);
+    setCollideDamage(20);
 
     // Random slime color ('v^)
     // srand(time(nullptr));
