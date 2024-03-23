@@ -12,6 +12,12 @@ Projectile::Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, 
     vel_x(velX), vel_y(velY), accel_x(accelX), accel_y(accelY)
 {}
 
+float Projectile::generateRandomFloat() {
+    srand((unsigned) time(NULL));
+	float random = rand() % 100 - 50;
+    return random / 50;
+}
+
 Projectile::Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, int sw, int sh, float velX, float velY, float accelX, float accelY, int dmg, int age, short harm, bool parry, bool pierece, bool thruWall) :
     Object2D(X, Y, sw, sh, hw, hh, 0, 0, 0, 0),
 
@@ -68,7 +74,8 @@ void Projectile::playerCollision(Player *player)
         harm_enemy = true;
 
         vel_parry_x = player->getActRight() ? 5 : -5;
-        vel_parry_y = 0;
+        std::cout << generateRandomFloat() << "\n";
+        vel_parry_y = player->getVelY() + generateRandomFloat() * player->getCombatParryError();
 
         // Bullet Stop Motion
         vel_x *= .2;

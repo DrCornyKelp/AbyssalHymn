@@ -132,6 +132,7 @@ private:
     int combat_hit_down = 0;
     int combat_hit_left = 0;
     int combat_hit_right = 0;
+    float combat_parry_error = 0;
 
     // Combat Projectile
     bool jelly_keyhold = false;
@@ -220,6 +221,7 @@ public:
     int getCombatHitR();
     int getCombatTime();
     int getCombatDelay();
+    float getCombatParryError();
     Sprite *getPlayerParrySprite();
 
     int getAirCur();

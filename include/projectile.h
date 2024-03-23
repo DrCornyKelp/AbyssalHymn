@@ -39,6 +39,9 @@ public:
     // Customizable Yes Animation Projectile
     Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, int sw, int sh, float velX, float velY, float accelX, float accelY, int dmg, int age, short harm, bool parry, bool pierce, bool thruWall, int sim, int sfm);
 
+    // some things
+    static float generateRandomFloat();
+
     // Getter
     bool getBulletDead();
     void setBulletDead(bool dead);

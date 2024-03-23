@@ -214,7 +214,10 @@ int Player::getCombatDelay()
 {
     return combat_delay;
 }
-
+float Player::getCombatParryError()
+{
+    return combat_parry_error;
+}
 Sprite *Player::getPlayerParrySprite()
 {
     return PlayerParryEffect;
@@ -503,16 +506,6 @@ void Player::playerInput(Map *map)
     {
         g_dash = true;
         g_dash_delay = g_dash_delay_max * (crawl ? 1.5 : 1);
-
-        if (weapon_equip)
-        {
-            combat_hit_up = 20;
-            combat_hit_down = 20;
-            if (act_right) combat_hit_right = 80;
-            else combat_hit_left = 80;
-
-            combat_damage = crawl ? 20 : 12;
-        }
     }
 
     // Air dash
@@ -521,15 +514,6 @@ void Player::playerInput(Map *map)
         a_dash = true;
         air_cur--;
         a_dash_delay = a_dash_delay_max;
-
-        if (weapon_equip)
-        {
-            combat_hit_up = 30;
-            combat_hit_down = 30;
-            combat_damage = 10;
-            if (act_right) combat_hit_right = 80;
-            else combat_hit_left = 80;
-        }
     }
 
     // Jump held key
@@ -739,6 +723,8 @@ void Player::playerCombat()
         //     Audio::playSFX("res/Audio/SFX/CombatReady.wav");
     }
 
+    if (!weapon_equip) return;
+
     // =================== Combat hitbox handler ===================
     if (!combat_time && !a_dash && !g_dash)
     {
@@ -747,7 +733,29 @@ void Player::playerCombat()
         combat_hit_right = 0;
         combat_hit_left = 0;
         combat_damage = 0;
+        combat_parry_error = 10;
     }
+
+    if (a_dash)
+    {
+        combat_hit_up = 30;
+        combat_hit_down = 30;
+        combat_damage = 10;
+        if (act_right)
+            combat_hit_right = 80;
+        else
+            combat_hit_left = 80;
+    }
+
+    if (g_dash)
+        {
+            combat_hit_up = 20;
+            combat_hit_down = 20;
+            if (act_right) combat_hit_right = 80;
+            else combat_hit_left = 80;
+
+            combat_damage = crawl ? 20 : 12;
+        }
 
     if (combat_index == 1)
     {
@@ -756,6 +764,7 @@ void Player::playerCombat()
         combat_hit_right = act_right ? 100 : 0;
         combat_hit_left = act_right ? 0 : 100;
         combat_damage = 10;
+        combat_parry_error = 3;
     }
 
     if (combat_index == 2)
@@ -765,6 +774,7 @@ void Player::playerCombat()
         combat_hit_right = act_right ? 120 : 0;
         combat_hit_left = act_right ? 0 : 120;
         combat_damage = 20;
+        combat_parry_error = 1;
     }
 
     if (combat_index == 3)
@@ -774,6 +784,7 @@ void Player::playerCombat()
         combat_hit_right = act_right ? 100 : 0;
         combat_hit_left = act_right ? 0 : 100;
         combat_damage = 30;
+        combat_parry_error = 0;
     }
 
     // =================== Combat Attack Pattern ===================
