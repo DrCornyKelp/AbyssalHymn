@@ -22,6 +22,7 @@ private:
     int bullet_age;
     int bullet_damage;
     int vel_x = 0, vel_y = 0;
+    int vel_parry_x = 0, vel_parry_y = 0;
 
     SDL_Texture *bullet_texture;
 

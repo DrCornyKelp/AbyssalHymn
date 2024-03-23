@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
         rend->renderAll(game->getRenderer(), player0, map1);
 
         // Draw Hud
-        hud0->draw(game->getRenderer());
+        hud0->update(game->getRenderer());
 
         // SDL and shit
         SDL_RenderPresent(game->getRenderer());

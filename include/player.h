@@ -54,9 +54,13 @@ private:
     bool g_dash = false;
     int g_dash_vel = 10;
     int g_dash_frame = 0;
-    int g_dash_frame_max = 40;
+    int g_dash_frame_max = 0;
+    int g_dash_frame_normal = 40;
+    int g_dash_frame_weapon = 30;
     int g_dash_delay = 0;
-    int g_dash_delay_max = 100;
+    int g_dash_delay_max = 0;
+    int g_dash_delay_normal = 40;
+    int g_dash_delay_weapon = 40;
 
     // Decelleration
     int decel_x = 0; // 0: none, -1: LEFT, 1: RIGHT
@@ -81,9 +85,14 @@ private:
 
     // Air dash
     bool a_dash = false;
-    bool a_dash_hold = false;
     int a_dash_frame = 0;
-    int a_dash_frame_max = 20;
+    int a_dash_frame_max = 0;
+    int a_dash_frame_normal = 30;
+    int a_dash_frame_weapon = 20;
+    int a_dash_delay = 0;
+    int a_dash_delay_max = 0;
+    int a_dash_delay_normal = 40;
+    int a_dash_delay_weapon = 100;
 
     // ================== Combat ===================
 
@@ -189,19 +198,20 @@ public:
     int getActIndex();
     bool getActRight();
     int getDecel();
+    bool getSuperJump();
     
     int getHitX();
     int getHitY();
 
+    bool getWeaponEquip();
     int getCombatHitU();
     int getCombatHitD();
     int getCombatHitL();
     int getCombatHitR();
     int getCombatTime();
-
+    int getCombatDelay();
     Sprite *getPlayerParrySprite();
 
-    // Thing that will be drawn in stat
     int getAirCur();
     int getAirMax();
     int getHpCur();
@@ -211,6 +221,13 @@ public:
     bool getFocusY();
     int getOffsetX();
     int getOffsetY();
+
+    bool getIsMove();
+    bool getIsJump();
+    bool getIsGDash();
+    bool getIsADash();
+    bool getIsCrawl();
+    bool getIsHugWall();
 
     // Method
     void playerInput();

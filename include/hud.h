@@ -19,12 +19,17 @@ private:
 
     Player* player;
 
-    // Hud texture
-    SDL_Texture *airbornTexture;
+    int bobbing = 0;
+    int bobbing_direction = 1;
+
     int airbornDisplay = 300;
 
-    // const char *fontpath = "res/Font/Ultrakill.ttf";
-    // TTF_Font *fonthud = TTF_OpenFont(fontpath, 24);
+    // Hud texture
+    SDL_Texture *airbornTexture;
+
+    // Head Up texture
+    SDL_Texture *combatReadyTexture;
+    SDL_Texture *superJumpReadyTexture;
 public:
     Hud(SDL_Renderer *renderer, Player *p);
 
@@ -35,7 +40,8 @@ public:
     // Alot of drawing
     void drawHealth(SDL_Renderer *renderer);
     void drawAirborne(SDL_Renderer *renderer);
-    void draw(SDL_Renderer *renderer);
+    void drawHeadUpStat(SDL_Renderer *renderer);
+    void update(SDL_Renderer *renderer);
 };
 
 #endif

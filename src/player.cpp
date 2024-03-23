@@ -138,6 +138,10 @@ float Player::getVelY()
 {
     return vel_y;
 }
+bool Player::getSuperJump()
+{
+    return jump_super >= jump_super_max;
+}
 // Action speak louder than word
 // "Going to the mall is louder than... green?"
 int Player::getActIndex()
@@ -178,6 +182,10 @@ int Player::getHpMax()
     return hp_max;
 }
 
+bool Player::getWeaponEquip()
+{
+    return weapon_equip;
+}
 int Player::getCombatHitU()
 {
     return combat_hit_up;
@@ -197,6 +205,10 @@ int Player::getCombatHitR()
 int Player::getCombatTime()
 {
     return combat_time;
+}
+int Player::getCombatDelay()
+{
+    return combat_delay;
 }
 
 Sprite *Player::getPlayerParrySprite()
@@ -221,6 +233,31 @@ int Player::getOffsetX()
 int Player::getOffsetY()
 {
     return offset_y;
+}
+
+bool Player::getIsMove()
+{
+    return vel_x;
+}
+bool Player::getIsJump()
+{
+    return vel_y;
+}
+bool Player::getIsGDash()
+{
+    return g_dash;
+}
+bool Player::getIsADash()
+{
+    return a_dash;
+}
+bool Player::getIsCrawl()
+{
+    return crawl;
+}
+bool Player::getIsHugWall()
+{
+    return hug_wall_left || hug_wall_right;
 }
 
 // Other Method
@@ -467,14 +504,12 @@ void Player::playerInput()
     }
 
     // Air dash
-    if (can_a_dash && state[SDL_SCANCODE_LSHIFT] && !combat_index && !a_dash_hold && !on_ground && !hug_wall && !crawl && !g_dash && vel_x != 0 && air_cur > 0 && !jump_keyhold)
+    if (can_a_dash && state[SDL_SCANCODE_LSHIFT] && !a_dash_delay && !combat_index && !on_ground && !hug_wall && !crawl && !g_dash && vel_x != 0 && air_cur > 0 && !jump_keyhold)
     {
-        a_dash_hold = true;
         a_dash = true;
-        
         air_cur--;
-        vel_x = (1 + 90 / (air_max - air_cur + 6)) * (vel_x > 0 ? 1 : -1);
-    
+        a_dash_delay = a_dash_delay_max;
+
         if (weapon_equip)
         {
             combat_hit_up = 30;
@@ -484,8 +519,6 @@ void Player::playerInput()
             else combat_hit_left = 80;
         }
     }
-    if (!state[SDL_SCANCODE_LSHIFT])
-        a_dash_hold = false;
 
     // Jump held key
     if (can_jump && state[SDL_SCANCODE_SPACE] && !jump_keyhold && (air_cur > 0 || hug_wall) &&
@@ -558,9 +591,20 @@ void Player::playerInput()
 }
 
 void Player::playerMovement()
-{
+{   
+    // Velcovity
     vel_x_max = on_ground ? vel_x_max_ground : vel_x_max_air;
+    vel_x_max *= weapon_equip ? .8 : 1;
+    // Acelecreaitm
     accel_x = on_ice ? accel_x_ice : accel_x_ground;
+    accel_x *= weapon_equip ? .8 : 1;
+    // G_dash
+    g_dash_frame_max = weapon_equip ? g_dash_frame_weapon : g_dash_frame_normal;
+    g_dash_delay_max = weapon_equip ? g_dash_delay_weapon : g_dash_delay_normal;
+    // A_dash
+    a_dash_frame_max = weapon_equip ? a_dash_frame_weapon : a_dash_frame_normal;
+    a_dash_delay_max = weapon_equip ? a_dash_delay_weapon : a_dash_delay_normal;
+    
     // Cap X velocity
     if (!g_dash && !a_dash)
     {
@@ -587,16 +631,13 @@ void Player::playerMovement()
     if (vel_y <= -vel_terminal)
         vel_y = -vel_terminal;
 
-    // Air Dashing
-    if (a_dash)
-        vel_y = 0;
-
-    // Ground Stuff
+    // SUPER JUMP
     if (crawl && vel_x == 0)
         jump_super += jump_super < jump_super_max;
     else
         jump_super = 0;
 
+    // Ground dash
     if (g_dash)
     {
         g_dash_frame++;
@@ -614,12 +655,19 @@ void Player::playerMovement()
     if (a_dash)
     {
         a_dash_frame++;
+
+        vel_x = (1 + 90 / (air_max - air_cur + 6)) * (vel_x > 0 ? 1 : -1);
+        vel_y = 0;
+
         if (a_dash_frame >= a_dash_frame_max)
         {
             a_dash_frame = 0;
             a_dash = false;
         }
     }
+
+    if (a_dash_delay > 0)
+        a_dash_delay--;
 
     // Ceiling knock out
     if (ceiling_knockout > 0)
@@ -651,7 +699,11 @@ void Player::playerCombat()
         combat_index = 0;
 
     if (combat_delay)
+    {
         combat_delay--;
+        if (!combat_delay)
+            Audio::playSFX("res/Audio/SFX/CombatReady.wav");
+    }
 
     // =================== Combat hitbox handler ===================
     if (!combat_time && !a_dash && !g_dash)
@@ -701,8 +753,6 @@ void Player::playerCombat()
             combat_time = 15;
             combat_combo_time = 40;
             setEndLock(false);
-
-            vel_x *= .5;
         }
         else if (!combat_time && combat_index == 1 && combat_combo_time)
         {
@@ -710,8 +760,6 @@ void Player::playerCombat()
             combat_time = 15;
             combat_combo_time = 35;
             setEndLock(false);
-
-            vel_x = 0;
         }
 
     // Charge Attack
