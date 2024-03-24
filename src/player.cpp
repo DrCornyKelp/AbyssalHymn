@@ -411,12 +411,12 @@ void Player::playerSpriteIndex()
             {
                 setAct(12, act_right);
                 setSprite(vel_x ? 4 : 1, 30 - abs(vel_x) * 4);
-                setEndLock(false);
             }
             else
             {
                 setAct(13, act_right);
                 setSprite(4, buff_combat_speed < 1.2 ? 2 : 1);
+                setEndLock(true);
             }
         }
 
@@ -442,11 +442,7 @@ void Player::playerSpriteIndex()
         {
             setAct(9, act_right);
             setSprite(8, 3);
-            setEndLock(true);
         }
-
-        if (!weapon_equip_frame)
-            setEndLock(false);
     }
 
     if (!a_dash && !g_dash && !weapon_equip_delay && !combat_index)
@@ -876,7 +872,8 @@ void Player::playerCombat(Map *map)
     // Weapon equipment
     if (button[7] && !weapon_equip_delay && on_ground)
     {
-        weapon_equip_frame = 14;
+        setSprIndex(0);
+        weapon_equip_frame = 24;
         weapon_equip_delay = weapon_equip_delay_max;
         weapon_equip = weapon_equip ? false : true;
     };
@@ -1062,7 +1059,6 @@ void Player::playerCombat(Map *map)
                 combat_index = 1;
                 combat_time = 15;
                 combat_combo_time = 40;
-
                 setEndLock(false);
 
                 vel_x *= .8;
@@ -1072,8 +1068,8 @@ void Player::playerCombat(Map *map)
             {
                 combat_index = 2;
                 combat_time = 15;
-                combat_combo_time = 35;
-
+                combat_combo_time = 15;
+                combat_delay = 35;
                 setEndLock(false);
 
                 vel_x *= .4;
@@ -1086,9 +1082,11 @@ void Player::playerCombat(Map *map)
             {
                 combat_index = 4;
                 combat_time = 15;
-                combat_combo_time = 40;
-
+                combat_combo_time = 15;
+                combat_delay = on_ground ? 40 : 70;
                 setEndLock(false);
+
+                vel_y = 3;
             }
         }
         else if (hug_wall)
@@ -1098,7 +1096,6 @@ void Player::playerCombat(Map *map)
                 combat_index = 5;
                 combat_time = 12;
                 combat_combo_time = 40;
-
                 setEndLock(false);
             }
         }

@@ -83,7 +83,7 @@ void Projectile::playerCollision(Player *player)
         accel_y = 0;
 
         // Other stuff
-        player->setCombatDelay(player->getCombatDelay() + 50);
+        player->setCombatDelay(100);
         parry_effect = player->getCombatTime();
     }
 }

@@ -11,39 +11,39 @@ private:
 
     std::vector<const char*> nature_block = {
         // 0 - 8
-        "res/BlockTile/x64/Map1/Dirt1.png",
-        "res/BlockTile/x64/Map1/Dirt1Under.png",
-        "res/BlockTile/x64/Map1/Dirt1Under1.png",
-        "res/BlockTile/x64/Map1/Dirt1Under2.png",
-        "res/BlockTile/x64/Map1/Dirt1Upper.png",
-        "res/BlockTile/x64/Map1/Dirt1Upper1.png",
-        "res/BlockTile/x64/Map1/Dirt1Upper2.png",
-        "res/BlockTile/x64/Map1/Dirt1Wall1.png",
-        "res/BlockTile/x64/Map1/Dirt1Wall2.png",
+        "res/BlockTile/x64/Nature/Dirt1.png",
+        "res/BlockTile/x64/Nature/Dirt1Under.png",
+        "res/BlockTile/x64/Nature/Dirt1Under1.png",
+        "res/BlockTile/x64/Nature/Dirt1Under2.png",
+        "res/BlockTile/x64/Nature/Dirt1Upper.png",
+        "res/BlockTile/x64/Nature/Dirt1Upper1.png",
+        "res/BlockTile/x64/Nature/Dirt1Upper2.png",
+        "res/BlockTile/x64/Nature/Dirt1Wall1.png",
+        "res/BlockTile/x64/Nature/Dirt1Wall2.png",
 
         // 9 - 17
-        "res/BlockTile/x64/Map1/Dirt2.png",
-        "res/BlockTile/x64/Map1/Dirt2Under.png",
-        "res/BlockTile/x64/Map1/Dirt2Under1.png",
-        "res/BlockTile/x64/Map1/Dirt2Under2.png",
-        "res/BlockTile/x64/Map1/Dirt2Upper.png",
-        "res/BlockTile/x64/Map1/Dirt2Upper1.png",
-        "res/BlockTile/x64/Map1/Dirt2Upper2.png",
-        "res/BlockTile/x64/Map1/Dirt2Wall1.png",
-        "res/BlockTile/x64/Map1/Dirt2Wall2.png",
+        "res/BlockTile/x64/Nature/Dirt2.png",
+        "res/BlockTile/x64/Nature/Dirt2Under.png",
+        "res/BlockTile/x64/Nature/Dirt2Under1.png",
+        "res/BlockTile/x64/Nature/Dirt2Under2.png",
+        "res/BlockTile/x64/Nature/Dirt2Upper.png",
+        "res/BlockTile/x64/Nature/Dirt2Upper1.png",
+        "res/BlockTile/x64/Nature/Dirt2Upper2.png",
+        "res/BlockTile/x64/Nature/Dirt2Wall1.png",
+        "res/BlockTile/x64/Nature/Dirt2Wall2.png",
         
         // 18 - 20
-        "res/BlockTile/x64/Map1/Grass1.png",
-        "res/BlockTile/x64/Map1/Grass1Upper1.png",
-        "res/BlockTile/x64/Map1/Grass1Upper2.png",
+        "res/BlockTile/x64/Nature/Grass1.png",
+        "res/BlockTile/x64/Nature/Grass1Upper1.png",
+        "res/BlockTile/x64/Nature/Grass1Upper2.png",
 
         // 21 - 26
-        "res/BlockTile/x64/Map1/Bridge1.png",
-        "res/BlockTile/x64/Map1/Bridge1Hold1.png",
-        "res/BlockTile/x64/Map1/Bridge1Hold2.png",
-        "res/BlockTile/x64/Map1/Bridge1Upper.png",
-        "res/BlockTile/x64/Map1/Bridge1Upper1.png",
-        "res/BlockTile/x64/Map1/Bridge1Upper2.png",
+        "res/BlockTile/x64/Nature/Bridge1.png",
+        "res/BlockTile/x64/Nature/Bridge1Hold1.png",
+        "res/BlockTile/x64/Nature/Bridge1Hold2.png",
+        "res/BlockTile/x64/Nature/Bridge1Upper.png",
+        "res/BlockTile/x64/Nature/Bridge1Upper1.png",
+        "res/BlockTile/x64/Nature/Bridge1Upper2.png",
 
         // The last index possible
         "nothing :))"
