@@ -436,11 +436,17 @@ void Player::playerSpriteIndex()
     }
 
     // Weapon draw
-    if (weapon_equip_frame && weapon_equip)
+    if (weapon_equip_frame)
     {
-        setAct(9, act_right);
-        setSprite(8, 3);
-        setEndLock(true);
+        if (weapon_equip)
+        {
+            setAct(9, act_right);
+            setSprite(8, 3);
+            setEndLock(true);
+        }
+
+        if (!weapon_equip_frame)
+            setEndLock(false);
     }
 
     if (!a_dash && !g_dash && !weapon_equip_delay && !combat_index)
@@ -870,7 +876,7 @@ void Player::playerCombat(Map *map)
     // Weapon equipment
     if (button[7] && !weapon_equip_delay && on_ground)
     {
-        weapon_equip_frame = 34;
+        weapon_equip_frame = 14;
         weapon_equip_delay = weapon_equip_delay_max;
         weapon_equip = weapon_equip ? false : true;
     };
@@ -1060,6 +1066,7 @@ void Player::playerCombat(Map *map)
                 setEndLock(false);
 
                 vel_x *= .8;
+                vel_y = on_ground ? 0 : 1;
             }
             else if (!combat_time && combat_index == 1 && combat_combo_time)
             {
@@ -1070,6 +1077,7 @@ void Player::playerCombat(Map *map)
                 setEndLock(false);
 
                 vel_x *= .4;
+                vel_y = on_ground ? 0 : 1;
             }
         }
         else if (!hug_wall && button[0])
