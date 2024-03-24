@@ -1,6 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include "input.h"
 #include "block.h"
 #include "enemy.h"
 
@@ -19,19 +20,6 @@ private:
     int hp_max = 100;
     int mp = 100;
     int mp_max = 100;
-
-    // Input
-    std::vector<bool> button;   // 0: up
-                                // 1: down
-                                // 2: left
-                                // 3: right
-                                // 4: jump
-                                // 5: dash
-                                // 6: attack
-                                // 7: swap
-                                // 8: throw
-                                // 9: grid
-                                // 10: dev
 
     // Moveset availability
     bool can_move = true;
@@ -270,9 +258,8 @@ public:
     bool getIsHugWall();
 
     // Method
-    bool playerInput(SDL_GameController *controller);
-    void playerMovement();
-    void playerCombat(Map *map);
+    void playerMovement(Input *input);
+    void playerCombat(Map *map, Input *input);
 
     void playerBlockCollision(std::vector<Block*> BlockVec);
     void playerEnemyCollision(std::vector<Enemy*> Enemy);
@@ -280,9 +267,9 @@ public:
 
     void playerSpriteIndex();
     void playerDrawSprite(SDL_Renderer *renderer);
-    void playerUpdate(SDL_Renderer *renderer, Map *map);
+    void playerUpdate(SDL_Renderer *renderer, Map *map, Input *input);
 
-    void playerDeveloper();
+    void playerDeveloper(Input *input);
     void playerGrid(SDL_Renderer *renderer);
 
     void playerEnableAllMoveset();

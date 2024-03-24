@@ -57,7 +57,7 @@ void Map::initAll(SDL_Renderer *renderer, Player *player)
 }
 
 // Exlcusive update
-void Map::updateMapExclusive(SDL_Renderer *renderer, Player *player)
+void Map::updateMapExclusive(SDL_Renderer *renderer, Player *player, Input *input)
 {
     std::cout << "No exclusive stage logic \n";
 }

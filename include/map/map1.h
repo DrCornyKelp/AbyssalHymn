@@ -72,7 +72,7 @@ public:
     void initBlocksBack(SDL_Renderer *renderer) override;
     void initFrontDecors(SDL_Renderer *renderer) override;
 
-    void updateMapExclusive(SDL_Renderer *renderer, Player *player) override;
+    void updateMapExclusive(SDL_Renderer *renderer, Player *player, Input *input) override;
 
 };
 

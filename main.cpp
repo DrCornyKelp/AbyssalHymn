@@ -9,6 +9,8 @@
 #include <chrono>
 
 #include "game.h"
+#include "input.h"
+#include "scene.h"
 #include "player.h"
 #include "hud.h"
 #include "audio.h"
@@ -26,6 +28,16 @@ int main(int argc, char *argv[])
     // Game
     Game *game = new Game();
     game->drawIcon();
+
+    // Scene Switching
+    Scene *scene = new Scene();
+    scene->game_state = 0;
+    scene->initMainMenuBg(game->getRenderer(), "res/Menu/Main.png");
+    scene->initLevelSelectBg(game->getRenderer(), "res/Menu/LevelSelect.png");
+
+    // Input Handler
+    Input *input = new Input();
+    input->initInput();
 
     // Controller Detection
     SDL_GameController *controller;
@@ -67,24 +79,38 @@ int main(int argc, char *argv[])
     map1->initAll(game->getRenderer(), player0);
 
     bool pause = false;
-    while (!player0->playerInput(controller))
+    while (!input->input(controller))
     {
-        player0->playerInput(controller);
+        input->input(controller);
+        scene->mainMenuNavi(input);
 
-        // ====Pausing====
-        if (pause) continue;
+        switch(scene->game_state)
+        {
+            case 0:
+                rend->renderMainMenu(game->getRenderer(), scene);
+                break;
+            case 1:
+                rend->renderLevelSelectMenu(game->getRenderer(), scene);
+                break;
+            case 2:
+                // Update
+                SDL_SetRenderDrawColor(game->getRenderer(), 62, 46, 83, 255);
+                SDL_RenderClear(game->getRenderer());
 
-        // Update
-        SDL_SetRenderDrawColor(game->getRenderer(), 62, 46, 83, 255);
-        SDL_RenderClear(game->getRenderer());
+                // Update Map
+                map1->updateMapExclusive(game->getRenderer(), player0, input);
+                // Render the game
+                rend->renderGameplay(game->getRenderer(), player0, map1);
 
-        // Update Map
-        map1->updateMapExclusive(game->getRenderer(), player0);
-        // Render the game
-        rend->renderAll(game->getRenderer(), player0, map1);
-
-        // Draw Hud
-        hud0->update(game->getRenderer());
+                // Draw Hud
+                hud0->update(game->getRenderer());
+                break;
+            // case 3:
+            //     rend->renderMainMenu(game->getRenderer(), pause_menu);
+            //     break;
+            default:
+                break;
+        }
 
         // SDL and shit
         SDL_RenderPresent(game->getRenderer());

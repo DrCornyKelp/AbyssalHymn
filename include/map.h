@@ -7,6 +7,7 @@
 #include <vector>
 #include <algorithm>
 
+#include "input.h"
 #include "player.h"
 #include "block.h"
 #include "decoration.h"
@@ -54,7 +55,7 @@ public:
 
     // Stage stuff idc
     void initAll(SDL_Renderer *renderer, Player *player);
-    virtual void updateMapExclusive(SDL_Renderer *renderer, Player *player);
+    virtual void updateMapExclusive(SDL_Renderer *renderer, Player *player, Input *input);
 };
 
 #endif
