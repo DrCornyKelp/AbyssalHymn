@@ -43,6 +43,15 @@ void Map1::initBlocks(SDL_Renderer *renderer)
         {{20}, {8}}
     ));
 
+    // // Test Block
+    // BlockVec.push_back(new Block(6, 4, 3, 4, 64));
+    // BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
+    // BlockTemplate::mergeY2(
+    //     {{19, 18, 20}},
+    //     BlockTemplate::expandY({{7, 0, 8}}, 2),
+    //     {{2, 1, 3}}
+    // ));
+
     // Platforms
     BlockVec.push_back(new Block(24, 0, 6, 3, 64));
     BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
@@ -230,9 +239,6 @@ void Map1::initNpcDialogues(SDL_Renderer *renderer)
 
 void Map1::initBackground(SDL_Renderer *renderer)
 {
-    BackgroundVec.push_back(new Decoration("res/Decoration/Background3/Layer0.png", 0, 0, Game::WIDTH / 64, float(Game::HEIGHT) / 64));
-    BackgroundVec.push_back(new Decoration("res/Decoration/Background3/Layer0.png", 0, 0, Game::WIDTH / 64, float(Game::HEIGHT) / 64));
-
     BackgroundVec.push_back(new Decoration("res/Decoration/Background3/Layer1.png", 0, 0, Game::WIDTH / 64, float(Game::HEIGHT) / 64));
     BackgroundVec.push_back(new Decoration("res/Decoration/Background3/Layer1.png", 0, 0, Game::WIDTH / 64, float(Game::HEIGHT) / 64));
 
@@ -247,6 +253,9 @@ void Map1::initBackground(SDL_Renderer *renderer)
 
     BackgroundVec.push_back(new Decoration("res/Decoration/Background3/Layer5.png", 0, 0, Game::WIDTH / 64, float(Game::HEIGHT) / 64));
     BackgroundVec.push_back(new Decoration("res/Decoration/Background3/Layer5.png", 0, 0, Game::WIDTH / 64, float(Game::HEIGHT) / 64));
+
+    BackgroundVec.push_back(new Decoration("res/Decoration/Background3/Layer6.png", 0, 0, Game::WIDTH / 64, float(Game::HEIGHT) / 64));
+    BackgroundVec.push_back(new Decoration("res/Decoration/Background3/Layer6.png", 0, 0, Game::WIDTH / 64, float(Game::HEIGHT) / 64));
 
     for (Decoration *background : BackgroundVec)
     {
@@ -299,9 +308,9 @@ void Map1::initMapPlayer(Player *player)
 
 void Map1::initEnemies(SDL_Renderer *renderer)
 {
-    EnemyVec.push_back(new Slime(5, 2.5, 1, 19.5, 1));
-    EnemyVec.push_back(new Slime(26, 3.5, 24.5, 29.5, 1));
-    EnemyVec.push_back(new Slime(45, 4.5, 40, 60, 1));
+    EnemyVec.push_back(new Slime(5, 2.5, 1, 20, 1));
+    // EnemyVec.push_back(new Slime(26, 3.5, 24.5, 29.5, 1));
+    // EnemyVec.push_back(new Slime(45, 4.5, 40, 60, 1));
 
     for (Enemy *enemy : EnemyVec)
         enemy->initEnemy(renderer);
@@ -311,6 +320,11 @@ void Map1::updateMapExclusive(SDL_Renderer *renderer, Player *player)
 {
     // EXPERIMENTATION
     const Uint8 *keystate = SDL_GetKeyboardState(NULL);
+
+    // if (keystate[SDL_SCANCODE_L])
+    //     DecorFrontVec[DecorFrontVec.size() - 1]->setAlpha(0);
+    // else
+    //     DecorFrontVec[DecorFrontVec.size() - 1]->setAlpha(255);
 
     if (time > time_max) dayForward = -1;
     if (time < 0) dayForward = 1;
@@ -358,9 +372,7 @@ void Map1::updateMapExclusive(SDL_Renderer *renderer, Player *player)
 
     // ====================== UPDATE PROJECTILE ========================
     for (Projectile *projectile : ProjectileVec)
-    {
         projectile->updateProjectile(renderer, player, this);
-    }
 
     // Erase Dead Bullet
     ProjectileVec.erase(std::remove_if(ProjectileVec.begin(), ProjectileVec.end(),
