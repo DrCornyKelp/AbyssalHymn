@@ -43,15 +43,6 @@ void Map1::initBlocks(SDL_Renderer *renderer)
         {{20}, {8}}
     ));
 
-    // // Test Block
-    // BlockVec.push_back(new Block(6, 4, 3, 4, 64));
-    // BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
-    // BlockTemplate::mergeY2(
-    //     {{19, 18, 20}},
-    //     BlockTemplate::expandY({{7, 0, 8}}, 2),
-    //     {{2, 1, 3}}
-    // ));
-
     // Platforms
     BlockVec.push_back(new Block(24, 0, 6, 3, 64));
     BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,

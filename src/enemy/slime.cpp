@@ -100,6 +100,14 @@ void Slime::enemyAI(Player *player, Map *map)
         new Projectile(bulletSprite->getTexture(), getX(), getY(), 16, 16, 16, 16,
                         vel_x * 8, vel_y * 8, 0, 0, 15, 1000, 1)
         );
+        map->ProjectileVec.push_back(
+        new Projectile(bulletSprite->getTexture(), getX(), getY(), 16, 16, 16, 16,
+                        vel_x * 8, 1, 0, 0, 15, 1000, 1)
+        );
+        map->ProjectileVec.push_back(
+        new Projectile(bulletSprite->getTexture(), getX(), getY(), 16, 16, 16, 16,
+                        vel_x * 8, -1, 0, 0, 15, 1000, 1)
+        );
     }
 
     // The current Texture

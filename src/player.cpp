@@ -1111,8 +1111,6 @@ void Player::playerCombat(Map *map)
         }
     }
 
-    std::cout << combat_delay << "\n";
-
     if (!combat_delay && combat_keyhold && !crawl && !hug_wall && !a_dash && !g_dash)
         combat_charge_time += buff_combat_speed;
     else
