@@ -8,7 +8,8 @@ class BlockTemplate
 {
 public:
     // Expand Block
-    static const vector2d expandX(const vector2d &original, int columns) {
+    static const vector2d expandX(const vector2d &original, int columns)
+    {
         vector2d expanded;
 
         for (vector1d row : original) {
@@ -23,7 +24,8 @@ public:
         return expanded;
     }
     //---
-    static const vector2d expandY(const vector2d& original, int rows) {
+    static const vector2d expandY(const vector2d& original, int rows)
+    {
         vector2d expanded;
         vector1d row = original[0];
 

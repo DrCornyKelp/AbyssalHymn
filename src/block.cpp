@@ -2,10 +2,10 @@
 #include "player.h"
 
 // Constructor
-Block::Block(float X, float Y, float w, float h, short gr, bool gothru, bool seethru) :
+Block::Block(float X, float Y, float w, float h, short gr, bool gothru, bool seethru, int seethruAlpha) :
     Object2D((X + w/2) * gr, (Y + h/2) * gr,
             w * gr, h * gr, w * gr, h * gr),
-    isGoThru(gothru), isSeeThru(seethru),
+    isGoThru(gothru), isSeeThru(seethru), seeAlphaMin(seethruAlpha),
     grid_w(int(w) < w ? w + 1 : w),
     grid_h(int(h) < h ? h + 1 : h),
     grid(gr)
@@ -68,6 +68,10 @@ bool Block::getSeeThru()
 int Block::getSeeAlpha()
 {
     return seeAlpha;
+}
+int Block::getSeeAlphaMin()
+{
+    return seeAlphaMin;
 }
 bool Block::getStepOn()
 {

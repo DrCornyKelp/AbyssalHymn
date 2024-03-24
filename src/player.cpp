@@ -1030,7 +1030,7 @@ void Player::playerCombat(Map *map)
 
     if (combat_index == 4)
     {
-        combat_hit_up = 70;
+        combat_hit_up = 76;
         combat_hit_down = 0;
         combat_hit_right = 64;
         combat_hit_left = 64;
@@ -1169,13 +1169,13 @@ void Player::playerBlockCollision(std::vector<Block *> BlockVec)
         if (block->getSeeThru()) {
             if (colli_x + 10 < hit_dist_x && colli_y + 10 < hit_dist_y)
             {
-                if (block->getSeeAlpha() > 15)
-                    block->setSeeAlpha(block->getSeeAlpha() - 10);
+                if (block->getSeeAlpha() > block->getSeeAlphaMin())
+                    block->setSeeAlpha(block->getSeeAlpha() - 5);
             }
             else
             {
                 if (block->getSeeAlpha() < 255)
-                    block->setSeeAlpha(block->getSeeAlpha() + 10);
+                    block->setSeeAlpha(block->getSeeAlpha() + 5);
             } 
         }
 
