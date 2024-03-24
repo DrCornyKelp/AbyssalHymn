@@ -750,15 +750,18 @@ void Player::playerMovement()
 
     // Velcovity
     vel_x_max = on_ground ? vel_x_max_ground : vel_x_max_air;
-    vel_x_max *= weapon_equip ? .8 : 1;
-    vel_x_max *= buff_move;
+    vel_x_max *=(weapon_equip ? .8 : 1) *
+                (combat_charge_time ? .8 : 1) *
+                buff_move;
     // Acelecreaitm
     accel_x = on_ice ? accel_x_ice : accel_x_ground;
-    accel_x *= weapon_equip ? .8 : 1;
-    accel_x *= buff_move;
+    accel_x *=  (weapon_equip ? .8 : 1) *
+                (combat_charge_time ? .8 : 1) *
+                buff_move;
     accel_y = jump_keyhold ? accel_hold : accel_tap;
-    accel_y *= weapon_equip ? 1.2 : 1;
-    accel_y /= buff_jump;
+    accel_y *=  (weapon_equip ? .8 : 1) *
+                (combat_charge_time ? .8 : 1) *
+                buff_jump;
     // G_dash
     g_dash_vel = weapon_equip ? g_dash_vel_weapon : g_dash_vel_normal;
     g_dash_vel *= buff_move;
