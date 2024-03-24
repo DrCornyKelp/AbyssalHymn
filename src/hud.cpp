@@ -4,12 +4,12 @@ Hud::Hud(SDL_Renderer *renderer, Player *p) : player(p)
 {
     airbornTexture = Sprite::loadTexture(renderer, "res/HudElement/AirBorne.png");
 
-    combatReadyTexture = Sprite::loadTexture(renderer, "res/HudElement/CombatReady.png");
-    combatDelayTexture = Sprite::loadTexture(renderer, "res/HudElement/CombatDelay.png");
-    combatChargeTexture = Sprite::loadTexture(renderer, "res/HudElement/CombatCharge.png");
+    combatReadyTexture = Sprite::loadTexture(renderer, "res/HudElement/HeadUp/CombatReady.png");
+    combatDelayTexture = Sprite::loadTexture(renderer, "res/HudElement/HeadUp/CombatDelay.png");
+    combatChargeTexture = Sprite::loadTexture(renderer, "res/HudElement/HeadUp/CombatCharge.png");
     
-    superJumpReadyTexture = Sprite::loadTexture(renderer, "res/HudElement/SuperJumpReady.png");
-    invincibleTexture = Sprite::loadTexture(renderer, "res/HudElement/Invincible.png");
+    superJumpReadyTexture = Sprite::loadTexture(renderer, "res/HudElement/HeadUp/SuperJumpReady.png");
+    invincibleTexture = Sprite::loadTexture(renderer, "res/HudElement/HeadUp/Invincible.png");
 }
 void Hud::setAlpha(int a)
 {
