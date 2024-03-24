@@ -230,13 +230,23 @@ void Map1::initNpcDialogues(SDL_Renderer *renderer)
 
 void Map1::initBackground(SDL_Renderer *renderer)
 {
-    for (int i = 0; i < 6; i++)
-    {
-        const char *backgroundDirectory = ("res/Decoration/Background3/Layer" + std::to_string(i) + ".png").c_str();
-        std::cout << backgroundDirectory << "\n";
-        BackgroundVec.push_back(new Decoration(backgroundDirectory, 0, 0, Game::WIDTH / 64, float(Game::HEIGHT) / 64));
-        BackgroundVec.push_back(new Decoration(backgroundDirectory, 0, 0, Game::WIDTH / 64, float(Game::HEIGHT) / 64));
-    }
+    BackgroundVec.push_back(new Decoration("res/Decoration/Background5/Layer0.png", 0, 0, Game::WIDTH / 64, float(Game::HEIGHT) / 64));
+    BackgroundVec.push_back(new Decoration("res/Decoration/Background5/Layer0.png", 0, 0, Game::WIDTH / 64, float(Game::HEIGHT) / 64));
+
+    BackgroundVec.push_back(new Decoration("res/Decoration/Background5/Layer1.png", 0, 0, Game::WIDTH / 64, float(Game::HEIGHT) / 64));
+    BackgroundVec.push_back(new Decoration("res/Decoration/Background5/Layer1.png", 0, 0, Game::WIDTH / 64, float(Game::HEIGHT) / 64));
+
+    BackgroundVec.push_back(new Decoration("res/Decoration/Background5/Layer2.png", 0, 0, Game::WIDTH / 64, float(Game::HEIGHT) / 64));
+    BackgroundVec.push_back(new Decoration("res/Decoration/Background5/Layer2.png", 0, 0, Game::WIDTH / 64, float(Game::HEIGHT) / 64));
+
+    BackgroundVec.push_back(new Decoration("res/Decoration/Background5/Layer3.png", 0, 0, Game::WIDTH / 64, float(Game::HEIGHT) / 64));
+    BackgroundVec.push_back(new Decoration("res/Decoration/Background5/Layer3.png", 0, 0, Game::WIDTH / 64, float(Game::HEIGHT) / 64));
+
+    BackgroundVec.push_back(new Decoration("res/Decoration/Background5/Layer4.png", 0, 0, Game::WIDTH / 64, float(Game::HEIGHT) / 64));
+    BackgroundVec.push_back(new Decoration("res/Decoration/Background5/Layer4.png", 0, 0, Game::WIDTH / 64, float(Game::HEIGHT) / 64));
+
+    BackgroundVec.push_back(new Decoration("res/Decoration/Background5/Layer5.png", 0, 0, Game::WIDTH / 64, float(Game::HEIGHT) / 64));
+    BackgroundVec.push_back(new Decoration("res/Decoration/Background5/Layer5.png", 0, 0, Game::WIDTH / 64, float(Game::HEIGHT) / 64));
 
     for (Decoration *background : BackgroundVec)
     {
@@ -260,7 +270,7 @@ void Map1::initFrontDecors(SDL_Renderer *renderer)
     DecorFrontVec.push_back(new Decoration("res/Decoration/Grass1.png", 0, 1.99, 20, 2));
 
     // Filter
-    DecorFrontVec.push_back(new Decoration("res/Decoration/Background3/LayerColor.png", 0, 0, Game::WIDTH / 64, float(Game::HEIGHT) / 64));
+    DecorFrontVec.push_back(new Decoration("res/Decoration/Background5/LayerColor.png", 0, 0, Game::WIDTH / 64, float(Game::HEIGHT) / 64));
     DecorFrontVec[DecorFrontVec.size() - 1]->setAbs(true);
 
     for (Decoration *frontDecor : DecorFrontVec)

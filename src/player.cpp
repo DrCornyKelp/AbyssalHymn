@@ -815,7 +815,7 @@ void Player::playerMovement()
         vel_y = -vel_terminal;
 
     // SUPER JUMP
-    if (crawl && vel_x == 0)
+    if (crawl && !crawl_lock && vel_x == 0)
         jump_super += jump_super < jump_super_max;
     else
         jump_super = 0;
