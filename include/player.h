@@ -169,13 +169,15 @@ private:
     bool sprite_end_lock = false;
     int sprite_size = 64;
 
-    // Drawing focus on player
+    // EXTREMELY COMPLICATED CAMERA
     FocusXCondition fxcondition;
     bool focus_x = true;
     int offset_x;
     FocusYCondition fycondition;
     bool focus_y = false;
     int offset_y = 0;
+
+    int focus_ease_ahead = 0;
 
     // ====== DEVELOPER VALUES ======
     Sprite *hitbox;
@@ -249,6 +251,7 @@ public:
     bool getFocusY();
     int getOffsetX();
     int getOffsetY();
+    int getFocusEaseAhead();
 
     bool getIsMove();
     bool getIsJump();

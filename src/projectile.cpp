@@ -174,7 +174,7 @@ void Projectile::draw(SDL_Renderer *renderer, Player *player)
     // (Ok im pretty sure these value are being highly reused XD)
     // (Might make a method of this later)
     // Camera is a piece of shit
-    int rel_x = player->getFocusX() ? player->getOffsetX() + getX() - player->getX() : getX();
+    int rel_x = (player->getFocusX() ? player->getOffsetX() + getX() - player->getX() : getX());
     int rel_y = player->getFocusY() ? player->getOffsetY() + getY() - player->getY() : getY();
 
     // Frame index shitty bang bang stuff handler

@@ -249,6 +249,10 @@ int Player::getOffsetY()
 {
     return offset_y;
 }
+int Player::getFocusEaseAhead()
+{
+    return focus_ease_ahead;
+}
 
 bool Player::getIsMove()
 {
@@ -279,7 +283,7 @@ bool Player::getIsHugWall()
 
 void Player::playerDrawSprite(SDL_Renderer *renderer)
 {
-    // Camera focus or not
+    // Camera smooth movement
     setFocus();
 
     if (getSprFrame() < getSprFrameMax())
@@ -296,7 +300,7 @@ void Player::playerDrawSprite(SDL_Renderer *renderer)
         else
             setSprIndex(0);
 
-    int drawX = focus_x ? Game::WIDTH / 2 : getX();
+    int drawX = focus_x ? Game::WIDTH / 2 + focus_ease_ahead : getX();
     int drawY = focus_y ? Game::HEIGHT / 2 - 1 : Game::HEIGHT - 1 - getY();
 
     SDL_Rect desRect = {drawX - sprite_size * 2, drawY - sprite_size * 2, sprite_size * 4, sprite_size * 4};
@@ -427,7 +431,7 @@ void Player::playerSpriteIndex()
         if (combat_index == 5 && combat_time)
         {
             setAct(15, act_right);
-            setSprite(8, 2);
+            setSprite(8, 1);
             setEndLock(true);
         }
     }
@@ -1194,7 +1198,7 @@ void Player::playerGrid(SDL_Renderer *renderer)
 
         for (int i = gridLineX - 11; i < gridLineX + 11; i++)
         {
-            int drawGridX = focus_x ? i * 64 + offset_x - getX() : i * 64; 
+            int drawGridX = focus_x ? i * 64 + focus_ease_ahead + offset_x - getX() : i * 64; 
             SDL_RenderDrawLine(renderer, drawGridX, 0, drawGridX, Game::HEIGHT);
         }
         for (int i = gridLineY - 6; i < gridLineY + 6; i++)
@@ -1218,7 +1222,7 @@ void Player::playerGrid(SDL_Renderer *renderer)
         */
         // std::cout << int(getX() / 64) << " " << int(getY() / 64) << "\n";
 
-        int drawBoxX = focus_x ? Game::WIDTH / 2 : getHitX();
+        int drawBoxX = focus_x ? Game::WIDTH / 2 + focus_ease_ahead : getHitX();
         int drawBoxY = focus_y ? Game::HEIGHT / 2 - 1 : Game::HEIGHT - 1 - getHitY();
         int boxWidth = combat_hit_left + combat_hit_right;
         int boxHeight = combat_hit_up + combat_hit_down;

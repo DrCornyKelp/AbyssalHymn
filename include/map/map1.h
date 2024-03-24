@@ -48,12 +48,7 @@ private:
         // The last index possible
         "nothing :))"
     };
-
     int nb = nature_block.size() - 1;
-
-    float time = 0;
-    float time_max = 10000;
-    short dayForward = 1;
 
 public:
     // Player

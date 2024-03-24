@@ -107,7 +107,7 @@ void Block::draw(SDL_Renderer *renderer, Player *player)
 
     if (isOutBound) return;
 
-    int rel_x = player->getFocusX() ? player->getOffsetX() + getX() - player->getX() : getX();
+    int rel_x = (player->getFocusX() ? player->getOffsetX() + getX() - player->getX() : getX());
     int rel_y = player->getFocusY() ? player->getOffsetY() + getY() - player->getY() : getY();
 
     for (int i = 0; i < block_sprites.size(); i++)

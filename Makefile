@@ -29,7 +29,8 @@ AbyssalHymn:
 		-lSDL2 \
 		-lSDL2_image \
 		-lSDL2_mixer \
-		-mwindows
+		-mwindows \
+		-ffast-math
 	cls
 	./AbyssalHymn.exe
 

@@ -59,7 +59,7 @@ void Hud::drawAirborne(SDL_Renderer *renderer)
 
 void Hud::drawHeadUpStat(SDL_Renderer *renderer)
 {
-    int drawX = player->getFocusX() ? Game::WIDTH / 2 : player->getHitX();
+    int drawX = (player->getFocusX() ? Game::WIDTH / 2 : player->getHitX());
     int drawY = player->getFocusY() ? Game::HEIGHT / 2 - 10 : Game::HEIGHT - 10 - player->getHitY();
 
     SDL_Rect desRect = {drawX - 64, drawY - 64 + (player->getIsCrawl() ? 10 : 0), 128, 128};

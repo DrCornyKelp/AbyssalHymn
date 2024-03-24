@@ -326,10 +326,6 @@ void Map1::updateMapExclusive(SDL_Renderer *renderer, Player *player, Input *inp
     // else
     //     DecorFrontVec[DecorFrontVec.size() - 1]->setAlpha(255);
 
-    if (time > time_max) dayForward = -1;
-    if (time < 0) dayForward = 1;
-    time += dayForward;
-
     // ====================== UPDATE PLAYER ============================
 
     // Standard update
