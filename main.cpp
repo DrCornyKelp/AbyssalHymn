@@ -61,10 +61,8 @@ int main(int argc, char *argv[])
     }
 
     // Audio
-    int test = Mix_Init(0); // Initialize audio in wav format
-                            // somehow other formats don't work but here's the code:
-                            // wav = 0, flac = 1, mp3 = 8
-    // Audio::playBGM("res/Audio/BGM/MetalHorror.wav");
+    int test = Mix_Init(0); // wav = 0, flac = 1, mp3 = 8
+    Audio::playBGM("res/Audio/BGM/StringTheory.wav");
 
     // Player + Hud
     Player *player0 = new Player();
