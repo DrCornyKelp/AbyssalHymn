@@ -21,6 +21,8 @@ AbyssalHymn:
 		src/map/map1.cpp \
 		src/npc_dialogue.cpp \
 		src/renderer.cpp \
+		src/input.cpp \
+		src/scene.cpp \
 		main.cpp \
 		-lmingw32 \
 		-lSDL2main \

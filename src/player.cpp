@@ -7,10 +7,6 @@ Player::Player(float X, float Y, int w, int h, int hw, int hh, int sim, int sfm,
 // Fuck her 2nite
 void Player::initPlayer(SDL_Renderer *renderer)
 {
-    // Initialize input
-    for (int i = 0; i < 11; i++)
-        button.push_back(false);
-
     // Nakuru normal mvoement
     PlayerRight = new Sprite(32, 32, 1, "res/NakuSheet/NakuRight.png");
     PlayerRight->setTexture(Sprite::loadTexture(renderer, PlayerRight->getSpritePath()));
@@ -459,166 +455,7 @@ void Player::playerSpriteIndex()
     sprite_size = weapon_equip ? 64 : 32;
 }
 
-bool Player::playerInput(SDL_GameController *controller)
-{
-    SDL_Event event;
-    while (SDL_PollEvent(&event))
-    {
-        switch (event.type)
-        {
-        case SDL_QUIT:
-            return true;
-            break;
-        case SDL_KEYDOWN:
-            switch (event.key.keysym.sym)
-            {
-            case SDLK_ESCAPE:
-                return true;
-                break;
-            case SDLK_w:
-                button[0] = true;
-                break;
-            case SDLK_s:
-                button[1] = true;
-                break;
-            case SDLK_a:
-                button[2] = true;
-                break;
-            case SDLK_d:
-                button[3] = true;
-                break;
-            case SDLK_SPACE:
-                button[4] = true;
-                break;
-            case SDLK_LSHIFT:
-                button[5] = true;
-                break;
-            case SDLK_l:
-                button[6] = true;
-                break;
-            case SDLK_q:
-                button[7] = true;
-                break;
-            case SDLK_e:
-                button[8] = true;
-                break;
-            case SDLK_g:
-                button[9] = true;
-                break;
-            case SDLK_h:
-                button[10] = true;
-                break;
-            }
-            break;
-        case SDL_KEYUP:
-            switch (event.key.keysym.sym)
-            {
-            case SDLK_w:
-                button[0] = false;
-                break;
-            case SDLK_s:
-                button[1] = false;
-                break;
-            case SDLK_a:
-                button[2] = false;
-                break;
-            case SDLK_d:
-                button[3] = false;
-                break;
-            case SDLK_SPACE:
-                button[4] = false;
-                break;
-            case SDLK_LSHIFT:
-                button[5] = false;
-                break;
-            case SDLK_l:
-                button[6] = false;
-                break;
-            case SDLK_q:
-                button[7] = false;
-                break;
-            case SDLK_e:
-                button[8] = false;
-                break;
-            case SDLK_g:
-                button[9] = false;
-                break;
-            case SDLK_h:
-                button[10] = false;
-                break;
-            }
-            break;
-        case SDL_CONTROLLERBUTTONDOWN:
-            switch (event.cbutton.button)
-            {
-            case SDL_CONTROLLER_BUTTON_DPAD_UP:
-                button[0] = true;
-                break;
-            case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
-                button[1] = true;
-                break;
-            case SDL_CONTROLLER_BUTTON_DPAD_LEFT:
-                button[2] = true;
-                break;
-            case SDL_CONTROLLER_BUTTON_DPAD_RIGHT:
-                button[3] = true;
-                break;
-            case SDL_CONTROLLER_BUTTON_A:
-                button[4] = true;
-                break;
-            case SDL_CONTROLLER_BUTTON_RIGHTSHOULDER:
-                button[5] = true;
-                break;
-            case SDL_CONTROLLER_BUTTON_X:
-                button[6] = true;
-                break;
-            case SDL_CONTROLLER_BUTTON_Y:
-                button[7] = true;
-                break;
-            case SDL_CONTROLLER_BUTTON_B:
-                button[8] = true;
-                break;
-            }
-            break;
-        case SDL_CONTROLLERBUTTONUP:
-            switch (event.cbutton.button)
-            {
-            case SDL_CONTROLLER_BUTTON_DPAD_UP:
-                button[0] = false;
-                break;
-            case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
-                button[1] = false;
-                break;
-            case SDL_CONTROLLER_BUTTON_DPAD_LEFT:
-                button[2] = false;
-                break;
-            case SDL_CONTROLLER_BUTTON_DPAD_RIGHT:
-                button[3] = false;
-                break;
-            case SDL_CONTROLLER_BUTTON_A:
-                button[4] = false;
-                break;
-            case SDL_CONTROLLER_BUTTON_RIGHTSHOULDER:
-                button[5] = false;
-                break;
-            case SDL_CONTROLLER_BUTTON_X:
-                button[6] = false;
-                break;
-            case SDL_CONTROLLER_BUTTON_Y:
-                button[7] = false;
-                break;
-            case SDL_CONTROLLER_BUTTON_B:
-                button[8] = false;
-                break;
-            }
-            break;
-        }
-    }
-
-    return false;    
-}
-
-void Player::playerMovement()
+void Player::playerMovement(Input *input)
 {
 
     bool hug_wall = hug_wall_left || hug_wall_right;
@@ -628,7 +465,7 @@ void Player::playerMovement()
     // Moving L/R
     if (can_move && !g_dash && !a_dash && !crawl)
     {
-        if (button[2] && !hug_wall_right)
+        if (input->getButton(2) && !hug_wall_right)
         {
             if (hug_wall_left)
             {
@@ -648,7 +485,7 @@ void Player::playerMovement()
             }
         }
 
-        if (button[3] && !hug_wall_left)
+        if (input->getButton(3) && !hug_wall_left)
         {
             if (hug_wall_right)
             {
@@ -670,20 +507,20 @@ void Player::playerMovement()
     }
 
     // Crawling
-    crawl = can_crawl && button[1] && on_ground && !g_dash && !decel_x && !g_dash_delay && abs(vel_x) < vel_x_max / 2;
+    crawl = can_crawl && input->getButton(1) && on_ground && !g_dash && !decel_x && !g_dash_delay && abs(vel_x) < vel_x_max / 2;
     crawl = crawl_lock || crawl;
 
-    if (crawl && button[2] && !g_dash)
+    if (crawl && input->getButton(2) && !g_dash)
         vel_x = -vel_crawl;
-    if (crawl && button[3] && !g_dash)
+    if (crawl && input->getButton(3) && !g_dash)
         vel_x = vel_crawl;
 
     // Deceleration
-    if ((!button[2] && decel_x == 1) ||
-        (!button[3] && decel_x == -1))
+    if ((!input->getButton(2) && decel_x == 1) ||
+        (!input->getButton(3) && decel_x == -1))
         decel_x = 0;
 
-    if (!button[2] && !button[3] && !g_dash && !a_dash)
+    if (!input->getButton(2) && !input->getButton(3) && !g_dash && !a_dash)
     {
         if (abs(vel_x) >= accel_x)
         {
@@ -695,14 +532,14 @@ void Player::playerMovement()
     }
 
     // Ground dash (more like sliding but whatever)
-    if (can_g_dash && button[5] && !g_dash_delay && !combat_index && on_ground && !g_dash && !crawl_lock && !a_dash)
+    if (can_g_dash && input->getButton(5) && !g_dash_delay && !combat_index && on_ground && !g_dash && !crawl_lock && !a_dash)
     {
         g_dash = true;
         g_dash_delay = g_dash_delay_max * (crawl ? 1.5 : 1);
     }
 
     // Air dash
-    if (can_a_dash && button[5] && !a_dash_delay && !combat_index && !on_ground && !hug_wall && !crawl && !g_dash && vel_x != 0 && air_cur > 0 && !jump_keyhold)
+    if (can_a_dash && input->getButton(5) && !a_dash_delay && !combat_index && !on_ground && !hug_wall && !crawl && !g_dash && vel_x != 0 && air_cur > 0 && !jump_keyhold)
     {
         a_dash = true;
         air_cur--;
@@ -710,7 +547,7 @@ void Player::playerMovement()
     }
 
     // Jump held key
-    if (can_jump && button[4] && !jump_keyhold && (air_cur > 0 || hug_wall) &&
+    if (can_jump && input->getButton(4) && !jump_keyhold && (air_cur > 0 || hug_wall) &&
         !g_dash && !a_dash && !decel_x && !crawl_lock && !ceiling_knockout)
     {
         setY(getY() + 10);
@@ -742,7 +579,7 @@ void Player::playerMovement()
         jump_keyhold = true;
     }
     // Jump release key
-    if (!button[4])
+    if (!input->getButton(4))
     {
         jump_keyhold = false;
     }
@@ -863,14 +700,14 @@ void Player::playerMovement()
     setY(getY() + vel_y);
 }
 
-void Player::playerCombat(Map *map)
+void Player::playerCombat(Map *map, Input *input)
 {
 // ======================== COMBAT INPUT ==============================
 
     bool hug_wall = hug_wall_left || hug_wall_right;
 
     // Weapon equipment
-    if (button[7] && !weapon_equip_delay && on_ground)
+    if (input->getButton(7) && !weapon_equip_delay && on_ground)
     {
         setSprIndex(0);
         weapon_equip_frame = 24;
@@ -884,7 +721,7 @@ void Player::playerCombat(Map *map)
         weapon_equip_frame --;
 
     // Attack pattern (really fucking sophisicated)
-    if (button[6])
+    if (input->getButton(6))
     {
         combat_keytime++;
         combat_keyhold = !combat_keytap && combat_keytime > 20;
@@ -897,14 +734,14 @@ void Player::playerCombat(Map *map)
     }
 
     // Special Jelly Projectile
-    if (weapon_equip && button[8] && !jelly_keyhold)
+    if (weapon_equip && input->getButton(8) && !jelly_keyhold)
     {
         jelly_keyhold = true;
         map->ProjectileVec.push_back(new Projectile(
             PlayerSquid->getTexture(), getX(), getY(), 16, 16, 32, 32, act_right * 2 - 1, vel_y + 10, 0, -.2, 10, 1000, -1, 1, 1, 0, 4, 10
         ));
     }
-    if (!button[8] && jelly_keyhold)
+    if (!input->getButton(8) && jelly_keyhold)
         jelly_keyhold = false;
 
 // ======================== COMBAT LOGIC ==============================
@@ -1052,7 +889,7 @@ void Player::playerCombat(Map *map)
     // On ground
     if (!combat_delay && combat_keytap && !crawl && !g_dash)
     {
-        if (!hug_wall && !button[0])
+        if (!hug_wall && !input->getButton(0))
         {
             if (!combat_combo_time && !combat_index)
             {
@@ -1076,7 +913,7 @@ void Player::playerCombat(Map *map)
                 vel_y = on_ground ? 0 : 1;
             }
         }
-        else if (!hug_wall && button[0])
+        else if (!hug_wall && input->getButton(0))
         {
             if (!combat_combo_time && !combat_index)
             {
@@ -1335,13 +1172,13 @@ void Player::playerGetHit(int dmg)
     hp -= dmg;
 }
 
-void Player::playerDeveloper()
+void Player::playerDeveloper(Input *input)
 {
-    int vel_developer = button[5] ? 20 : 4;
-    if (button[0]) setY(getY() + vel_developer);
-    if (button[1]) setY(getY() - vel_developer);
-    if (button[3]) setX(getX() + vel_developer);
-    if (button[2]) setX(getX() - vel_developer);
+    int vel_developer = input->getButton(5) ? 20 : 4;
+    if (input->getButton(0)) setY(getY() + vel_developer);
+    if (input->getButton(1)) setY(getY() - vel_developer);
+    if (input->getButton(3)) setX(getX() + vel_developer);
+    if (input->getButton(2)) setX(getX() - vel_developer);
 }
 
 void Player::playerGrid(SDL_Renderer *renderer)
@@ -1397,38 +1234,38 @@ void Player::playerGrid(SDL_Renderer *renderer)
 // Reason for the absence of player sprite in update
 // is to avoid a lag in drawing other decoration/block layer caused
 // by intensive <player> calculation
-void Player::playerUpdate(SDL_Renderer *renderer, Map *map)
+void Player::playerUpdate(SDL_Renderer *renderer, Map *map, Input *input)
 {
     if (!godmode)
     {
-        playerMovement();
-        playerCombat(map);
+        playerMovement(input);
+        playerCombat(map, input);
         playerBlockCollision(map->BlockVec);
         playerEnemyCollision(map->EnemyVec);
     }
     else
     {
-        playerDeveloper();
+        playerDeveloper(input);
     }
 
     playerSpriteIndex();
 
     // ===============DEVELOPER input===============
     // GODMODE
-    if (button[10] && !godmode_hold)
+    if (input->getButton(10) && !godmode_hold)
     {
         godmode_hold = true;
         godmode = godmode ? false : true;
     }
-    if (!button[10]) godmode_hold = false;
+    if (!input->getButton(10)) godmode_hold = false;
 
     // DISPLAY GRID
-    if (button[9] && !grid_hold)
+    if (input->getButton(9) && !grid_hold)
     {
         grid_hold = true;
         grid = grid ? false : true;
     };
-    if (!button[9]) grid_hold = false;
+    if (!input->getButton(9)) grid_hold = false;
 }
 
 void Player::playerEnableAllMoveset()

@@ -316,7 +316,7 @@ void Map1::initEnemies(SDL_Renderer *renderer)
         enemy->initEnemy(renderer);
 }
 
-void Map1::updateMapExclusive(SDL_Renderer *renderer, Player *player)
+void Map1::updateMapExclusive(SDL_Renderer *renderer, Player *player, Input *input)
 {
     // EXPERIMENTATION
     const Uint8 *keystate = SDL_GetKeyboardState(NULL);
@@ -333,7 +333,7 @@ void Map1::updateMapExclusive(SDL_Renderer *renderer, Player *player)
     // ====================== UPDATE PLAYER ============================
 
     // Standard update
-    player->playerUpdate(renderer, this);
+    player->playerUpdate(renderer, this, input);
 
     // Some variable
     float player_x = player->getX();
