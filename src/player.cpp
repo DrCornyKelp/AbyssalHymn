@@ -411,6 +411,7 @@ void Player::playerSpriteIndex()
             {
                 setAct(12, act_right);
                 setSprite(vel_x ? 4 : 1, 30 - abs(vel_x) * 4);
+                setEndLock(false);
             }
             else
             {
@@ -422,6 +423,13 @@ void Player::playerSpriteIndex()
         if (combat_index == 4 && combat_time)
         {
             setAct(14, act_right);
+            setSprite(8, 2);
+            setEndLock(true);
+        }
+
+        if (combat_index == 5 && combat_time)
+        {
+            setAct(15, act_right);
             setSprite(8, 2);
             setEndLock(true);
         }
@@ -613,7 +621,7 @@ void Player::playerMovement()
 
     bool hug_wall = hug_wall_left || hug_wall_right;
 
-    // ===============Main input===============
+// ======================== MOVEMENT INPUT ==============================
 
     // Moving L/R
     if (can_move && !g_dash && !a_dash && !crawl)
@@ -737,7 +745,9 @@ void Player::playerMovement()
         jump_keyhold = false;
     }
 
-    // Buff Combat
+// ======================== MOVEMENT LOGIC ==============================
+
+    // Buff Movement
     if (buff_move_time)
         buff_move_time--;
     else
@@ -753,14 +763,15 @@ void Player::playerMovement()
     vel_x_max *=(weapon_equip ? .8 : 1) *
                 (combat_charge_time ? .8 : 1) *
                 buff_move;
-    // Acelecreaitm
+    // Acceleration x
     accel_x = on_ice ? accel_x_ice : accel_x_ground;
     accel_x *=  (weapon_equip ? .8 : 1) *
                 (combat_charge_time ? .8 : 1) *
                 buff_move;
+    // Acceleration y
     accel_y = jump_keyhold ? accel_hold : accel_tap;
-    accel_y *=  (weapon_equip ? .8 : 1) *
-                (combat_charge_time ? .8 : 1) *
+    accel_y *=  (weapon_equip ? 1.2 : 1) *
+                (combat_charge_time ? 1.2 : 1) *
                 buff_jump;
     // G_dash
     g_dash_vel = weapon_equip ? g_dash_vel_weapon : g_dash_vel_normal;
@@ -852,19 +863,9 @@ void Player::playerMovement()
 
 void Player::playerCombat(Map *map)
 {
-// ===================== COMBAT (VERY LEGENDARY) ====================
-    bool hug_wall = hug_wall_left || hug_wall_right;
+// ======================== COMBAT INPUT ==============================
 
-    // Buff Combat
-    if (buff_combat_speed_time)
-        buff_combat_speed_time--;
-    else
-        buff_combat_speed = 1;
-    
-    if (buff_combat_damage_time)
-        buff_combat_damage_time--;
-    else
-        buff_combat_damage = 1;
+    bool hug_wall = hug_wall_left || hug_wall_right;
 
     // Weapon equipment
     if (button[7] && !weapon_equip_delay && on_ground)
@@ -902,6 +903,19 @@ void Player::playerCombat(Map *map)
     }
     if (!button[8] && jelly_keyhold)
         jelly_keyhold = false;
+
+// ======================== COMBAT LOGIC ==============================
+
+    // Buff Combat
+    if (buff_combat_speed_time)
+        buff_combat_speed_time--;
+    else
+        buff_combat_speed = 1;
+    
+    if (buff_combat_damage_time)
+        buff_combat_damage_time--;
+    else
+        buff_combat_damage = 1;
 
     // Invincibility frame
     if (invincible_time)
@@ -1018,12 +1032,24 @@ void Player::playerCombat(Map *map)
         combat_parry_error = 40;
     }
 
+    if (combat_index == 5)
+    {
+        combat_hit_up = 64;
+        combat_hit_down = 64;
+        combat_hit_right = act_right ? 93 : 0;
+        combat_hit_left = act_right ? 0 : 93;
+        combat_damage = 15;
+        combat_parry_error = 20;
+    }
+
+    combat_damage *= buff_combat_damage;
+
     // =================== Combat Attack Pattern ===================
 
     // On ground
-    if (!combat_delay && combat_keytap && !hug_wall && !crawl && !g_dash && on_ground)
+    if (!combat_delay && combat_keytap && !crawl && !g_dash)
     {
-        if (!button[0])
+        if (!hug_wall && !button[0])
         {
             if (!combat_combo_time && !combat_index)
             {
@@ -1046,13 +1072,23 @@ void Player::playerCombat(Map *map)
                 vel_x *= .4;
             }
         }
-        else
+        else if (!hug_wall && button[0])
         {
             if (!combat_combo_time && !combat_index)
             {
-                std::cout << "upward attack \n";
                 combat_index = 4;
                 combat_time = 15;
+                combat_combo_time = 40;
+
+                setEndLock(false);
+            }
+        }
+        else if (hug_wall)
+        {
+            if (!combat_combo_time && !combat_index)
+            {
+                combat_index = 5;
+                combat_time = 12;
                 combat_combo_time = 40;
 
                 setEndLock(false);
@@ -1069,11 +1105,13 @@ void Player::playerCombat(Map *map)
         {
             combat_time = 10;
             combat_combo_time = 10;
-            combat_delay = 100;
+            combat_delay = 150;
 
             setEndLock(false);
         }
     }
+
+    std::cout << combat_delay << "\n";
 
     if (!combat_delay && combat_keyhold && !crawl && !hug_wall && !a_dash && !g_dash)
         combat_charge_time += buff_combat_speed;
