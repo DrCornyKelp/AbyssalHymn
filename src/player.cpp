@@ -940,7 +940,7 @@ void Player::playerCombat(Map *map, Input *input)
     }
 
     // Charge Attack
-    if (!combat_delay && combat_charge_time > 0)
+    if (combat_charge_time > 0)
     {
         combat_index = 3;
 
@@ -954,7 +954,8 @@ void Player::playerCombat(Map *map, Input *input)
         }
     }
 
-    if (!combat_delay && combat_keyhold && !crawl && !hug_wall && !a_dash && !g_dash)
+    if (!combat_delay && !combat_time && combat_keyhold &&
+        !sprite_end_lock && !crawl && !hug_wall && !a_dash && !g_dash)
         combat_charge_time += buff_combat_speed;
     else
         combat_charge_time = 0;

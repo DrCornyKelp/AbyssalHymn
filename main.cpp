@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 
     // Scene Switching
     Scene *scene = new Scene();
-    scene->game_state = 0;
+    scene->game_state = 2;
     scene->initMainMenuBg(game->getRenderer(), "res/Menu/Main.png");
     scene->initLevelSelectBg(game->getRenderer(), "res/Menu/LevelSelect.png");
 
