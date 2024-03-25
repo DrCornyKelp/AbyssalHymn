@@ -122,7 +122,7 @@ void Projectile::enemyCollision(std::vector<Enemy *> EnemyVec)
         if (colli_x < hit_dist_x && colli_y < hit_dist_y)
         {
             bullet_dead = !can_pierce && true;
-            // Player Hit Animation Here
+            // Enemy Hit Animation Here
             enemy->enemyGetHit(bullet_damage);
         }       
     }
