@@ -35,12 +35,12 @@ void Map1::initBlocks(SDL_Renderer *renderer)
     );
     
     // Starting Ground
-    BlockVec.push_back(new Block(0, 0, 20, 2, 64));
+    BlockVec.push_back(new Block(0, -1, 20, 3, 64));
     BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
     BlockTemplate::mergeX2(
-        {{19}, {7}},
-        BlockTemplate::expandX({{18}, {0}}, 18),
-        {{20}, {8}}
+        {{19}, {7}, {7}},
+        BlockTemplate::expandX({{18}, {0}, {0}}, 18),
+        {{20}, {8}, {8}}
     ));
 
     // // Test Block
@@ -53,12 +53,12 @@ void Map1::initBlocks(SDL_Renderer *renderer)
     // ));
 
     // Platforms
-    BlockVec.push_back(new Block(24, 0, 6, 3, 64));
+    BlockVec.push_back(new Block(24, -1, 6, 4, 64));
     BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
     BlockTemplate::mergeX2(
-        {{19}, {7}, {7}},
-        BlockTemplate::expandX({{18}, {0}, {0}}, 4),
-        {{20}, {8}, {8}}
+        {{19}, {7}, {7}, {7}},
+        BlockTemplate::expandX({{18}, {0}, {0}, {0}}, 4),
+        {{20}, {8}, {8}, {8}}
     ));
 
     // Bridge
@@ -76,12 +76,12 @@ void Map1::initBlocks(SDL_Renderer *renderer)
     ));
 
     // Layer previous platform over bridge for drawing consitency
-    BlockVec.push_back(new Block(34, 0, 6, 4, 64));
+    BlockVec.push_back(new Block(34, -1, 6, 5, 64));
     BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
     BlockTemplate::mergeX2(
-        {{19}, {7}, {7}, {7}},
-        BlockTemplate::expandX({{18}, {0}, {0}, {0}}, 4),
-        {{20}, {8}, {8}, {8}}
+        {{19}, {7}, {7}, {7}, {7}},
+        BlockTemplate::expandX({{18}, {0}, {0}, {0}, {0}}, 4),
+        {{20}, {8}, {8}, {8}, {8}}
     ));
 
     // See through mechanic
@@ -167,22 +167,22 @@ void Map1::initBlocks(SDL_Renderer *renderer)
     {{5}, {7}, {7}, {7}, {0}}
     );
 
-    BlockVec.push_back(new Block(83, 0, 15, 1, 64));
+    BlockVec.push_back(new Block(83, -1, 15, 2, 64));
     BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
     BlockTemplate::mergeX(
-        BlockTemplate::expandX({{4}}, 14),
-        {{0}}
+        BlockTemplate::expandX({{4}, {4}}, 14),
+        {{0}, {0}}
     ));
 
-    BlockVec.push_back(new Block(98, 0, 5, 5, 64));
+    BlockVec.push_back(new Block(98, -1, 5, 6, 64));
     BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
     BlockTemplate::mergeX2(
-        {{19}, {0}, {0}, {0}, {0}},
-        BlockTemplate::expandX({{18}, {0}, {0}, {0}, {0}}, 3),
-        {{20}, {8}, {8}, {8}, {8}}
+        {{19}, {0}, {0}, {0}, {0}, {0}},
+        BlockTemplate::expandX({{18}, {0}, {0}, {0}, {0}, {0}}, 3),
+        {{20}, {8}, {8}, {8}, {8}, {8}}
     ));
 
-    BlockVec.push_back(new Block(82, 0, 17, 5, 64, true, true));
+    BlockVec.push_back(new Block(82, -1, 17, 6, 64, true, true));
     BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
     BlockTemplate::mergeY(
         BlockTemplate::mergeX2(
@@ -191,8 +191,8 @@ void Map1::initBlocks(SDL_Renderer *renderer)
             BlockTemplate::expandX({{18}}, 6)
         ),
         BlockTemplate::mergeX(
-            BlockTemplate::expandX({{18}, {0}, {0}, {0}}, 5),
-            BlockTemplate::expandX({{0}, {0}, {0}, {0}}, 12)
+            BlockTemplate::expandX({{18}, {0}, {0}, {0}, {0}}, 5),
+            BlockTemplate::expandX({{0}, {0}, {0}, {0}, {0}}, 12)
         )
     ));
 
@@ -295,32 +295,31 @@ void Map1::initMapPlayer(Player *player)
     // Set player Camera 
     player->setFocusFunction([](Player *player) {
         // Focus X
-        double cam_scale = player->getCameraScale();
-        if (player->getX() < Game::WIDTH / 2 / cam_scale)
+        if (player->getX() < Game::WIDTH / 2)
         {
             player->setUnfocusX(true);
-            player->setUnfocusOffsetX(Game::WIDTH / 2 / cam_scale);
-            player->setOffsetMidX(player->getX() - Game::WIDTH / 2 / cam_scale);
+            player->setUnfocusOffsetX(Game::WIDTH / 2);
+            player->setOffsetMidX(player->getX() - Game::WIDTH / 2);
         }
-        else if (player->getX() > Game::WIDTH * 2 / cam_scale)
-        {
-            player->setUnfocusX(true);
-            player->setUnfocusOffsetX(Game::WIDTH * 2 / cam_scale);
-            player->setOffsetMidX(player->getX() - Game::WIDTH * 2 / cam_scale);
-        }
+        // else if (player->getX() > Game::WIDTH * 2)
+        // {
+        //     player->setUnfocusX(true);
+        //     player->setUnfocusOffsetX(Game::WIDTH * 2);
+        //     player->setOffsetMidX(player->getX() - Game::WIDTH * 2);
+        // }
         else player->setUnfocusX(false);
         // Focus Y
-        if (player->getY() < Game::HEIGHT / 2 / cam_scale)
+        if (player->getY() < Game::HEIGHT / 2)
         {
             player->setUnfocusY(true);
-            player->setUnfocusOffsetY(Game::HEIGHT / 2 / cam_scale);
-            player->setOffsetMidY(player->getY() - Game::HEIGHT / 2 / cam_scale);
+            player->setUnfocusOffsetY(Game::HEIGHT / 2);
+            player->setOffsetMidY(player->getY() - Game::HEIGHT / 2);
         }
-        else if (player->getY() > Game::HEIGHT * 2 / cam_scale)
+        else if (player->getY() > Game::HEIGHT * 2)
         {
             player->setUnfocusY(true);
-            player->setUnfocusOffsetY(Game::HEIGHT * 2 / cam_scale);
-            player->setOffsetMidY(player->getY() - Game::HEIGHT * 2 / cam_scale);
+            player->setUnfocusOffsetY(Game::HEIGHT * 2);
+            player->setOffsetMidY(player->getY() - Game::HEIGHT * 2);
         }
         else player->setUnfocusY(false);
     });
