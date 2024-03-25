@@ -51,10 +51,10 @@ int Camera::objectDrawX(Player *player, Object2D *obj)
     auto distance = Camera::objectDistance(obj, player);
     int dist_x = DistGet(distance, 0);
 
-    return  
-            player->getUnfocusX() ?
+    return (player->getUnfocusX() ?
             Game::WIDTH/2 + (obj->getX() - player->getUnfocusOffsetX() - obj->getWidth()/2) * player->getCameraScale() :
-            Game::WIDTH/2 + (dist_x + player->getOffsetMidX() - obj->getWidth()/2) * player->getCameraScale();
+            Game::WIDTH/2 + (dist_x + player->getOffsetMidX() - obj->getWidth()/2) * player->getCameraScale())
+            + player->getEaseX();
 }
 int Camera::objectDrawY(Player *player, Object2D *obj)
 {
@@ -62,8 +62,9 @@ int Camera::objectDrawY(Player *player, Object2D *obj)
     auto distance = Camera::objectDistance(obj, player);
     int dist_y = DistGet(distance, 1);
 
-    return 
-            player->getUnfocusY() ?
-            Game::HEIGHT/2 - obj->getY()* player->getCameraScale() + player->getUnfocusOffsetY()* player->getCameraScale() - obj->getHeight()/2* player->getCameraScale() :
-            Game::HEIGHT/2 - (dist_y + player->getOffsetMidY() + obj->getHeight()/2) * player->getCameraScale();
+    return (player->getUnfocusY() ?
+            Game::HEIGHT/2 - (obj->getY() - player->getUnfocusOffsetY() + obj->getHeight()/2) * player->getCameraScale() :
+            Game::HEIGHT/2 - (dist_y + player->getOffsetMidY() + obj->getHeight()/2) * player->getCameraScale())
+            + player->getEaseY();
 }
+

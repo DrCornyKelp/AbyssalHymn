@@ -59,10 +59,14 @@ void Hud::drawAirborne(SDL_Renderer *renderer)
 
 void Hud::drawHeadUpStat(SDL_Renderer *renderer)
 {
-    int drawX = Game::WIDTH / 2 + player->getOffsetMidX();
-    int drawY = Game::HEIGHT / 2 - player->getOffsetMidY();
+    double cam_scale = player->getCameraScale();
+    int drawX = Game::WIDTH / 2 + (player->getOffsetMidX() - 64) * cam_scale;
+    int drawY = Game::HEIGHT / 2 - (player->getOffsetMidY() + 64 - (player->getIsCrawl() ? 10 : 0)) * cam_scale;
 
-    SDL_Rect desRect = {drawX - 64, drawY - 64 + (player->getIsCrawl() ? 10 : 0), 128, 128};
+    SDL_Rect desRect = {drawX + player->getEaseX(),
+                        drawY + player->getEaseY(),
+                        int(128 * cam_scale),
+                        int(128 * cam_scale)};
     SDL_Rect srcRect = {0, 0, 64, 64};
 
     if (player->getWeaponEquip())

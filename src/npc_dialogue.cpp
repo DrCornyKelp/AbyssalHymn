@@ -49,14 +49,24 @@ void NpcDialogue::draw(SDL_Renderer *renderer, Player *player)
 
     if (alpha_cur > alpha_max) alpha_cur = alpha_max;
     if (alpha_cur < 0) alpha_cur = 0;
-
+    
+    double cam_scale = player->getCameraScale();
     if (alpha_cur > 20)
     {
         int effectY = float(alpha_cur) / alpha_max * 10 - 10;
 
-        SDL_Rect bDesRect= {Game::WIDTH / 2 + dist_x + player->getOffsetMidX() - bubble_width / 2,
-                            Game::HEIGHT/ 2 -(dist_y + player->getOffsetMidY())- bubble_height / 2 - getHeight() - effectY,
-                            bubble_width, bubble_height};
+        int drawBX = (player->getUnfocusX() ?
+            Game::WIDTH/2 + (getX() - player->getUnfocusOffsetX() - bubble_width/2) * player->getCameraScale() :
+            Game::WIDTH/2 + (dist_x + player->getOffsetMidX() - bubble_width/2) * player->getCameraScale())
+            + player->getEaseX();
+        int drawBY = (player->getUnfocusY() ?
+            Game::HEIGHT/2 - (getY() - player->getUnfocusOffsetY() + bubble_height/2) * player->getCameraScale() :
+            Game::HEIGHT/2 - (dist_y + player->getOffsetMidY() + bubble_height/2) * player->getCameraScale())
+            + player->getEaseY();
+
+        SDL_Rect bDesRect= {drawBX, drawBY - getHeight() - effectY,
+                            int(bubble_width * cam_scale),
+                            int(bubble_height * cam_scale)};
         if (alpha_cur % 5 == 0 || alpha_cur == alpha_max)
             SDL_SetTextureAlphaMod(bubble->getTexture(), alpha_cur);
         SDL_RenderCopy(renderer, bubble->getTexture(), NULL, &bDesRect);
@@ -64,7 +74,6 @@ void NpcDialogue::draw(SDL_Renderer *renderer, Player *player)
     // =======================================================
 
     // Drawing Npc itself
-    double cam_scale = player->getCameraScale();
     SDL_Rect nDesRect= {Camera::objectDrawX(player, this),
                         Camera::objectDrawY(player, this),
                         int(getWidth() * cam_scale), int(getHeight() * cam_scale)};

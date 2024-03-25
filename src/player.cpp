@@ -314,7 +314,7 @@ void Player::playerDrawSprite(SDL_Renderer *renderer)
     int drawY = Game::HEIGHT / 2 - offset_mid_y * camera_scale - sprite_size*2 * camera_scale - 1;
     // The -1 is just to make the drawing look abit better, dont worry
 
-    SDL_Rect desRect = {drawX , drawY,
+    SDL_Rect desRect = {drawX + ease_x, drawY + ease_y,
                         int(sprite_size * 4 * camera_scale), 
                         int(sprite_size * 4 * camera_scale)};
     SDL_Rect srcRect = {getSprIndex() * sprite_size, act_index * sprite_size, sprite_size, sprite_size};
@@ -325,13 +325,28 @@ void Player::playerDrawSprite(SDL_Renderer *renderer)
 }
 
 void Player::playerDrawProperty()
-{
+{   
+    // ======================== CAMERA ============================
     // Set index and stuff
     act_right = vel_x > .2 ? 1 : vel_x < -.2 ? 0 : act_right;
 
+    // Camera focus
     focus_function(this);
-    // offset_mid_x = 0;
-    // offset_mid_y = -200;
+
+    // Damping / Easing effect
+    if (act_right &&
+        ease_x > -64* (a_dash || g_dash ? 2.25 : 1)
+                    * (weapon_equip ? 1 : 1.5))
+        ease_x -= abs(vel_x / 5);
+    if (!act_right &&
+        ease_x < 64 * (a_dash || g_dash ? 2.25 : 1)
+                    * (weapon_equip ? 1 : 1.5))
+        ease_x += abs(vel_x / 5);
+    if (!vel_x && ease_x) ease_x -= ease_x / 40;
+
+    // std::cout << vel_x << " " << ease_x << "\n";
+
+    // ======================== SRPITES ===========================
 
     // Ow< ouch
     if (invurnable_time > invurnable_time_max * .8)
