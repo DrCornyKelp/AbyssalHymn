@@ -1,48 +1,29 @@
 #include "map/map1.h"
 
 void Map1::initBlocksBack(SDL_Renderer *renderer)
-{
-    BlockBackVec.push_back(new Block(50, -0.5, 4, 7, 64, true));
-    BlockBackVec[BlockBackVec.size() - 1]->blockEngine(renderer, nature_block,
-    BlockTemplate::mergeX2(
-        BlockTemplate::mergeY({{19}}, BlockTemplate::expandY({{16}}, 6)),
-        BlockTemplate::expandX(
-            BlockTemplate::mergeY({{18}}, BlockTemplate::expandY({{9}}, 6)), 2
-        ),
-        BlockTemplate::mergeY({{20}}, BlockTemplate::expandY({{17}}, 6))
-    ));
-
-    BlockBackVec.push_back(new Block(82, 0, 17, 5, 64, true));
-    BlockBackVec[BlockBackVec.size() - 1]->blockEngine(renderer, nature_block,
-    BlockTemplate::mergeY(
-        BlockTemplate::mergeX(
-            BlockTemplate::expandX({{nb}}, 10),
-            BlockTemplate::expandX({{13}}, 7)
-        ),
-        BlockTemplate::mergeX(
-            BlockTemplate::expandX({{13}, {9}, {9}, {9}}, 11),
-            BlockTemplate::expandX({{9}, {9}, {9}, {9}}, 11)
-        )
-    ));
-}
+{}
 
 void Map1::initBlocks(SDL_Renderer *renderer)
 {
-        // Boundary
-    BlockVec.push_back(new Block(-1, 0, 1, 100));
-    BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
-    BlockTemplate::expandY({{0}}, 100)
-    );
-
-    // Starting Ground
-    BlockVec.push_back(new Block(0, 0, 20, 2, 64));
+    // Boundary Left
+    BlockVec.push_back(new Block(-5, 0, 5, 100));
     BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
     BlockTemplate::mergeX(
-        {{19}, {7}},
-        BlockTemplate::expandX({{18}, {0}}, 19)
+        BlockTemplate::expandX(
+            BlockTemplate::expandY({{0}}, 100), 4
+        ),
+        BlockTemplate::expandY({{8}}, 100)
+    ));
+    
+    // Starting Ground
+    BlockVec.push_back(new Block(-1, -1, 21, 3, 64));
+    BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
+    BlockTemplate::mergeX(
+        {{19}, {7}, {7}},
+        BlockTemplate::expandX({{18}, {0}, {0}}, 20)
     ));
 
-    // Starting stair blocks
+     // Starting stair blocks
     BlockVec.push_back(new Block(20, 0, 4, 3, 64));
     BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
     BlockTemplate::mergeY(
