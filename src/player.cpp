@@ -344,8 +344,6 @@ void Player::playerDrawProperty()
         ease_x += abs(vel_x / 5);
     if (!vel_x && ease_x) ease_x -= ease_x / 40;
 
-    // std::cout << vel_x << " " << ease_x << "\n";
-
     // ======================== SRPITES ===========================
 
     // Ow< ouch
