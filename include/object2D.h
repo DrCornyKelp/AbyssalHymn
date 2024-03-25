@@ -10,6 +10,7 @@
 #include <tuple>
 
 #include <game.h>
+#include <camera.h>
 #include <sprite.h>
 #include <audio.h>
 

@@ -33,22 +33,12 @@ void NpcDialogue::draw(SDL_Renderer *renderer, Player *player)
     if (colli_x - bubble_width / 2 > Game::WIDTH ||
         colli_y - bubble_height / 2 > Game::HEIGHT)
         return;
-
-    // Camera is a piece of shit
-    int rel_x = (player->getFocusX() ? player->getOffsetX() + getX() - player->getX() : getX());
-    int rel_y = player->getFocusY() ? player->getOffsetY() + getY() - player->getY() : getY();
-
     // Frame index shitty bang bang stuff handler
-    if (getSprFrame() < getSprFrameMax())
-        setSprFrame(getSprFrame() + 1);
-    else
-    {
-        setSprFrame(0);
-        setSprIndex(getSprIndex() + 1);
-    }
+    Camera::objectSetSprite(this);
 
-    if (getSprIndex() >= getSprIndexMax())
-        setSprIndex(0);
+    auto distance = Camera::objectDistance(this, player);
+    int dist_x = DistGet(distance, 0);
+    int dist_y = DistGet(distance, 1);
 
     // Colliding => Draw bubble
     if (abs(player->getX() - getX()) < getHitWidth() &&
@@ -64,7 +54,9 @@ void NpcDialogue::draw(SDL_Renderer *renderer, Player *player)
     {
         int effectY = float(alpha_cur) / alpha_max * 10 - 10;
 
-        SDL_Rect bDesRect = {rel_x - bubble_width / 2, Game::HEIGHT - rel_y - getHeight() - bubble_height / 2 - effectY, bubble_width, bubble_height};
+        SDL_Rect bDesRect= {Game::WIDTH / 2 + dist_x + player->getOffsetMidX() - bubble_width / 2,
+                            Game::HEIGHT/ 2 -(dist_y + player->getOffsetMidY())- bubble_height / 2 - getHeight() - effectY,
+                            bubble_width, bubble_height};
         if (alpha_cur % 5 == 0 || alpha_cur == alpha_max)
             SDL_SetTextureAlphaMod(bubble->getTexture(), alpha_cur);
         SDL_RenderCopy(renderer, bubble->getTexture(), NULL, &bDesRect);
@@ -72,8 +64,9 @@ void NpcDialogue::draw(SDL_Renderer *renderer, Player *player)
     // =======================================================
 
     // Drawing Npc itself
-    SDL_Rect nDesRect = {rel_x - getWidth() / 2, Game::HEIGHT - rel_y - getHeight() / 2,getWidth(), getHeight()};
-    
+    SDL_Rect nDesRect= {Camera::objectDrawX(player, this),
+                        Camera::objectDrawY(player, this),
+                        getWidth(), getHeight()};
     SDL_Rect nSrcRect;
     if (getSprIndexMax() > 0) 
     {

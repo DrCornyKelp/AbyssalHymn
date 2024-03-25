@@ -1,5 +1,5 @@
-#include "player.h"
-#include "map.h"
+#include <player.h>
+#include <map.h>
 
 // Constructor
 Player::Player(float X, float Y, int w, int h, int hw, int hh, int sim, int sfm, int si, int sf) : Object2D(X, Y, w, h, hw, hh, sim, sfm, si, sf) {}
@@ -74,27 +74,6 @@ void Player::setEndLock(bool lock)
         setSprIndex(0);
     }
     sprite_end_lock = lock;
-}
-
-void Player::setFocusXCondition(FocusXCondition fcond)
-{
-    fxcondition = fcond;
-}
-
-void Player::setFocusYCondition(FocusYCondition fcond)
-{
-    fycondition = fcond;
-}
-
-void Player::setFocus()
-{
-    auto resultX = fxcondition(getX(), getY());
-    offset_x = FocusGet(resultX, 0);
-    focus_x = FocusGet(resultX, 1);
-
-    auto resultY = fycondition(getX(), getY());
-    offset_y = FocusGet(resultY, 0);
-    focus_y = FocusGet(resultY, 1);
 }
 
 void Player::setCanMove(bool can)
@@ -231,29 +210,63 @@ float Player::getCombatParryError()
     return combat_parry_error;
 }
 
-// Focus Offset Stuff
-// Idk how to explain
-bool Player::getFocusX()
+// Camera
+int Player::getOffsetMidX()
 {
-    return focus_x;
+    return offset_mid_x;
 }
-bool Player::getFocusY()
+int Player::getOffsetMidY()
 {
-    return focus_y;
+    return offset_mid_y;
 }
-int Player::getOffsetX()
+bool Player::getUnfocusX()
 {
-    return offset_x;
+    return unfocus_x;
 }
-int Player::getOffsetY()
+bool Player::getUnfocusY()
 {
-    return offset_y;
+    return unfocus_y;
 }
-int Player::getFocusEaseAhead()
+int Player::getUnfocusOffsetX()
 {
-    return focus_ease_ahead;
+    return unfocus_offset_x;
+}
+int Player::getUnfocusOffsetY()
+{
+    return unfocus_offset_y;
 }
 
+void Player::setOffsetMidX(int x)
+{
+    offset_mid_x = x;
+}
+void Player::setOffsetMidY(int y)
+{
+    offset_mid_y = y;
+}
+void Player::setUnfocusX(bool focus)
+{
+    unfocus_x = focus;
+}
+void Player::setUnfocusY(bool focus)
+{
+    unfocus_y = focus;
+}
+void Player::setUnfocusOffsetX(int x)
+{
+    unfocus_offset_x = x;
+}
+void Player::setUnfocusOffsetY(int y)
+{
+    unfocus_offset_y = y;
+}
+void Player::setFocusFunction(FocusFunc focusFunc)
+{
+    focus_function = focusFunc;
+}
+
+// Focus Offset Stuff
+// Idk how to explain
 bool Player::getIsMove()
 {
     return vel_x;
@@ -283,27 +296,13 @@ bool Player::getIsHugWall()
 
 void Player::playerDrawSprite(SDL_Renderer *renderer)
 {
-    // Camera smooth movement
-    setFocus();
+    Camera::objectSetSprite(this, sprite_end_lock);
 
-    if (getSprFrame() < getSprFrameMax())
-        setSprFrame(getSprFrame() + 1);
-    else
-    {
-        setSprFrame(0);
-        setSprIndex(getSprIndex() + 1);
-    }
+    int drawX = Game::WIDTH / 2 + offset_mid_x - sprite_size * 2; 
+    int drawY = Game::HEIGHT / 2 - offset_mid_y - 1 - sprite_size * 2;
+    // The -1 is just to make the drawing look abit better, dont worry
 
-    if (getSprIndex() >= getSprIndexMax())
-        if (sprite_end_lock)
-            setSprIndex(getSprIndexMax() - 1);
-        else
-            setSprIndex(0);
-
-    int drawX = focus_x ? Game::WIDTH / 2 + focus_ease_ahead : getX();
-    int drawY = focus_y ? Game::HEIGHT / 2 - 1 : Game::HEIGHT - 1 - getY();
-
-    SDL_Rect desRect = {drawX - sprite_size * 2, drawY - sprite_size * 2, sprite_size * 4, sprite_size * 4};
+    SDL_Rect desRect = {drawX , drawY, sprite_size * 4, sprite_size * 4};
     SDL_Rect srcRect = {getSprIndex() * sprite_size, act_index * sprite_size, sprite_size, sprite_size};
 
     if (!invurnable_time)
@@ -316,6 +315,9 @@ void Player::playerSpriteIndex()
     // Set index and stuff
     act_right = vel_x > .2 ? 1 : vel_x < -.2 ? 0 : act_right;
 
+    focus_function(this);
+
+    // Ow< ouch
     if (invurnable_time > invurnable_time_max * .8)
     {
         setAct(8, act_right);
@@ -560,7 +562,7 @@ void Player::playerMovement(Input *input)
 
         vel_y = 1 + 40 / (air_max - air_cur + 8);
         if (jump_super == jump_super_max)
-            vel_y = 7;
+            vel_y = 7.3;
 
         // Wall jump
         if (!hug_wall)
@@ -768,6 +770,7 @@ void Player::playerCombat(Map *map, Input *input)
 
     if (invurnable_time) {
         invurnable_time--;
+
         if (invurnable_time > invurnable_time_max * .8)
         {
             // When got hit reset all movement and stuff
@@ -989,18 +992,15 @@ void Player::playerBlockCollision(std::vector<Block *> BlockVec)
 
     for (Block *block : BlockVec)
     {
+        // If block is outside of play/usable view
+        // No need to check for SHIT MAN
+        block->setOutBound(Camera::objectOutBound(this, block));
+        if (block->getOutBound()) continue;
+
         // Collision Value
         int colli_x = abs(getHitX() - block->getX());
         int colli_y = abs(getHitY() - block->getY());
         int colli_y_stand = abs(getY() - block->getY());
-
-        // If block is outside of play/usable view
-        // No need to check for SHIT MAN
-        block->setOutBound((
-            colli_x - block->getWidth() / 2 > Game::WIDTH ||
-            colli_y - block->getHeight() / 2 > Game::HEIGHT
-        ));
-        if (block->getOutBound()) continue;
 
         int hit_dist_x = (getHitWidth() + block->getHitWidth()) / 2;
         int hit_dist_y = (getHitHeight() + block->getHitHeight()) / 2;
@@ -1172,8 +1172,6 @@ void Player::playerEnemyCollision(std::vector<Enemy *> EnemyVec)
 void Player::playerGetHit(int dmg)
 {
     if (invurnable_time || invincible_time) return;
-    Audio::playSFX("res/Audio/SFX/NakuHurt.wav", -1);
-
     invurnable_time = invurnable_time_max;
     hp -= dmg;
 }
@@ -1193,46 +1191,21 @@ void Player::playerGrid(SDL_Renderer *renderer)
     {
         // Draw grid line
         SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-        int gridLineX = getX() / 64;
-        int gridLineY = getY() / 64;
 
-        for (int i = gridLineX - 11; i < gridLineX + 11; i++)
+        int gridLineX = unfocus_x ? 0 : int(getX()) % 64;
+        int gridLineY = unfocus_y ? 0 : int(getY()) % 64 + 28;
+
+        for (int i = 0; i < int(Game::WIDTH / 64); i++)
         {
-            int drawGridX = focus_x ? i * 64 + focus_ease_ahead + offset_x - getX() : i * 64; 
+            int drawGridX = i * 64 - gridLineX; 
             SDL_RenderDrawLine(renderer, drawGridX, 0, drawGridX, Game::HEIGHT);
         }
-        for (int i = gridLineY - 6; i < gridLineY + 6; i++)
+        for (int i = 0; i < int(Game::HEIGHT / 64); i++)
         {
-            int drawGridY = focus_y ? i * 64 + offset_y - getY() : i * 64;
-            SDL_RenderDrawLine(renderer, 0, 720 - drawGridY, Game::WIDTH, 720 - drawGridY); 
+            int drawGridY = Game::HEIGHT - i * 64 + gridLineY;
+            SDL_RenderDrawLine(renderer, 0, drawGridY,
+                                Game::WIDTH, drawGridY); 
         }
-
-        /*
-        console.log printf print std::cout
-        System.out.println puts echo fmt.Println
-        Console.WriteLine println putStrLn
-        Write-Output SELECT io.write Debug.Print
-        disp cat tex.print NSLog WScript.Echo
-        DISPLAY Put_Line format t write writeln
-        DBMS_OUTPUT.PUT_LINE Transcript show:
-        Debug.log putStr MsgBox io:format
-        Write to Measurement File
-
-        of the <grid position> ('w')
-        */
-        // std::cout << int(getX() / 64) << " " << int(getY() / 64) << "\n";
-
-        int drawBoxX = focus_x ? Game::WIDTH / 2 + focus_ease_ahead : getHitX();
-        int drawBoxY = focus_y ? Game::HEIGHT / 2 - 1 : Game::HEIGHT - 1 - getHitY();
-        int boxWidth = combat_hit_left + combat_hit_right;
-        int boxHeight = combat_hit_up + combat_hit_down;
-        SDL_Rect boxRect = {drawBoxX - (boxWidth/2 - combat_hit_left > combat_hit_right ? combat_hit_right : combat_hit_left),
-                            drawBoxY - (boxHeight/2 - combat_hit_up > combat_hit_down ? combat_hit_down : combat_hit_up),
-                            boxWidth, boxHeight};
-        SDL_RenderCopy(renderer, combatbox->getTexture(), NULL, &boxRect);
-
-        SDL_Rect hitRect = {drawBoxX - 5, drawBoxY - 5, 10, 10};
-        SDL_RenderCopy(renderer, hitbox->getTexture(), NULL, &hitRect);
     }
 }
 

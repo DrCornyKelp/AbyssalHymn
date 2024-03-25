@@ -292,14 +292,36 @@ void Map1::initMapPlayer(Player *player)
     player->setX(checkpoint_x * 64);
     player->setY(checkpoint_y * 64);
 
-    // Camera Focus
-    player->setFocusXCondition([](int x, int y) {
-        if (x > Game::WIDTH / 2) FocusReturn(Game::WIDTH / 2, true);
-        FocusReturn(0, false);
-    });
-    player->setFocusYCondition([](int x, int y) {
-        if (y > Game::HEIGHT / 2) FocusReturn(Game::HEIGHT / 2, true);
-        FocusReturn(0, false);
+    // Set player Camera 
+    player->setFocusFunction([](Player *player) {
+        // Focus X
+        if (player->getX() < Game::WIDTH / 2)
+        {
+            player->setUnfocusX(true);
+            player->setUnfocusOffsetX(Game::WIDTH / 2);
+            player->setOffsetMidX(player->getX() - Game::WIDTH / 2);
+        }
+        // else if (player->getX() > Game::WIDTH * 2)
+        // {
+        //     player->setUnfocusX(true);
+        //     player->setUnfocusOffsetX(Game::WIDTH * 2);
+        //     player->setOffsetMidX(player->getX() - Game::WIDTH * 2);
+        // }
+        else player->setUnfocusX(false);
+        // Focus Y
+        if (player->getY() < Game::HEIGHT / 2)
+        {
+            player->setUnfocusY(true);
+            player->setUnfocusOffsetY(Game::HEIGHT / 2);
+            player->setOffsetMidY(player->getY() - Game::HEIGHT / 2);
+        }
+        else if (player->getY() > Game::HEIGHT * 1.2)
+        {
+            player->setUnfocusY(true);
+            player->setUnfocusOffsetY(Game::HEIGHT * 1.2);
+            player->setOffsetMidY(player->getY() - Game::HEIGHT * 1.2);
+        }
+        else player->setUnfocusY(false);
     });
 
     // EXPERIMENTATION
@@ -318,14 +340,6 @@ void Map1::initEnemies(SDL_Renderer *renderer)
 
 void Map1::updateMapExclusive(SDL_Renderer *renderer, Player *player, Input *input)
 {
-    // EXPERIMENTATION
-    const Uint8 *keystate = SDL_GetKeyboardState(NULL);
-
-    // if (keystate[SDL_SCANCODE_L])
-    //     DecorFrontVec[DecorFrontVec.size() - 1]->setAlpha(0);
-    // else
-    //     DecorFrontVec[DecorFrontVec.size() - 1]->setAlpha(255);
-
     // ====================== UPDATE PLAYER ============================
 
     // Standard update
@@ -363,7 +377,7 @@ void Map1::updateMapExclusive(SDL_Renderer *renderer, Player *player, Input *inp
     [](Enemy* enemy) {
         // The other condition is to ensure enemy play dead animation
         return enemy->getDead() &&
-        enemy->getSprIndex() == enemy->getSprIndexMax();
+        enemy->getSprIndex() == enemy->getSprIndexMax() - 1;
     }), EnemyVec.end());
 
     // ====================== UPDATE PROJECTILE ========================
@@ -390,29 +404,13 @@ void Map1::updateMapExclusive(SDL_Renderer *renderer, Player *player, Input *inp
     // Background
     for (float i = 0; i < BackgroundVec.size(); i+=2)
     {
-        if (player->getFocusX())
-        {
-            BackgroundVec[i]->setX(Game::WIDTH / 2 - int((player_x - Game::WIDTH / 2) * (.1 - i/200)) % Game::WIDTH);
-            BackgroundVec[i+1]->setX(Game::WIDTH * 1.5 - int((player_x - Game::WIDTH / 2) * (.1 - i/200)) % Game::WIDTH);
-        }
-        else
-        {
-            BackgroundVec[i]->setX(Game::WIDTH / 2);
-            BackgroundVec[i+1]->setX(Game::WIDTH / 2);
-        }
+        BackgroundVec[i]->setX(Game::WIDTH / 2 - int((player_x - Game::WIDTH / 2) * (.1 - i/200)) % Game::WIDTH);
+        BackgroundVec[i+1]->setX(Game::WIDTH * 1.5 - int((player_x - Game::WIDTH / 2) * (.1 - i/200)) % Game::WIDTH);
 
         if (i > 0)
         {
-            if (player->getFocusY())
-            {
-                BackgroundVec[i]->setY(int((player->getY() - Game::HEIGHT / 2) * i/200) + Game::HEIGHT / 2);
-                BackgroundVec[i+1]->setY(int((player->getY() - Game::HEIGHT / 2) * i/200) + Game::HEIGHT / 2);
-            }
-            else
-            {
-                BackgroundVec[i]->setY(Game::HEIGHT / 2);
-                BackgroundVec[i+1]->setY(Game::HEIGHT / 2);
-            }
+            BackgroundVec[i]->setY(int((player->getY() - Game::HEIGHT / 2) * i/200) + Game::HEIGHT / 2);
+            BackgroundVec[i+1]->setY(int((player->getY() - Game::HEIGHT / 2) * i/200) + Game::HEIGHT / 2);
         }
     }
 }

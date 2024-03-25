@@ -3,7 +3,7 @@
 #include <map.h>
 
 Slime::Slime(float X, float Y, float limX1, float limX2, short startDir, float scale) :
-    Enemy(X * 64, Y * 64, 64 * scale, 64 * scale, 58 * scale, 58 * scale, 7, 20), direction(startDir),
+    Enemy(X * 64, Y * 64, 256 * scale, 256 * scale, 58 * scale, 58 * scale, 7, 20), direction(startDir),
     limLeft(limX1), limRight(limX2)
 {}
 
@@ -32,32 +32,15 @@ void Slime::initEnemy(SDL_Renderer *renderer)
 void Slime::draw(SDL_Renderer *renderer, Player *player)
 {
     // Outside seeable? unrender
-    int colli_x = abs(player->getX() - getX());
-    int colli_y = abs(player->getY() - getY());
-    if (colli_x - getWidth() / 2 > Game::WIDTH ||
-        colli_y - getHeight() / 2 > Game::HEIGHT)
+    if (Camera::objectOutBound(player, this))
         return;
-
-    // Camera is a piece of shit
-    int rel_x = (player->getFocusX() ? player->getOffsetX() + getX() - player->getX() : getX());
-    int rel_y = player->getFocusY() ? player->getOffsetY() + getY() - player->getY() : getY();
-
     // Frame index shitty bang bang stuff handler
-    if (getSprFrame() < getSprFrameMax())
-        setSprFrame(getSprFrame() + 1);
-    else
-    {
-        setSprFrame(0);
-        setSprIndex(getSprIndex() + 1);
-    }
-    // If dead, freeze frame
-    if (getSprIndex() >= getSprIndexMax())
-        if (getDead())
-            setSprIndex(getSprIndexMax());
-        else
-            setSprIndex(0);
+    Camera::objectSetSprite(this);
 
-    SDL_Rect desRect = {rel_x - getWidth() * 2, Game::HEIGHT - rel_y - getHeight() * 2, getWidth() * 4, getHeight() * 4};
+    // Draw
+    SDL_Rect desRect = {Camera::objectDrawX(player, this),
+                        Camera::objectDrawY(player, this),
+                        getWidth(), getHeight()};
     SDL_Rect srcRect = {getSprIndex() * 80, color, 80, 72};
 
     if (!getInvinTime()) 
@@ -125,7 +108,6 @@ void Slime::enemyPlayerCollision(Player *player)
 void Slime::enemyGetHit(int dmg)
 {
     if (getInvinTime()) return;
-    Audio::playSFX("res/Audio/SFX/Hurt.wav", 3);
     setInvinTime(100);
     setHp(getHp() - dmg);
 }

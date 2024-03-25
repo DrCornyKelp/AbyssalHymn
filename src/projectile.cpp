@@ -157,8 +157,6 @@ void Projectile::projectileAction(SDL_Renderer *renderer, Player* player, Map *m
             setSprFrameMax(getSprFrameMax() / 3);
             vel_x = vel_parry_x;
             vel_y = vel_parry_y;
-            Audio::playSFX("res/Audio/SFX/Parry.wav", -1);
-            // Audio::playSFX("res/Audio/SFX/Coin.wav", -1);
         }
     }
 }
@@ -171,37 +169,16 @@ void Projectile::updateProjectile(SDL_Renderer *renderer, Player *player, Map *m
 
 void Projectile::draw(SDL_Renderer *renderer, Player *player)
 {   
-    // (Ok im pretty sure these value are being highly reused XD)
-    // (Might make a method of this later)
-    // Camera is a piece of shit
-    int rel_x = (player->getFocusX() ? player->getOffsetX() + getX() - player->getX() : getX());
-    int rel_y = player->getFocusY() ? player->getOffsetY() + getY() - player->getY() : getY();
-
-    // Frame index shitty bang bang stuff handler
-    if (getSprIndexMax())
-    {
-        if (getSprFrame() < getSprFrameMax())
-        {
-            setSprFrame(getSprFrame() + 1);
-        }
-        else
-        {
-            setSprFrame(0);
-            setSprIndex(getSprIndex() + 1);
-        }
-        if (getSprIndex() >= getSprIndexMax())
-            setSprIndex(0);
-    }
-
-    int colli_x = abs(player->getX() - getX());
-    int colli_y = abs(player->getY() - getY());
-
     // Only render if box is in sight
-    if (colli_x - getWidth() / 2 > Game::WIDTH ||
-        colli_y - getHeight() / 2 > Game::HEIGHT
-    ) return;
-
-    SDL_Rect desRect = {rel_x - getWidth() / 2, Game::HEIGHT - rel_y - getHeight() / 2, getWidth(), getHeight()};
+    if (Camera::objectOutBound(player, this))
+        return;
+    // Set animation
+    Camera::objectSetSprite(this);
+    
+    // Draw
+    SDL_Rect desRect = {Camera::objectDrawX(player, this),
+                        Camera::objectDrawY(player, this),
+                        getWidth(), getHeight()};
     SDL_Rect srcRect;
     if (getSprIndexMax() > 0) srcRect = {getSprIndex() * getWidth(), 0, getWidth(), getHeight()};
     else srcRect = {0, 0, getWidth(), getHeight()};

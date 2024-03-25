@@ -1,4 +1,4 @@
-#include "map.h"
+#include <map.h>
 
 // Player
 void Map::initMapPlayer(Player *player)

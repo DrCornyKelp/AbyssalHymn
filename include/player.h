@@ -5,11 +5,7 @@
 #include "block.h"
 #include "enemy.h"
 
-#define FocusReturn(off, focus) return std::make_tuple(int(off), bool(focus))
-#define FocusGet(result, index) std::get<index>(result)
-#define FocusFunc std::tuple<int, bool>
-typedef FocusFunc (*FocusXCondition)(int, int);
-typedef FocusFunc (*FocusYCondition)(int, int);
+typedef void (*FocusFunc)(Player *);
 
 class Map;
 class Player : public Object2D
@@ -63,7 +59,8 @@ private:
     int hit_offset_y = 0;
 
     // Decelleration
-    int decel_x = 0; // 0: none, -1: LEFT, 1: RIGHT
+    // 0: none, -1: LEFT, 1: RIGHT
+    int decel_x = 0; 
 
     // "Airborne" movement
     int air_cur = 0;
@@ -170,14 +167,17 @@ private:
     int sprite_size = 64;
 
     // EXTREMELY COMPLICATED CAMERA
-    FocusXCondition fxcondition;
-    bool focus_x = true;
-    int offset_x;
-    FocusYCondition fycondition;
-    bool focus_y = false;
-    int offset_y = 0;
+    int offset_mid_x = 0;
+    int offset_mid_y = 0;
+    bool unfocus_x = 0;
+    bool unfocus_y = 0;
+    int unfocus_offset_x = 0;
+    int unfocus_offset_y = 0;
+    FocusFunc focus_function;
 
-    int focus_ease_ahead = 0;
+
+    int earth_quake = 0;
+    int earth_quake_direction = 1;
 
     // ====== DEVELOPER VALUES ======
     Sprite *hitbox;
@@ -188,8 +188,6 @@ private:
 
     bool grid = false;
     bool grid_hold;
-
-    // FUNNNNNNNNNNNNNNNN
 
 public:
     // Constructor
@@ -204,10 +202,6 @@ public:
     void setSpriteAlpha(int alpha);
     void setAct(int index, bool right);
     void setEndLock(bool lock);
-
-    void setFocusXCondition(FocusXCondition fcond);
-    void setFocusYCondition(FocusYCondition fcond);
-    void setFocus();
 
     void setCanMove(bool can);
     void setCanJump(bool can);
@@ -242,16 +236,24 @@ public:
     float getCombatCharge();
     float getCombatParryError();
 
+    int getOffsetMidX();
+    int getOffsetMidY();
+    bool getUnfocusX();
+    bool getUnfocusY();
+    int getUnfocusOffsetX();
+    int getUnfocusOffsetY();
+    void setOffsetMidX(int x);
+    void setOffsetMidY(int y);
+    void setUnfocusX(bool focus);
+    void setUnfocusY(bool focus);
+    void setUnfocusOffsetX(int x);
+    void setUnfocusOffsetY(int y);
+    void setFocusFunction(FocusFunc focusFunc);
+
     int getAirCur();
     int getAirMax();
     int getHpCur();
     int getHpMax();
-
-    bool getFocusX();
-    bool getFocusY();
-    int getOffsetX();
-    int getOffsetY();
-    int getFocusEaseAhead();
 
     bool getIsMove();
     bool getIsJump();

@@ -1,5 +1,5 @@
-#include "block.h"
-#include "player.h"
+#include <block.h>
+#include <player.h>
 
 // Constructor
 Block::Block(float X, float Y, float w, float h, short gr, bool gothru, bool seethru, int seethruAlpha) :
@@ -107,14 +107,13 @@ void Block::draw(SDL_Renderer *renderer, Player *player)
 
     if (isOutBound) return;
 
-    int rel_x = (player->getFocusX() ? player->getOffsetX() + getX() - player->getX() : getX());
-    int rel_y = player->getFocusY() ? player->getOffsetY() + getY() - player->getY() : getY();
-
+    // Draw
     for (int i = 0; i < block_sprites.size(); i++)
         for (int j = 0; j < block_sprites[i].size(); j++)
         {
             // If a grid x grid texture is out of bound
             // Ignore the rendering process
+            // This cannot use camera cuz holy shit wtf
             int colli_x = abs(player->getX() - getX() + getWidth() / 2 - j*grid);
             int colli_y = abs(player->getY() - getY() - getHeight() / 2 + i*grid);
             if (colli_x - grid / 2 > Game::WIDTH ||
@@ -124,9 +123,10 @@ void Block::draw(SDL_Renderer *renderer, Player *player)
             if (isSeeThru)
                 SDL_SetTextureAlphaMod(block_sprites[i][j]->getTexture(), seeAlpha);
 
-            SDL_Rect desRect = {rel_x - getWidth() / 2 + j*grid,
-                                Game::HEIGHT - rel_y - getHeight() / 2 + i*grid,
-                                grid, grid};
+            SDL_Rect desRect = {Camera::objectDrawX(player, this) + j*grid,
+                                Camera::objectDrawY(player, this) + i*grid,
+                                64, 64};
+    
             SDL_RenderCopy(renderer, block_sprites[i][j]->getTexture(), NULL, &desRect);        
         }
 }

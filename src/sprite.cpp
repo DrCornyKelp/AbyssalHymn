@@ -1,4 +1,4 @@
-#include "sprite.h"
+#include <sprite.h>
 
 Sprite::Sprite(int sw, int sh, float dr, const char *sPath) :
     sprite_path(sPath),

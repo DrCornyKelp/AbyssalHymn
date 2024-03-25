@@ -1,6 +1,6 @@
-#include "enemy.h"
-#include "player.h"
-#include "map.h"
+#include <enemy.h>
+#include <player.h>
+#include <map.h>
 
 Enemy::Enemy(float X, float Y, int w, int h, int hw, int hh, int sim, int sfm) :
     Object2D(X, Y, w, h, hw, hh,

@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 
     // Scene Switching
     Scene *scene = new Scene();
-    scene->game_state = 0;
+    scene->game_state = 2;
     scene->initMainMenuBg(game->getRenderer(), "res/Menu/Main.png");
     scene->initLevelSelectBg(game->getRenderer(), "res/Menu/LevelSelect.png");
 
@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
 
     // Audio
     int test = Mix_Init(0); // wav = 0, flac = 1, mp3 = 8
-    Audio::playBGM("res/Audio/BGM/StringTheory.wav");
+    // Audio::playBGM("res/Audio/BGM/StringTheory.wav");
 
     // Player + Hud
     Player *player0 = new Player();

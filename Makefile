@@ -22,15 +22,14 @@ AbyssalHymn:
 		src/npc_dialogue.cpp \
 		src/renderer.cpp \
 		src/input.cpp \
+		src/camera.cpp \
 		src/scene.cpp \
 		main.cpp \
 		-lmingw32 \
 		-lSDL2main \
 		-lSDL2 \
 		-lSDL2_image \
-		-lSDL2_mixer \
-		-mwindows \
-		-ffast-math
+		-lSDL2_mixer
 	cls
 	./AbyssalHymn.exe
 
