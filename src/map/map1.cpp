@@ -301,12 +301,12 @@ void Map1::initMapPlayer(Player *player)
             player->setUnfocusOffsetX(Game::WIDTH / 2);
             player->setOffsetMidX(player->getX() - Game::WIDTH / 2);
         }
-        // else if (player->getX() > Game::WIDTH * 2)
-        // {
-        //     player->setUnfocusX(true);
-        //     player->setUnfocusOffsetX(Game::WIDTH * 2);
-        //     player->setOffsetMidX(player->getX() - Game::WIDTH * 2);
-        // }
+        else if (player->getX() > Game::WIDTH * 2)
+        {
+            player->setUnfocusX(true);
+            player->setUnfocusOffsetX(Game::WIDTH * 2);
+            player->setOffsetMidX(player->getX() - Game::WIDTH * 2);
+        }
         else player->setUnfocusX(false);
         // Focus Y
         if (player->getY() < Game::HEIGHT / 2)

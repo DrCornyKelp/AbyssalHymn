@@ -12,14 +12,14 @@ DistXY Camera::objectDistance(Object2D *objMain, Object2D *objSub)
     return std::make_tuple(int(distX), int(distY));
 }
 
-bool Camera::objectOutBound(Object2D *objMain, Object2D *objSub)
+bool Camera::objectOutBound(Player *player, Object2D *obj)
 {
-    auto distance = objectDistance(objMain, objSub);
+    auto distance = objectDistance(player, obj);
     int colli_x = abs(DistGet(distance, 0));
     int colli_y = abs(DistGet(distance, 1));
 
-    return  colli_x - objSub->getWidth() / 2 > Game::WIDTH ||
-            colli_y - objSub->getHeight() / 2 > Game::HEIGHT;
+    return  colli_x - obj->getWidth() / 2 > Game::WIDTH / player->getCameraScale() ||
+            colli_y - obj->getHeight() / 2 > Game::HEIGHT / player->getCameraScale();
 }
 
 void Camera::objectSetSprite(Object2D *obj, bool end_lock)
@@ -47,19 +47,21 @@ void Camera::objectSetSprite(Object2D *obj, bool end_lock)
 
 int Camera::objectDrawX(Player *player, Object2D *obj)
 {
+    // X is fine
     auto distance = Camera::objectDistance(obj, player);
     int dist_x = DistGet(distance, 0);
 
     return player->getUnfocusX() ?
-            Game::WIDTH/2 + obj->getX() - player->getUnfocusOffsetX() - obj->getWidth()/2 :
+            Game::WIDTH/2 + (obj->getX() - player->getUnfocusOffsetX() - obj->getWidth()/2) * player->getCameraScale() :
             Game::WIDTH/2 + (dist_x + player->getOffsetMidX() - obj->getWidth()/2) * player->getCameraScale();
 }
 int Camera::objectDrawY(Player *player, Object2D *obj)
 {
+    // Y focus is fine but unfocus is a piece of shit
     auto distance = Camera::objectDistance(obj, player);
     int dist_y = DistGet(distance, 1);
 
     return player->getUnfocusY() ?
-            Game::HEIGHT - (Game::HEIGHT/2 - obj->getY() + player->getUnfocusOffsetY() - obj->getHeight()/2) * player->getCameraScale() :
+            Game::HEIGHT/2 - player->getUnfocusOffsetY() * player->getCameraScale() - (obj->getY() + obj->getHeight() / 2) * player->getCameraScale() :
             Game::HEIGHT/2 - (dist_y + player->getOffsetMidY() + obj->getHeight()/2) * player->getCameraScale();
 }

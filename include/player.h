@@ -173,7 +173,7 @@ private:
     bool unfocus_y = 0;
     int unfocus_offset_x = 0;
     int unfocus_offset_y = 0;
-    double camera_scale = 0.625;
+    double camera_scale = 1; // 0.625
     FocusFunc focus_function;
 
     int earth_quake = 0;
