@@ -295,31 +295,32 @@ void Map1::initMapPlayer(Player *player)
     // Set player Camera 
     player->setFocusFunction([](Player *player) {
         // Focus X
-        if (player->getX() < Game::WIDTH / 2)
+        double cam_scale = player->getCameraScale();
+        if (player->getX() < Game::WIDTH / 2 / cam_scale)
         {
             player->setUnfocusX(true);
-            player->setUnfocusOffsetX(Game::WIDTH / 2);
-            player->setOffsetMidX(player->getX() - Game::WIDTH / 2);
+            player->setUnfocusOffsetX(Game::WIDTH / 2 / cam_scale);
+            player->setOffsetMidX(player->getX() - Game::WIDTH / 2 / cam_scale);
         }
-        else if (player->getX() > Game::WIDTH * 2)
+        else if (player->getX() > Game::WIDTH * 2 / cam_scale)
         {
             player->setUnfocusX(true);
-            player->setUnfocusOffsetX(Game::WIDTH * 2);
-            player->setOffsetMidX(player->getX() - Game::WIDTH * 2);
+            player->setUnfocusOffsetX(Game::WIDTH * 2 / cam_scale);
+            player->setOffsetMidX(player->getX() - Game::WIDTH * 2 / cam_scale);
         }
         else player->setUnfocusX(false);
         // Focus Y
-        if (player->getY() < Game::HEIGHT / 2)
+        if (player->getY() < Game::HEIGHT / 2 / cam_scale)
         {
             player->setUnfocusY(true);
-            player->setUnfocusOffsetY(Game::HEIGHT / 2);
-            player->setOffsetMidY(player->getY() - Game::HEIGHT / 2);
+            player->setUnfocusOffsetY(Game::HEIGHT / 2 / cam_scale);
+            player->setOffsetMidY(player->getY() - Game::HEIGHT / 2 / cam_scale);
         }
-        else if (player->getY() > Game::HEIGHT * 2)
+        else if (player->getY() > Game::HEIGHT * 2 / cam_scale)
         {
             player->setUnfocusY(true);
-            player->setUnfocusOffsetY(Game::HEIGHT * 2);
-            player->setOffsetMidY(player->getY() - Game::HEIGHT * 2);
+            player->setUnfocusOffsetY(Game::HEIGHT * 2 / cam_scale);
+            player->setOffsetMidY(player->getY() - Game::HEIGHT * 2 / cam_scale);
         }
         else player->setUnfocusY(false);
     });
