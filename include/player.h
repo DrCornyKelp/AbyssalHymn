@@ -169,8 +169,8 @@ private:
     // EXTREMELY COMPLICATED CAMERA
     int offset_mid_x = 0;
     int offset_mid_y = 0;
-    int ease_x = 0;
-    int ease_y = 0;
+    float ease_x = 0;
+    float ease_y = 0;
     bool unfocus_x = 0;
     bool unfocus_y = 0;
     int unfocus_offset_x = 0;
