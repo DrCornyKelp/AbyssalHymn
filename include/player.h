@@ -169,12 +169,12 @@ private:
     // EXTREMELY COMPLICATED CAMERA
     int offset_mid_x = 0;
     int offset_mid_y = 0;
+    int ease_x = 0;
+    int ease_y = 0;
     bool unfocus_x = 0;
     bool unfocus_y = 0;
     int unfocus_offset_x = 0;
     int unfocus_offset_y = 0;
-    int ease_offset_x = 0;
-    int ease_offset_y = 0;
 
     double camera_scale = 1; // some good values 0.625 0.9375
     FocusFunc focus_function;
@@ -233,6 +233,8 @@ public:
     // Camera
     int getOffsetMidX();
     int getOffsetMidY();
+    int getEaseX();
+    int getEaseY();
     bool getUnfocusX();
     bool getUnfocusY();
     int getUnfocusOffsetX();
@@ -274,7 +276,7 @@ public:
     void playerEnemyCollision(std::vector<Enemy*> Enemy);
     void playerGetHit(int dmg);
 
-    void playerSpriteIndex();
+    void playerDrawProperty();
     void playerDrawSprite(SDL_Renderer *renderer);
     void playerUpdate(SDL_Renderer *renderer, Map *map, Input *input);
 

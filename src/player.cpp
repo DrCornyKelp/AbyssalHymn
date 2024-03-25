@@ -219,6 +219,14 @@ int Player::getOffsetMidY()
 {
     return offset_mid_y;
 }
+int Player::getEaseX()
+{
+    return ease_x;
+}
+int Player::getEaseY()
+{
+    return ease_y;
+}
 bool Player::getUnfocusX()
 {
     return unfocus_x;
@@ -316,7 +324,7 @@ void Player::playerDrawSprite(SDL_Renderer *renderer)
     SDL_RenderCopy(renderer, playerCurrentTexture, &srcRect, &desRect);
 }
 
-void Player::playerSpriteIndex()
+void Player::playerDrawProperty()
 {
     // Set index and stuff
     act_right = vel_x > .2 ? 1 : vel_x < -.2 ? 0 : act_right;
@@ -1229,13 +1237,13 @@ void Player::playerUpdate(SDL_Renderer *renderer, Map *map, Input *input)
         playerCombat(map, input);
         playerBlockCollision(map->BlockVec);
         playerEnemyCollision(map->EnemyVec);
+        playerDrawProperty();
     }
     else
     {
         playerDeveloper(input);
     }
 
-    playerSpriteIndex();
 
     // ===============DEVELOPER input===============
     // GODMODE
