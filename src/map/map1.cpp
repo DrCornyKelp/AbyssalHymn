@@ -260,19 +260,7 @@ void Map1::initNpcDialogues(SDL_Renderer *renderer)
 {
     // Teach jump
     NpcVec.push_back(new NpcDialogue("res/NpcSheet/Npc2/Squid.png", "res/NpcSheet/Npc2/SquidJumpTutorial.png",
-        17, 3, 2, 2, 3, 3, 300, 138, 32, 32, 4, 25, 0, 0, 230));
-
-    // Teach hold jump
-    NpcVec.push_back(new NpcDialogue("res/NpcSheet/Npc2/Squid.png", "res/NpcSheet/Npc2/SquidSuperJumpTutorial.png",
-        56.5, 5, 2, 2, 3, 3, 300, 138, 32, 32, 4, 25, 0, 0, 230));
-
-    // Teach crawl
-    NpcVec.push_back(new NpcDialogue("res/NpcSheet/Npc2/Squid.png", "res/NpcSheet/Npc2/SquidSuperJumpTutorial.png",
-        78, 5, 2, 2, 3, 3, 300, 138, 32, 32, 4, 25, 0, 0, 230));
-
-    // Teach super jump
-    NpcVec.push_back(new NpcDialogue("res/NpcSheet/Npc2/Squid.png", "res/NpcSheet/Npc2/SquidSuperJumpTutorial.png",
-        100, 6, 2, 2, 5, 5, 300, 138, 32, 32, 4, 25, 0, 0, 230));
+        17, 3, 2, 2, 3, 3, 300, 138, 32, 32, 4, 25, 230));
 
     for (NpcDialogue *npc : NpcVec)
         npc->initNpc(renderer);
@@ -316,7 +304,6 @@ void Map1::initBackDecors(SDL_Renderer *renderer)
 void Map1::initFrontDecors(SDL_Renderer *renderer)
 {
     DecorFrontVec.push_back(new Decoration("res/Decoration/Tree1.png", 24, 3, 4.3, 5));
-    // DecorFrontVec.push_back(new Decoration("res/Decoration/House1Rail.png", 0, 2, 15, 1.4));
     DecorFrontVec.push_back(new Decoration("res/Decoration/Grass1.png", 0, 1.99, 20, 2));
 
     // Filter

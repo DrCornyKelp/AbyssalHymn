@@ -20,7 +20,6 @@ private:
     Sprite *npc;
 
     bool display_bubble = false;
-    bool facing_player;
     int alpha_cur = 0;
     int alpha_max;
 
@@ -28,7 +27,9 @@ private:
     int bubble_width, bubble_height;
 
 public:
-    NpcDialogue(const char* nPath, const char* bPath, float nx = 0, float ny = 0, int w = 128, int h = 128, int hw = 64, int hh = 64, int bw = 128, int bh = 32, int sw = 32, int sh = 32, int sim = 0, int sfm = 0, int si = 0, int sf = 0, int alpm = 180, int grid = 64, bool f_player = true);
+    NpcDialogue(const char* nPath, const char* bPath, float nx = 0, float ny = 0, int w = 0, int h = 0,
+                int hw = 0, int hh = 0, int bw = 0, int bh = 0, int sw = 0, int sh = 0,
+                int sim = 0, int sfm = 0, int alpm = 200, int grid = 64);
 
     void initNpc(SDL_Renderer *renderer);
 

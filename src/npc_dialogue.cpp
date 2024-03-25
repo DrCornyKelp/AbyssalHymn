@@ -1,10 +1,12 @@
 #include <npc_dialogue.h>
 #include <player.h>
 
-NpcDialogue::NpcDialogue(const char* nPath, const char* bPath, float nx, float ny, int w, int h, int hw, int hh, int bw, int bh, int sw, int sh, int sim, int sfm, int si, int sf, int alpm, int grid, bool f_player):
+NpcDialogue::NpcDialogue(const char* nPath, const char* bPath, float nx, float ny, int w, int h, 
+                        int hw, int hh, int bw, int bh, int sw, int sh,
+                        int sim, int sfm, int alpm, int grid):
     Object2D(nx * grid, ny * grid, w * grid, h * grid, hw *grid, hh * grid,
-            sim, sfm, si, sf),
-    facing_player(f_player), alpha_max(alpm),
+            sim, sfm, 0, 0),
+    alpha_max(alpm),
     sprite_width(sw), sprite_height(sh),
     bubble_width(bw), bubble_height(bh),
     npc_path(nPath), bubble_path(bPath)

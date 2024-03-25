@@ -1218,6 +1218,8 @@ void Player::playerDeveloper(Input *input)
 
 void Player::playerGrid(SDL_Renderer *renderer)
 {
+    // Really sorry but grid straight up dont work in other scale mode
+    // Im not doing the math bruh
     if (grid)
     {
         // Draw grid line
@@ -1229,13 +1231,13 @@ void Player::playerGrid(SDL_Renderer *renderer)
         for (int i = 0; i < int(Game::WIDTH / 64); i++)
         {
             int drawGridX = i * 64 - gridLineX; 
-            SDL_RenderDrawLine(renderer, drawGridX, 0, drawGridX, Game::HEIGHT);
+            SDL_RenderDrawLine(renderer, drawGridX + ease_x, 0, drawGridX + ease_x, Game::HEIGHT);
         }
         for (int i = 0; i < int(Game::HEIGHT / 64); i++)
         {
             int drawGridY = Game::HEIGHT - i * 64 + gridLineY;
-            SDL_RenderDrawLine(renderer, 0, drawGridY,
-                                Game::WIDTH, drawGridY); 
+            SDL_RenderDrawLine(renderer, 0, drawGridY + ease_y,
+                                Game::WIDTH, drawGridY + ease_y); 
         }
     }
 }
