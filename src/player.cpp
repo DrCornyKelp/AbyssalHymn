@@ -1231,7 +1231,8 @@ void Player::playerGrid(SDL_Renderer *renderer)
         for (int i = 0; i < int(Game::WIDTH / 64); i++)
         {
             int drawGridX = i * 64 - gridLineX; 
-            SDL_RenderDrawLine(renderer, drawGridX + ease_x, 0, drawGridX + ease_x, Game::HEIGHT);
+            SDL_RenderDrawLine(renderer, drawGridX + ease_x, 0,
+                                drawGridX + ease_x, Game::HEIGHT);
         }
         for (int i = 0; i < int(Game::HEIGHT / 64); i++)
         {
