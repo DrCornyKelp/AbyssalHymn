@@ -19,13 +19,6 @@ private:
 
 public:
     static const int WIDTH = 1280, HEIGHT = 720;
-    // Setter
-    // void setWIDTH(int w);
-    // void setHEIGHT(int h);
-    // void setFPS(int fps);
-    // void setDELAYTIME(int dt);
-    // void setWindow(SDL_Window *win);
-    // void setRenderer(SDL_Renderer *rend);
 
     // Getter
     int getWIDTH();

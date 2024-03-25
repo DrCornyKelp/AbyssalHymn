@@ -266,7 +266,7 @@ void Map1::initBackground(SDL_Renderer *renderer)
 
 void Map1::initBackDecors(SDL_Renderer *renderer)
 {
-    DecorBackVec.push_back(new Decoration("res/Decoration/House1.png", 0, 2, 15, 11.25));
+    DecorBackVec.push_back(new Decoration("res/Decoration/House1.png", 0, 2, 15, 12.5));
 
     for (Decoration *backDecor : DecorBackVec)
         backDecor->initDecoration(renderer);
@@ -315,11 +315,11 @@ void Map1::initMapPlayer(Player *player)
             player->setUnfocusOffsetY(Game::HEIGHT / 2);
             player->setOffsetMidY(player->getY() - Game::HEIGHT / 2);
         }
-        else if (player->getY() > Game::HEIGHT * 1.2)
+        else if (player->getY() > Game::HEIGHT * 2)
         {
             player->setUnfocusY(true);
-            player->setUnfocusOffsetY(Game::HEIGHT * 1.2);
-            player->setOffsetMidY(player->getY() - Game::HEIGHT * 1.2);
+            player->setUnfocusOffsetY(Game::HEIGHT * 2);
+            player->setOffsetMidY(player->getY() - Game::HEIGHT * 2);
         }
         else player->setUnfocusY(false);
     });

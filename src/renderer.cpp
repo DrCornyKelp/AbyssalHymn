@@ -4,6 +4,7 @@ void Renderer::renderGameplay(SDL_Renderer *renderer, Player *player, Map *map)
 {
     // ============== Performance unintensive (kinda) =================
 
+    // Background
     for (Decoration *background : map->BackgroundVec)
         background->draw(renderer, player);
 

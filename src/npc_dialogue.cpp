@@ -64,9 +64,11 @@ void NpcDialogue::draw(SDL_Renderer *renderer, Player *player)
     // =======================================================
 
     // Drawing Npc itself
+    double cam_scale = player->getCameraScale();
     SDL_Rect nDesRect= {Camera::objectDrawX(player, this),
                         Camera::objectDrawY(player, this),
-                        getWidth(), getHeight()};
+                        int(getWidth() * cam_scale), int(getHeight() * cam_scale)};
+
     SDL_Rect nSrcRect;
     if (getSprIndexMax() > 0) 
     {

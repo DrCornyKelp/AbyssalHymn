@@ -235,6 +235,10 @@ int Player::getUnfocusOffsetY()
 {
     return unfocus_offset_y;
 }
+double Player::getCameraScale()
+{
+    return camera_scale;
+}
 
 void Player::setOffsetMidX(int x)
 {
@@ -298,11 +302,11 @@ void Player::playerDrawSprite(SDL_Renderer *renderer)
 {
     Camera::objectSetSprite(this, sprite_end_lock);
 
-    int drawX = Game::WIDTH / 2 + offset_mid_x - sprite_size * 2; 
-    int drawY = Game::HEIGHT / 2 - offset_mid_y - 1 - sprite_size * 2;
+    int drawX = Game::WIDTH / 2 + offset_mid_x - sprite_size*2 * camera_scale; 
+    int drawY = Game::HEIGHT / 2 - offset_mid_y - 1 - sprite_size*2 * camera_scale;
     // The -1 is just to make the drawing look abit better, dont worry
 
-    SDL_Rect desRect = {drawX , drawY, sprite_size * 4, sprite_size * 4};
+    SDL_Rect desRect = {drawX , drawY, sprite_size*4 * camera_scale, sprite_size*4 * camera_scale};
     SDL_Rect srcRect = {getSprIndex() * sprite_size, act_index * sprite_size, sprite_size, sprite_size};
 
     if (!invurnable_time)
@@ -316,6 +320,8 @@ void Player::playerSpriteIndex()
     act_right = vel_x > .2 ? 1 : vel_x < -.2 ? 0 : act_right;
 
     focus_function(this);
+    // offset_mid_x = 0;
+    // offset_mid_y = 0;
 
     // Ow< ouch
     if (invurnable_time > invurnable_time_max * .8)

@@ -173,8 +173,8 @@ private:
     bool unfocus_y = 0;
     int unfocus_offset_x = 0;
     int unfocus_offset_y = 0;
+    double camera_scale = 0.625;
     FocusFunc focus_function;
-
 
     int earth_quake = 0;
     int earth_quake_direction = 1;
@@ -194,35 +194,28 @@ public:
     Player(float X = 640, float Y = 400, int w = 128, int h = 128, int hw = 0, int hh = 0, int sim = 2, int sfm = 20, int si = 0, int sf = 0);
     void initPlayer(SDL_Renderer *renderer);
 
-    // Setter
     void setVelX(float X);
     void setVelY(float Y);
+    float getVelX();
+    float getVelY();
+    int getHitX();
+    int getHitY();
     
     void setSprite(int m_index, int m_frame);
     void setSpriteAlpha(int alpha);
     void setAct(int index, bool right);
     void setEndLock(bool lock);
 
-    void setCanMove(bool can);
-    void setCanJump(bool can);
-    void setCanGDash(bool can);
-    void setCanADash(bool can);
-    void setCanCrawl(bool can);
-    void setCanHugWall(bool can);
-
     void setCombatDelay(float delay);
     void setInvincibleTime(int time);
 
     // Getter
-    float getVelX();
-    float getVelY();
+    
     int getActIndex();
     bool getActRight();
     int getDecel();
     bool getSuperJump();
     
-    int getHitX();
-    int getHitY();
     
     bool getWeaponEquip();
     int getInvincibleTime();
@@ -242,6 +235,7 @@ public:
     bool getUnfocusY();
     int getUnfocusOffsetX();
     int getUnfocusOffsetY();
+    double getCameraScale();
     void setOffsetMidX(int x);
     void setOffsetMidY(int y);
     void setUnfocusX(bool focus);
@@ -261,6 +255,12 @@ public:
     bool getIsADash();
     bool getIsCrawl();
     bool getIsHugWall();
+    void setCanMove(bool can);
+    void setCanJump(bool can);
+    void setCanGDash(bool can);
+    void setCanADash(bool can);
+    void setCanCrawl(bool can);
+    void setCanHugWall(bool can);
 
     // Method
     void playerMovement(Input *input);

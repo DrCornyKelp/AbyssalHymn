@@ -176,9 +176,10 @@ void Projectile::draw(SDL_Renderer *renderer, Player *player)
     Camera::objectSetSprite(this);
     
     // Draw
+    float cam_scale = player->getCameraScale();
     SDL_Rect desRect = {Camera::objectDrawX(player, this),
                         Camera::objectDrawY(player, this),
-                        getWidth(), getHeight()};
+                        int(getWidth() * cam_scale), int(getHeight() * cam_scale)};
     SDL_Rect srcRect;
     if (getSprIndexMax() > 0) srcRect = {getSprIndex() * getWidth(), 0, getWidth(), getHeight()};
     else srcRect = {0, 0, getWidth(), getHeight()};
