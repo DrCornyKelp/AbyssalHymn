@@ -2,33 +2,33 @@
 
 void Map1::initBlocksBack(SDL_Renderer *renderer)
 {
-    BlockBackVec.push_back(new Block(50, -0.5, 4, 7, 64, true));
-    BlockBackVec[BlockBackVec.size() - 1]->blockEngine(renderer, nature_block,
-    BlockTemplate::mergeX2(
-        BlockTemplate::mergeY({{19}}, BlockTemplate::expandY({{16}}, 6)),
-        BlockTemplate::expandX(
-            BlockTemplate::mergeY({{18}}, BlockTemplate::expandY({{9}}, 6)), 2
-        ),
-        BlockTemplate::mergeY({{20}}, BlockTemplate::expandY({{17}}, 6))
-    ));
+    // BlockBackVec.push_back(new Block(50, -0.5, 4, 7, 64, true));
+    // BlockBackVec[BlockBackVec.size() - 1]->blockEngine(renderer, nature_block,
+    // BlockTemplate::mergeX2(
+    //     BlockTemplate::mergeY({{19}}, BlockTemplate::expandY({{16}}, 6)),
+    //     BlockTemplate::expandX(
+    //         BlockTemplate::mergeY({{18}}, BlockTemplate::expandY({{9}}, 6)), 2
+    //     ),
+    //     BlockTemplate::mergeY({{20}}, BlockTemplate::expandY({{17}}, 6))
+    // ));
 
-    BlockBackVec.push_back(new Block(82, 0, 17, 5, 64, true));
-    BlockBackVec[BlockBackVec.size() - 1]->blockEngine(renderer, nature_block,
-    BlockTemplate::mergeY(
-        BlockTemplate::mergeX(
-            BlockTemplate::expandX({{nb}}, 10),
-            BlockTemplate::expandX({{13}}, 7)
-        ),
-        BlockTemplate::mergeX(
-            BlockTemplate::expandX({{13}, {9}, {9}, {9}}, 11),
-            BlockTemplate::expandX({{9}, {9}, {9}, {9}}, 11)
-        )
-    ));
+    // BlockBackVec.push_back(new Block(82, 0, 17, 5, 64, true));
+    // BlockBackVec[BlockBackVec.size() - 1]->blockEngine(renderer, nature_block,
+    // BlockTemplate::mergeY(
+    //     BlockTemplate::mergeX(
+    //         BlockTemplate::expandX({{nb}}, 10),
+    //         BlockTemplate::expandX({{13}}, 7)
+    //     ),
+    //     BlockTemplate::mergeX(
+    //         BlockTemplate::expandX({{13}, {9}, {9}, {9}}, 11),
+    //         BlockTemplate::expandX({{9}, {9}, {9}, {9}}, 11)
+    //     )
+    // ));
 }
 
 void Map1::initBlocks(SDL_Renderer *renderer)
 {
-        // Boundary
+    // Boundary
     BlockVec.push_back(new Block(-1, 0, 1, 100));
     BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
     BlockTemplate::expandY({{0}}, 100)
@@ -272,7 +272,46 @@ void Map1::initBlocks(SDL_Renderer *renderer)
         BlockTemplate::expandY({{7, 0, 8}}, 5)
     );
 
-    // std::cout << BlockVec.size() - 1;
+    // // Bridge
+    // BlockVec.push_back(new Block(39, 3, 22, 1, 64));
+    // BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
+    // BlockTemplate::expandX({{21}}, 22)
+    // );
+    // // Bridge railing decoration
+    // BlockVec.push_back(new Block(39, 4, 22, 1, 64, true));
+    // BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
+    // BlockTemplate::mergeX2(
+    //     {{25}},
+    //     BlockTemplate::expandX({{24}}, 20),
+    //     {{26}}
+    // ));
+
+    // // Layer previous platform over bridge for drawing consitency
+    // BlockVec.push_back(new Block(34, 0, 6, 4, 64));
+    // BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
+    // BlockTemplate::mergeX2(
+    //     {{19}, {7}, {7}, {7}},
+    //     BlockTemplate::expandX({{18}, {0}, {0}, {0}}, 4),
+    //     {{20}, {8}, {8}, {8}}
+    // ));
+
+    // // See through mechanic
+    // BlockVec.push_back(new Block(50, 5.5, 4, 4, 64));
+    // BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
+    // BlockTemplate::mergeY2(
+    //     {{19, 18, 18, 20}},
+    //     BlockTemplate::expandY({{7, 0, 0, 8}}, 2),
+    //     {{2, 1, 1, 3}}
+    // ));
+    // BlockVec.push_back(new Block(50, -0.5, 4, 7, 64, true, true));
+    // BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
+    // BlockTemplate::mergeX2(
+    //     BlockTemplate::expandY({{7}}, 7),
+    //     BlockTemplate::expandX(
+    //         BlockTemplate::expandY({{0}}, 7), 2
+    //     ),
+    //     BlockTemplate::expandY({{8}}, 7)
+    // ));
 }
 
 void Map1::initNpcDialogues(SDL_Renderer *renderer)
@@ -326,7 +365,7 @@ void Map1::initBackground(SDL_Renderer *renderer)
 
 void Map1::initBackDecors(SDL_Renderer *renderer)
 {
-    DecorBackVec.push_back(new Decoration("res/Decoration/House1.png", 0, 2, 15, 12.5));
+    DecorBackVec.push_back(new Decoration("res/Decoration/House1.png", 0, 2, 15, 11.25));
 
     for (Decoration *backDecor : DecorBackVec)
         backDecor->initDecoration(renderer);
@@ -334,16 +373,16 @@ void Map1::initBackDecors(SDL_Renderer *renderer)
 
 void Map1::initFrontDecors(SDL_Renderer *renderer)
 {
-    DecorFrontVec.push_back(new Decoration("res/Decoration/Tree1.png", 24, 3, 4.3, 5));
-    // DecorFrontVec.push_back(new Decoration("res/Decoration/House1Rail.png", 0, 2, 15, 1.4));
-    DecorFrontVec.push_back(new Decoration("res/Decoration/Grass1.png", 0, 1.99, 20, 2));
+    // DecorFrontVec.push_back(new Decoration("res/Decoration/Tree1.png", 24, 3, 4.3, 5));
+    // // DecorFrontVec.push_back(new Decoration("res/Decoration/House1Rail.png", 0, 2, 15, 1.4));
+    // DecorFrontVec.push_back(new Decoration("res/Decoration/Grass1.png", 0, 1.99, 20, 2));
 
-    // Filter
-    DecorFrontVec.push_back(new Decoration("res/Decoration/Background3/LayerColor.png", 0, 0, Game::WIDTH / 64, float(Game::HEIGHT) / 64));
-    DecorFrontVec[DecorFrontVec.size() - 1]->setAbs(true);
+    // // Filter
+    // DecorFrontVec.push_back(new Decoration("res/Decoration/Background3/LayerColor.png", 0, 0, Game::WIDTH / 64, float(Game::HEIGHT) / 64));
+    // DecorFrontVec[DecorFrontVec.size() - 1]->setAbs(true);
 
-    for (Decoration *frontDecor : DecorFrontVec)
-        frontDecor->initDecoration(renderer);
+    // for (Decoration *frontDecor : DecorFrontVec)
+    //     frontDecor->initDecoration(renderer);
 }
 
 void Map1::initMapPlayer(Player *player)
@@ -352,36 +391,14 @@ void Map1::initMapPlayer(Player *player)
     player->setX(checkpoint_x * 64);
     player->setY(checkpoint_y * 64);
 
-    // Set player Camera 
-    player->setFocusFunction([](Player *player) {
-        // Focus X
-        if (player->getX() < Game::WIDTH / 2)
-        {
-            player->setUnfocusX(true);
-            player->setUnfocusOffsetX(Game::WIDTH / 2);
-            player->setOffsetMidX(player->getX() - Game::WIDTH / 2);
-        }
-        // else if (player->getX() > Game::WIDTH * 2)
-        // {
-        //     player->setUnfocusX(true);
-        //     player->setUnfocusOffsetX(Game::WIDTH * 2);
-        //     player->setOffsetMidX(player->getX() - Game::WIDTH * 2);
-        // }
-        else player->setUnfocusX(false);
-        // Focus Y
-        if (player->getY() < Game::HEIGHT / 2)
-        {
-            player->setUnfocusY(true);
-            player->setUnfocusOffsetY(Game::HEIGHT / 2);
-            player->setOffsetMidY(player->getY() - Game::HEIGHT / 2);
-        }
-        else if (player->getY() > Game::HEIGHT * 2)
-        {
-            player->setUnfocusY(true);
-            player->setUnfocusOffsetY(Game::HEIGHT * 2);
-            player->setOffsetMidY(player->getY() - Game::HEIGHT * 2);
-        }
-        else player->setUnfocusY(false);
+    // Camera Focus
+    player->setFocusXCondition([](int x, int y) {
+        if (x > Game::WIDTH / 2) FocusReturn(Game::WIDTH / 2, true);
+        FocusReturn(0, false);
+    });
+    player->setFocusYCondition([](int x, int y) {
+        if (y > Game::HEIGHT / 2) FocusReturn(Game::HEIGHT / 2, true);
+        FocusReturn(0, false);
     });
 
     // EXPERIMENTATION
@@ -400,6 +417,18 @@ void Map1::initEnemies(SDL_Renderer *renderer)
 
 void Map1::updateMapExclusive(SDL_Renderer *renderer, Player *player, Input *input)
 {
+    // EXPERIMENTATION
+    const Uint8 *keystate = SDL_GetKeyboardState(NULL);
+
+    // if (keystate[SDL_SCANCODE_L])
+    //     DecorFrontVec[DecorFrontVec.size() - 1]->setAlpha(0);
+    // else
+    //     DecorFrontVec[DecorFrontVec.size() - 1]->setAlpha(255);
+
+    if (time > time_max) dayForward = -1;
+    if (time < 0) dayForward = 1;
+    time += dayForward;
+
     // ====================== UPDATE PLAYER ============================
 
     // Standard update
@@ -437,7 +466,7 @@ void Map1::updateMapExclusive(SDL_Renderer *renderer, Player *player, Input *inp
     [](Enemy* enemy) {
         // The other condition is to ensure enemy play dead animation
         return enemy->getDead() &&
-        enemy->getSprIndex() == enemy->getSprIndexMax() - 1;
+        enemy->getSprIndex() == enemy->getSprIndexMax();
     }), EnemyVec.end());
 
     // ====================== UPDATE PROJECTILE ========================
@@ -454,23 +483,39 @@ void Map1::updateMapExclusive(SDL_Renderer *renderer, Player *player, Input *inp
 
     // ====================== UPDATE SPECIFIC ==========================
 
-    // Moving block
-    BlockVec[19]->setVelX(0);
-    if ((BlockVec[19]->getStepOn()) && BlockVec[19]->getX() < 115 * 64)
-        BlockVec[19]->setVelX(1);
-    if (!BlockVec[19]->getStepOn() && BlockVec[19]->getX() > 104 * 64)
-        BlockVec[19]->setVelX(-1);
+    // // Moving block
+    // BlockVec[19]->setVelX(0);
+    // if ((BlockVec[19]->getStepOn()) && BlockVec[19]->getX() < 115 * 64)
+    //     BlockVec[19]->setVelX(1);
+    // if (!BlockVec[19]->getStepOn() && BlockVec[19]->getX() > 104 * 64)
+    //     BlockVec[19]->setVelX(-1);
 
     // Background
     for (float i = 0; i < BackgroundVec.size(); i+=2)
     {
-        BackgroundVec[i]->setX(Game::WIDTH / 2 - int((player_x - Game::WIDTH / 2) * (.1 - i/200)) % Game::WIDTH);
-        BackgroundVec[i+1]->setX(Game::WIDTH * 1.5 - int((player_x - Game::WIDTH / 2) * (.1 - i/200)) % Game::WIDTH);
+        if (player->getFocusX())
+        {
+            BackgroundVec[i]->setX(Game::WIDTH / 2 - int((player_x - Game::WIDTH / 2) * (.1 - i/200)) % Game::WIDTH);
+            BackgroundVec[i+1]->setX(Game::WIDTH * 1.5 - int((player_x - Game::WIDTH / 2) * (.1 - i/200)) % Game::WIDTH);
+        }
+        else
+        {
+            BackgroundVec[i]->setX(Game::WIDTH / 2);
+            BackgroundVec[i+1]->setX(Game::WIDTH / 2);
+        }
 
         if (i > 0)
         {
-            BackgroundVec[i]->setY(int((player->getY() - Game::HEIGHT / 2) * i/200) + Game::HEIGHT / 2);
-            BackgroundVec[i+1]->setY(int((player->getY() - Game::HEIGHT / 2) * i/200) + Game::HEIGHT / 2);
+            if (player->getFocusY())
+            {
+                BackgroundVec[i]->setY(int((player->getY() - Game::HEIGHT / 2) * i/200) + Game::HEIGHT / 2);
+                BackgroundVec[i+1]->setY(int((player->getY() - Game::HEIGHT / 2) * i/200) + Game::HEIGHT / 2);
+            }
+            else
+            {
+                BackgroundVec[i]->setY(Game::HEIGHT / 2);
+                BackgroundVec[i+1]->setY(Game::HEIGHT / 2);
+            }
         }
     }
 }

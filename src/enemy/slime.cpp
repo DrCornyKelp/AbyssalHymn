@@ -41,7 +41,8 @@ void Slime::draw(SDL_Renderer *renderer, Player *player)
     double cam_scale = player->getCameraScale();
     SDL_Rect desRect = {Camera::objectDrawX(player, this),
                         Camera::objectDrawY(player, this),
-                        getWidth() * cam_scale, getHeight() * cam_scale};
+                        int(getWidth() * cam_scale),
+                        int(getHeight() * cam_scale)};
     SDL_Rect srcRect = {getSprIndex() * 80, color, 80, 72};
 
     if (!getInvinTime()) 

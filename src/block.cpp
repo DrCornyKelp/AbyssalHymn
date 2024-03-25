@@ -124,9 +124,9 @@ void Block::draw(SDL_Renderer *renderer, Player *player)
                 SDL_SetTextureAlphaMod(block_sprites[i][j]->getTexture(), seeAlpha);
 
             double cam_scale = player->getCameraScale();
-            SDL_Rect desRect = {Camera::objectDrawX(player, this) + j*grid * cam_scale,
-                                Camera::objectDrawY(player, this) + i*grid * cam_scale,
-                                64 * cam_scale, 64 * cam_scale};
+            SDL_Rect desRect = {Camera::objectDrawX(player, this) + int(j*grid * cam_scale),
+                                Camera::objectDrawY(player, this) + int(i*grid * cam_scale),
+                                int(64 * cam_scale), int(64 * cam_scale)};
     
             SDL_RenderCopy(renderer, block_sprites[i][j]->getTexture(), NULL, &desRect);        
         }

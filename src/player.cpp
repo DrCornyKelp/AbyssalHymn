@@ -306,7 +306,9 @@ void Player::playerDrawSprite(SDL_Renderer *renderer)
     int drawY = Game::HEIGHT / 2 - offset_mid_y * camera_scale - sprite_size*2 * camera_scale - 1;
     // The -1 is just to make the drawing look abit better, dont worry
 
-    SDL_Rect desRect = {drawX , drawY, sprite_size*4 * camera_scale, sprite_size*4 * camera_scale};
+    SDL_Rect desRect = {drawX , drawY,
+                        int(sprite_size * 4 * camera_scale), 
+                        int(sprite_size * 4 * camera_scale)};
     SDL_Rect srcRect = {getSprIndex() * sprite_size, act_index * sprite_size, sprite_size, sprite_size};
 
     if (!invurnable_time)

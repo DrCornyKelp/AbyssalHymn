@@ -47,7 +47,8 @@ void Decoration::draw(SDL_Renderer *renderer, Player *player)
     else
         desRect =  {Camera::objectDrawX(player, this),
                     Camera::objectDrawY(player, this),
-                    int(getWidth() * cam_scale), int(getHeight() * cam_scale)};
+                    int(getWidth() * cam_scale),
+                    int(getHeight() * cam_scale)};
 
     SDL_Rect srcRect = {getSprIndex() * getHitWidth(), 0, getHitWidth(), getHitHeight()};
 

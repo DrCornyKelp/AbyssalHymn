@@ -173,7 +173,10 @@ private:
     bool unfocus_y = 0;
     int unfocus_offset_x = 0;
     int unfocus_offset_y = 0;
-    double camera_scale = 0.9375; // 0.625
+    int ease_offset_x = 0;
+    int ease_offset_y = 0;
+
+    double camera_scale = 1; // some good values 0.625 0.9375
     FocusFunc focus_function;
 
     int earth_quake = 0;
@@ -194,29 +197,25 @@ public:
     Player(float X = 640, float Y = 400, int w = 128, int h = 128, int hw = 0, int hh = 0, int sim = 2, int sfm = 20, int si = 0, int sf = 0);
     void initPlayer(SDL_Renderer *renderer);
 
+    // Movement
     void setVelX(float X);
     void setVelY(float Y);
     float getVelX();
     float getVelY();
+    int getDecel();
+    bool getSuperJump();
     int getHitX();
     int getHitY();
     
+    // Drawing
+    int getActIndex();
+    bool getActRight();
     void setSprite(int m_index, int m_frame);
     void setSpriteAlpha(int alpha);
     void setAct(int index, bool right);
     void setEndLock(bool lock);
 
-    void setCombatDelay(float delay);
-    void setInvincibleTime(int time);
-
-    // Getter
-    
-    int getActIndex();
-    bool getActRight();
-    int getDecel();
-    bool getSuperJump();
-    
-    
+    // Combat
     bool getWeaponEquip();
     int getInvincibleTime();
     int getInvurnableTime();
@@ -228,7 +227,10 @@ public:
     float getCombatDelay();
     float getCombatCharge();
     float getCombatParryError();
+    void setCombatDelay(float delay);
+    void setInvincibleTime(int time);
 
+    // Camera
     int getOffsetMidX();
     int getOffsetMidY();
     bool getUnfocusX();
@@ -244,11 +246,13 @@ public:
     void setUnfocusOffsetY(int y);
     void setFocusFunction(FocusFunc focusFunc);
 
+    // Stat
     int getAirCur();
     int getAirMax();
     int getHpCur();
     int getHpMax();
 
+    // Moveset
     bool getIsMove();
     bool getIsJump();
     bool getIsGDash();
