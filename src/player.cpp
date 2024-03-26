@@ -8,29 +8,18 @@ Player::Player(float X, float Y, int w, int h, int hw, int hh, int sim, int sfm,
 void Player::initPlayer(SDL_Renderer *renderer)
 {
     // Nakuru normal mvoement
-    PlayerRight = new Sprite(32, 32, 1, "res/NakuSheet/NakuRight.png");
-    PlayerRight->setTexture(Sprite::loadTexture(renderer, PlayerRight->getSpritePath()));
-
-    PlayerLeft = new Sprite(32, 32, 1, "res/NakuSheet/NakuLeft.png");
-    PlayerLeft->setTexture(Sprite::loadTexture(renderer, PlayerLeft->getSpritePath()));
+    PlayerRight = Sprite::loadTexture(renderer, "res/NakuSheet/NakuRight.png");
+    PlayerLeft = Sprite::loadTexture(renderer, "res/NakuSheet/NakuLeft.png");
 
     // Nakuru holding weapon
-    PlayerRightWeapon = new Sprite(64, 64, 1, "res/NakuSheet/NakuRightWeapon.png");
-    PlayerRightWeapon->setTexture(Sprite::loadTexture(renderer, PlayerRightWeapon->getSpritePath()));
-
-    PlayerLeftWeapon = new Sprite(64, 64, 1, "res/NakuSheet/NakuLeftWeapon.png");
-    PlayerLeftWeapon->setTexture(Sprite::loadTexture(renderer, PlayerLeftWeapon->getSpritePath()));
+    PlayerRightWeapon = Sprite::loadTexture(renderer, "res/NakuSheet/NakuRightWeapon.png");
+    PlayerLeftWeapon = Sprite::loadTexture(renderer, "res/NakuSheet/NakuLeftWeapon.png");
 
     // Nakuru Squid Game
-    PlayerSquid = new Sprite(64, 64, 1, "res/NakuSheet/NakuSquid.png");
-    PlayerSquid->setTexture(Sprite::loadTexture(renderer, PlayerSquid->getSpritePath()));
+    PlayerSquid = Sprite::loadTexture(renderer, "res/NakuSheet/NakuSquid.png");
 
-    // EXPERIMENTATION
-    hitbox = new Sprite(100, 100, 1, "res/HitboxMyass.png");
-    hitbox->setTexture(Sprite::loadTexture(renderer, hitbox->getSpritePath()));
-
-    combatbox = new Sprite(100, 100, 1, "res/CombatMyass.png");
-    combatbox->setTexture(Sprite::loadTexture(renderer, combatbox->getSpritePath()));
+    // EXPERIMENTATION  hitbox = Sprite::loadTexture(renderer, "res/HitboxMyass.png");
+    combatbox = Sprite::loadTexture(renderer, "res/CombatMyass.png");
 };
 
 // Setter
@@ -306,10 +295,8 @@ void Player::playerDrawProperty()
     // ============= SET SPRITE ==============
 
     playerCurrentTexture = act_right ? 
-        (weapon_equip ? PlayerRightWeapon->getTexture() :
-                        PlayerRight->getTexture()) :
-        (weapon_equip ? PlayerLeftWeapon->getTexture() :
-                        PlayerLeft->getTexture());
+        (weapon_equip ? PlayerRightWeapon : PlayerRight) :
+        (weapon_equip ? PlayerLeftWeapon : PlayerLeft);
 
     sprite_size = weapon_equip ? 64 : 32;
 }
@@ -645,7 +632,7 @@ void Player::playerCombat(Map *map, Input *input)
     {
         jelly_keyhold = true;
         map->ProjectileVec.push_back(new Projectile(
-            PlayerSquid->getTexture(), getX(), getY(), 16, 16, 32, 32, act_right * 2 - 1, vel_y + 10, 0, -.2, 10, 1000, -1, 1, 1, 0, 4, 10
+            PlayerSquid, getX(), getY(), 16, 16, 32, 32, act_right * 2 - 1, vel_y + 10, 0, -.2, 10, 1000, -1, 1, 1, 0, 4, 10
         ));
     }
     if (!input->getButton(8) && jelly_keyhold)

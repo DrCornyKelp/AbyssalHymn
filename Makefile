@@ -16,6 +16,7 @@ AbyssalHymn:
 		src/projectile.cpp \
 		src/enemy.cpp \
 		src/enemy/slime.cpp \
+		src/enemy/skeleton.cpp \
 		src/item.cpp \
 		src/map.cpp \
 		src/map/map1.cpp \

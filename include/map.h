@@ -10,13 +10,13 @@
 #include "input.h"
 #include "player.h"
 #include "block.h"
+#include "block_template.h"
 #include "decoration.h"
 #include "npc_dialogue.h"
 #include "projectile.h"
 
-#include "enemy/slime.h"
+#include "enemy/all_enemies.h"
 
-#include "block_template.h"
 class Map
 {
 public:

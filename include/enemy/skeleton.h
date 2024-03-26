@@ -1,5 +1,5 @@
-#ifndef SLIME_H
-#define SLIME_H
+#ifndef SKELETON_H
+#define SKELETON_H
 
 #include <cstdlib>
 #include <ctime>
@@ -7,31 +7,26 @@
 #include <enemy.h>
 #include <random>
 
-class Player;
-class Map;
-class Slime : public Enemy
+class Skeleton : public Enemy
 {
 private:
-    int color = 0;
-    short direction = 1;
+    int direction = 1;
 
-    float vel_x = 0;
-    float vel_y = 0;
+    SDL_Texture *skeleTexture;
 
-    float limLeft;
-    float limRight;
-
-    SDL_Texture *slimeTexture;
     SDL_Texture *moveLeftTexture;
     SDL_Texture *moveRightTexture;
-    SDL_Texture *deathTexture;
 
-    SDL_Texture *bulletTexture;
+    SDL_Texture *attackLeftTexture;
+    SDL_Texture *attackRightTexture;
 
-    int time = 0;
+    SDL_Texture *hurtLeftTexture;
+    SDL_Texture *hurtRightTexture;
 
+    SDL_Texture *deathLeftTexture;
+    SDL_Texture *deathRightTexture;
 public:
-    Slime(float X = 0, float Y = 0, float limX1 = 0, float limX2 = 0, short startDir = 1, float scale = 1);
+    Skeleton(float X = 0, float Y = 0, float limX1 = 0, float limX2 = 0);
     void initEnemy(SDL_Renderer *renderer) override;
 
     void enemyAI(Player *player, Map *map) override;

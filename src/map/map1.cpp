@@ -379,7 +379,7 @@ void Map1::initMapPlayer(Player *player)
 
 void Map1::initEnemies(SDL_Renderer *renderer)
 {
-    EnemyVec.push_back(new Slime(5, 2.5, 1, 20, 1));
+    EnemyVec.push_back(new Skeleton(5, 2, 1, 20));
 
     for (Enemy *enemy : EnemyVec)
         enemy->initEnemy(renderer);

@@ -151,11 +151,11 @@ private:
     // ================= DRAWING ====================
     // Le Sprite itself (do not touch)
     SDL_Texture *playerCurrentTexture;
-    Sprite *PlayerLeft;
-    Sprite *PlayerRight;
-    Sprite *PlayerLeftWeapon;
-    Sprite *PlayerRightWeapon;
-    Sprite *PlayerSquid;
+    SDL_Texture *PlayerLeft;
+    SDL_Texture *PlayerRight;
+    SDL_Texture *PlayerLeftWeapon;
+    SDL_Texture *PlayerRightWeapon;
+    SDL_Texture *PlayerSquid;
     
     // Action indexing and stuff idk
     int act_index = 0;
@@ -191,8 +191,8 @@ private:
     double camera_scale = 1; // some good values 0.625 0.9375
 
     // ====== DEVELOPER VALUES ======
-    Sprite *hitbox;
-    Sprite *combatbox;
+    SDL_Texture *hitbox;
+    SDL_Texture *combatbox;
 
     bool godmode = false;
     bool godmode_hold;

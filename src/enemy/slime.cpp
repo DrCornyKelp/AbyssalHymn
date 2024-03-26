@@ -9,17 +9,10 @@ Slime::Slime(float X, float Y, float limX1, float limX2, short startDir, float s
 
 void Slime::initEnemy(SDL_Renderer *renderer)
 {
-    moveLeftSprite = new Sprite(80, 72, 1, "res/EnemySheet/Slime/MoveLeft.png");
-    moveLeftSprite->setTexture(Sprite::loadTexture(renderer, moveLeftSprite->getSpritePath()));
-
-    moveRightSprite = new Sprite(80, 72, 1, "res/EnemySheet/Slime/MoveRight.png");
-    moveRightSprite->setTexture(Sprite::loadTexture(renderer, moveRightSprite->getSpritePath()));
-
-    deathSprite = new Sprite(80, 72, 1, "res/EnemySheet/Slime/Death.png");
-    deathSprite->setTexture(Sprite::loadTexture(renderer, deathSprite->getSpritePath()));
-
-    bulletSprite = new Sprite(16, 16, 1, "res/EnemySheet/Slime/Bullet.png");
-    bulletSprite->setTexture(Sprite::loadTexture(renderer, bulletSprite->getSpritePath()));
+    moveLeftTexture = Sprite::loadTexture(renderer, "res/EnemySheet/Slime/MoveLeft.png");
+    moveRightTexture = Sprite::loadTexture(renderer, "res/EnemySheet/Slime/MoveRight.png");
+    deathTexture = Sprite::loadTexture(renderer, "res/EnemySheet/Slime/Death.png");
+    bulletTexture = Sprite::loadTexture(renderer, "res/EnemySheet/Slime/Bullet.png");
 
     setHp(20);
     setCollideDamage(20);
@@ -82,24 +75,24 @@ void Slime::enemyAI(Player *player, Map *map)
         float vel_y = abs(colli_vy / colli_vx) * (colli_vy > 0 ? 1 : -1); 
 
         map->ProjectileVec.push_back(
-        new Projectile(bulletSprite->getTexture(), getX(), getY(), 16, 16, 16, 16,
+        new Projectile(bulletTexture, getX(), getY(), 16, 16, 16, 16,
                         vel_x * 20, vel_y * 20, 0, 0, 15, 1000, 1)
         );
         map->ProjectileVec.push_back(
-        new Projectile(bulletSprite->getTexture(), getX(), getY(), 16, 16, 16, 16,
+        new Projectile(bulletTexture, getX(), getY(), 16, 16, 16, 16,
                         vel_x * 20, vel_y * 20 + 1, 0, 0, 15, 1000, 1)
         );
         map->ProjectileVec.push_back(
-        new Projectile(bulletSprite->getTexture(), getX(), getY(), 16, 16, 16, 16,
+        new Projectile(bulletTexture, getX(), getY(), 16, 16, 16, 16,
                         vel_x * 20, vel_y * 20 - 1, 0, 0, 15, 1000, 1)
         );
     }
 
     // The current Texture
-    slimeTexture = direction > 0 ?  moveRightSprite->getTexture():
-                                    moveLeftSprite->getTexture();
+    slimeTexture = direction > 0 ?  moveRightTexture:
+                                    moveLeftTexture;
 
-    slimeTexture = getDead() ? deathSprite->getTexture() : slimeTexture;
+    slimeTexture = getDead() ? deathTexture : slimeTexture;
 }
 
 void Slime::enemyPlayerCollision(Player *player)
