@@ -44,10 +44,7 @@ void Player::setAct(int index, bool right)
 }
 
 void Player::setSprite(int m_index, int m_frame)
-{
-    setSprFrameMax(m_frame);
-    setSprIndexMax(m_index);
-}
+{ setSprFrameMax(m_frame); setSprIndexMax(m_index); }
 
 void Player::setSpriteAlpha(int alpha)
 {
@@ -177,6 +174,8 @@ void Player::playerDrawProperty()
     {
         setAct(8, act_right);
         setSprite(1, 0);
+        effect_x = effect_x > 0 ? 20 : -20;
+
         return;
     }
 
@@ -369,10 +368,8 @@ void Player::playerCameraProperty(Input *input)
 
 void Player::playerMovement(Input *input)
 {
-
-    bool hug_wall = hug_wall_left || hug_wall_right;
-
 // ======================== MOVEMENT INPUT ==============================
+    bool hug_wall = hug_wall_left || hug_wall_right;
 
     // Moving L/R
     if (can_move && !g_dash && !a_dash && !crawl)
@@ -1048,9 +1045,7 @@ void Player::playerEnemyCollision(std::vector<Enemy *> EnemyVec)
             colli_y < hit_dist_y)
         {
             if (enemy->getCollideDamage())
-            {
                 playerGetHit(enemy->getCollideDamage());
-            }
 
             // Addition enemy logic
             enemy->enemyPlayerCollision(this);
@@ -1134,9 +1129,9 @@ void Player::playerUpdate(SDL_Renderer *renderer, Map *map, Input *input)
     }
     else
         playerDeveloper(input);
-    
-    playerDrawProperty();
+
     playerCameraProperty(input);
+    playerDrawProperty();
 
     // ===============DEVELOPER input===============
     // GODMODE
