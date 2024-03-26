@@ -152,10 +152,11 @@ void Player::playerDrawSprite(SDL_Renderer *renderer)
     Camera::objectSetSprite(this, sprite_end_lock);
 
     int drawX = Game::WIDTH / 2 + (offset_mid_x - sprite_size*2) * camera_scale; 
-    int drawY = Game::HEIGHT / 2 - (offset_mid_y + sprite_size*2) * camera_scale - 1;
+    int drawY = Game::HEIGHT / 2 - (offset_mid_y + sprite_size*2) * camera_scale;
     // The -1 is just to make the drawing look abit better, dont worry
 
-    SDL_Rect desRect = {int(drawX + ease_x), int(drawY + ease_y + vertical_ahead),
+    SDL_Rect desRect = {int(drawX) + Camera::playerShiftX(this),
+                        int(drawY) + Camera::playerShiftY(this),
                         int(sprite_size * 4 * camera_scale), 
                         int(sprite_size * 4 * camera_scale)};
     SDL_Rect srcRect = {getSprIndex() * sprite_size, act_index * sprite_size, sprite_size, sprite_size};
@@ -325,12 +326,10 @@ void Player::playerCameraProperty(Input *input)
 
     // Damping / Easing effect
     if (act_right &&
-        ease_x > -64* (a_dash || g_dash ? 2.25 : 1)
-                    * (weapon_equip ? 1 : 1.5))
+        ease_x > -64 * (weapon_equip ? 1 : 1.5))
         ease_x -= abs(vel_x / 5);
     if (!act_right &&
-        ease_x < 64 * (a_dash || g_dash ? 2.25 : 1)
-                    * (weapon_equip ? 1 : 1.5))
+        ease_x < 64 * (weapon_equip ? 1 : 1.5))
         ease_x += abs(vel_x / 5);
     if (!vel_x && ease_x) ease_x -= ease_x / 40;
 
@@ -358,6 +357,14 @@ void Player::playerCameraProperty(Input *input)
     if ((!input->getButton(0) && vertical_ahead > 0) ||
         (!input->getButton(1) && vertical_ahead < 0))
         vertical_ahead -= vertical_ahead / 40;
+
+    if (a_dash || g_dash)
+    {
+        effect_x += vel_x > 0 ? -2 : 2;
+        effect_x = effect_x > 64 ? 64 : effect_x;
+        effect_x = effect_x <-64 ?-64 : effect_x;
+    }
+    else if (effect_x) effect_x -= effect_x / 40;
 }
 
 void Player::playerMovement(Input *input)
@@ -1097,15 +1104,17 @@ void Player::playerGrid(SDL_Renderer *renderer)
 
         for (int i = 0; i < int(Game::WIDTH / 64); i++)
         {
-            int drawGridX = i * 64 - gridLineX; 
-            SDL_RenderDrawLine(renderer, drawGridX + ease_x, 0,
-                                drawGridX + ease_x, Game::HEIGHT);
+            int drawGridX = i * 64 - gridLineX;
+            int camX = Camera::playerShiftX(this);
+            SDL_RenderDrawLine(renderer, drawGridX + camX, 0,
+                                drawGridX + camX, Game::HEIGHT);
         }
         for (int i = 0; i < int(Game::HEIGHT / 64); i++)
         {
+            int camY = Camera::playerShiftY(this);
             int drawGridY = Game::HEIGHT - i * 64 + gridLineY;
-            SDL_RenderDrawLine(renderer, 0, drawGridY + ease_y,
-                                Game::WIDTH, drawGridY + ease_y); 
+            SDL_RenderDrawLine(renderer, 0, drawGridY + camY,
+                                Game::WIDTH, drawGridY + camY); 
         }
     }
 }

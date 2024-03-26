@@ -179,8 +179,8 @@ private:
     // Camera Effect
     float ease_x = 0;
     float ease_y = 0;
-    int effect_x = 0;
-    int effect_y = 0;
+    float effect_x = 0;
+    float effect_y = 0;
 
     // Vertical ahead
     int vertical_ahead_time = 0;

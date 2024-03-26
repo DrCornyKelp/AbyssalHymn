@@ -63,8 +63,8 @@ void Hud::drawHeadUpStat(SDL_Renderer *renderer)
     int drawX = Game::WIDTH / 2 + (player->getOffsetMidX() - 64) * cam_scale;
     int drawY = Game::HEIGHT / 2 - (player->getOffsetMidY() + 64 - (player->getIsCrawl() ? 10 : 0)) * cam_scale;
 
-    SDL_Rect desRect = {drawX + player->getEaseX(),
-                        drawY + player->getEaseY() + player->getVerticalAhead(),
+    SDL_Rect desRect = {drawX + Camera::playerShiftX(player),
+                        drawY + Camera::playerShiftY(player) - 5,
                         int(128 * cam_scale),
                         int(128 * cam_scale)};
     SDL_Rect srcRect = {0, 0, 64, 64};

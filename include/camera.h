@@ -16,6 +16,10 @@ public:
     static DistXY objectDistance(Object2D *objMain, Object2D *objSub);
     static bool objectOutBound(Player *player, Object2D *objSub);
     static void objectSetSprite(Object2D *obj, bool end_lock = 0);
+
+    static int playerShiftX(Player *player);
+    static int playerShiftY(Player *player);
+
     static int objectDrawX(Player *player, Object2D *obj);
     static int objectDrawY(Player *player, Object2D *obj);
 };

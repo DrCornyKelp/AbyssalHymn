@@ -60,11 +60,11 @@ void NpcDialogue::draw(SDL_Renderer *renderer, Player *player)
         int drawBX = (player->getUnfocusX() ?
             Game::WIDTH/2 + (getX() - player->getUnfocusOffsetX() - bubble_width/2) * player->getCameraScale() :
             Game::WIDTH/2 + (dist_x + player->getOffsetMidX() - bubble_width/2) * player->getCameraScale())
-            + player->getEaseX();
+            + Camera::playerShiftX(player);
         int drawBY = (player->getUnfocusY() ?
             Game::HEIGHT/2 - (getY() - player->getUnfocusOffsetY() + bubble_height/2) * player->getCameraScale() :
             Game::HEIGHT/2 - (dist_y + player->getOffsetMidY() + bubble_height/2) * player->getCameraScale())
-            + player->getEaseY();
+            + Camera::playerShiftY(player);
 
         SDL_Rect bDesRect= {drawBX, drawBY - getHeight() - effectY,
                             int(bubble_width * cam_scale),
