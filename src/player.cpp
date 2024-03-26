@@ -729,14 +729,14 @@ void Player::playerCombat(Map *map, Input *input)
     }
 
     if (g_dash)
-        {
-            combat_hit_up = 20;
-            combat_hit_down = 20;
-            if (act_right) combat_hit_right = 80;
-            else combat_hit_left = 80;
+    {
+        combat_hit_up = 20;
+        combat_hit_down = 20;
+        if (act_right) combat_hit_right = 80;
+        else combat_hit_left = 80;
 
-            combat_damage = crawl ? 20 : 12;
-        }
+        combat_damage = crawl ? 20 : 12;
+    }
 
     if (combat_index == 1)
     {
