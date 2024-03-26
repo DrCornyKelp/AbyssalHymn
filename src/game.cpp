@@ -1,17 +1,5 @@
 #include <game.h>
 
-// Setter
-
-// void Game::setWindow(SDL_Window *win)
-// {
-//     window = win;
-// }
-
-// void Game::setRenderer(SDL_Renderer *rend)
-// {
-//     renderer = rend;
-// }
-
 // Getter
 int Game::getWIDTH()
 {

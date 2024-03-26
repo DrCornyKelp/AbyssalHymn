@@ -11,11 +11,23 @@ class Skeleton : public Enemy
 {
 private:
     int direction = 1;
+    int lim_left = 0;
+    int lim_right = 0;
+
+    bool wander_state = true;
+    int wander_time = 100;
+    int idle_time = 0;
+
+    int attack_time = 0;
+    int attack_delay = 0;
 
     SDL_Texture *skeleTexture;
 
     SDL_Texture *moveLeftTexture;
     SDL_Texture *moveRightTexture;
+
+    SDL_Texture *idleLeftTexture;
+    SDL_Texture *idleRightTexture;
 
     SDL_Texture *attackLeftTexture;
     SDL_Texture *attackRightTexture;
@@ -28,6 +40,8 @@ private:
 public:
     Skeleton(float X = 0, float Y = 0, float limX1 = 0, float limX2 = 0);
     void initEnemy(SDL_Renderer *renderer) override;
+
+    int generateRandomDistance();
 
     void enemyAI(Player *player, Map *map) override;
     void enemyPlayerCollision(Player *player) override;

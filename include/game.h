@@ -20,6 +20,8 @@ private:
 public:
     static const int WIDTH = 1280, HEIGHT = 720;
 
+    static float generateRandomFloat();
+
     // Getter
     int getWIDTH();
     int getHEIGHT();
