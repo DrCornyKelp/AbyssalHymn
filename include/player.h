@@ -283,6 +283,7 @@ public:
     void playerGetHit(int dmg);
 
     void playerDrawProperty();
+    void playerCameraProperty(Input *input);
     void playerDrawSprite(SDL_Renderer *renderer);
     void playerUpdate(SDL_Renderer *renderer, Map *map, Input *input);
 

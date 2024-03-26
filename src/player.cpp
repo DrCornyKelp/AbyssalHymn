@@ -483,6 +483,50 @@ void Player::playerDrawProperty()
     sprite_size = weapon_equip ? 64 : 32;
 }
 
+void Player::playerCameraProperty(Input *input)
+{
+    // ======================== CAMERA ============================
+
+    // Camera focus
+    focus_function(this);
+
+    // Damping / Easing effect
+    if (act_right &&
+        ease_x > -64* (a_dash || g_dash ? 2.25 : 1)
+                    * (weapon_equip ? 1 : 1.5))
+        ease_x -= abs(vel_x / 5);
+    if (!act_right &&
+        ease_x < 64 * (a_dash || g_dash ? 2.25 : 1)
+                    * (weapon_equip ? 1 : 1.5))
+        ease_x += abs(vel_x / 5);
+    if (!vel_x && ease_x) ease_x -= ease_x / 40;
+
+    // Look vertical up and down
+    float vt_max = vertical_ahead_max;
+    if (on_ground && !vel_x && !unfocus_y &&
+        vertical_ahead_time > vertical_ahead_time_max)
+    {
+        if (input->getButton(0) && vertical_ahead < vt_max &&
+            !(unfocus_direction_y == 1 && getY() > unfocus_offset_y - vt_max))
+            vertical_ahead += (vt_max - abs(vertical_ahead)) / 30;
+        if (input->getButton(1) && vertical_ahead > -vt_max &&
+            !(unfocus_direction_y == -1 && getY() < unfocus_offset_y + vt_max))
+            vertical_ahead -= (vt_max - abs(vertical_ahead)) / 30;
+
+        vertical_ahead = vertical_ahead > vt_max ? vt_max : vertical_ahead;
+        vertical_ahead = vertical_ahead < -vt_max ? -vt_max : vertical_ahead;
+    }
+
+    if (on_ground && !vel_x && !unfocus_y &&
+        (input->getButton(0) || input->getButton(1)))
+        vertical_ahead_time ++;
+    else vertical_ahead_time = 0;
+
+    if ((!input->getButton(0) && vertical_ahead > 0) ||
+        (!input->getButton(1) && vertical_ahead < 0))
+        vertical_ahead -= vertical_ahead / 40;
+}
+
 void Player::playerMovement(Input *input)
 {
 
@@ -726,47 +770,6 @@ void Player::playerMovement(Input *input)
         air_cur = air_max;
 
     setY(getY() + vel_y);
-
-    // ======================== CAMERA ============================
-
-    // Camera focus
-    focus_function(this);
-
-    // Damping / Easing effect
-    if (act_right &&
-        ease_x > -64* (a_dash || g_dash ? 2.25 : 1)
-                    * (weapon_equip ? 1 : 1.5))
-        ease_x -= abs(vel_x / 5);
-    if (!act_right &&
-        ease_x < 64 * (a_dash || g_dash ? 2.25 : 1)
-                    * (weapon_equip ? 1 : 1.5))
-        ease_x += abs(vel_x / 5);
-    if (!vel_x && ease_x) ease_x -= ease_x / 40;
-
-    // Look vertical up and down
-    float vt_max = vertical_ahead_max;
-    if (on_ground && !vel_x && !unfocus_y &&
-        vertical_ahead_time > vertical_ahead_time_max)
-    {
-        if (input->getButton(0) && vertical_ahead < vt_max &&
-            !(unfocus_direction_y == 1 && getY() > unfocus_offset_y - vt_max))
-            vertical_ahead += (vt_max - abs(vertical_ahead)) / 30;
-        if (input->getButton(1) && vertical_ahead > -vt_max &&
-            !(unfocus_direction_y == -1 && getY() < unfocus_offset_y + vt_max))
-            vertical_ahead -= (vt_max - abs(vertical_ahead)) / 30;
-
-        vertical_ahead = vertical_ahead > vt_max ? vt_max : vertical_ahead;
-        vertical_ahead = vertical_ahead < -vt_max ? -vt_max : vertical_ahead;
-    }
-
-    if (on_ground && !vel_x && !unfocus_y &&
-        (input->getButton(0) || input->getButton(1)))
-        vertical_ahead_time ++;
-    else vertical_ahead_time = 0;
-
-    if ((!input->getButton(0) && vertical_ahead > 0) ||
-        (!input->getButton(1) && vertical_ahead < 0))
-        vertical_ahead -= vertical_ahead / 40;
 }
 
 void Player::playerCombat(Map *map, Input *input)
@@ -1286,13 +1289,12 @@ void Player::playerUpdate(SDL_Renderer *renderer, Map *map, Input *input)
         playerCombat(map, input);
         playerBlockCollision(map->BlockVec);
         playerEnemyCollision(map->EnemyVec);
-        playerDrawProperty();
     }
     else
-    {
         playerDeveloper(input);
-    }
-
+    
+    playerDrawProperty();
+    playerCameraProperty(input);
 
     // ===============DEVELOPER input===============
     // GODMODE
