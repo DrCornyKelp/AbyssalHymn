@@ -34,14 +34,6 @@ void Player::initPlayer(SDL_Renderer *renderer)
 };
 
 // Setter
-void Player::setVelX(float X)
-{
-    vel_x = X;
-}
-void Player::setVelY(float Y)
-{
-    vel_y = Y;
-}
 void Player::setAct(int index, bool right)
 {
     if (act_index != index || act_right != right)
@@ -76,241 +68,82 @@ void Player::setEndLock(bool lock)
     sprite_end_lock = lock;
 }
 
-void Player::setCanMove(bool can)
-{
-    can_move = can;
-}
-void Player::setCanJump(bool can)
-{
-    can_jump = can;
-}
-void Player::setCanCrawl(bool can)
-{
-    can_crawl = can;
-}
-void Player::setCanGDash(bool can)
-{
-    can_g_dash = can;
-}
-void Player::setCanADash(bool can)
-{
-    can_a_dash = can;
-}
-void Player::setCanHugWall(bool can)
-{
-    can_hug_wall = can;
-}
+// Moveset
+bool Player::getIsMove() { return vel_x; }
+bool Player::getIsJump() { return vel_y; }
+bool Player::getIsGDash() { return g_dash; }
+bool Player::getIsADash() { return a_dash; }
+bool Player::getIsCrawl() { return crawl; }
+bool Player::getIsHugWall() { return hug_wall_left || hug_wall_right; }
 
-void Player::setCombatDelay(float delay)
-{
-    combat_delay = delay;
-}
+void Player::setCanMove(bool can) { can_move = can; }
+void Player::setCanJump(bool can) { can_jump = can; }
+void Player::setCanCrawl(bool can) { can_crawl = can; }
+void Player::setCanGDash(bool can) { can_g_dash = can; }
+void Player::setCanADash(bool can) { can_a_dash = can; }
+void Player::setCanHugWall(bool can) { can_hug_wall = can; }
 
-void Player::setInvincibleTime(int time)
-{
-    invincible_time = time;
-}
+// Movement
+float Player::getVelX() { return vel_x; }
+float Player::getVelY() { return vel_y; }
+void Player::setVelX(float X) { vel_x = X; }
+void Player::setVelY(float Y) { vel_y = Y; }
+int Player::getAirCur() { return air_cur; }
+int Player::getAirMax() { return air_max; }
+int Player::getDecel() { return decel_x; }
+bool Player::getSuperJump() { return jump_super >= jump_super_max; }
 
-// Getter
-float Player::getVelX()
-{
-    return vel_x;
-}
-float Player::getVelY()
-{
-    return vel_y;
-}
-bool Player::getSuperJump()
-{
-    return jump_super >= jump_super_max;
-}
 // Action speak louder than word
 // "Going to the mall is louder than... green?"
-int Player::getActIndex()
-{
-    return act_index;
-}
-bool Player::getActRight()
-{
-    return act_right;
-}
-int Player::getDecel()
-{
-    return decel_x;
-}
-int Player::getHitX()
-{
-    return getX() + hit_offset_x;
-}
-int Player::getHitY()
-{
-    return getY() + hit_offset_y;
-}
+int Player::getActIndex() { return act_index; }
+bool Player::getActRight() { return act_right; }
 
-int Player::getAirCur()
-{
-    return air_cur;
-}
-int Player::getAirMax()
-{
-    return air_max;
-}
-int Player::getHpCur()
-{
-    return hp;
-}
-int Player::getHpMax()
-{
-    return hp_max;
-}
+// Combat / Hitbox
+int Player::getHpCur() { return hp; }
+int Player::getHpMax() { return hp_max; }
 
-bool Player::getWeaponEquip()
-{
-    return weapon_equip;
-}
-int Player::getInvincibleTime()
-{
-    return invincible_time;
-}
-int Player::getInvulnerableTime()
-{
-    return invulnerable_time;
-}
+int Player::getHitX() { return getX() + hit_offset_x; }
+int Player::getHitY() { return getY() + hit_offset_y; }
 
-int Player::getCombatHitU()
-{
-    return combat_hit_up;
-}
-int Player::getCombatHitD()
-{
-    return combat_hit_down;
-}
-int Player::getCombatHitL()
-{
-    return combat_hit_left;
-}
-int Player::getCombatHitR()
-{
-    return combat_hit_right;
-}
-float Player::getCombatTime()
-{
-    return combat_time;
-}
-float Player::getCombatDelay()
-{
-    return combat_delay;
-}
-float Player::getCombatCharge()
-{
-    return combat_charge_time;
-}
-float Player::getCombatParryError()
-{
-    return combat_parry_error;
-}
+bool Player::getWeaponEquip() { return weapon_equip; }
+int Player::getInvincibleTime() { return invincible_time; }
+int Player::getInvulnerableTime() { return invulnerable_time; }
+
+int Player::getCombatHitU() { return combat_hit_up; }
+int Player::getCombatHitD() { return combat_hit_down; }
+int Player::getCombatHitL() { return combat_hit_left; }
+int Player::getCombatHitR() { return combat_hit_right; }
+float Player::getCombatTime() { return combat_time; }
+float Player::getCombatDelay() { return combat_delay; }
+float Player::getCombatCharge() { return combat_charge_time; }
+float Player::getCombatParryError() { return combat_parry_error; }
+
+void Player::setCombatDelay(float delay) { combat_delay = delay; }
+void Player::setInvincibleTime(int time) { invincible_time = time; }
 
 // Camera
-int Player::getOffsetMidX()
-{
-    return offset_mid_x;
-}
-int Player::getOffsetMidY()
-{
-    return offset_mid_y;
-}
-int Player::getEaseX()
-{
-    return ease_x;
-}
-int Player::getEaseY()
-{
-    return ease_y;
-}
-bool Player::getUnfocusX()
-{
-    return unfocus_x;
-}
-bool Player::getUnfocusY()
-{
-    return unfocus_y;
-}
-int Player::getUnfocusOffsetX()
-{
-    return unfocus_offset_x;
-}
-int Player::getUnfocusOffsetY()
-{
-    return unfocus_offset_y;
-}
-int Player::getVerticalAhead()
-{
-    return vertical_ahead;
-}
-double Player::getCameraScale()
-{
-    return camera_scale;
-}
+int Player::getOffsetMidX() { return offset_mid_x; }
+int Player::getOffsetMidY() { return offset_mid_y; }
+bool Player::getUnfocusX() { return unfocus_x; }
+bool Player::getUnfocusY() { return unfocus_y; }
+int Player::getUnfocusOffsetX() { return unfocus_offset_x; }
+int Player::getUnfocusOffsetY() { return unfocus_offset_y; }
+int Player::getVerticalAhead() { return vertical_ahead; }
+double Player::getCameraScale() { return camera_scale; }
 
-void Player::setOffsetMidX(int x)
-{
-    offset_mid_x = x;
-}
-void Player::setOffsetMidY(int y)
-{
-    offset_mid_y = y;
-}
-void Player::setUnfocusX(bool focus)
-{
-    unfocus_x = focus;
-}
-void Player::setUnfocusY(bool focus)
-{
-    unfocus_y = focus;
-}
-void Player::setUnfocusOffsetX(int x)
-{
-    unfocus_offset_x = x;
-}
-void Player::setUnfocusOffsetY(int y)
-{
-    unfocus_offset_y = y;
-}
-void Player::setUnfocusDirectionY(short dir)
-{
-    unfocus_direction_y = dir;
-}
-void Player::setFocusFunction(FocusFunc focusFunc)
-{
-    focus_function = focusFunc;
-}
+int Player::getEaseX() { return ease_x; }
+int Player::getEaseY() { return ease_y; }
+int Player::getEffectX() { return effect_x; }
+int Player::getEffectY() { return effect_y; }
 
-// Focus Offset Stuff
-// Idk how to explain
-bool Player::getIsMove()
-{
-    return vel_x;
-}
-bool Player::getIsJump()
-{
-    return vel_y;
-}
-bool Player::getIsGDash()
-{
-    return g_dash;
-}
-bool Player::getIsADash()
-{
-    return a_dash;
-}
-bool Player::getIsCrawl()
-{
-    return crawl;
-}
-bool Player::getIsHugWall()
-{
-    return hug_wall_left || hug_wall_right;
-}
+void Player::setOffsetMidX(int x) { offset_mid_x = x; }
+void Player::setOffsetMidY(int y) { offset_mid_y = y; }
+void Player::setUnfocusX(bool focus) { unfocus_x = focus; }
+void Player::setUnfocusY(bool focus) { unfocus_y = focus; }
+void Player::setUnfocusOffsetX(int x) { unfocus_offset_x = x; }
+void Player::setUnfocusOffsetY(int y) { unfocus_offset_y = y; }
+void Player::setUnfocusDirectionY(short dir) { unfocus_direction_y = dir; }
+void Player::setFocusFunction(FocusFunc focusFunc) { focus_function = focusFunc; }
 
 // Other Method
 

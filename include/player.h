@@ -169,14 +169,18 @@ private:
     // =========== EXTREMELY COMPLICATED CAMERA ============
     int offset_mid_x = 0;
     int offset_mid_y = 0;
-    float ease_x = 0;
-    float ease_y = 0;
     bool unfocus_x = 0;
     bool unfocus_y = 0;
     short unfocus_direction_y = 0; // 1 : up, -1: down
     int unfocus_offset_x = 0;
     int unfocus_offset_y = 0;
     FocusFunc focus_function;
+
+    // Camera Effect
+    float ease_x = 0;
+    float ease_y = 0;
+    int effect_x = 0;
+    int effect_y = 0;
 
     // Vertical ahead
     int vertical_ahead_time = 0;
@@ -237,14 +241,17 @@ public:
     // Camera
     int getOffsetMidX();
     int getOffsetMidY();
-    int getEaseX();
-    int getEaseY();
     bool getUnfocusX();
     bool getUnfocusY();
     int getUnfocusOffsetX();
     int getUnfocusOffsetY();
     int getVerticalAhead();
     double getCameraScale();
+    int getEaseX();
+    int getEaseY();
+    int getEffectX();
+    int getEffectY();
+
     void setOffsetMidX(int x);
     void setOffsetMidY(int y);
     void setUnfocusX(bool focus);
