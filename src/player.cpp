@@ -174,8 +174,6 @@ void Player::playerDrawProperty()
     {
         setAct(8, act_right);
         setSprite(1, 0);
-        effect_x = effect_x > 0 ? 20 : -20;
-
         return;
     }
 
@@ -1050,7 +1048,6 @@ void Player::playerEnemyCollision(std::vector<Enemy *> EnemyVec)
             // Addition enemy logic
             enemy->enemyPlayerCollision(this);
         }
-
 
     // ================== DEALING DAMAGE =======================
         if (weapon_equip && !(enemy->getInvinTime()) &&
