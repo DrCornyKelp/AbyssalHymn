@@ -340,16 +340,21 @@ void Map1::initMapPlayer(Player *player)
         if (player->getY() < Game::HEIGHT / 2)
         {
             player->setUnfocusY(true);
+            player->setUnfocusDirectionY(-1);
             player->setUnfocusOffsetY(Game::HEIGHT / 2);
             player->setOffsetMidY(player->getY() - Game::HEIGHT / 2);
         }
         else if (player->getY() > Game::HEIGHT * 2)
         {
             player->setUnfocusY(true);
+            player->setUnfocusDirectionY(1);
             player->setUnfocusOffsetY(Game::HEIGHT * 2);
             player->setOffsetMidY(player->getY() - Game::HEIGHT * 2);
         }
-        else player->setUnfocusY(false);
+        else
+        {
+            player->setUnfocusY(false);
+        }
     });
 
     // EXPERIMENTATION
@@ -359,8 +364,6 @@ void Map1::initMapPlayer(Player *player)
 void Map1::initEnemies(SDL_Renderer *renderer)
 {
     EnemyVec.push_back(new Slime(5, 2.5, 1, 20, 1));
-    // EnemyVec.push_back(new Slime(26, 3.5, 24.5, 29.5, 1));
-    // EnemyVec.push_back(new Slime(45, 4.5, 40, 60, 1));
 
     for (Enemy *enemy : EnemyVec)
         enemy->initEnemy(renderer);
@@ -393,8 +396,8 @@ void Map1::updateMapExclusive(SDL_Renderer *renderer, Player *player, Input *inp
     }
 
     // Misc
-    if (player_x > 14 * 64) player->setCanJump(true);
-    if (player_x > 76 * 64) player->setCanCrawl(true);
+    // if (player_x > 14 * 64) player->setCanJump(true);
+    // if (player_x > 76 * 64) player->setCanCrawl(true);
 
     // ====================== UPDATE ENEMIES ===========================
     for (Enemy *enemy : EnemyVec)

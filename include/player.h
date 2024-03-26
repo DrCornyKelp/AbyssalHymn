@@ -114,9 +114,9 @@ private:
 
     // Invincibility (is when you are god)
     int invincible_time = 0;
-    // Invurnable time (is when you get hurt)
-    int invurnable_time = 0;
-    int invurnable_time_max = 150;
+    // invulnerable time (is when you get hurt)
+    int invulnerable_time = 0;
+    int invulnerable_time_max = 150;
 
     // Weapon handler
     bool weapon_equip = true;
@@ -166,21 +166,25 @@ private:
     bool sprite_end_lock = false;
     int sprite_size = 64;
 
-    // EXTREMELY COMPLICATED CAMERA
+    // =========== EXTREMELY COMPLICATED CAMERA ============
     int offset_mid_x = 0;
     int offset_mid_y = 0;
     float ease_x = 0;
     float ease_y = 0;
     bool unfocus_x = 0;
     bool unfocus_y = 0;
+    short unfocus_direction_y = 0; // 1 : up, -1: down
     int unfocus_offset_x = 0;
     int unfocus_offset_y = 0;
-
-    double camera_scale = 1; // some good values 0.625 0.9375
     FocusFunc focus_function;
 
-    int earth_quake = 0;
-    int earth_quake_direction = 1;
+    // Vertical ahead
+    int vertical_ahead_time = 0;
+    int vertical_ahead_time_max = 100;
+    float vertical_ahead = 0;
+    float vertical_ahead_max = 192;
+
+    double camera_scale = 1; // some good values 0.625 0.9375
 
     // ====== DEVELOPER VALUES ======
     Sprite *hitbox;
@@ -218,7 +222,7 @@ public:
     // Combat
     bool getWeaponEquip();
     int getInvincibleTime();
-    int getInvurnableTime();
+    int getInvulnerableTime();
     int getCombatHitU();
     int getCombatHitD();
     int getCombatHitL();
@@ -239,6 +243,7 @@ public:
     bool getUnfocusY();
     int getUnfocusOffsetX();
     int getUnfocusOffsetY();
+    int getVerticalAhead();
     double getCameraScale();
     void setOffsetMidX(int x);
     void setOffsetMidY(int y);
@@ -246,6 +251,7 @@ public:
     void setUnfocusY(bool focus);
     void setUnfocusOffsetX(int x);
     void setUnfocusOffsetY(int y);
+    void setUnfocusDirectionY(short dir);
     void setFocusFunction(FocusFunc focusFunc);
 
     // Stat

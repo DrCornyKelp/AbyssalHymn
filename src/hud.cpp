@@ -64,7 +64,7 @@ void Hud::drawHeadUpStat(SDL_Renderer *renderer)
     int drawY = Game::HEIGHT / 2 - (player->getOffsetMidY() + 64 - (player->getIsCrawl() ? 10 : 0)) * cam_scale;
 
     SDL_Rect desRect = {drawX + player->getEaseX(),
-                        drawY + player->getEaseY(),
+                        drawY + player->getEaseY() + player->getVerticalAhead(),
                         int(128 * cam_scale),
                         int(128 * cam_scale)};
     SDL_Rect srcRect = {0, 0, 64, 64};
@@ -81,7 +81,7 @@ void Hud::drawHeadUpStat(SDL_Renderer *renderer)
     if (player->getSuperJump())
         SDL_RenderCopy(renderer, superJumpReadyTexture, &srcRect, &desRect);
     
-    if (player->getInvincibleTime() || player->getInvurnableTime())
+    if (player->getInvincibleTime() || player->getInvulnerableTime())
         SDL_RenderCopy(renderer, invincibleTexture, &srcRect, &desRect);
 }
 

@@ -65,6 +65,6 @@ int Camera::objectDrawY(Player *player, Object2D *obj)
     return (player->getUnfocusY() ?
             Game::HEIGHT/2 - (obj->getY() - player->getUnfocusOffsetY() + obj->getHeight()/2) * player->getCameraScale() :
             Game::HEIGHT/2 - (dist_y + player->getOffsetMidY() + obj->getHeight()/2) * player->getCameraScale())
-            + player->getEaseY();
+            + player->getEaseY() + player->getVerticalAhead();
 }
 

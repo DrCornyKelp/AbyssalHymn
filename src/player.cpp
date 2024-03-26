@@ -172,9 +172,9 @@ int Player::getInvincibleTime()
 {
     return invincible_time;
 }
-int Player::getInvurnableTime()
+int Player::getInvulnerableTime()
 {
-    return invurnable_time;
+    return invulnerable_time;
 }
 
 int Player::getCombatHitU()
@@ -243,6 +243,10 @@ int Player::getUnfocusOffsetY()
 {
     return unfocus_offset_y;
 }
+int Player::getVerticalAhead()
+{
+    return vertical_ahead;
+}
 double Player::getCameraScale()
 {
     return camera_scale;
@@ -271,6 +275,10 @@ void Player::setUnfocusOffsetX(int x)
 void Player::setUnfocusOffsetY(int y)
 {
     unfocus_offset_y = y;
+}
+void Player::setUnfocusDirectionY(short dir)
+{
+    unfocus_direction_y = dir;
 }
 void Player::setFocusFunction(FocusFunc focusFunc)
 {
@@ -310,44 +318,28 @@ void Player::playerDrawSprite(SDL_Renderer *renderer)
 {
     Camera::objectSetSprite(this, sprite_end_lock);
 
-    int drawX = Game::WIDTH / 2 + offset_mid_x * camera_scale - sprite_size*2 * camera_scale; 
-    int drawY = Game::HEIGHT / 2 - offset_mid_y * camera_scale - sprite_size*2 * camera_scale - 1;
+    int drawX = Game::WIDTH / 2 + (offset_mid_x - sprite_size*2) * camera_scale; 
+    int drawY = Game::HEIGHT / 2 - (offset_mid_y + sprite_size*2) * camera_scale - 1;
     // The -1 is just to make the drawing look abit better, dont worry
 
-    SDL_Rect desRect = {int(drawX + ease_x), int(drawY + ease_y),
+    SDL_Rect desRect = {int(drawX + ease_x), int(drawY + ease_y + vertical_ahead),
                         int(sprite_size * 4 * camera_scale), 
                         int(sprite_size * 4 * camera_scale)};
     SDL_Rect srcRect = {getSprIndex() * sprite_size, act_index * sprite_size, sprite_size, sprite_size};
 
-    if (!invurnable_time)
+    if (!invulnerable_time)
         SDL_SetTextureAlphaMod(playerCurrentTexture, 255);
     SDL_RenderCopy(renderer, playerCurrentTexture, &srcRect, &desRect);
 }
 
 void Player::playerDrawProperty()
 {   
-    // ======================== CAMERA ============================
+    // ======================== SRPITES ===========================
     // Set index and stuff
     act_right = vel_x > .2 ? 1 : vel_x < -.2 ? 0 : act_right;
 
-    // Camera focus
-    focus_function(this);
-
-    // Damping / Easing effect
-    if (act_right &&
-        ease_x > -64* (a_dash || g_dash ? 2.25 : 1)
-                    * (weapon_equip ? 1 : 1.5))
-        ease_x -= abs(vel_x / 5);
-    if (!act_right &&
-        ease_x < 64 * (a_dash || g_dash ? 2.25 : 1)
-                    * (weapon_equip ? 1 : 1.5))
-        ease_x += abs(vel_x / 5);
-    if (!vel_x && ease_x) ease_x -= ease_x / 40;
-
-    // ======================== SRPITES ===========================
-
     // Ow< ouch
-    if (invurnable_time > invurnable_time_max * .8)
+    if (invulnerable_time > invulnerable_time_max * .8)
     {
         setAct(8, act_right);
         setSprite(1, 0);
@@ -734,6 +726,47 @@ void Player::playerMovement(Input *input)
         air_cur = air_max;
 
     setY(getY() + vel_y);
+
+    // ======================== CAMERA ============================
+
+    // Camera focus
+    focus_function(this);
+
+    // Damping / Easing effect
+    if (act_right &&
+        ease_x > -64* (a_dash || g_dash ? 2.25 : 1)
+                    * (weapon_equip ? 1 : 1.5))
+        ease_x -= abs(vel_x / 5);
+    if (!act_right &&
+        ease_x < 64 * (a_dash || g_dash ? 2.25 : 1)
+                    * (weapon_equip ? 1 : 1.5))
+        ease_x += abs(vel_x / 5);
+    if (!vel_x && ease_x) ease_x -= ease_x / 40;
+
+    // Look vertical up and down
+    float vt_max = vertical_ahead_max;
+    if (on_ground && !vel_x && !unfocus_y &&
+        vertical_ahead_time > vertical_ahead_time_max)
+    {
+        if (input->getButton(0) && vertical_ahead < vt_max &&
+            !(unfocus_direction_y == 1 && getY() > unfocus_offset_y - vt_max))
+            vertical_ahead += (vt_max - abs(vertical_ahead)) / 30;
+        if (input->getButton(1) && vertical_ahead > -vt_max &&
+            !(unfocus_direction_y == -1 && getY() < unfocus_offset_y + vt_max))
+            vertical_ahead -= (vt_max - abs(vertical_ahead)) / 30;
+
+        vertical_ahead = vertical_ahead > vt_max ? vt_max : vertical_ahead;
+        vertical_ahead = vertical_ahead < -vt_max ? -vt_max : vertical_ahead;
+    }
+
+    if (on_ground && !vel_x && !unfocus_y &&
+        (input->getButton(0) || input->getButton(1)))
+        vertical_ahead_time ++;
+    else vertical_ahead_time = 0;
+
+    if ((!input->getButton(0) && vertical_ahead > 0) ||
+        (!input->getButton(1) && vertical_ahead < 0))
+        vertical_ahead -= vertical_ahead / 40;
 }
 
 void Player::playerCombat(Map *map, Input *input)
@@ -797,10 +830,10 @@ void Player::playerCombat(Map *map, Input *input)
     if (invincible_time)
         invincible_time--;
 
-    if (invurnable_time) {
-        invurnable_time--;
+    if (invulnerable_time) {
+        invulnerable_time--;
 
-        if (invurnable_time > invurnable_time_max * .8)
+        if (invulnerable_time > invulnerable_time_max * .8)
         {
             // When got hit reset all movement and stuff
             vel_x = 0;
@@ -814,7 +847,7 @@ void Player::playerCombat(Map *map, Input *input)
             combat_time = 0;
             combat_index = 0;
         }
-        SDL_SetTextureAlphaMod(playerCurrentTexture, (invurnable_time % 15 > 0) ? 200 : 160);
+        SDL_SetTextureAlphaMod(playerCurrentTexture, (invulnerable_time % 15 > 0) ? 200 : 160);
     }
 
     if (combat_time > 0)
@@ -1022,7 +1055,7 @@ void Player::playerBlockCollision(std::vector<Block *> BlockVec)
     for (Block *block : BlockVec)
     {
         // If block is outside of play/usable view
-        // No need to check for SHIT MAN
+        // No need to check for SHIT MAN i
         block->setOutBound(Camera::objectOutBound(this, block));
         if (block->getOutBound()) continue;
 
@@ -1200,8 +1233,8 @@ void Player::playerEnemyCollision(std::vector<Enemy *> EnemyVec)
 
 void Player::playerGetHit(int dmg)
 {
-    if (invurnable_time || invincible_time) return;
-    invurnable_time = invurnable_time_max;
+    if (invulnerable_time || invincible_time) return;
+    invulnerable_time = invulnerable_time_max;
     hp -= dmg;
 }
 
