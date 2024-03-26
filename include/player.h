@@ -180,7 +180,7 @@ private:
 
     // Vertical ahead
     int vertical_ahead_time = 0;
-    int vertical_ahead_time_max = 100;
+    int vertical_ahead_time_max = 150;
     float vertical_ahead = 0;
     float vertical_ahead_max = 192;
 

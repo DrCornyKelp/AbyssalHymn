@@ -56,6 +56,7 @@ int Camera::objectDrawX(Player *player, Object2D *obj)
             Game::WIDTH/2 + (dist_x + player->getOffsetMidX() - obj->getWidth()/2) * player->getCameraScale())
             + player->getEaseX();
 }
+
 int Camera::objectDrawY(Player *player, Object2D *obj)
 {
     // Y focus is fine but unfocus is a piece of shit
@@ -65,6 +66,6 @@ int Camera::objectDrawY(Player *player, Object2D *obj)
     return (player->getUnfocusY() ?
             Game::HEIGHT/2 - (obj->getY() - player->getUnfocusOffsetY() + obj->getHeight()/2) * player->getCameraScale() :
             Game::HEIGHT/2 - (dist_y + player->getOffsetMidY() + obj->getHeight()/2) * player->getCameraScale())
-            + player->getEaseY() + player->getVerticalAhead();
+            + player->getEaseY()
+            + player->getVerticalAhead(); // Gameplay advantage move
 }
-
