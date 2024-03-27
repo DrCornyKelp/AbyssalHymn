@@ -148,7 +148,7 @@ void Player::playerDrawSprite(SDL_Renderer *renderer)
 
     SDL_Rect desRect = {int(drawX) + Camera::playerShiftX(this),
                         int(drawY) + Camera::playerShiftY(this),
-                        int(sprite_size * 4 * camera_scale), 
+                        int(sprite_size * 4 * camera_scale),
                         int(sprite_size * 4 * camera_scale)};
     SDL_Rect srcRect = {getSprIndex() * sprite_size, act_index * sprite_size, sprite_size, sprite_size};
 
