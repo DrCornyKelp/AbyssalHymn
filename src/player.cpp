@@ -324,21 +324,27 @@ void Player::playerCameraProperty(Input *input)
 
     // Look vertical up and down
     float vt_max = vertical_ahead_max;
-    if (on_ground && !getVelX() && !unfocus_y &&
+    if (on_ground && !getVelX() &&
         vertical_ahead_time > vertical_ahead_time_max)
     {
-        if (input->getButton(0) && vertical_ahead < vt_max &&
-            !(unfocus_direction_y == 1 && getY() > unfocus_offset_y - vt_max))
+        if (input->getButton(0) &&
+            vertical_ahead < vt_max &&
+            !(  unfocus_direction_y == 1 &&
+                getY() > unfocus_offset_y - vt_max))
             vertical_ahead += (vt_max - abs(vertical_ahead)) / 30;
-        if (input->getButton(1) && vertical_ahead > -vt_max &&
-            !(unfocus_direction_y == -1 && getY() < unfocus_offset_y + vt_max))
+        if (input->getButton(1) &&
+            vertical_ahead > -vt_max &&
+            !(  unfocus_direction_y == -1 &&
+                getY() < unfocus_offset_y + vt_max))
             vertical_ahead -= (vt_max - abs(vertical_ahead)) / 30;
 
         vertical_ahead = vertical_ahead > vt_max ? vt_max : vertical_ahead;
         vertical_ahead = vertical_ahead < -vt_max ? -vt_max : vertical_ahead;
     }
 
-    if (on_ground && !getVelX() && !unfocus_y &&
+    std::cout << unfocus_direction_y << "\n"; 
+
+    if (on_ground && !getVelX() &&
         (input->getButton(0) || input->getButton(1)))
         vertical_ahead_time ++;
     else vertical_ahead_time = 0;
