@@ -55,12 +55,14 @@ void Player::setEndLock(bool lock)
 }
 
 // Moveset
-bool Player::getIsMove() { return vel_x; }
-bool Player::getIsJump() { return vel_y; }
+bool Player::getIsMove() { return getVelX(); }
+bool Player::getIsJump() { return getVelY(); }
 bool Player::getIsGDash() { return g_dash; }
 bool Player::getIsADash() { return a_dash; }
 bool Player::getIsCrawl() { return crawl; }
 bool Player::getIsHugWall() { return hug_wall_left || hug_wall_right; }
+
+bool Player::getCanHugWall() { return can_hug_wall; }
 
 void Player::setCanMove(bool can) { can_move = can; }
 void Player::setCanJump(bool can) { can_jump = can; }
@@ -69,11 +71,10 @@ void Player::setCanGDash(bool can) { can_g_dash = can; }
 void Player::setCanADash(bool can) { can_a_dash = can; }
 void Player::setCanHugWall(bool can) { can_hug_wall = can; }
 
+void Player::setHugWallLeft(bool hwl) { hug_wall_left = hwl; }
+void Player::setHugWallRight(bool hwr) { hug_wall_right = hwr; }
+
 // Movement
-float Player::getVelX() { return vel_x; }
-float Player::getVelY() { return vel_y; }
-void Player::setVelX(float X) { vel_x = X; }
-void Player::setVelY(float Y) { vel_y = Y; }
 int Player::getAirCur() { return air_cur; }
 int Player::getAirMax() { return air_max; }
 int Player::getDecel() { return decel_x; }
@@ -83,6 +84,7 @@ bool Player::getSuperJump() { return jump_super >= jump_super_max; }
 // "Going to the mall is louder than... green?"
 int Player::getActIndex() { return act_index; }
 bool Player::getActRight() { return act_right; }
+void Player::setActRight(bool ar) { act_right = ar; }
 
 // Combat / Hitbox
 int Player::getHpCur() { return hp; }
@@ -99,6 +101,7 @@ int Player::getCombatHitU() { return combat_hit_up; }
 int Player::getCombatHitD() { return combat_hit_down; }
 int Player::getCombatHitL() { return combat_hit_left; }
 int Player::getCombatHitR() { return combat_hit_right; }
+int Player::getCombatDamage() { return combat_damage; }
 float Player::getCombatTime() { return combat_time; }
 float Player::getCombatDelay() { return combat_delay; }
 float Player::getCombatCharge() { return combat_charge_time; }
@@ -131,6 +134,13 @@ void Player::setUnfocusOffsetY(int y) { unfocus_offset_y = y; }
 void Player::setUnfocusDirectionY(short dir) { unfocus_direction_y = dir; }
 void Player::setFocusFunction(FocusFunc focusFunc) { focus_function = focusFunc; }
 
+// Uncategorized
+void Player::setOnGround(bool og) { on_ground = og; }
+bool Player::getOnGround() { return on_ground; }
+void Player::setCrawlLock(bool cl) { crawl_lock = cl; }
+void Player::setCeilingKnockout(int cko) { ceiling_knockout = cko; }
+void Player::setBuffJumpTime(int bjt) { buff_jump_time = bjt; }
+
 // Other Method
 
 void Player::playerDrawSprite(SDL_Renderer *renderer)
@@ -156,7 +166,7 @@ void Player::playerDrawProperty()
 {   
     // ======================== SRPITES ===========================
     // Set index and stuff
-    act_right = vel_x > .2 ? 1 : vel_x < -.2 ? 0 : act_right;
+    act_right = getVelX() > .2 ? 1 : getVelX() < -.2 ? 0 : act_right;
 
     // Ow< ouch
     if (invulnerable_time > invulnerable_time_max * .8)
@@ -169,7 +179,7 @@ void Player::playerDrawProperty()
     // Movement
     if (!combat_index)
     {
-        if (abs(vel_x) <= .2)
+        if (abs(getVelX()) <= .2)
         {
             // Idling
             setAct(0, act_right);
@@ -179,7 +189,7 @@ void Player::playerDrawProperty()
         {
             // Moving
             setAct(1, act_right);
-            setSprite(8, 30 - abs(vel_x) * 4);
+            setSprite(8, 30 - abs(getVelX()) * 4);
         }
 
         // Decelerating
@@ -190,12 +200,12 @@ void Player::playerDrawProperty()
         }
 
         // Jumping
-        if (vel_y > .2 && !on_ground)
+        if (getVelY() > .2 && !on_ground)
         {
             setAct(3, act_right);
             setSprite(4, 16);
         }
-        if (vel_y < .2 && !on_ground)
+        if (getVelY() < .2 && !on_ground)
         {
             setAct(3, act_right);
             setSprite(8, 4);
@@ -220,7 +230,7 @@ void Player::playerDrawProperty()
         if (crawl && !(g_dash && crawl_lock))
         {
             setAct(6, act_right);
-            setSprite((abs(vel_x) > 0 ? 4 : 1), 8);
+            setSprite((abs(getVelX()) > 0 ? 4 : 1), 8);
         }
 
         // Wall Sliding
@@ -254,7 +264,7 @@ void Player::playerDrawProperty()
             if (combat_keyhold)
             {
                 setAct(12, act_right);
-                setSprite(vel_x ? 4 : 1, 30 - abs(vel_x) * 4);
+                setSprite(getVelX() ? 4 : 1, 30 - abs(getVelX()) * 4);
             }
             else
             {
@@ -311,15 +321,15 @@ void Player::playerCameraProperty(Input *input)
     // Damping / Easing effect
     if (act_right &&
         ease_x > -64 * (weapon_equip ? 1 : 1.5))
-        ease_x -= abs(vel_x / 5);
+        ease_x -= abs(getVelX() / 5);
     if (!act_right &&
         ease_x < 64 * (weapon_equip ? 1 : 1.5))
-        ease_x += abs(vel_x / 5);
-    if (!vel_x && ease_x) ease_x -= ease_x / 40;
+        ease_x += abs(getVelX() / 5);
+    if (!getVelX() && ease_x) ease_x -= ease_x / 40;
 
     // Look vertical up and down
     float vt_max = vertical_ahead_max;
-    if (on_ground && !vel_x && !unfocus_y &&
+    if (on_ground && !getVelX() && !unfocus_y &&
         vertical_ahead_time > vertical_ahead_time_max)
     {
         if (input->getButton(0) && vertical_ahead < vt_max &&
@@ -333,7 +343,7 @@ void Player::playerCameraProperty(Input *input)
         vertical_ahead = vertical_ahead < -vt_max ? -vt_max : vertical_ahead;
     }
 
-    if (on_ground && !vel_x && !unfocus_y &&
+    if (on_ground && !getVelX() && !unfocus_y &&
         (input->getButton(0) || input->getButton(1)))
         vertical_ahead_time ++;
     else vertical_ahead_time = 0;
@@ -344,7 +354,7 @@ void Player::playerCameraProperty(Input *input)
 
     if (a_dash || g_dash)
     {
-        effect_x += vel_x > 0 ? -2 : 2;
+        effect_x += getVelX() > 0 ? -2 : 2;
         effect_x = effect_x > 64 ? 64 : effect_x;
         effect_x = effect_x <-64 ?-64 : effect_x;
     }
@@ -367,15 +377,15 @@ void Player::playerMovement(Input *input)
                 setX(getX() - 4);
             }
 
-            if (vel_x > 1)
+            if (getVelX() > 1)
             {
                 decel_x = 1;
-                vel_x -= accel_x * 2.5;
+                setVelX(getVelX() - accel_x * 2.5);
             }
             else
             {
                 decel_x = 0;
-                vel_x -= accel_x;
+                setVelX(getVelX() - accel_x);
             }
         }
 
@@ -387,27 +397,27 @@ void Player::playerMovement(Input *input)
                 setX(getX() + 4);
             }
 
-            if (vel_x < -1)
+            if (getVelX() < -1)
             {
                 decel_x = -1;
-                vel_x += accel_x * 2.5;
+                setVelX(getVelX() + accel_x * 2.5);
             }
             else
             {
                 decel_x = 0;
-                vel_x += accel_x;
+                setVelX(getVelX() + accel_x);
             }
         }
     }
 
     // Crawling
-    crawl = can_crawl && input->getButton(1) && on_ground && !g_dash && !decel_x && !g_dash_delay && abs(vel_x) < vel_x_max / 2;
+    crawl = can_crawl && input->getButton(1) && on_ground && !g_dash && !decel_x && !g_dash_delay && abs(getVelX()) < vel_x_max / 2;
     crawl = crawl_lock || crawl;
 
     if (crawl && input->getButton(2) && !g_dash)
-        vel_x = -vel_crawl;
+        setVelX(-vel_crawl);
     if (crawl && input->getButton(3) && !g_dash)
-        vel_x = vel_crawl;
+        setVelX(vel_crawl);
 
     // Deceleration
     if ((!input->getButton(2) && decel_x == 1) ||
@@ -416,13 +426,13 @@ void Player::playerMovement(Input *input)
 
     if (!input->getButton(2) && !input->getButton(3) && !g_dash && !a_dash)
     {
-        if (abs(vel_x) >= accel_x)
+        if (abs(getVelX()) >= accel_x)
         {
-            int direction = (vel_x < 0 ? 1 : -1);
-            vel_x += accel_x * direction;
+            int direction = (getVelX() < 0 ? 1 : -1);
+            setVelX(getVelX() + accel_x * direction);
         }
         else
-            vel_x = 0;
+            setVelX(0);
     }
 
     // Ground dash (more like sliding but whatever)
@@ -433,7 +443,7 @@ void Player::playerMovement(Input *input)
     }
 
     // Air dash
-    if (can_a_dash && input->getButton(5) && !a_dash_delay && !combat_index && !on_ground && !hug_wall && !crawl && !g_dash && vel_x != 0 && air_cur > 0 && !jump_keyhold)
+    if (can_a_dash && input->getButton(5) && !a_dash_delay && !combat_index && !on_ground && !hug_wall && !crawl && !g_dash && getVelX() && air_cur > 0 && !jump_keyhold)
     {
         a_dash = true;
         air_cur--;
@@ -447,23 +457,23 @@ void Player::playerMovement(Input *input)
         setY(getY() + 10);
         on_ground = false;
 
-        vel_y = 1 + 40 / (air_max - air_cur + 8);
+        setVelY(1 + 40 / (air_max - air_cur + 8));
         if (jump_super == jump_super_max)
-            vel_y = 7.3;
+            setVelY(7.3);
 
         // Wall jump
         if (!hug_wall)
             air_cur--;
         if (hug_wall_left)
         {
-            vel_x = -10;
-            vel_y = 4;
+            setVelX(-10);
+            setVelY(4);
             setX(getX() - getHitWidth() / 2);
         }
         if (hug_wall_right)
         {
-            vel_x = 10;
-            vel_y = 4;
+            setVelX(10);
+            setVelY(4);
             setX(getX() + getHitWidth() / 2);
         }
 
@@ -518,31 +528,31 @@ void Player::playerMovement(Input *input)
     // Cap X velocity
     if (!g_dash && !a_dash)
     {
-        if (vel_x < -vel_x_max)
-            vel_x = -vel_x_max;
-        if (vel_x > vel_x_max)
-            vel_x = vel_x_max;
+        if (getVelX() < -vel_x_max)
+            setVelX(-vel_x_max);
+        if (getVelX() > vel_x_max)
+            setVelX(vel_x_max);
     }
     
-    setX(getX() + vel_x);
+    setX(getX() + getVelX());
 
     // Vertigo is a bad map
-    if (vel_y < 0)
+    if (getVelY() < 0)
         accel_y = accel_tap;
 
     if (on_ground)
-        vel_y = 0;
+        setVelY(0);
     else if (hug_wall_left || hug_wall_right)
-        vel_y = -1;
+        setVelY(-1);
     else
-        vel_y -= accel_y;
+        setVelY(getVelY() - accel_y);
 
     // Terminal Velocity
-    if (vel_y <= -vel_terminal)
-        vel_y = -vel_terminal;
+    if (getVelY() <= -vel_terminal)
+        setVelY(-vel_terminal);
 
     // SUPER JUMP
-    if (crawl && !crawl_lock && vel_x == 0)
+    if (crawl && !crawl_lock && !getVelX())
         jump_super += jump_super < jump_super_max;
     else
         jump_super = 0;
@@ -551,7 +561,7 @@ void Player::playerMovement(Input *input)
     if (g_dash)
     {
         g_dash_frame++;
-        vel_x = g_dash_vel * (act_right ? 1 : -1) * (crawl ? 1.4 : 1);
+        setVelX(g_dash_vel * (act_right ? 1 : -1) * (crawl ? 1.4 : 1));
         if (g_dash_frame >= g_dash_frame_max)
         {
             g_dash_frame = 0;
@@ -568,8 +578,11 @@ void Player::playerMovement(Input *input)
         a_dash_frame++;
         
         // :3
-        vel_x = (3 + 90 / (air_max - air_cur + 6)) * (vel_x > 0 ? 1 : -1);
-        vel_y = 0;
+        setVelX(
+            (3 + 90 / (air_max - air_cur + 6)) * 
+            (getVelX() > 0 ? 1 : -1)
+        );
+        setVelY(0);
 
         if (a_dash_frame >= a_dash_frame_max)
         {
@@ -591,7 +604,7 @@ void Player::playerMovement(Input *input)
     if (on_ground)
         air_cur = air_max;
 
-    setY(getY() + vel_y);
+    setY(getY() + getVelY());
 }
 
 void Player::playerCombat(Map *map, Input *input)
@@ -632,7 +645,7 @@ void Player::playerCombat(Map *map, Input *input)
     {
         jelly_keyhold = true;
         map->ProjectileVec.push_back(new Projectile(
-            PlayerSquid, getX(), getY(), 16, 16, 32, 32, act_right * 2 - 1, vel_y + 10, 0, -.2, 10, 1000, -1, 1, 1, 0, 4, 10
+            PlayerSquid, getX(), getY(), 16, 16, 32, 32, act_right * 2 - 1, getVelY() + 10, 0, -.2, 10, 1000, -1, 1, 1, 0, 4, 10
         ));
     }
     if (!input->getButton(8) && jelly_keyhold)
@@ -661,8 +674,8 @@ void Player::playerCombat(Map *map, Input *input)
         if (invulnerable_time > invulnerable_time_max * .8)
         {
             // When got hit reset all movement and stuff
-            vel_x = 0;
-            vel_y = 0;
+            setVelX(0);
+            setVelY(0);
 
             a_dash = 0;
             g_dash = 0;
@@ -793,8 +806,8 @@ void Player::playerCombat(Map *map, Input *input)
                 combat_combo_time = 40;
                 setEndLock(false);
 
-                vel_x *= .8;
-                vel_y = on_ground ? 0 : 1;
+                setVelX(getVelX() * .8);
+                setVelY(on_ground ? 0 : 1);
             }
             else if (!combat_time && combat_index == 1 && combat_combo_time)
             {
@@ -804,8 +817,8 @@ void Player::playerCombat(Map *map, Input *input)
                 combat_delay = 35;
                 setEndLock(false);
 
-                vel_x *= .4;
-                vel_y = on_ground ? 0 : 1;
+                setVelX(getVelX() * .4);
+                setVelY(on_ground ? 0 : 1);
             }
         }
         else if (!hug_wall && input->getButton(0))
@@ -818,7 +831,7 @@ void Player::playerCombat(Map *map, Input *input)
                 combat_delay = on_ground ? 40 : 70;
                 setEndLock(false);
 
-                vel_y = 3;
+                setVelY(3);
             }
         }
         else if (hug_wall)
@@ -858,12 +871,8 @@ void Player::playerCombat(Map *map, Input *input)
     // std::cout << combat_index << " " << combat_time << " " << combat_combo_time << "\n";
 }
 
-void Player::playerBlockCollision(std::vector<Block *> BlockVec)
+void Player::playerHitBox()
 {
-    bool on_aleast_ground = false;
-    bool hug_aleast_wall = false;
-    bool crawl_lock_atleast = false;
-
     if (!crawl && !g_dash && !crawl_lock)
     {
         setHitWidth(58);
@@ -875,181 +884,6 @@ void Player::playerBlockCollision(std::vector<Block *> BlockVec)
         setHitWidth(78);
         setHitHeight(40);
         hit_offset_y = -20;
-    }
-
-    for (Block *block : BlockVec)
-    {
-        // If block is outside of play/usable view
-        // No need to check for SHIT MAN i
-        block->setOutBound(Camera::objectOutBound(this, block));
-        if (block->getOutBound()) continue;
-
-        // Collision Value
-        int colli_x = abs(getHitX() - block->getX());
-        int colli_y = abs(getHitY() - block->getY());
-        int colli_y_stand = abs(getY() - block->getY());
-
-        int hit_dist_x = (getHitWidth() + block->getHitWidth()) / 2;
-        int hit_dist_y = (getHitHeight() + block->getHitHeight()) / 2;
-        int hit_dist_y_stand = (80 + block->getHitHeight()) / 2;
-
-        if (block->getSeeThru()) {
-            if (colli_x + 10 < hit_dist_x && colli_y + 10 < hit_dist_y)
-            {
-                if (block->getSeeAlpha() > block->getSeeAlphaMin())
-                    block->setSeeAlpha(block->getSeeAlpha() - 5);
-            }
-            else
-            {
-                if (block->getSeeAlpha() < 255)
-                    block->setSeeAlpha(block->getSeeAlpha() + 5);
-            } 
-        }
-
-        // If it a go thru block
-        // No need hitbox detection
-        if (block->getGoThru()) continue;
-
-        block->setHugged(false);
-        block->setStepOn(false);
-        // Hit Left wall
-        if (getHitX() < block->getX() && colli_x < hit_dist_x &&
-            getHitY() < block->getY() + hit_dist_y - 10 &&
-            getHitY() > block->getY() - hit_dist_y + 10)
-        {
-            if (can_hug_wall && !on_ground && !a_dash)
-            {
-                hug_aleast_wall = true;
-                hug_wall_left = true;
-                vel_x = 0;
-
-                setX(block->getX() - hit_dist_x + 3);
-                block->setHugged(-1);
-            }
-            else
-            {
-                setX(block->getX() - hit_dist_x);
-                if (a_dash || g_dash)
-                    vel_x = -vel_x * .5;
-                act_right = 1;
-            }
-
-            continue;
-        }
-
-        // Hit Right wall
-        if (getHitX() > block->getX() && colli_x < hit_dist_x &&
-            getHitY() < block->getY() + hit_dist_y - 10 &&
-            getHitY() > block->getY() - hit_dist_y + 10)
-        {
-            if (can_hug_wall && !on_ground && !a_dash)
-            {
-                hug_aleast_wall = true;
-                hug_wall_right = true;
-                vel_x = 0;
-                
-                setX(block->getX() + hit_dist_x - 3);
-                block->setHugged(1);
-            }
-            else
-            {
-                setX(block->getX() + hit_dist_x);
-                if (a_dash || g_dash)
-                    vel_x = -vel_x * .5;
-                act_right = 0;
-            }
-
-            continue;
-        }
-
-        // Ceiling logic
-        if ((getHitX() < block->getX() + hit_dist_x) &&
-            (getHitX() > block->getX() - hit_dist_x))
-        {
-            if (vel_y > 0 && getHitY() < block->getY() &&
-                colli_y < hit_dist_y - vel_y)
-            {
-                ceiling_knockout = ceiling_knockout_delay;
-                setY(block->getY() - block->getHeight() / 2 - 40 - vel_y);
-                vel_y = -vel_y * 0.1;
-                continue;
-            }
-
-            if (on_ground && getY() < block->getY() &&
-                colli_y_stand < hit_dist_y_stand)
-                crawl_lock_atleast = true;
-        }
-
-        // Stand on block
-        if (!on_aleast_ground &&
-            getHitY() > block->getY() &&
-            colli_y < hit_dist_y &&
-            (getHitX() < block->getX() + hit_dist_x) &&
-            (getHitX() > block->getX() - hit_dist_x))
-        {
-            if (block->getVelX())
-                setX(getX() + block->getVelX());
-            if (block->getVelY())
-                setY(getY() + block->getVelY());
-            
-            if (!crawl && !g_dash)
-                setY(block->getY() + (block->getHeight() + getHitHeight()) / 2 - 1);
-
-            block->setStepOn(true);
-
-            on_aleast_ground = true;
-            hug_wall_left = false;
-            hug_wall_right = false;
-            continue;
-        }
-    }
-
-    on_ground = on_aleast_ground;
-    crawl_lock = crawl_lock_atleast;
-    if (!hug_aleast_wall)
-    {
-        hug_wall_left = false;
-        hug_wall_right = false;
-    }
-}
-
-void Player::playerEnemyCollision(std::vector<Enemy *> EnemyVec)
-{
-    for (Enemy *enemy : EnemyVec)
-    {
-        if (enemy->getDead()) continue;
-
-    // ================== TAKING DAMAGE =======================
-        int colli_x = abs(getHitX() - enemy->getX());
-        int colli_y = abs(getHitY() - enemy->getY());
-        int hit_dist_x = (getHitWidth() + enemy->getHitWidth()) / 2;
-        int hit_dist_y = (getHitHeight() + enemy->getHitHeight()) / 2;
-
-        if (!enemy->getDead() &&
-            colli_x < hit_dist_x &&
-            colli_y < hit_dist_y)
-        {
-            if (enemy->getCollideDamage())
-                playerGetHit(enemy->getCollideDamage());
-
-            // Addition enemy logic
-            enemy->enemyPlayerCollision(this);
-        }
-
-    // ================== DEALING DAMAGE =======================
-        if (weapon_equip && !(enemy->getInvinTime()) &&
-            (combat_time || a_dash || g_dash))
-        {
-            if ((enemy->getX() > getHitX()? colli_x < combat_hit_right + enemy->getHitWidth() / 2 :
-                                            colli_x < combat_hit_left  + enemy->getHitWidth() / 2) &&
-                (enemy->getY() > getHitY()? colli_y < combat_hit_up    + enemy->getHitHeight() / 2 :
-                                            colli_y < combat_hit_down  + enemy->getHitHeight() / 2))
-            {
-                enemy->enemyGetHit(combat_damage);
-
-                if (a_dash || g_dash) vel_x = -vel_x;
-            }
-        }
     }
 }
 
@@ -1108,8 +942,7 @@ void Player::playerUpdate(SDL_Renderer *renderer, Map *map, Input *input)
     {
         playerMovement(input);
         playerCombat(map, input);
-        playerBlockCollision(map->BlockVec);
-        playerEnemyCollision(map->EnemyVec);
+        playerHitBox();
     }
     else
         playerDeveloper(input);

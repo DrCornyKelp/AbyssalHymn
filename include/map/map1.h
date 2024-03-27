@@ -57,6 +57,9 @@ public:
     // NPC
     void initEnemies(SDL_Renderer *renderer) override;
     void initNpcDialogues(SDL_Renderer *renderer) override;
+
+    // Items
+    void initItems(SDL_Renderer *renderer) override;
     
     // Blocks
     void initBlocks(SDL_Renderer *renderer) override;
@@ -67,7 +70,7 @@ public:
     void initBlocksBack(SDL_Renderer *renderer) override;
     void initFrontDecors(SDL_Renderer *renderer) override;
 
-    void updateMapExclusive(SDL_Renderer *renderer, Player *player, Input *input) override;
+    void updateMapExclusive(SDL_Renderer *renderer, Player *player, Input *input, Collision *collision) override;
 
 };
 

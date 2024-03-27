@@ -43,7 +43,6 @@ private:
     bool hug_wall_right = false;
 
     // Ground movement
-    float vel_x = 0;
     float vel_x_max = 5;
     float vel_x_max_ground = 7;
     float vel_x_max_air = 6;
@@ -60,7 +59,7 @@ private:
 
     // Decelleration
     // 0: none, -1: LEFT, 1: RIGHT
-    int decel_x = 0; 
+    int decel_x = 0;
 
     // "Airborne" movement
     int air_cur = 0;
@@ -206,18 +205,36 @@ public:
     void initPlayer(SDL_Renderer *renderer);
 
     // Movement
-    void setVelX(float X);
-    void setVelY(float Y);
-    float getVelX();
-    float getVelY();
     int getDecel();
     bool getSuperJump();
     int getHitX();
     int getHitY();
+
+    // Moveset
+    bool getIsMove();
+    bool getIsJump();
+    bool getIsGDash();
+    bool getIsADash();
+    bool getIsCrawl();
+    bool getIsHugWall();
+
+    bool getCanHugWall();
+
+    void setCanMove(bool can);
+    void setCanJump(bool can);
+    void setCanGDash(bool can);
+    void setCanADash(bool can);
+    void setCanCrawl(bool can);
+    void setCanHugWall(bool can);
+
+    void setHugWallLeft(bool hwl);
+    void setHugWallRight(bool hwr);
     
     // Drawing
     int getActIndex();
     bool getActRight();
+    void setActRight(bool ar);
+
     void setSprite(int m_index, int m_frame);
     void setSpriteAlpha(int alpha);
     void setAct(int index, bool right);
@@ -231,6 +248,7 @@ public:
     int getCombatHitD();
     int getCombatHitL();
     int getCombatHitR();
+    int getCombatDamage();
     float getCombatTime();
     float getCombatDelay();
     float getCombatCharge();
@@ -267,26 +285,18 @@ public:
     int getHpCur();
     int getHpMax();
 
-    // Moveset
-    bool getIsMove();
-    bool getIsJump();
-    bool getIsGDash();
-    bool getIsADash();
-    bool getIsCrawl();
-    bool getIsHugWall();
-    void setCanMove(bool can);
-    void setCanJump(bool can);
-    void setCanGDash(bool can);
-    void setCanADash(bool can);
-    void setCanCrawl(bool can);
-    void setCanHugWall(bool can);
+    // Uncategorized
+    void setOnGround(bool og);
+    bool getOnGround();
+    void setCrawlLock(bool cl);
+    void setCeilingKnockout(int cko);
+    void setBuffJumpTime(int bjt);
 
     // Method
     void playerMovement(Input *input);
     void playerCombat(Map *map, Input *input);
 
-    void playerBlockCollision(std::vector<Block*> BlockVec);
-    void playerEnemyCollision(std::vector<Enemy*> Enemy);
+    void playerHitBox();
     void playerGetHit(int dmg);
 
     void playerDrawProperty();

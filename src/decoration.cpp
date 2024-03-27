@@ -19,15 +19,14 @@ void Decoration::setBackground(bool bg)
 void Decoration::setAlpha(int a)
 {
     alpha = a;
-    SDL_SetTextureAlphaMod(decor_sprite->getTexture(), a);
+    SDL_SetTextureAlphaMod(decor_texture, a);
 }
 
 void Decoration::initDecoration(SDL_Renderer *renderer)
 {
-    decor_sprite = new Sprite(getWidth() * getSprIndexMax(), getHeight(), 1, decor_path);
-    decor_sprite->setTexture(Sprite::loadTexture(renderer, decor_path));
+    decor_texture = Sprite::loadTexture(renderer, decor_path);
 
-    SDL_SetTextureBlendMode(decor_sprite->getTexture(), SDL_BLENDMODE_BLEND);
+    SDL_SetTextureBlendMode(decor_texture, SDL_BLENDMODE_BLEND);
     delete decor_path;
 }
 
@@ -52,5 +51,5 @@ void Decoration::draw(SDL_Renderer *renderer, Player *player)
 
     SDL_Rect srcRect = {getSprIndex() * getHitWidth(), 0, getHitWidth(), getHitHeight()};
 
-    SDL_RenderCopy(renderer, decor_sprite->getTexture(), (getSprIndexMax() > 0 ? &srcRect : NULL), &desRect);
+    SDL_RenderCopy(renderer, decor_texture, (getSprIndexMax() > 0 ? &srcRect : NULL), &desRect);
 }

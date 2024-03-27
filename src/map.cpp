@@ -22,6 +22,12 @@ void Map::initBlocks(SDL_Renderer *renderer)
     std::cout << "No block \n";
 }
 
+// Item
+void Map::initItems(SDL_Renderer *renderer)
+{
+    std::cout << "No item \n";
+}
+
 // Cosmetic
 void Map::initBackground(SDL_Renderer *renderer)
 {
@@ -49,6 +55,7 @@ void Map::initAll(SDL_Renderer *renderer, Player *player)
     initNpcDialogues(renderer);
     
     initBlocks(renderer);
+    initItems(renderer);
     
     initBackground(renderer);
     initBackDecors(renderer);
@@ -57,7 +64,7 @@ void Map::initAll(SDL_Renderer *renderer, Player *player)
 }
 
 // Exlcusive update
-void Map::updateMapExclusive(SDL_Renderer *renderer, Player *player, Input *input)
+void Map::updateMapExclusive(SDL_Renderer *renderer, Player *player, Input *input, Collision *collision)
 {
     std::cout << "No exclusive stage logic \n";
 }

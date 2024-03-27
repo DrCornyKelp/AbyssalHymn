@@ -330,6 +330,19 @@ void Map1::initFrontDecors(SDL_Renderer *renderer)
         frontDecor->initDecoration(renderer);
 }
 
+void Map1::initEnemies(SDL_Renderer *renderer)
+{
+    EnemyVec.push_back(new Skeleton(5, 2, 1, 20));
+
+    for (Enemy *enemy : EnemyVec)
+        enemy->initEnemy(renderer);
+}
+
+void Map1::initItems(SDL_Renderer *renderer)
+{
+    
+}
+
 void Map1::initMapPlayer(Player *player)
 {
     // Set spawn point
@@ -377,20 +390,17 @@ void Map1::initMapPlayer(Player *player)
     player->playerEnableAllMoveset();
 }
 
-void Map1::initEnemies(SDL_Renderer *renderer)
-{
-    EnemyVec.push_back(new Skeleton(5, 2, 1, 20));
-
-    for (Enemy *enemy : EnemyVec)
-        enemy->initEnemy(renderer);
-}
-
-void Map1::updateMapExclusive(SDL_Renderer *renderer, Player *player, Input *input)
+void Map1::updateMapExclusive(SDL_Renderer *renderer, Player *player, Input *input, Collision *collision)
 {
     // ====================== UPDATE PLAYER ============================
 
     // Standard update
     player->playerUpdate(renderer, this, input);
+
+    // Collision
+    collision->playerBlockCollision(player, BlockVec);
+    collision->playerEnemyCollision(player, EnemyVec);
+    collision->playerItemCollision(player, ItemVec);
 
     // Some variable
     float player_x = player->getX();

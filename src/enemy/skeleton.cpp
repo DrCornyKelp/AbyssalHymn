@@ -87,10 +87,12 @@ void Skeleton::enemyAI(Player *player, Map *map)
         attack_state = true;
     }
     if (attack_delay) attack_delay--;
+    if (stunt_resistance) stunt_resistance--;
 
     if (attack_state)
     {
-        if (getSprIndex() == getSprIndexMax() - 1 || getInvinTime() > 80)
+        if ((getSprIndex() == getSprIndexMax() - 1) ||
+            (getInvinTime() > 60 && !stunt_resistance))
         {
             setSprIndex(0);
             setSprFrameMax(15);
@@ -99,13 +101,16 @@ void Skeleton::enemyAI(Player *player, Map *map)
         }
     }
 
-    if (getInvinTime() < 60 && !idle_time && !attack_state)
+    if ((getInvinTime() < 60 || stunt_resistance) && !idle_time && !attack_state)
         setX(getX() + direction);
 
     if (getInvinTime())
     {
         setInvinTime(getInvinTime() - 1);
         SDL_SetTextureAlphaMod(skeleTexture, (getInvinTime() % 15 > 0) ? 200 : 160);
+
+        if (!getInvinTime() && !stunt_resistance)
+            stunt_resistance = 300;
     }
 
     if (getHp() <= 0)
@@ -125,7 +130,7 @@ void Skeleton::enemyAI(Player *player, Map *map)
         direction > 0 ? attackRightTexture : attackLeftTexture
     );
 
-    skeleTexture = getInvinTime() > 60 ? (
+    skeleTexture = (getInvinTime() > 60 && !stunt_resistance) ? (
         direction > 0 ? hurtRightTexture : hurtLeftTexture
     ) : skeleTexture;
 
@@ -134,12 +139,13 @@ void Skeleton::enemyAI(Player *player, Map *map)
     ) : skeleTexture;
 
     setSprIndexMax(idle_time && !attack_state ? 8 : 10);
-    if (getInvinTime() && !attack_state)
+    if (getInvinTime() > 60 && !stunt_resistance)
         setSprIndexMax(5);
     if (getDead())
         setSprIndexMax(10);
 
     // std::cout << wander_state << " " << wander_time << " " << idle_time << "\n";
+    // std::cout << attack_state << " " << stunt_resistance << "\n";
 }
 
 void Skeleton::enemyPlayerCollision(Player *player)
@@ -151,7 +157,9 @@ void Skeleton::enemyGetHit(int dmg)
 {
     if (getInvinTime()) return;
 
-    setSprIndex(0);
+    if (!stunt_resistance)
+        setSprIndex(0);
+
     setInvinTime(100);
     setHp(getHp() - dmg);
 }

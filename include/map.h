@@ -8,8 +8,10 @@
 #include <algorithm>
 
 #include "input.h"
+#include "collision.h"
 #include "player.h"
 #include "block.h"
+#include "item.h"
 #include "block_template.h"
 #include "decoration.h"
 #include "npc_dialogue.h"
@@ -27,6 +29,8 @@ public:
     std::vector<NpcDialogue*> NpcVec;
     // Block
     std::vector<Block*> BlockVec;
+    // Item
+    std::vector<Item*> ItemVec;
     // Cosmetic
     std::vector<Decoration*> BackgroundVec;
     std::vector<Decoration*> DecorBackVec;
@@ -47,6 +51,9 @@ public:
     // Block
     virtual void initBlocks(SDL_Renderer *renderer);
 
+    // Items
+    virtual void initItems(SDL_Renderer *renderer);
+
     // Cosmetic
     virtual void initBackground(SDL_Renderer *renderer);
     virtual void initBackDecors(SDL_Renderer *renderer);
@@ -55,7 +62,7 @@ public:
 
     // Stage stuff idc
     void initAll(SDL_Renderer *renderer, Player *player);
-    virtual void updateMapExclusive(SDL_Renderer *renderer, Player *player, Input *input);
+    virtual void updateMapExclusive(SDL_Renderer *renderer, Player *player, Input *input, Collision *collision);
 };
 
 #endif

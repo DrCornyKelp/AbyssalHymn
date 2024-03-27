@@ -20,7 +20,7 @@ private:
 
     const char *decor_path;
 
-    Sprite *decor_sprite;
+    SDL_Texture *decor_texture;
 
     int sprite_width;
     int sprite_height;

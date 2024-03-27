@@ -25,12 +25,14 @@ AbyssalHymn:
 		src/input.cpp \
 		src/camera.cpp \
 		src/scene.cpp \
+		src/collision.cpp \
 		main.cpp \
 		-lmingw32 \
 		-lSDL2main \
 		-lSDL2 \
 		-lSDL2_image \
-		-lSDL2_mixer
+		-lSDL2_mixer \
+		-ffast-math
 	cls
 	./AbyssalHymn.exe
 

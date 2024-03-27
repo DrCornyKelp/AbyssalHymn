@@ -10,6 +10,7 @@
 
 #include "game.h"
 #include "input.h"
+#include "collision.h"
 #include "scene.h"
 #include "player.h"
 #include "hud.h"
@@ -39,6 +40,9 @@ int main(int argc, char *argv[])
     Input *input = new Input();
     input->initInput();
 
+    // Collision
+    Collision *collision = new Collision();
+
     // Controller Detection
     SDL_GameController *controller;
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER) != 0)
@@ -62,7 +66,7 @@ int main(int argc, char *argv[])
 
     // Audio
     int test = Mix_Init(0); // wav = 0, flac = 1, mp3 = 8
-    Audio::playBGM("res/Audio/BGM/WTF.wav");
+    // Audio::playBGM("res/Audio/BGM/StringTheory.wav");
 
     // Player + Hud
     Player *player0 = new Player();
@@ -96,13 +100,14 @@ int main(int argc, char *argv[])
                 SDL_RenderClear(game->getRenderer());
 
                 // Update Map
-                map1->updateMapExclusive(game->getRenderer(), player0, input);
+                map1->updateMapExclusive(game->getRenderer(), player0, input, collision);
                 // Render the game
                 rend->renderGameplay(game->getRenderer(), player0, map1);
 
                 // Draw Hud
                 hud0->update(game->getRenderer());
                 break;
+                
             // case 3:
             //     rend->renderMainMenu(game->getRenderer(), pause_menu);
             //     break;

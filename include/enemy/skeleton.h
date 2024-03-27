@@ -18,6 +18,7 @@ private:
     int wander_time = 100;
     int idle_time = 0;
 
+    int stunt_resistance = 0;
     bool attack_state = false;
     int attack_delay = 0;
 
