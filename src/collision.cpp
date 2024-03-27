@@ -71,7 +71,7 @@ void Collision::playerBlockCollision(Player *player, std::vector<Block*> BlockVe
         int hit_dist_y_stand = (80 + block->getHitHeight()) / 2;
 
         if (block->getSeeThru()) {
-            if (colli_x + 10 < hit_dist_x && colli_y + 10 < hit_dist_y)
+            if (objectCollision(player, block))
             {
                 if (block->getSeeAlpha() > block->getSeeAlphaMin())
                     block->setSeeAlpha(block->getSeeAlpha() - 5);

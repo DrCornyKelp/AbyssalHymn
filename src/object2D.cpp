@@ -36,7 +36,6 @@ int Object2D::getHitWidth() { return hit_w; }
 int Object2D::getHitHeight() { return hit_h; }
 
 // Combat hitbox
-
 void Object2D::setCombatHitU(int hit) { combat_hit_up = hit; }
 void Object2D::setCombatHitD(int hit) { combat_hit_down = hit; }
 void Object2D::setCombatHitL(int hit) { combat_hit_left = hit; }
