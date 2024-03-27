@@ -18,7 +18,7 @@ private:
     int wander_time = 100;
     int idle_time = 0;
 
-    int attack_time = 0;
+    bool attack_state = false;
     int attack_delay = 0;
 
     SDL_Texture *skeleTexture;

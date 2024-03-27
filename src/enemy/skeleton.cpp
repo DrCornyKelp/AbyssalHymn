@@ -46,49 +46,60 @@ int Skeleton::generateRandomDistance() {
 void Skeleton::enemyAI(Player *player, Map *map)
 {
 
-    if (wander_time && wander_state)
+    if (!attack_state)
     {
-        wander_time--;
-        if (!wander_time)
+        if (wander_time && wander_state)
         {
+            wander_time--;
+            if (!wander_time)
+            {
+                wander_state = 0;
+                idle_time = 200;
+            }
+        }
+
+        if (idle_time && !wander_state)
+        {
+            idle_time--;
+            if (!idle_time)
+            {
+                wander_state = true;
+                direction = -direction;
+                wander_time = generateRandomDistance();
+            }
+        }
+
+        if (getX() < lim_left || getX() > lim_right)
+        {
+            wander_time = 0;
+            idle_time = 100;
             wander_state = 0;
-            idle_time = 200;
-        }
+        };
     }
 
-    if (idle_time && !wander_state)
-    {
-        idle_time--;
-        if (!idle_time)
-        {
-            wander_state = true;
-            direction = -direction;
-            wander_time = generateRandomDistance();
-        }
-    }
-
-    if (getX() < lim_left || getX() > lim_right)
-    {
-        wander_time = 0;
-        idle_time = 100;
-        wander_state = 0;
-    };
-
-    if (!attack_delay && abs(player->getX() - getX()) < 200 && (
+    if (!attack_delay && !attack_state &&
+        abs(player->getX() - getX()) < 200 && (
         (direction > 0 && player->getX() > getX()) ||
         (direction < 0 && player->getX() < getX())
     )) {
-        attack_time = 200;
-        attack_delay = 200;
+        setSprIndex(0);
+        setSprFrameMax(10);
+        attack_state = true;
     }
     if (attack_delay) attack_delay--;
-    if (attack_time)
+
+    if (attack_state)
     {
-        idle_time = 0;
-        attack_time--;
+        if (getSprIndex() == getSprIndexMax() - 1 || getInvinTime() > 80)
+        {
+            setSprIndex(0);
+            setSprFrameMax(15);
+            attack_delay = 200;
+            attack_state = 0;
+        }
     }
 
-    if (getInvinTime() < 60 && !idle_time && !attack_time)
+    if (getInvinTime() < 60 && !idle_time && !attack_state)
         setX(getX() + direction);
 
     if (getInvinTime())
@@ -105,17 +116,12 @@ void Skeleton::enemyAI(Player *player, Map *map)
         setSprFrameMax(5);
     };
 
-    if (attack_time)
-    {
-        attack_time--;
-    }
-
     skeleTexture = direction > 0 ? moveRightTexture : moveLeftTexture;
     skeleTexture = !idle_time ? skeleTexture : (
         direction > 0 ? idleRightTexture : idleLeftTexture
     );
 
-    skeleTexture = !attack_time ? skeleTexture : (
+    skeleTexture = !attack_state ? skeleTexture : (
         direction > 0 ? attackRightTexture : attackLeftTexture
     );
 
@@ -127,10 +133,8 @@ void Skeleton::enemyAI(Player *player, Map *map)
         direction > 0 ? deathRightTexture : deathLeftTexture
     ) : skeleTexture;
 
-    setSprIndexMax(idle_time ? 8 : 10);
-    if (attack_time)
-        setSprIndexMax(10);
-    if (getInvinTime())
+    setSprIndexMax(idle_time && !attack_state ? 8 : 10);
+    if (getInvinTime() && !attack_state)
         setSprIndexMax(5);
     if (getDead())
         setSprIndexMax(10);
@@ -159,7 +163,7 @@ void Skeleton::draw(SDL_Renderer *renderer, Player *player)
         return;
     // Frame index shitty bang bang stuff handler
     Camera::objectSetSprite(this,
-        getInvinTime() > 80 && !attack_time
+        getInvinTime() > 80 && !attack_state
     );
 
     // Draw
