@@ -292,6 +292,7 @@ void Player::playerDrawProperty()
             setAct(9, act_right);
             setSprite(8, 3);
         }
+        setEndLock(false);
     }
 
     if (!a_dash && !g_dash && !weapon_equip_delay && !combat_index)
@@ -437,14 +438,18 @@ void Player::playerMovement(Input *input)
     }
 
     // Ground dash (more like sliding but whatever)
-    if (can_g_dash && input->getButton(5) && !g_dash_delay && !combat_index && on_ground && !g_dash && !crawl_lock && !a_dash)
+    if (can_g_dash && input->getButton(5) && !g_dash_delay &&
+        !combat_index && !weapon_equip_frame &&
+        on_ground && !g_dash && !crawl_lock && !a_dash)
     {
         g_dash = true;
         g_dash_delay = g_dash_delay_max * (crawl ? 1.5 : 1);
     }
 
     // Air dash
-    if (can_a_dash && input->getButton(5) && !a_dash_delay && !combat_index && !on_ground && !hug_wall && !crawl && !g_dash && getVelX() && air_cur > 0 && !jump_keyhold)
+    if (can_a_dash && input->getButton(5) && !a_dash_delay &&
+        !combat_index && !weapon_equip_frame &&
+        !on_ground && !hug_wall && !crawl && !g_dash && getVelX() && air_cur && !jump_keyhold)
     {
         a_dash = true;
         air_cur--;
@@ -710,7 +715,7 @@ void Player::playerCombat(Map *map, Input *input)
     else
         combat_delay = 0;
 
-    if (!weapon_equip) return;
+    if (!weapon_equip || weapon_equip_frame) return;
 
     // =================== Combat hitbox handler ===================
     if (!combat_time && !a_dash && !g_dash)

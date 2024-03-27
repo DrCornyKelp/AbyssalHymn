@@ -102,10 +102,7 @@ int main(int argc, char *argv[])
                 // Update Map
                 map1->updateMapExclusive(game->getRenderer(), player0, input, collision);
                 // Render the game
-                rend->renderGameplay(game->getRenderer(), player0, map1);
-
-                // Draw Hud
-                hud0->update(game->getRenderer());
+                rend->renderGameplay(game->getRenderer(), player0, hud0, map1);
                 break;
                 
             // case 3:

@@ -3,7 +3,7 @@
 #include <map.h>
 
 Skeleton::Skeleton(float X, float Y, float limX1, float limX2) :
-    Enemy(X * 64, Y * 64 + 96, 288, 192, 50, 130, 10, 15),
+    Enemy(X * 64, Y * 64 + 96, 288, 192, 45, 120, 10, 15),
     lim_left(limX1 * 64), lim_right(limX2 * 64)
 {}
 

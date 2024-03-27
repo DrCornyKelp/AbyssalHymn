@@ -44,7 +44,7 @@ public:
     void drawHealth(SDL_Renderer *renderer);
     void drawAirborne(SDL_Renderer *renderer);
     void drawHeadUpStat(SDL_Renderer *renderer);
-    void update(SDL_Renderer *renderer);
+    void draw(SDL_Renderer *renderer);
 };
 
 #endif

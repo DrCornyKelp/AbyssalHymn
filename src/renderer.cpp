@@ -1,6 +1,6 @@
 #include "renderer.h"
 
-void Renderer::renderGameplay(SDL_Renderer *renderer, Player *player, Map *map)
+void Renderer::renderGameplay(SDL_Renderer *renderer, Player *player, Hud *hud, Map *map)
 {
     // ============== Performance unintensive (kinda) =================
 
@@ -38,6 +38,9 @@ void Renderer::renderGameplay(SDL_Renderer *renderer, Player *player, Map *map)
     // Front Decor
     for (Decoration *decorFront : map->DecorFrontVec)
         decorFront->draw(renderer, player);
+
+    // Player Hud
+    hud->draw(renderer);
 
     // UNECESSARY
     player->playerGrid(renderer);

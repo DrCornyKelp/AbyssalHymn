@@ -85,7 +85,7 @@ void Hud::drawHeadUpStat(SDL_Renderer *renderer)
         SDL_RenderCopy(renderer, invincibleTexture, &srcRect, &desRect);
 }
 
-void Hud::update(SDL_Renderer *renderer)
+void Hud::draw(SDL_Renderer *renderer)
 {
     drawHeadUpStat(renderer);
     drawAirborne(renderer);
