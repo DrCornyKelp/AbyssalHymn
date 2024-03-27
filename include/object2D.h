@@ -25,11 +25,15 @@ private:
     int hit_w, hit_h;
 
     // Speed
-    float vel_x, vel_y;
-    float accel_x, accel_y;
+    float vel_x = 0, vel_y = 0;
+    float accel_x = 0, accel_y = 0;
 
     // Combat (if possible)
-
+    int combat_hit_up = 0;
+    int combat_hit_down = 0;
+    int combat_hit_left = 0;
+    int combat_hit_right = 0;
+    int combat_damage = 0;
 
     // Sprites handling
     int sprite_index, sprite_index_max;
@@ -57,6 +61,18 @@ public:
     int getHeight();
     int getHitWidth();
     int getHitHeight();
+
+    // Comabt hitbox
+    void setCombatHitU(int hit);
+    void setCombatHitD(int hit);
+    void setCombatHitL(int hit);
+    void setCombatHitR(int hit);
+    void setCombatDamage(int dmg);
+    int getCombatHitU();
+    int getCombatHitD();
+    int getCombatHitL();
+    int getCombatHitR();
+    int getCombatDamage();
 
     // Speed
     void setVelX(float velX);

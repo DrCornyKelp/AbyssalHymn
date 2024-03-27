@@ -97,11 +97,6 @@ bool Player::getWeaponEquip() { return weapon_equip; }
 int Player::getInvincibleTime() { return invincible_time; }
 int Player::getInvulnerableTime() { return invulnerable_time; }
 
-int Player::getCombatHitU() { return combat_hit_up; }
-int Player::getCombatHitD() { return combat_hit_down; }
-int Player::getCombatHitL() { return combat_hit_left; }
-int Player::getCombatHitR() { return combat_hit_right; }
-int Player::getCombatDamage() { return combat_damage; }
 float Player::getCombatTime() { return combat_time; }
 float Player::getCombatDelay() { return combat_delay; }
 float Player::getCombatCharge() { return combat_charge_time; }
@@ -711,86 +706,81 @@ void Player::playerCombat(Map *map, Input *input)
     // =================== Combat hitbox handler ===================
     if (!combat_time && !a_dash && !g_dash)
     {
-        combat_hit_up = 0;
-        combat_hit_down = 0;
-        combat_hit_right = 0;
-        combat_hit_left = 0;
-        combat_damage = 0;
+        setCombatHitU(0);
+        setCombatHitD(0);
+        setCombatHitL(0);
+        setCombatHitR(0);
+        setCombatDamage(0);
         combat_parry_error = 10;
     }
 
     if (a_dash)
     {
-        combat_hit_up = 30;
-        combat_hit_down = 30;
-        combat_damage = 10;
-        if (act_right)
-            combat_hit_right = 80;
-        else
-            combat_hit_left = 80;
+        setCombatHitU(30);
+        setCombatHitD(30);
+        setCombatHitR(act_right ? 80 : 0);
+        setCombatHitL(act_right ? 0 : 80);
+        setCombatDamage(10);
     }
 
     if (g_dash)
     {
-        combat_hit_up = 20;
-        combat_hit_down = 20;
-        if (act_right) combat_hit_right = 80;
-        else combat_hit_left = 80;
-
-        combat_damage = crawl ? 20 : 12;
+        setCombatHitU(20);
+        setCombatHitD(20);
+        setCombatHitR(act_right ? 80 : 0);
+        setCombatHitL(act_right ? 0 : 80);
+        setCombatDamage(crawl ? 20 : 12);
     }
 
     if (combat_index == 1)
     {
-        combat_hit_up = 40;
-        combat_hit_down = 40;
-        combat_hit_right = act_right ? 100 : 0;
-        combat_hit_left = act_right ? 0 : 100;
-        combat_damage = 10;
+        setCombatHitU(40);
+        setCombatHitD(40);
+        setCombatHitR(act_right ? 100 : 0);
+        setCombatHitL(act_right ? 0 : 100);
+        setCombatDamage(10);
         combat_parry_error = 3;
     }
 
     if (combat_index == 2)
     {
-        combat_hit_up = 15;
-        combat_hit_down = 15;
-        combat_hit_right = act_right ? 120 : 0;
-        combat_hit_left = act_right ? 0 : 120;
-        combat_damage = 20;
+        setCombatHitU(15);
+        setCombatHitD(15);
+        setCombatHitL(act_right ? 0 : 120);
+        setCombatHitR(act_right ? 120 : 0);
+        setCombatDamage(20);
         combat_parry_error = 1;
     }
 
     if (combat_index == 3)
     {
-        combat_hit_up = 80;
-        combat_hit_down = 60;
-        combat_hit_right = act_right ? 130 : 0;
-        combat_hit_left = act_right ? 0 : 130;
-        combat_damage = 30;
+        setCombatHitU(80);
+        setCombatHitD(60);
+        setCombatHitL(act_right ? 0 : 130);
+        setCombatHitR(act_right ? 130 : 0);
+        setCombatDamage(30);
         combat_parry_error = 0;
     }
 
     if (combat_index == 4)
     {
-        combat_hit_up = 76;
-        combat_hit_down = 0;
-        combat_hit_right = 64;
-        combat_hit_left = 64;
-        combat_damage = 15;
+        setCombatHitU(76);
+        setCombatHitD(0);
+        setCombatHitL(64);
+        setCombatHitR(64);
+        setCombatDamage(15);
         combat_parry_error = 40;
     }
 
     if (combat_index == 5)
     {
-        combat_hit_up = 64;
-        combat_hit_down = 64;
-        combat_hit_right = act_right ? 93 : 0;
-        combat_hit_left = act_right ? 0 : 93;
-        combat_damage = 15;
+        setCombatHitU(64);
+        setCombatHitD(64);
+        setCombatHitL(act_right ? 0 : 93);
+        setCombatHitR(act_right ? 93 : 0);
+        setCombatDamage(15);
         combat_parry_error = 20;
     }
-
-    combat_damage *= buff_combat_damage;
 
     // =================== Combat Attack Pattern ===================
 

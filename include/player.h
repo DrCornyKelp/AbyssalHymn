@@ -136,12 +136,7 @@ private:
     bool combat_keyhold_time = 0;
     // Combat numbers and stuff
     int combat_charge_time = 0;
-    int combat_damage = 13;
     int combat_index = 0;
-    int combat_hit_up = 0;
-    int combat_hit_down = 0;
-    int combat_hit_left = 0;
-    int combat_hit_right = 0;
     float combat_parry_error = 0;
 
     // Combat Projectile
@@ -244,11 +239,6 @@ public:
     bool getWeaponEquip();
     int getInvincibleTime();
     int getInvulnerableTime();
-    int getCombatHitU();
-    int getCombatHitD();
-    int getCombatHitL();
-    int getCombatHitR();
-    int getCombatDamage();
     float getCombatTime();
     float getCombatDelay();
     float getCombatCharge();

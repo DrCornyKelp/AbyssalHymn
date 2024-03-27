@@ -1,6 +1,6 @@
 #include <object2D.h>
 
-Object2D::Object2D(float X, float Y, int w, int h) : 
+Object2D::Object2D(float X, float Y, int w, int h) :
     x(X), y(Y),
     width(w), height(h)
 {}
@@ -34,6 +34,19 @@ int Object2D::getWidth() { return width; }
 int Object2D::getHeight() { return height; }
 int Object2D::getHitWidth() { return hit_w; }
 int Object2D::getHitHeight() { return hit_h; }
+
+// Combat hitbox
+
+void Object2D::setCombatHitU(int hit) { combat_hit_up = hit; }
+void Object2D::setCombatHitD(int hit) { combat_hit_down = hit; }
+void Object2D::setCombatHitL(int hit) { combat_hit_left = hit; }
+void Object2D::setCombatHitR(int hit) { combat_hit_right = hit; }
+void Object2D::setCombatDamage(int dmg) { combat_damage = dmg; }
+int Object2D::getCombatHitU() { return combat_hit_up; }
+int Object2D::getCombatHitD() { return combat_hit_down; }
+int Object2D::getCombatHitL() { return combat_hit_left; }
+int Object2D::getCombatHitR() { return combat_hit_right; }
+int Object2D::getCombatDamage() { return combat_damage; }
 
 // Draw
 void Object2D::setSprIndex(int si) { sprite_index = si; }

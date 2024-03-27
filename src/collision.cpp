@@ -172,8 +172,6 @@ void Collision::playerEnemyCollision(Player *player, std::vector<Enemy*> EnemyVe
     // ================== TAKING DAMAGE =======================
         int colli_x = abs(player->getHitX() - enemy->getX());
         int colli_y = abs(player->getHitY() - enemy->getY());
-        int hit_dist_x = (player->getHitWidth() + enemy->getHitWidth()) / 2;
-        int hit_dist_y = (player->getHitHeight() + enemy->getHitHeight()) / 2;
 
         if (!enemy->getDead() && playerCollision(player, enemy))
         {

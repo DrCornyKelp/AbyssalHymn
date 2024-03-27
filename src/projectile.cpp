@@ -9,8 +9,11 @@ Projectile::Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, 
     // Harm who?
     harm_player(harm == 1), harm_enemy(harm == -1),
     // Draw and Logic
-    vel_x(velX), vel_y(velY), accel_x(accelX), accel_y(accelY)
-{}
+    accel_x(accelX), accel_y(accelY)
+{
+    setVelX(velX);
+    setVelY(velY);
+}
 
 float Projectile::generateRandomFloat() {
     srand((unsigned) time(NULL));
@@ -26,10 +29,13 @@ Projectile::Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, 
     // Harm who?
     harm_player(harm == 1), harm_enemy(harm == -1),
     // Speed and stuff
-    vel_x(velX), vel_y(velY), accel_x(accelX), accel_y(accelY),
+    accel_x(accelX), accel_y(accelY),
     // Cool mechanic
     can_parry(parry), can_pierce(pierece), can_wall(thruWall)
-{}
+{
+    setVelX(velX);
+    setVelY(velY);
+}
 
 Projectile::Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, int sw, int sh, float velX, float velY, float accelX, float accelY, int dmg, int age, short harm, bool parry, bool pierece, bool thruWall, int sim, int sfm) :
     Object2D(X, Y, sw, sh, hw, hh, sim, sfm, 0, 0),
@@ -39,10 +45,13 @@ Projectile::Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, 
     // Harm who?
     harm_player(harm == 1), harm_enemy(harm == -1),
     // Draw and Logic
-    vel_x(velX), vel_y(velY), accel_x(accelX), accel_y(accelY),
+    accel_x(accelX), accel_y(accelY),
     // Cool mechanic
     can_parry(parry), can_pierce(pierece), can_wall(thruWall)
-{}
+{
+    setVelX(velX);
+    setVelY(velY);
+}
 
 void Projectile::playerCollision(Player *player)
 {   
@@ -77,8 +86,8 @@ void Projectile::playerCollision(Player *player)
         vel_parry_y = player->getVelY() + generateRandomFloat() * player->getCombatParryError();
 
         // Bullet Stop Motion
-        vel_x = 0;
-        vel_y = 0;
+        setVelX(0);
+        setVelY(0);
         accel_x = 0;
         accel_y = 0;
 
@@ -143,10 +152,10 @@ void Projectile::projectileAction(SDL_Renderer *renderer, Player* player, Map *m
     if (bullet_age > 0) bullet_age--;
     else bullet_dead = true;
 
-    setX(getX() + vel_x);
-    setY(getY() + vel_y);
-    vel_x += accel_x;
-    vel_y += accel_y;
+    setX(getX() + getVelX());
+    setY(getY() + getVelY());
+    setVelX(getVelX() + accel_x);
+    setVelY(getVelY() + accel_y);
 
     if (parry_effect > 0)
     {
@@ -155,8 +164,8 @@ void Projectile::projectileAction(SDL_Renderer *renderer, Player* player, Map *m
         if (!parry_effect) 
         {
             setSprFrameMax(getSprFrameMax() / 3);
-            vel_x = vel_parry_x;
-            vel_y = vel_parry_y;
+            setVelX(vel_parry_x);
+            setVelY(vel_parry_y);
         }
     }
 }
