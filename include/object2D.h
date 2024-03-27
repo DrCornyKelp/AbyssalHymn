@@ -75,6 +75,7 @@ public:
     int getCombatDamage();
 
     // Speed / Accelaration
+    void objectStandardMovement();
     void setVelX(float velX);
     void setVelY(float velY);
     void setAccelX(float accX);

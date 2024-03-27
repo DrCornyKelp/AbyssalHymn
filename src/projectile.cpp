@@ -146,10 +146,7 @@ void Projectile::projectileAction(SDL_Renderer *renderer, Player* player, Map *m
     if (bullet_age > 0) bullet_age--;
     else bullet_dead = true;
 
-    setX(getX() + getVelX());
-    setY(getY() + getVelY());
-    setVelX(getVelX() + getAccelX());
-    setVelY(getVelY() + getAccelY());
+    objectStandardMovement();
 
     if (parry_effect > 0)
     {
