@@ -2,7 +2,8 @@
 #include <player.h>
 
 // Constructor
-Block::Block(float X, float Y, float w, float h, short gr, bool gothru, bool seethru, int seethruAlpha) :
+Block::Block(float X, float Y, float w, float h, short gr,
+            bool gothru, bool seethru, int seethruAlpha) :
     Object2D((X + w/2) * gr, (Y + h/2) * gr,
             w * gr, h * gr, w * gr, h * gr),
     isGoThru(gothru), isSeeThru(seethru), seeAlphaMin(seethruAlpha),
@@ -34,6 +35,8 @@ int Block::getSeeAlphaMin() { return seeAlphaMin; }
 bool Block::getStepOn() { return isStepOn; }
 bool Block::getOutBound() { return isOutBound; }
 short Block::getHugged() { return isHugged; }
+
+bool Block::getCanHug() { return can_hug; }
 
 void Block::draw(SDL_Renderer *renderer, Player *player)
 {

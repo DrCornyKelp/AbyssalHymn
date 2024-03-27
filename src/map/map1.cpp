@@ -1,29 +1,48 @@
 #include "map/map1.h"
 
 void Map1::initBlocksBack(SDL_Renderer *renderer)
-{}
+{
+    BlockBackVec.push_back(new Block(82, 0, 26, 4, 64, true));
+    BlockBackVec[BlockBackVec.size() - 1]->blockEngine(renderer, nature_block,
+    BlockTemplate::mergeX(
+        {{9}, {16}, {16}, {9}},
+        BlockTemplate::expandX({{13}, {9}, {9}, {9}}, 25)
+    ));
+
+    BlockBackVec.push_back(new Block(111, 4, 2, 2, 64, true));
+    BlockBackVec[BlockBackVec.size() - 1]->blockEngine(renderer, nature_block,
+        {{9, 9}, {16, 9}}
+    );
+
+    BlockBackVec.push_back(new Block(113, 4, 13, 6, 64, true));
+    BlockBackVec[BlockBackVec.size() - 1]->blockEngine(renderer, nature_block,
+    BlockTemplate::expandX({{13}, {9}, {9}, {9}, {9}, {9}}, 13));
+    
+    BlockBackVec.push_back(new Block(125, 5, 4, 5, 64, true));
+    BlockBackVec[BlockBackVec.size() - 1]->blockEngine(renderer, nature_block,
+    BlockTemplate::mergeX(
+        BlockTemplate::expandX({{13}, {9}, {9}, {9}, {9}}, 3),
+        {{15}, {9}, {9}, {9}, {9}}
+    ));
+}
 
 void Map1::initBlocks(SDL_Renderer *renderer)
 {
-    // Boundary Left
-    BlockVec.push_back(new Block(-5, 0, 5, 100));
+    // Boundary
+    BlockVec.push_back(new Block(-1, 0, 1, 100));
     BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
-    BlockTemplate::mergeX(
-        BlockTemplate::expandX(
-            BlockTemplate::expandY({{0}}, 100), 4
-        ),
-        BlockTemplate::expandY({{8}}, 100)
-    ));
-    
+    BlockTemplate::expandY({{nb}}, 100)
+    );
+
     // Starting Ground
-    BlockVec.push_back(new Block(-1, -1, 21, 3, 64));
+    BlockVec.push_back(new Block(-2, 0, 22, 2, 64));
     BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
     BlockTemplate::mergeX(
-        {{19}, {7}, {7}},
-        BlockTemplate::expandX({{18}, {0}, {0}}, 20)
+        {{19}, {7}},
+        BlockTemplate::expandX({{18}, {0}}, 21)
     ));
 
-     // Starting stair blocks
+    // Starting stair blocks
     BlockVec.push_back(new Block(20, 0, 4, 3, 64));
     BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
     BlockTemplate::mergeY(
@@ -36,26 +55,36 @@ void Map1::initBlocks(SDL_Renderer *renderer)
         {{19, 18, 18, 18}},
         BlockTemplate::expandY({{0, 0, 0, 0}}, 3)
     ));
-    BlockVec.push_back(new Block(28, 0, 4, 5, 64));
-    BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
-    BlockTemplate::mergeY(
-        {{19, 18, 18, 18}},
-        BlockTemplate::expandY({{0, 0, 0, 0}}, 4)
-    ));
-    BlockVec.push_back(new Block(32, 2, 4, 5, 64));
+    BlockVec.push_back(new Block(28, 0, 2, 5, 64));
     BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
     BlockTemplate::mergeY2(
-        {{19, 18, 18, 20}},
-        {{7, 0, 0, 8}},
-        BlockTemplate::expandY({{0, 0, 0, 8}}, 3)
+        {{19, 18}},
+        BlockTemplate::expandY({{0, 8}}, 2),
+        BlockTemplate::expandY({{0, 0}}, 2)
+    ));
+    BlockVec.push_back(new Block(30, 4, 2, 1, 64));
+    BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
+        {{18, 18}});
+    BlockVec.push_back(new Block(32, 3, 4, 4, 64));
+    BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
+    BlockTemplate::mergeX2(
+        {{19}, {7}, {0}, {2}},
+        BlockTemplate::expandX({{18}, {0}, {0}, {1}}, 2),
+        {{20}, {8}, {8}, {3}}
     ));
 
     // After the stair blocks
-    BlockVec.push_back(new Block(32, 0, 20, 2, 64));
+    BlockVec.push_back(new Block(30, 0, 22, 2, 64));
+    BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
+        BlockTemplate::expandX({{18}, {0}}, 22)
+    );
+
+    // See thru mechanic
+    BlockVec.push_back(new Block(29, 1, 7, 3, 64, true, true));
     BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
     BlockTemplate::mergeX(
-        BlockTemplate::expandX({{0}, {0}}, 4),
-        BlockTemplate::expandX({{18}, {0}}, 16)
+        BlockTemplate::expandX({{0}, {0}, {0}}, 6),
+        {{8}, {8}, {0}}
     ));
 
     BlockVec.push_back(new Block(40, 5, 7, 2, 64));
@@ -110,20 +139,13 @@ void Map1::initBlocks(SDL_Renderer *renderer)
         {{20}}
     ));
 
-    BlockVec.push_back(new Block(81, 2, 3, 7, 64));
+    // Block before bridge 1
+    BlockVec.push_back(new Block(81, 3, 4, 6, 64));
     BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
     BlockTemplate::mergeY2(
-        {{19, 18, 18}},
-        BlockTemplate::expandY({{7, 0, 0}}, 5),
-        {{2, 1, 3}}
-    ));
-
-    BlockVec.push_back(new Block(84, 3, 1, 6, 64));
-    BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
-    BlockTemplate::mergeY2(
-        {{20}},
-        BlockTemplate::expandY({{8}}, 4),
-        {{3}}
+        {{19, 18, 18, 20}},
+        BlockTemplate::expandY({{7, 0, 0, 8}}, 4),
+        {{2, 1, 1, 3}}
     ));
 
     // Bridge 1
@@ -152,14 +174,17 @@ void Map1::initBlocks(SDL_Renderer *renderer)
 
     BlockVec.push_back(new Block(97, 2, 3, 1, 64));
     BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
-    {{2, 1, 3}}
+        {{2, 1, 3}}
     );
 
-    BlockVec.push_back(new Block(97, 11, 3, 3, 64));
+    BlockVec.push_back(new Block(98, 12, 3, 2, 64));
     BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
-    {{19, 18, 20},
-     {7, 0, 8},
-     {2, 1, 3}}
+        {{19, 18, 20},
+        {7, 0, 3}}
+    );
+    BlockVec.push_back(new Block(98, 11, 2, 1, 64));
+    BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
+        {{2, 3}}
     );
 
     // Bridge 2
@@ -171,11 +196,11 @@ void Map1::initBlocks(SDL_Renderer *renderer)
         {{23}}
     ));
 
-    BlockVec.push_back(new Block(107, 0, 14, 4, 64));
+    BlockVec.push_back(new Block(107, 0, 18, 4, 64));
     BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
     BlockTemplate::mergeX(
         {{19}, {7}, {7}, {0}},
-        BlockTemplate::expandX({{18}, {0}, {0}, {0}}, 13)
+        BlockTemplate::expandX({{18}, {0}, {0}, {0}}, 17)
     ));
 
     BlockVec.push_back(new Block(109, 6, 5, 4, 64));
@@ -188,15 +213,15 @@ void Map1::initBlocks(SDL_Renderer *renderer)
 
     BlockVec.push_back(new Block(110, 5, 4, 1, 64));
     BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
-    {{2, 1, 1, 3}}
+        {{2, 1, 1, 3}}
     );
 
     BlockVec.push_back(new Block(110, 11, 3, 4, 64));
     BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
-    {{19, 18, 20},
-     {7, 0, 8},
-     {7, 0, 8},
-     {2, 1, 3}}
+        {{19, 18, 20},
+        {7, 0, 8},
+        {7, 0, 8},
+        {2, 1, 3}}
     );
 
     BlockVec.push_back(new Block(119, 9, 5, 7, 64));
@@ -209,36 +234,51 @@ void Map1::initBlocks(SDL_Renderer *renderer)
     
     BlockVec.push_back(new Block(120, 16, 3, 1, 64));
     BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
-    {{19, 18, 20}}
+        {{19, 18, 20}}
     );
 
-    BlockVec.push_back(new Block(120, 0, 8, 5, 64));
+    BlockVec.push_back(new Block(125, 0, 3, 5, 64));
     BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
-    BlockTemplate::mergeX2(
-        {{19}, {0}, {0}, {0}, {0}},
-        BlockTemplate::expandX({{18}, {0}, {0}, {0}, {0}}, 6),
-        {{18}, {0}, {0}, {0}, {3}}
+    BlockTemplate::mergeY2(
+        {{19, 18, 18}},
+        BlockTemplate::expandY({{0, 0, 0}}, 3),
+        {{0, 0, 3}}
     ));
 
     BlockVec.push_back(new Block(128, 1, 1, 8, 64));
     BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
-    {{19}, {7}, {7}, {7}, {0}, {0}, {0}, {3}});
+        {{19}, {7}, {7}, {7}, {0}, {0}, {0}, {3}}
+    );
 
     BlockVec.push_back(new Block(129, 2, 1, 7, 64));
     BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
-    {{18}, {0}, {0}, {0}, {0}, {0}, {3}});
+        {{18}, {0}, {0}, {0}, {0}, {0}, {3}}
+    );
 
     BlockVec.push_back(new Block(130, 3, 1, 6, 64));
     BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
-    {{18}, {0}, {0}, {0}, {0}, {3}});
+        {{18}, {0}, {0}, {0}, {0}, {3}}
+    );
 
     BlockVec.push_back(new Block(131, 4, 1, 5, 64));
     BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
-    {{20}, {8}, {8}, {8}, {3}});
+        {{20}, {8}, {8}, {8}, {3}}
+    );
 
     BlockVec.push_back(new Block(131, 12, 6, 1, 64));
     BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
-    {{21, 21, 21, 21, 21, 23}});
+        {{21, 21, 21, 21, 21, 23}}
+    );
+
+    // Big see thru section
+    BlockVec.push_back(new Block(111, 3, 18, 7, 64, true, true));
+    BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
+    BlockTemplate::mergeX2(
+        {{18}, {0}, {0}, {0}, {0}, {7}, {0}},
+        BlockTemplate::expandX(
+            BlockTemplate::mergeY({{18}}, BlockTemplate::expandY({{0}}, 6)), 16),
+        BlockTemplate::mergeY({{20}}, BlockTemplate::expandY({{0}}, 6))
+    ));
 
     BlockVec.push_back(new Block(137, 5, 4, 8, 64));
     BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
@@ -252,8 +292,6 @@ void Map1::initBlocks(SDL_Renderer *renderer)
     BlockVec[BlockVec.size() - 1]->blockEngine(renderer, nature_block,
         BlockTemplate::expandY({{7, 0, 8}}, 5)
     );
-
-    // std::cout << BlockVec.size() - 1;
 }
 
 void Map1::initNpcDialogues(SDL_Renderer *renderer)
@@ -273,10 +311,6 @@ void Map1::initNpcDialogues(SDL_Renderer *renderer)
     // Teach super jump
     NpcVec.push_back(new NpcDialogue("res/NpcSheet/Npc2/Squid.png", "res/NpcSheet/Npc2/SquidSuperJumpTutorial.png",
         123.5, 5.5, 2, 2, 3, 3, 300, 138, 32, 32, 4, 25, 230));
-
-    // // Teach super jump
-    // NpcVec.push_back(new NpcDialogue("res/NpcSheet/Npc2/Squid.png", "res/NpcSheet/Npc2/SquidSuperJumpTutorial.png",
-    //     55, 5, 2, 2, 3, 3, 300, 138, 32, 32, 4, 25, 230));
 
     for (NpcDialogue *npc : NpcVec)
         npc->initNpc(renderer);
@@ -450,13 +484,6 @@ void Map1::updateMapExclusive(SDL_Renderer *renderer, Player *player, Input *inp
     // std::cout << EnemyVec.size() << " " << ProjectileVec.size() << "\n";
 
     // ====================== UPDATE SPECIFIC ==========================
-
-    // Moving block
-    BlockVec[19]->setVelX(0);
-    if ((BlockVec[19]->getStepOn()) && BlockVec[19]->getX() < 115 * 64)
-        BlockVec[19]->setVelX(1);
-    if (!BlockVec[19]->getStepOn() && BlockVec[19]->getX() > 104 * 64)
-        BlockVec[19]->setVelX(-1);
 
     // Background
     for (float i = 0; i < BackgroundVec.size(); i+=2)

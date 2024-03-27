@@ -17,8 +17,10 @@ private:
     bool isGoThru = false;
     bool isSeeThru = false;
     bool isStepOn = false;
-    short isHugged = 0;
     bool isOutBound = false;
+    short isHugged = 0;
+
+    bool can_hug = false;
 
     int seeAlpha = 255;
     int seeAlphaMin = 0;
@@ -45,6 +47,8 @@ public:
     bool getStepOn();
     bool getOutBound();
     short getHugged();
+    
+    bool getCanHug();
 
     void draw(SDL_Renderer *renderer, Player *player);
 };

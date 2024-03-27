@@ -321,7 +321,7 @@ void Player::playerCameraProperty(Input *input)
     if (!act_right &&
         ease_x < 64 * (weapon_equip ? 1 : 1.5))
         ease_x += abs(getVelX() / 5);
-    if (!getVelX() && ease_x) ease_x -= ease_x / 40;
+    if (!getVelX() && ease_x) ease_x -= ease_x / 100;
 
     // Look vertical up and down
     float vt_max = vertical_ahead_max;
@@ -741,8 +741,8 @@ void Player::playerCombat(Map *map, Input *input)
     {
         setCombatHitU(20);
         setCombatHitD(20);
-        setCombatHitR(act_right ? 80 : 0);
-        setCombatHitL(act_right ? 0 : 80);
+        setCombatHitR(act_right ? 100 : 0);
+        setCombatHitL(act_right ? 0 : 100);
         setCombatDamage(crawl ? 20 : 12);
     }
 
