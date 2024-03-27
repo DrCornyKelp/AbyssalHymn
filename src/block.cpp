@@ -40,8 +40,7 @@ void Block::draw(SDL_Renderer *renderer, Player *player)
     if (getVelX() || getVelY())
     {
         isMoving = true;
-        setX(getX() + getVelX());
-        setY(getY() + getVelY());
+        objectStandardMovement();
     }
     else
         isMoving = false;

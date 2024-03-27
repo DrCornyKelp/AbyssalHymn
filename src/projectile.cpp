@@ -45,8 +45,6 @@ Projectile::Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, 
 {
     setVelX(velX); setVelY(velY);
     setAccelX(accelX); setAccelY(accelY);
-
-    std::cout << accelY << "\n";
 }
 
 void Projectile::playerCollision(Player *player)
