@@ -1,24 +1,22 @@
 #include <projectile.h>
 #include <map.h>
 
+float Projectile::generateRandomFloat() {
+    srand((unsigned) time(NULL));
+	float random = rand() % 100 - 50;
+    return random / 50;
+}
+
 Projectile::Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, int sw, int sh, float velX, float velY, float accelX, float accelY, int dmg, int age, short harm) :
     Object2D(X, Y, sw, sh, hw, hh, 0, 0, 0, 0),
 
     // Bullet properties
     bullet_age(age), bullet_damage(dmg), bullet_texture(bTexture),
     // Harm who?
-    harm_player(harm == 1), harm_enemy(harm == -1),
-    // Draw and Logic
-    accel_x(accelX), accel_y(accelY)
+    harm_player(harm == 1), harm_enemy(harm == -1)
 {
-    setVelX(velX);
-    setVelY(velY);
-}
-
-float Projectile::generateRandomFloat() {
-    srand((unsigned) time(NULL));
-	float random = rand() % 100 - 50;
-    return random / 50;
+    setVelX(velX); setVelY(velY);
+    setAccelX(accelX); setAccelY(accelY);
 }
 
 Projectile::Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, int sw, int sh, float velX, float velY, float accelX, float accelY, int dmg, int age, short harm, bool parry, bool pierece, bool thruWall) :
@@ -28,13 +26,11 @@ Projectile::Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, 
     bullet_age(age), bullet_damage(dmg), bullet_texture(bTexture),
     // Harm who?
     harm_player(harm == 1), harm_enemy(harm == -1),
-    // Speed and stuff
-    accel_x(accelX), accel_y(accelY),
     // Cool mechanic
     can_parry(parry), can_pierce(pierece), can_wall(thruWall)
 {
-    setVelX(velX);
-    setVelY(velY);
+    setVelX(velX); setVelY(velY);
+    setAccelX(accelX); setAccelY(accelY);
 }
 
 Projectile::Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, int sw, int sh, float velX, float velY, float accelX, float accelY, int dmg, int age, short harm, bool parry, bool pierece, bool thruWall, int sim, int sfm) :
@@ -44,13 +40,13 @@ Projectile::Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, 
     bullet_age(age), bullet_damage(dmg), bullet_texture(bTexture),
     // Harm who?
     harm_player(harm == 1), harm_enemy(harm == -1),
-    // Draw and Logic
-    accel_x(accelX), accel_y(accelY),
     // Cool mechanic
     can_parry(parry), can_pierce(pierece), can_wall(thruWall)
 {
-    setVelX(velX);
-    setVelY(velY);
+    setVelX(velX); setVelY(velY);
+    setAccelX(accelX); setAccelY(accelY);
+
+    std::cout << accelY << "\n";
 }
 
 void Projectile::playerCollision(Player *player)
@@ -86,10 +82,8 @@ void Projectile::playerCollision(Player *player)
         vel_parry_y = player->getVelY() + generateRandomFloat() * player->getCombatParryError();
 
         // Bullet Stop Motion
-        setVelX(0);
-        setVelY(0);
-        accel_x = 0;
-        accel_y = 0;
+        setVelX(0); setVelY(0);
+        setAccelX(0); setAccelY(0);
 
         // Other stuff
         player->setCombatDelay(100);
@@ -154,8 +148,8 @@ void Projectile::projectileAction(SDL_Renderer *renderer, Player* player, Map *m
 
     setX(getX() + getVelX());
     setY(getY() + getVelY());
-    setVelX(getVelX() + accel_x);
-    setVelY(getVelY() + accel_y);
+    setVelX(getVelX() + getAccelX());
+    setVelY(getVelY() + getAccelY());
 
     if (parry_effect > 0)
     {

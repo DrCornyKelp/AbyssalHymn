@@ -46,7 +46,6 @@ private:
     float vel_x_max = 5;
     float vel_x_max_ground = 7;
     float vel_x_max_air = 6;
-    float accel_x = 0.1;
     float accel_x_ground = 0.1;
     float accel_x_ice = 0.06;
 
@@ -67,11 +66,9 @@ private:
 
     // Jumping
     bool jump_keyhold = false;
-    float vel_y = 0;
-    float vel_terminal = 10;
-    float accel_y = 0.1;
-    float accel_hold = 0.1;
-    float accel_tap = 0.2;
+    float vel_terminal = -10;
+    float accel_hold = -0.1;
+    float accel_tap = -0.2;
     // SUPER JUMPING
     int jump_super = 0;
     int jump_super_max = 80;

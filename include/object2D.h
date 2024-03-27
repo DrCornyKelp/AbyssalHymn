@@ -74,11 +74,15 @@ public:
     int getCombatHitR();
     int getCombatDamage();
 
-    // Speed
+    // Speed / Accelaration
     void setVelX(float velX);
     void setVelY(float velY);
+    void setAccelX(float accX);
+    void setAccelY(float accY);
     float getVelX();
     float getVelY();
+    float getAccelX();
+    float getAccelY();
 
     // Drawing
     void setSprIndex(int si);

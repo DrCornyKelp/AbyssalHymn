@@ -375,12 +375,12 @@ void Player::playerMovement(Input *input)
             if (getVelX() > 1)
             {
                 decel_x = 1;
-                setVelX(getVelX() - accel_x * 2.5);
+                setVelX(getVelX() - getAccelX() * 2.5);
             }
             else
             {
                 decel_x = 0;
-                setVelX(getVelX() - accel_x);
+                setVelX(getVelX() - getAccelX());
             }
         }
 
@@ -395,12 +395,12 @@ void Player::playerMovement(Input *input)
             if (getVelX() < -1)
             {
                 decel_x = -1;
-                setVelX(getVelX() + accel_x * 2.5);
+                setVelX(getVelX() + getAccelX() * 2.5);
             }
             else
             {
                 decel_x = 0;
-                setVelX(getVelX() + accel_x);
+                setVelX(getVelX() + getAccelX());
             }
         }
     }
@@ -421,10 +421,10 @@ void Player::playerMovement(Input *input)
 
     if (!input->getButton(2) && !input->getButton(3) && !g_dash && !a_dash)
     {
-        if (abs(getVelX()) >= accel_x)
+        if (abs(getVelX()) >= getAccelX())
         {
             int direction = (getVelX() < 0 ? 1 : -1);
-            setVelX(getVelX() + accel_x * direction);
+            setVelX(getVelX() + getAccelX() * direction);
         }
         else
             setVelX(0);
@@ -499,18 +499,18 @@ void Player::playerMovement(Input *input)
     // Velcovity
     vel_x_max = on_ground ? vel_x_max_ground : vel_x_max_air;
     vel_x_max *=(weapon_equip ? .8 : 1) *
-                (combat_charge_time ? .8 : 1) *
-                buff_move;
+                (combat_charge_time ? .8 : 1);
     // Acceleration x
-    accel_x = on_ice ? accel_x_ice : accel_x_ground;
-    accel_x *=  (weapon_equip ? .8 : 1) *
-                (combat_charge_time ? .8 : 1) *
-                buff_move;
+    setAccelX( on_ice ? accel_x_ice : accel_x_ground);
+    setAccelX(  getAccelX() *
+                (weapon_equip ? .8 : 1) *
+                (combat_charge_time ? .8 : 1));
     // Acceleration y
-    accel_y = jump_keyhold ? accel_hold : accel_tap;
-    accel_y *=  (weapon_equip ? 1.2 : 1) *
-                (combat_charge_time ? 1.2 : 1) *
-                buff_jump;
+    setAccelY(jump_keyhold ? accel_hold : accel_tap);
+    setAccelY(  getAccelY() *
+                (weapon_equip ? 1.2 : 1) *
+                (combat_charge_time ? 1.2 : 1));
+
     // G_dash
     g_dash_vel = weapon_equip ? g_dash_vel_weapon : g_dash_vel_normal;
     g_dash_vel *= buff_move;
@@ -533,18 +533,18 @@ void Player::playerMovement(Input *input)
 
     // Vertigo is a bad map
     if (getVelY() < 0)
-        accel_y = accel_tap;
+        setAccelY(accel_tap);
 
     if (on_ground)
         setVelY(0);
     else if (hug_wall_left || hug_wall_right)
         setVelY(-1);
     else
-        setVelY(getVelY() - accel_y);
+        setVelY(getVelY() + getAccelY());
 
     // Terminal Velocity
-    if (getVelY() <= -vel_terminal)
-        setVelY(-vel_terminal);
+    if (getVelY() < vel_terminal)
+        setVelY(vel_terminal);
 
     // SUPER JUMP
     if (crawl && !crawl_lock && !getVelX())
@@ -640,7 +640,10 @@ void Player::playerCombat(Map *map, Input *input)
     {
         jelly_keyhold = true;
         map->ProjectileVec.push_back(new Projectile(
-            PlayerSquid, getX(), getY(), 16, 16, 32, 32, act_right * 2 - 1, getVelY() + 10, 0, -.2, 10, 1000, -1, 1, 1, 0, 4, 10
+            PlayerSquid, getX(), getY(),
+            16, 16, 32, 32, 
+            act_right * 2 - 1, getVelY() + 10, 0, -.2, 10, 
+            1000, -1, 1, 1, 0, 4, 10
         ));
     }
     if (!input->getButton(8) && jelly_keyhold)

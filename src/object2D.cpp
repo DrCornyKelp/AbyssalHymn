@@ -61,8 +61,12 @@ int Object2D::getSprFrameMax() { return sprite_frame_max; }
 // Speed / Accelaration
 void Object2D::setVelX(float velX) { vel_x = velX; }
 void Object2D::setVelY(float velY) { vel_y = velY; }
+void Object2D::setAccelX(float accX) { accel_x = accX; }
+void Object2D::setAccelY(float accY) { accel_y = accY; }
 float Object2D::getVelX() { return vel_x; }
 float Object2D::getVelY() { return vel_y; }
+float Object2D::getAccelX() { return accel_x; }
+float Object2D::getAccelY() { return accel_y; }
 
 // Special Key
 void Object2D::setSpecialKey(int key) { special_key = key; }
