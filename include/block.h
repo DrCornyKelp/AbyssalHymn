@@ -9,7 +9,7 @@ class Block : public Object2D
 {
 private:
     // Sprite handler
-    std::vector<std::vector<Sprite*>> block_sprites;
+    std::vector<std::vector<SDL_Texture*>> block_textures;
     short grid;
     short grid_w, grid_h;
 

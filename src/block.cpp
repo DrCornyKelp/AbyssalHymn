@@ -13,13 +13,11 @@ Block::Block(float X, float Y, float w, float h, short gr, bool gothru, bool see
 
 void Block::blockEngine(SDL_Renderer *renderer, std::vector<const char*> sPath, std::vector<std::vector<int>> b_index)
 {
-    block_sprites.resize(grid_h);
+    block_textures.resize(grid_h);
+
     for (int i = 0; i < grid_h; i++)
         for (int j = 0; j < grid_w; j++)
-        {
-            block_sprites[i].push_back(new Sprite(getWidth(), getHeight(), 1, sPath[b_index[i][j]]));
-            block_sprites[i][j]->setTexture(Sprite::loadTexture(renderer, block_sprites[i][j]->getSpritePath()));
-        }
+            block_textures[i].push_back(Sprite::loadTexture(renderer, sPath[b_index[i][j]]));
 }
 
 // Setter
@@ -108,8 +106,8 @@ void Block::draw(SDL_Renderer *renderer, Player *player)
     if (isOutBound) return;
 
     // Draw
-    for (int i = 0; i < block_sprites.size(); i++)
-        for (int j = 0; j < block_sprites[i].size(); j++)
+    for (int i = 0; i < block_textures.size(); i++)
+        for (int j = 0; j < block_textures[i].size(); j++)
         {
             // If a grid x grid texture is out of bound
             // Ignore the rendering process
@@ -121,13 +119,13 @@ void Block::draw(SDL_Renderer *renderer, Player *player)
                 continue;
 
             if (isSeeThru)
-                SDL_SetTextureAlphaMod(block_sprites[i][j]->getTexture(), seeAlpha);
+                SDL_SetTextureAlphaMod(block_textures[i][j], seeAlpha);
 
             double cam_scale = player->getCameraScale();
             SDL_Rect desRect = {Camera::objectDrawX(player, this) + int(j*grid * cam_scale),
                                 Camera::objectDrawY(player, this) + int(i*grid * cam_scale),
                                 int(64 * cam_scale), int(64 * cam_scale)};
     
-            SDL_RenderCopy(renderer, block_sprites[i][j]->getTexture(), NULL, &desRect);        
+            SDL_RenderCopy(renderer, block_textures[i][j], NULL, &desRect);        
         }
 }
