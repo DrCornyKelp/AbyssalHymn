@@ -78,7 +78,7 @@ void Skeleton::enemyAI(Player *player, Map *map)
     }
 
     if (!attack_delay && !attack_state &&
-        abs(player->getX() - getX()) < 200 && (
+        abs(player->getX() - getX()) < 150 && (
         (direction > 0 && player->getX() > getX()) ||
         (direction < 0 && player->getX() < getX())
     )) {
