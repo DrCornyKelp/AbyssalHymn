@@ -1,5 +1,25 @@
 #include "collision.h"
 
+bool Collision::playerCollision(Player *player, Object2D *obj)
+{
+    int colli_x = abs(player->getHitX() - obj->getX());
+    int colli_y = abs(player->getHitY() - obj->getY());
+    int hit_dist_x = (player->getHitWidth() + obj->getHitWidth()) / 2;
+    int hit_dist_y = (player->getHitHeight() + obj->getHitHeight()) / 2;
+
+    return colli_x < hit_dist_x && colli_y < hit_dist_y;
+};
+
+bool Collision::objectCollision(Object2D *obj1, Object2D *obj2)
+{
+    int colli_x = abs(obj1->getX() - obj2->getX());
+    int colli_y = abs(obj1->getY() - obj2->getY());
+    int hit_dist_x = (obj1->getHitWidth() + obj2->getHitWidth()) / 2;
+    int hit_dist_y = (obj1->getHitHeight() + obj2->getHitHeight()) / 2;
+    
+    return colli_x < hit_dist_x && colli_y < hit_dist_y;
+}
+
 void Collision::playerBlockCollision(Player *player, std::vector<Block*> BlockVec)
 {
     bool on_aleast_ground = false;
@@ -155,9 +175,7 @@ void Collision::playerEnemyCollision(Player *player, std::vector<Enemy*> EnemyVe
         int hit_dist_x = (player->getHitWidth() + enemy->getHitWidth()) / 2;
         int hit_dist_y = (player->getHitHeight() + enemy->getHitHeight()) / 2;
 
-        if (!enemy->getDead() &&
-            colli_x < hit_dist_x &&
-            colli_y < hit_dist_y)
+        if (!enemy->getDead() && playerCollision(player, enemy))
         {
             if (enemy->getCollideDamage())
             {

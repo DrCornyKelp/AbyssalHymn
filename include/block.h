@@ -37,8 +37,6 @@ public:
     void setStepOn(bool step);
     void setOutBound(bool oob);
     void setHugged(short hug);
-    void setVelX(float X);
-    void setVelY(float Y);
 
     bool getGoThru();
     bool getSeeThru();
@@ -47,8 +45,6 @@ public:
     bool getStepOn();
     bool getOutBound();
     short getHugged();
-    float getVelX();
-    float getVelY();
 
     void draw(SDL_Renderer *renderer, Player *player);
 };

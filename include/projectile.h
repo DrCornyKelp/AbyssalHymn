@@ -56,7 +56,7 @@ public:
     // Harm them
     void enemyCollision(std::vector<Enemy *> EnemyVec);
     // Harmful in general (lookin at you America)
-    void objectCollision(Player *player, Map *map);
+    void projectileCollision(Player *player, Map *map);
 
     // =================== Velocity ====================
     void projectileAction(SDL_Renderer *renderer, Player* player, Map *map);

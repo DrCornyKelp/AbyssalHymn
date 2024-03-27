@@ -131,7 +131,7 @@ void Projectile::enemyCollision(std::vector<Enemy *> EnemyVec)
     // that would be really insane but hey!
 }
 
-void Projectile::objectCollision(Player *player, Map *map)
+void Projectile::projectileCollision(Player *player, Map *map)
 {
     playerCollision(player);
     if (harm_enemy) enemyCollision(map->EnemyVec);
@@ -164,7 +164,7 @@ void Projectile::projectileAction(SDL_Renderer *renderer, Player* player, Map *m
 void Projectile::updateProjectile(SDL_Renderer *renderer, Player *player, Map *map)
 {
     projectileAction(renderer, player, map);
-    objectCollision(player, map);
+    projectileCollision(player, map);
 }
 
 void Projectile::draw(SDL_Renderer *renderer, Player *player)
@@ -174,7 +174,7 @@ void Projectile::draw(SDL_Renderer *renderer, Player *player)
         return;
     // Set animation
     Camera::objectSetSprite(this);
-    
+
     // Draw
     float cam_scale = player->getCameraScale();
     SDL_Rect desRect = {Camera::objectDrawX(player, this),

@@ -20,77 +20,20 @@ void Block::blockEngine(SDL_Renderer *renderer, std::vector<const char*> sPath, 
             block_textures[i].push_back(Sprite::loadTexture(renderer, sPath[b_index[i][j]]));
 }
 
-// Setter
-void Block::setGoThru(bool GoThru)
-{
-    isGoThru = GoThru;
-}
-void Block::setSeeThru(bool seethru)
-{
-    isSeeThru = seethru;
-}
-void Block::setSeeAlpha(int alpha)
-{
-    seeAlpha = alpha;
-}
-void Block::setStepOn(bool step)
-{
-    isStepOn = step;
-}
-void Block::setOutBound(bool oob)
-{
-    isOutBound = oob;
-}
-void Block::setHugged(short hug)
-{
-    isHugged = hug;
-}
-void Block::setVelX(float vx)
-{
-    vel_x = vx;
-}
-void Block::setVelY(float vy)
-{
-    vel_y = vy;
-}
+void Block::setGoThru(bool GoThru) { isGoThru = GoThru; }
+void Block::setSeeThru(bool seethru) { isSeeThru = seethru; }
+void Block::setSeeAlpha(int alpha) { seeAlpha = alpha; }
+void Block::setStepOn(bool step) { isStepOn = step; }
+void Block::setOutBound(bool oob) { isOutBound = oob; }
+void Block::setHugged(short hug) { isHugged = hug; }
 
-// Getter
-bool Block::getGoThru()
-{
-    return isGoThru;
-}
-bool Block::getSeeThru()
-{
-    return isSeeThru;
-}
-int Block::getSeeAlpha()
-{
-    return seeAlpha;
-}
-int Block::getSeeAlphaMin()
-{
-    return seeAlphaMin;
-}
-bool Block::getStepOn()
-{
-    return isStepOn;
-}
-bool Block::getOutBound()
-{
-    return isOutBound;
-}
-short Block::getHugged()
-{
-    return isHugged;
-}
-float Block::getVelX()
-{
-    return vel_x;
-}
-float Block::getVelY()
-{
-    return vel_y;
-}
+bool Block::getGoThru() { return isGoThru; }
+bool Block::getSeeThru() { return isSeeThru; }
+int Block::getSeeAlpha() { return seeAlpha; }
+int Block::getSeeAlphaMin() { return seeAlphaMin; }
+bool Block::getStepOn() { return isStepOn; }
+bool Block::getOutBound() { return isOutBound; }
+short Block::getHugged() { return isHugged; }
 
 void Block::draw(SDL_Renderer *renderer, Player *player)
 {
