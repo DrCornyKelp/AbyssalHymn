@@ -28,9 +28,7 @@ void Camera::objectSetSprite(Object2D *obj, bool end_lock)
     if (obj->getSprIndexMax())
     {
         if (obj->getSprFrame() < obj->getSprFrameMax())
-        {
             obj->setSprFrame(obj->getSprFrame() + 1);
-        }
         else
         {
             obj->setSprFrame(0);
@@ -39,9 +37,9 @@ void Camera::objectSetSprite(Object2D *obj, bool end_lock)
 
         if (obj->getSprIndex() >= obj->getSprIndexMax())
             if (end_lock)
-            obj->setSprIndex(obj->getSprIndexMax() - 1);
-        else
-            obj->setSprIndex(0);
+                obj->setSprIndex(obj->getSprIndexMax() - 1);
+            else
+                obj->setSprIndex(0);
     }
 }
 
