@@ -16,8 +16,8 @@ private:
     // Dialogue bubble (no im not fucking using SDL ttf)
     const char *npc_path;
     const char *bubble_path;
-    Sprite *bubble;
-    Sprite *npc;
+    SDL_Texture *bubble_texture;
+    SDL_Texture *npc_texture;
 
     bool display_bubble = false;
     int alpha_cur = 0;

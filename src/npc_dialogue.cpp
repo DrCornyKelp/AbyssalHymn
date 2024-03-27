@@ -13,11 +13,8 @@ NpcDialogue::NpcDialogue(const char* nPath, const char* bPath, float nx, float n
 {}
 
 void NpcDialogue::initNpc(SDL_Renderer *renderer){
-    npc = new Sprite(getWidth(), getHeight(), 1, npc_path);
-    npc->setTexture(Sprite::loadTexture(renderer, npc->getSpritePath()));
-
-    bubble = new Sprite(getWidth(), getHeight(), 1, bubble_path);
-    bubble->setTexture(Sprite::loadTexture(renderer, bubble->getSpritePath()));
+    npc_texture = Sprite::loadTexture(renderer, npc_path);
+    bubble_texture = Sprite::loadTexture(renderer, bubble_path);
 
     delete npc_path, bubble_path;
 };
@@ -70,8 +67,8 @@ void NpcDialogue::draw(SDL_Renderer *renderer, Player *player)
                             int(bubble_width * cam_scale),
                             int(bubble_height * cam_scale)};
         if (alpha_cur % 5 == 0 || alpha_cur == alpha_max)
-            SDL_SetTextureAlphaMod(bubble->getTexture(), alpha_cur);
-        SDL_RenderCopy(renderer, bubble->getTexture(), NULL, &bDesRect);
+            SDL_SetTextureAlphaMod(bubble_texture, alpha_cur);
+        SDL_RenderCopy(renderer, bubble_texture, NULL, &bDesRect);
     }
     // =======================================================
 
@@ -81,10 +78,10 @@ void NpcDialogue::draw(SDL_Renderer *renderer, Player *player)
                         int(getWidth() * cam_scale), int(getHeight() * cam_scale)};
 
     SDL_Rect nSrcRect;
-    if (getSprIndexMax() > 0) 
-    {
+    if (getSprIndexMax() > 0)
         nSrcRect = {getSprIndex() * sprite_width, 0, sprite_width, sprite_height};
-    } else nSrcRect = {0, 0, sprite_width, sprite_height};
+    else 
+        nSrcRect = {0, 0, sprite_width, sprite_height};
 
-    SDL_RenderCopy(renderer, npc->getTexture(), &nSrcRect, &nDesRect);
+    SDL_RenderCopy(renderer, npc_texture, &nSrcRect, &nDesRect);
 }

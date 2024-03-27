@@ -96,11 +96,11 @@ float Block::getVelY()
 
 void Block::draw(SDL_Renderer *renderer, Player *player)
 {
-    if (vel_x != 0 || vel_y != 0)
+    if (getVelX() || getVelY())
     {
         isMoving = true;
-        setX(getX() + vel_x);
-        setY(getY() + vel_y);
+        setX(getX() + getVelX());
+        setY(getY() + getVelY());
     }
     else
         isMoving = false;
