@@ -832,7 +832,7 @@ void Player::playerCombat(Map *map, Input *input)
                 combat_index = 4;
                 combat_time = 15;
                 combat_combo_time = 15;
-                combat_delay = on_ground ? 40 : 70;
+                // combat_delay = on_ground ? 40 : 70;
                 setEndLock(false);
 
                 setVelY(3);

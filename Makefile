@@ -6,26 +6,30 @@ AbyssalHymn:
 		-L libraries/lib \
 		-o AbyssalHymn \
 		src/object2D.cpp \
-		src/hud.cpp \
 		src/sprite.cpp \
-		src/game.cpp \
-		src/block.cpp \
 		src/player.cpp \
-		src/decoration.cpp \
-		src/audio.cpp \
+		src/hud.cpp \
+		src/game.cpp \
+		src/item.cpp \
+		src/block.cpp \
 		src/projectile.cpp \
+		src/decoration.cpp \
+		src/npc_dialogue.cpp \
+		\
 		src/enemy.cpp \
 		src/enemy/slime.cpp \
 		src/enemy/skeleton.cpp \
-		src/item.cpp \
+		\
 		src/map.cpp \
 		src/map/map1.cpp \
-		src/npc_dialogue.cpp \
-		src/renderer.cpp \
+		\
+		src/audio.cpp \
+		src/scene.cpp \
 		src/input.cpp \
 		src/camera.cpp \
-		src/scene.cpp \
+		src/renderer.cpp \
 		src/collision.cpp \
+		\
 		main.cpp \
 		-lmingw32 \
 		-lSDL2main \
