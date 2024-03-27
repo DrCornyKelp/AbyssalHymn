@@ -342,12 +342,11 @@ void Player::playerCameraProperty(Input *input)
         vertical_ahead = vertical_ahead < -vt_max ? -vt_max : vertical_ahead;
     }
 
-    std::cout << unfocus_direction_y << "\n"; 
-
-    if (on_ground && !getVelX() &&
+    if (on_ground && !getVelX() && !unfocus_y &&
         (input->getButton(0) || input->getButton(1)))
         vertical_ahead_time ++;
-    else vertical_ahead_time = 0;
+    else 
+        vertical_ahead_time = 0;
 
     if ((!input->getButton(0) && vertical_ahead > 0) ||
         (!input->getButton(1) && vertical_ahead < 0))
@@ -359,7 +358,8 @@ void Player::playerCameraProperty(Input *input)
         effect_x = effect_x > 64 ? 64 : effect_x;
         effect_x = effect_x <-64 ?-64 : effect_x;
     }
-    else if (effect_x) effect_x -= effect_x / 40;
+    else if (effect_x)
+        effect_x -= effect_x / 40;
 }
 
 void Player::playerMovement(Input *input)
