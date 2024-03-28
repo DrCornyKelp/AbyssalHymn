@@ -11,7 +11,9 @@ void Map::initEnemies(SDL_Renderer *renderer)
 { std::cout << "No enemy \n"; }
 
 // ParticleEffect
-void Map::initParticleFx(SDL_Renderer *renderer)
+void Map::initParticleBack(SDL_Renderer *renderer)
+{ std::cout << "No paricle fx"; }
+void Map::initParticleFront(SDL_Renderer *renderer)
 { std::cout << "No paricle fx"; }
 
 // Block
@@ -35,13 +37,17 @@ void Map::initFrontDecors(SDL_Renderer *renderer)
 // Init all
 void Map::initAll(SDL_Renderer *renderer, Player *player)
 {
+    Renderer = renderer;
+
     initMapPlayer(player);
 
     initEnemies(renderer);
     initNpcDialogues(renderer);
+
+    initParticleBack(renderer);
+    initParticleFront(renderer);
     
     initBlocks(renderer);
-    initParticleFx(renderer);
     initItems(renderer);
     
     initBackground(renderer);

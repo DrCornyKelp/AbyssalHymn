@@ -16,6 +16,10 @@ void Renderer::renderGameplay(SDL_Renderer *renderer, Player *player, Hud *hud, 
     for (Decoration *decorBack : map->DecorBackVec)
         decorBack->draw(renderer, player);
 
+    // Particle Back
+    for (ParticleEffect *particle_fx : map->ParticleBackVec)
+        particle_fx->draw(renderer, player);
+
     // Npc Dialouge
     for (NpcDialogue *npc : map->NpcVec)
         npc->draw(renderer, player);
@@ -27,21 +31,21 @@ void Renderer::renderGameplay(SDL_Renderer *renderer, Player *player, Hud *hud, 
     // Player
     player->playerDrawSprite(renderer);
 
-    // Particle Effect
-    for (ParticleEffect *particle_fx : map->ParticleFxVec)
-        particle_fx->draw(renderer, player);
+    // Projectile
+    for (Projectile *projectile : map->ProjectileVec)
+        projectile->draw(renderer, player);
 
     // Block
     for (Block *block : map->BlockVec)
         block->draw(renderer, player);
 
-    // Projectile
-    for (Projectile *projectile : map->ProjectileVec)
-        projectile->draw(renderer, player);
-
     // Front Decor
     for (Decoration *decorFront : map->DecorFrontVec)
         decorFront->draw(renderer, player);
+
+    // Particle Front
+    for (ParticleEffect *particle_fx : map->ParticleFrontVec)
+        particle_fx->draw(renderer, player);
 
     // Player Hud
     hud->draw(renderer);

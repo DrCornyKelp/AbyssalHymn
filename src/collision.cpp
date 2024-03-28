@@ -1,4 +1,6 @@
 #include "collision.h"
+#include "map.h"
+#include "player.h"
 
 bool Collision::combatCollision(Object2D *attacker, Object2D *receiver)
 {
@@ -48,13 +50,13 @@ bool Collision::objectCollision(Object2D *obj1, Object2D *obj2)
 
 // Seperate Collision
 
-void Collision::playerBlockCollision(Player *player, std::vector<Block*> BlockVec)
+void Collision::playerBlockCollision(Player *player, Map *map)
 {
     bool on_aleast_ground = false;
     bool hug_aleast_wall = false;
     bool crawl_lock_atleast = false;
 
-    for (Block *block : BlockVec)
+    for (Block *block : map->BlockVec)
     {
         // If block is outside of play/usable view
         // No need to check for SHIT MAN
@@ -191,9 +193,9 @@ void Collision::playerBlockCollision(Player *player, std::vector<Block*> BlockVe
     }
 }
 
-void Collision::playerEnemyCollision(Player *player, std::vector<Enemy*> EnemyVec)
+void Collision::playerEnemyCollision(Player *player, Map *map)
 {
-    for (Enemy *enemy : EnemyVec)
+    for (Enemy *enemy : map->EnemyVec)
     {
         if (enemy->getDead()) continue;
 
@@ -204,7 +206,7 @@ void Collision::playerEnemyCollision(Player *player, std::vector<Enemy*> EnemyVe
         if (playerCollision(player, enemy))
         {
             if (enemy->getCollideDamage())
-                player->playerGetHit(enemy->getCollideDamage());
+                player->playerGetHit(map, enemy->getCollideDamage());
 
             // Addition enemy logic
             enemy->enemyPlayerCollision(player);
@@ -226,9 +228,9 @@ void Collision::playerEnemyCollision(Player *player, std::vector<Enemy*> EnemyVe
     }
 }
 
-void Collision::playerItemCollision(Player *player, std::vector<Item*> ItemVec)
+void Collision::playerItemCollision(Player *player, Map *map)
 {
-    for (Item *item : ItemVec)
+    for (Item *item : map->ItemVec)
     {
         if (objectCollision(player, item))
         {
@@ -240,4 +242,11 @@ void Collision::playerItemCollision(Player *player, std::vector<Item*> ItemVec)
             }
         }
     }
+}
+
+void Collision::playerUpdateCollision(Player *player, Map *map)
+{
+    playerBlockCollision(player, map);
+    playerEnemyCollision(player, map);
+    playerItemCollision(player, map);
 }

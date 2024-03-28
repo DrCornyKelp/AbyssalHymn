@@ -29,8 +29,10 @@ void ParticleEffect::draw(SDL_Renderer *renderer, Player *player)
     // Outside seeable? unrender
     if (Camera::objectOutBound(player, this))
         return;
+
     // Frame index shitty bang bang stuff handler
     // (more advanced than the other ig)
+    objectSetSprite();
     if (getSprIndex() == getSprIndexMax() - 1)
     {
         if (sheet_row < sheet_row_max)
@@ -40,8 +42,7 @@ void ParticleEffect::draw(SDL_Renderer *renderer, Player *player)
         else
             is_gone = true;
     }
-
-    objectSetSprite();
+    std::cout << getSprIndex() << " " << sheet_row << "\n";
 
     // Draw
     double cam_scale = player->getCameraScale();

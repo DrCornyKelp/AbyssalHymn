@@ -59,7 +59,7 @@ Projectile::Projectile( SDL_Texture *bTexture,
     setAccelX(accelX); setAccelY(accelY);
 }
 
-void Projectile::playerCollision(Player *player)
+void Projectile::playerCollision(Player *player, Map *map)
 {   
     // Player Get Hit Oof It hurt
     int colli_x = abs(getX() - player->getHitX());
@@ -71,7 +71,7 @@ void Projectile::playerCollision(Player *player)
     {
         bullet_dead = !can_pierce && true;
         // Player Hit Animation Here
-        player->playerGetHit(bullet_damage);
+        player->playerGetHit(map, bullet_damage);
     }
 
     // Player Hit The Bullet Back, Get Parried Lmao
@@ -101,9 +101,9 @@ void Projectile::playerCollision(Player *player)
     }
 }
 
-void Projectile::blockCollision(std::vector<Block *> BlockVec)
+void Projectile::blockCollision(Map *map)
 {
-    for (Block *block : BlockVec)
+    for (Block *block : map->BlockVec)
     {
         if (block->getGoThru() || block->getSeeThru()) continue;
 
@@ -121,11 +121,11 @@ void Projectile::blockCollision(std::vector<Block *> BlockVec)
     }
 }
 
-void Projectile::enemyCollision(std::vector<Enemy *> EnemyVec)
+void Projectile::enemyCollision(Map *map)
 {
     // Enemy Get Hit Oof It hurt
 
-    for (Enemy *enemy : EnemyVec)
+    for (Enemy *enemy : map->EnemyVec)
     {
         int colli_x = abs(getX() - enemy->getX());
         int colli_y = abs(getY() - enemy->getY());
@@ -146,9 +146,9 @@ void Projectile::enemyCollision(std::vector<Enemy *> EnemyVec)
 
 void Projectile::projectileCollision(Player *player, Map *map)
 {
-    playerCollision(player);
-    if (harm_enemy) enemyCollision(map->EnemyVec);
-    if (!can_wall) blockCollision(map->BlockVec);
+    playerCollision(player, map);
+    if (harm_enemy) enemyCollision(map);
+    if (!can_wall) blockCollision(map);
 }
 
 void Projectile::projectileAction(SDL_Renderer *renderer, Player* player, Map *map)
@@ -177,7 +177,7 @@ void Projectile::updateProjectile(SDL_Renderer *renderer, Player *player, Map *m
     projectileCollision(player, map);
 
     if (bullet_dead)
-        map->ParticleFxVec.push_back(new ParticleEffect(
+        map->ParticleFrontVec.push_back(new ParticleEffect(
             Sprite::loadTexture(renderer, "res/ParticleSheet/Xplode.png"),
             getX(), getY(), 200, 200,
             100, 100, 10, 3, 7, 0

@@ -49,11 +49,11 @@ public:
     
     // ================== Deadly =======================
     // Harm the environment (not really, they immortal)
-    void blockCollision(std::vector<Block *> BlockVec);
+    void blockCollision(Map *map);
     // Harm you
-    void playerCollision(Player *player);
+    void playerCollision(Player *player, Map *map);
     // Harm them
-    void enemyCollision(std::vector<Enemy *> EnemyVec);
+    void enemyCollision(Map *map);
     // Harmful in general (lookin at you America)
     void projectileCollision(Player *player, Map *map);
 

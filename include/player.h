@@ -286,7 +286,7 @@ public:
     void playerCombat(Map *map, Input *input);
 
     void playerHitBox();
-    void playerGetHit(int dmg);
+    void playerGetHit(Map *map, int dmg);
 
     void playerDrawProperty();
     void playerCameraProperty(Input *input);

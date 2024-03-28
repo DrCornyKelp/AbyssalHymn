@@ -25,12 +25,14 @@ class Map
 {
 public:
     // =============== ATTRIBUTE =================
+    SDL_Renderer *Renderer;
 
     // Npc
     std::vector<Enemy*> EnemyVec;
     std::vector<NpcDialogue*> NpcVec;
     // Particle_Effect
-    std::vector<ParticleEffect*> ParticleFxVec;
+    std::vector<ParticleEffect*> ParticleBackVec;
+    std::vector<ParticleEffect*> ParticleFrontVec;
     // Block
     std::vector<Block*> BlockVec;
     // Item
@@ -53,7 +55,8 @@ public:
     virtual void initNpcDialogues(SDL_Renderer *renderer);
 
     // Paricle Effect
-    virtual void initParticleFx(SDL_Renderer *renderer);
+    virtual void initParticleBack(SDL_Renderer *renderer);
+    virtual void initParticleFront(SDL_Renderer *renderer);
 
     // Block
     virtual void initBlocks(SDL_Renderer *renderer);

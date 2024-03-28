@@ -896,9 +896,16 @@ void Player::playerHitBox()
     }
 }
 
-void Player::playerGetHit(int dmg)
+void Player::playerGetHit(Map *map, int dmg)
 {
     if (invulnerable_time || invincible_time) return;
+
+    map->ParticleBackVec.push_back(new ParticleEffect(
+        Sprite::loadTexture(map->Renderer, "res/ParticleSheet/BloodSplatter.png"),
+        getX(), getY(), 600, 600,
+        100, 100, 6, 2, 4, 0
+    ));
+
     invulnerable_time = invulnerable_time_max;
     hp -= dmg;
 }

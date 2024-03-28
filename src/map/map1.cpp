@@ -378,8 +378,8 @@ void Map1::initFrontDecors(SDL_Renderer *renderer)
         frontDecor->initDecoration(renderer);
 }
 
-void Map1::initParticleFx(SDL_Renderer *renderer)
-{}
+void Map1::initParticleBack(SDL_Renderer *renderer) {};
+void Map1::initParticleFront(SDL_Renderer *renderer) {};
 
 void Map1::initItems(SDL_Renderer *renderer)
 {}
@@ -447,9 +447,7 @@ void Map1::updateMapExclusive(SDL_Renderer *renderer, Player *player, Input *inp
     player->playerUpdate(renderer, this, input);
 
     // Collision
-    collision->playerBlockCollision(player, BlockVec);
-    collision->playerEnemyCollision(player, EnemyVec);
-    collision->playerItemCollision(player, ItemVec);
+    collision->playerUpdateCollision(player, this);
 
     // Some variable
     float player_x = player->getX();
@@ -497,10 +495,15 @@ void Map1::updateMapExclusive(SDL_Renderer *renderer, Player *player, Input *inp
     }), ProjectileVec.end());
 
     // ====================== UPDATE PARTICLE ==========================
-    ParticleFxVec.erase(std::remove_if(ParticleFxVec.begin(), ParticleFxVec.end(),
+    ParticleBackVec.erase(std::remove_if(ParticleBackVec.begin(), ParticleBackVec.end(),
     [](ParticleEffect* particle_fx) {
         return particle_fx->getIsGone();
-    }), ParticleFxVec.end());
+    }), ParticleBackVec.end());
+
+    ParticleFrontVec.erase(std::remove_if(ParticleFrontVec.begin(), ParticleFrontVec.end(),
+    [](ParticleEffect* particle_fx) {
+        return particle_fx->getIsGone();
+    }), ParticleFrontVec.end());
 
     // ====================== UPDATE SPECIFIC ==========================
 

@@ -2,12 +2,10 @@
 #define COLLISION_H
 
 #include <vector>
+#include <object2D.h>
 
-#include "player.h"
-#include "block.h"
-#include "enemy.h"
-#include "item.h"
-
+class Map;
+class Player;
 class Collision
 {
 private:
@@ -18,9 +16,10 @@ public:
     static bool playerCollision(Player *player, Object2D *obj);
     static bool playerCombatCollision(Player *player, Object2D *receiver);
 
-    void playerBlockCollision(Player *player, std::vector<Block*> Blockvec);
-    void playerEnemyCollision(Player *player, std::vector<Enemy*> EnemyVec);
-    void playerItemCollision(Player *player, std::vector<Item*> ItemVec);
+    void playerBlockCollision(Player *player, Map *map);
+    void playerEnemyCollision(Player *player, Map *map);
+    void playerItemCollision(Player *player, Map *map);
+    void playerUpdateCollision(Player *player, Map *map);
 };
 
 #endif
