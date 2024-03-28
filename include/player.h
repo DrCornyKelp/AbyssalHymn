@@ -147,8 +147,6 @@ private:
     SDL_Texture *PlayerLeftWeapon;
     SDL_Texture *PlayerRightWeapon;
     SDL_Texture *PlayerSquid;
-
-    SDL_Texture *PlayerWtf;
     
     // Action indexing and stuff idk
     int act_index = 0;

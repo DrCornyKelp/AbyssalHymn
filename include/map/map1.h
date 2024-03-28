@@ -9,6 +9,15 @@ private:
     int checkpoint_x = 3;
     int checkpoint_y = 3;
 
+    std::vector<const char*> grass_decor = {
+        "res/BlockTile/x64/Nature/GrassDecor0.png",
+        "res/BlockTile/x64/Nature/GrassDecor1.png",
+        "res/BlockTile/x64/Nature/GrassDecor2.png",
+        "res/BlockTile/x64/Nature/GrassDecor3.png",
+        "res/BlockTile/x64/Nature/GrassDecor4.png",
+        "res/BlockTile/x64/Nature/GrassDecor5.png"
+    };
+
     std::vector<const char*> nature_block = {
         // 0 - 8
         "res/BlockTile/x64/Nature/Dirt1.png",

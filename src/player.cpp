@@ -15,8 +15,6 @@ void Player::initPlayer(SDL_Renderer *renderer)
     PlayerRightWeapon = Sprite::loadTexture(renderer, "res/NakuSheet/NakuRightWeapon.png");
     PlayerLeftWeapon = Sprite::loadTexture(renderer, "res/NakuSheet/NakuLeftWeapon.png");
 
-    PlayerWtf = Sprite::loadTexture(renderer, "res/NakuSheet/NakuRightWtf.png");
-
     // Nakuru Squid Game
     PlayerSquid = Sprite::loadTexture(renderer, "res/NakuSheet/NakuSquid.png");
 
@@ -144,24 +142,25 @@ void Player::playerDrawSprite(SDL_Renderer *renderer)
 {
     Camera::objectSetSprite(this, sprite_end_lock);
 
-    int drawX = Game::WIDTH / 2 + (offset_mid_x - sprite_size*2) * camera_scale; 
-    int drawY = Game::HEIGHT / 2 - (offset_mid_y + sprite_size*2) * camera_scale;
-    // The -1 is just to make the drawing look abit better, dont worry
+    int drawX = Game::WIDTH / 2 + (offset_mid_x - sprite_size*2) * camera_scale
+                + Camera::playerShiftX(this); 
+    int drawY = Game::HEIGHT / 2 - (offset_mid_y + sprite_size*2) * camera_scale
+                + Camera::playerShiftY(this);
 
-    SDL_Rect desRect = {int(drawX) + Camera::playerShiftX(this),
-                        int(drawY) + Camera::playerShiftY(this),
+
+    SDL_Rect desRect = {drawX, drawY,
                         int(sprite_size * 4 * camera_scale),
                         int(sprite_size * 4 * camera_scale)};
+
     SDL_Rect srcRect = {getSprIndex() * sprite_size, act_index * sprite_size, sprite_size, sprite_size};
 
     if (!invulnerable_time)
         SDL_SetTextureAlphaMod(playerCurrentTexture, 255);
     SDL_RenderCopy(renderer, playerCurrentTexture, &srcRect, &desRect);
-    SDL_RenderCopy(renderer, PlayerWtf, &srcRect, &desRect);
 }
 
 void Player::playerDrawProperty()
-{   
+{
     // ======================== SRPITES ===========================
     // Set index and stuff
     act_right = getVelX() > .2 ? 1 : getVelX() < -.2 ? 0 : act_right;
@@ -936,6 +935,8 @@ void Player::playerGrid(SDL_Renderer *renderer)
             SDL_RenderDrawLine(renderer, 0, drawGridY + camY,
                                 Game::WIDTH, drawGridY + camY); 
         }
+
+        std::cout << int(getX() / 64) << " " << int(getY() / 64) << "\n";
     }
 }
 
