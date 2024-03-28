@@ -2,9 +2,10 @@
 #include <player.h>
 #include <map.h>
 
-Enemy::Enemy(float X, float Y, int w, int h, int hw, int hh, int sim, int sfm) :
+Enemy::Enemy(float X, float Y, int w, int h, int hw, int hh,
+            int sw, int sh, int sim, int sfm) :
     Object2D(X, Y, w, h, hw, hh,
-            sim, sfm, 0, 0)
+            sw, sh, sim, sfm, 0, 0)
 {}
 
 void Enemy::initEnemy(SDL_Renderer *renderer)

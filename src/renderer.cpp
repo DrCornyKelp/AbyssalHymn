@@ -12,7 +12,7 @@ void Renderer::renderGameplay(SDL_Renderer *renderer, Player *player, Hud *hud, 
     for (Block *blockBack : map->BlockBackVec)
         blockBack->draw(renderer, player);
 
-    //  Back Decor
+    // Back Decor
     for (Decoration *decorBack : map->DecorBackVec)
         decorBack->draw(renderer, player);
 
@@ -24,8 +24,12 @@ void Renderer::renderGameplay(SDL_Renderer *renderer, Player *player, Hud *hud, 
     for (Enemy *enemy : map->EnemyVec)
         enemy->draw(renderer, player);
 
-    // Draw Player
+    // Player
     player->playerDrawSprite(renderer);
+
+    // Particle Effect
+    for (ParticleEffect *particle_fx : map->ParticleFxVec)
+        particle_fx->draw(renderer, player);
 
     // Block
     for (Block *block : map->BlockVec)

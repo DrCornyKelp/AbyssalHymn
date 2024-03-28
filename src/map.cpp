@@ -2,49 +2,35 @@
 
 // Player
 void Map::initMapPlayer(Player *player)
-{
-    std::cout << "No player \n";
-}
+{ std::cout << "No player \n"; }
 
 // Npc
 void Map::initNpcDialogues(SDL_Renderer *renderer)
-{
-    std::cout << "No npc \n";
-}
+{ std::cout << "No npc \n"; }
 void Map::initEnemies(SDL_Renderer *renderer)
-{
-    std::cout << "No enemy \n";
-}
+{ std::cout << "No enemy \n"; }
+
+// ParticleEffect
+void Map::initParticleFx(SDL_Renderer *renderer)
+{ std::cout << "No paricle fx"; }
 
 // Block
 void Map::initBlocks(SDL_Renderer *renderer)
-{
-    std::cout << "No block \n";
-}
+{ std::cout << "No block \n"; }
 
 // Item
 void Map::initItems(SDL_Renderer *renderer)
-{
-    std::cout << "No item \n";
-}
+{ std::cout << "No item \n"; }
 
 // Cosmetic
 void Map::initBackground(SDL_Renderer *renderer)
-{
-    std::cout << "No background \n";
-}
+{ std::cout << "No background \n"; }
 void Map::initBackDecors(SDL_Renderer *renderer)
-{
-    std::cout << "No decor \n";
-}
+{ std::cout << "No decor \n"; }
 void Map::initBlocksBack(SDL_Renderer *renderer)
-{
-    std::cout << "No block \n";
-}
+{ std::cout << "No block \n"; }
 void Map::initFrontDecors(SDL_Renderer *renderer)
-{
-    std::cout << "No decor \n";
-}
+{ std::cout << "No decor \n"; }
 
 // Init all
 void Map::initAll(SDL_Renderer *renderer, Player *player)
@@ -55,6 +41,7 @@ void Map::initAll(SDL_Renderer *renderer, Player *player)
     initNpcDialogues(renderer);
     
     initBlocks(renderer);
+    initParticleFx(renderer);
     initItems(renderer);
     
     initBackground(renderer);

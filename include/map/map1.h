@@ -67,11 +67,14 @@ public:
     void initEnemies(SDL_Renderer *renderer) override;
     void initNpcDialogues(SDL_Renderer *renderer) override;
 
-    // Items
-    void initItems(SDL_Renderer *renderer) override;
-    
+    // Blocks
+    void initParticleFx(SDL_Renderer *renderer) override;
+
     // Blocks
     void initBlocks(SDL_Renderer *renderer) override;
+
+    // Items
+    void initItems(SDL_Renderer *renderer) override;
 
     // Cosmetic
     void initBackground(SDL_Renderer *renderer) override;

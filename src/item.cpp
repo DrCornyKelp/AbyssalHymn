@@ -2,7 +2,8 @@
 
 Item::Item(float X, float Y, short e, int w, int h, short gr, int hw, int hh, int sim, int sfm, int si, int sf) : 
     Object2D((X + w/2) * gr, (Y + h/2) * gr,
-            w * gr, h * gr, w * gr, h * gr, sim, sfm, si, sf), effect(e)
+            w * gr, h * gr, w * gr, h * gr,
+            w, h, sim, sfm, si, sf), effect(e)
 {}
 
 void Item::initItemSprite(SDL_Renderer *renderer)

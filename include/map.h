@@ -8,14 +8,16 @@
 #include <algorithm>
 
 #include "input.h"
-#include "collision.h"
-#include "player.h"
-#include "block.h"
-#include "item.h"
 #include "block_template.h"
+#include "collision.h"
+
+#include "item.h"
+#include "block.h"
+#include "player.h"
 #include "decoration.h"
-#include "npc_dialogue.h"
 #include "projectile.h"
+#include "npc_dialogue.h"
+#include "particle_effect.h"
 
 #include "enemy/all_enemies.h"
 
@@ -27,6 +29,8 @@ public:
     // Npc
     std::vector<Enemy*> EnemyVec;
     std::vector<NpcDialogue*> NpcVec;
+    // Particle_Effect
+    std::vector<ParticleEffect*> ParticleFxVec;
     // Block
     std::vector<Block*> BlockVec;
     // Item
@@ -47,6 +51,9 @@ public:
     // Npc
     virtual void initEnemies(SDL_Renderer *renderer);
     virtual void initNpcDialogues(SDL_Renderer *renderer);
+
+    // Paricle Effect
+    virtual void initParticleFx(SDL_Renderer *renderer);
 
     // Block
     virtual void initBlocks(SDL_Renderer *renderer);

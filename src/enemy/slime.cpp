@@ -3,7 +3,8 @@
 #include <map.h>
 
 Slime::Slime(float X, float Y, float limX1, float limX2, short startDir, float scale) :
-    Enemy(X * 64, Y * 64, 256 * scale, 256 * scale, 58 * scale, 58 * scale, 7, 20), direction(startDir),
+    Enemy(  X * 64, Y * 64, 256 * scale, 256 * scale, 58 * scale, 58 * scale,
+            80, 72, 7, 20), direction(startDir),
     limLeft(limX1), limRight(limX2)
 {}
 
@@ -28,7 +29,7 @@ void Slime::draw(SDL_Renderer *renderer, Player *player)
     if (Camera::objectOutBound(player, this))
         return;
     // Frame index shitty bang bang stuff handler
-    Camera::objectSetSprite(this);
+    objectSetSprite();
 
     // Draw
     double cam_scale = player->getCameraScale();

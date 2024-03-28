@@ -3,7 +3,8 @@
 #include <map.h>
 
 Skeleton::Skeleton(float X, float Y, float limX1, float limX2) :
-    Enemy(X * 64, Y * 64 + 96, 288, 192, 45, 120, 10, 15),
+    Enemy(X * 64, Y * 64 + 96, 288, 192, 45, 120,
+        96, 64, 10, 15),
     lim_left(limX1 * 64), lim_right(limX2 * 64)
 {}
 
@@ -170,9 +171,7 @@ void Skeleton::draw(SDL_Renderer *renderer, Player *player)
     if (Camera::objectOutBound(player, this))
         return;
     // Frame index shitty bang bang stuff handler
-    Camera::objectSetSprite(this,
-        getInvinTime() > 80 && !attack_state
-    );
+    objectSetSprite( getInvinTime() > 80 && !attack_state );
 
     // Draw
     double cam_scale = player->getCameraScale();

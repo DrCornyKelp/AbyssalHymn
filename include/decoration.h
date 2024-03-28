@@ -21,9 +21,6 @@ private:
     const char *decor_path;
 
     SDL_Texture *decor_texture;
-
-    int sprite_width;
-    int sprite_height;
 public:
     // ==== NOTE!!! ====
     // position <x, y> is defined with grid (actual x = x * grid)

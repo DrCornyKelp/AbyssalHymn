@@ -22,27 +22,6 @@ bool Camera::objectOutBound(Player *player, Object2D *obj)
             colli_y - obj->getHeight() / 2 > Game::HEIGHT / player->getCameraScale();
 }
 
-void Camera::objectSetSprite(Object2D *obj, bool end_lock)
-{
-    // Frame index shitty bang bang stuff handler
-    if (obj->getSprIndexMax())
-    {
-        if (obj->getSprFrame() < obj->getSprFrameMax())
-            obj->setSprFrame(obj->getSprFrame() + 1);
-        else
-        {
-            obj->setSprFrame(0);
-            obj->setSprIndex(obj->getSprIndex() + 1);
-        }
-
-        if (obj->getSprIndex() >= obj->getSprIndexMax())
-            if (end_lock)
-                obj->setSprIndex(obj->getSprIndexMax() - 1);
-            else
-                obj->setSprIndex(0);
-    }
-}
-
 int Camera::playerShiftX(Player *player)
 {
     return    player->getEaseX()

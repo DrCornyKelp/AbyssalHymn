@@ -5,9 +5,8 @@ NpcDialogue::NpcDialogue(const char* nPath, const char* bPath, float nx, float n
                         int hw, int hh, int bw, int bh, int sw, int sh,
                         int sim, int sfm, int alpm, int grid):
     Object2D(nx * grid, ny * grid, w * grid, h * grid, hw *grid, hh * grid,
-            sim, sfm, 0, 0),
+            sw, sh, sim, sfm, 0, 0),
     alpha_max(alpm),
-    sprite_width(sw), sprite_height(sh),
     bubble_width(bw), bubble_height(bh),
     npc_path(nPath), bubble_path(bPath)
 {}
@@ -33,7 +32,7 @@ void NpcDialogue::draw(SDL_Renderer *renderer, Player *player)
         colli_y - bubble_height / 2 > Game::HEIGHT)
         return;
     // Frame index shitty bang bang stuff handler
-    Camera::objectSetSprite(this);
+    objectSetSprite();
 
     auto distance = Camera::objectDistance(this, player);
     int dist_x = DistGet(distance, 0);
@@ -79,9 +78,9 @@ void NpcDialogue::draw(SDL_Renderer *renderer, Player *player)
 
     SDL_Rect nSrcRect;
     if (getSprIndexMax() > 0)
-        nSrcRect = {getSprIndex() * sprite_width, 0, sprite_width, sprite_height};
+        nSrcRect = {getSprIndex() * getSprWidth(), 0, getSprWidth(), getSprHeight()};
     else 
-        nSrcRect = {0, 0, sprite_width, sprite_height};
+        nSrcRect = {0, 0, getSprWidth(), getSprHeight()};
 
     SDL_RenderCopy(renderer, npc_texture, &nSrcRect, &nDesRect);
 }

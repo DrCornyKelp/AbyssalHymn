@@ -8,7 +8,7 @@ float Projectile::generateRandomFloat() {
 }
 
 Projectile::Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, int sw, int sh, float velX, float velY, float accelX, float accelY, int dmg, int age, short harm) :
-    Object2D(X, Y, sw, sh, hw, hh, 0, 0, 0, 0),
+    Object2D(X, Y, sw, sh, hw, hh),
 
     // Bullet properties
     bullet_age(age), bullet_damage(dmg), bullet_texture(bTexture),
@@ -20,7 +20,7 @@ Projectile::Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, 
 }
 
 Projectile::Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, int sw, int sh, float velX, float velY, float accelX, float accelY, int dmg, int age, short harm, bool parry, bool pierece, bool thruWall) :
-    Object2D(X, Y, sw, sh, hw, hh, 0, 0, 0, 0),
+    Object2D(X, Y, sw, sh, hw, hh),
 
     // Bullet properties
     bullet_age(age), bullet_damage(dmg), bullet_texture(bTexture),
@@ -34,7 +34,7 @@ Projectile::Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, 
 }
 
 Projectile::Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, int sw, int sh, float velX, float velY, float accelX, float accelY, int dmg, int age, short harm, bool parry, bool pierece, bool thruWall, int sim, int sfm) :
-    Object2D(X, Y, sw, sh, hw, hh, sim, sfm, 0, 0),
+    Object2D(X, Y, sw, sh, hw, hh, sw, sh, sim, sfm, 0, 0),
 
     // Im old
     bullet_age(age), bullet_damage(dmg), bullet_texture(bTexture),
@@ -171,13 +171,14 @@ void Projectile::draw(SDL_Renderer *renderer, Player *player)
     if (Camera::objectOutBound(player, this))
         return;
     // Set animation
-    Camera::objectSetSprite(this);
+    objectSetSprite();
 
     // Draw
-    float cam_scale = player->getCameraScale();
+    double cam_scale = player->getCameraScale();
     SDL_Rect desRect = {Camera::objectDrawX(player, this),
                         Camera::objectDrawY(player, this),
-                        int(getWidth() * cam_scale), int(getHeight() * cam_scale)};
+                        int(getWidth() * cam_scale),
+                        int(getHeight() * cam_scale)};
     SDL_Rect srcRect;
     if (getSprIndexMax() > 0) srcRect = {getSprIndex() * getWidth(), 0, getWidth(), getHeight()};
     else srcRect = {0, 0, getWidth(), getHeight()};

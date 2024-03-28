@@ -15,6 +15,7 @@ AbyssalHymn:
 		src/projectile.cpp \
 		src/decoration.cpp \
 		src/npc_dialogue.cpp \
+		src/particle_effect.cpp \
 		\
 		src/enemy.cpp \
 		src/enemy/slime.cpp \

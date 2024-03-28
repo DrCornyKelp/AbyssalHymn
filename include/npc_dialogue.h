@@ -23,7 +23,6 @@ private:
     int alpha_cur = 0;
     int alpha_max;
 
-    int sprite_width, sprite_height;
     int bubble_width, bubble_height;
 
 public:

@@ -378,17 +378,18 @@ void Map1::initFrontDecors(SDL_Renderer *renderer)
         frontDecor->initDecoration(renderer);
 }
 
+void Map1::initParticleFx(SDL_Renderer *renderer)
+{}
+
+void Map1::initItems(SDL_Renderer *renderer)
+{}
+
 void Map1::initEnemies(SDL_Renderer *renderer)
 {
     EnemyVec.push_back(new Skeleton(5, 2, 1, 20));
 
     for (Enemy *enemy : EnemyVec)
         enemy->initEnemy(renderer);
-}
-
-void Map1::initItems(SDL_Renderer *renderer)
-{
-    
 }
 
 void Map1::initMapPlayer(Player *player)
@@ -495,7 +496,11 @@ void Map1::updateMapExclusive(SDL_Renderer *renderer, Player *player, Input *inp
         return projectile->getBulletDead();
     }), ProjectileVec.end());
 
-    // std::cout << EnemyVec.size() << " " << ProjectileVec.size() << "\n";
+    // ====================== UPDATE PARTICLE ==========================
+    ParticleFxVec.erase(std::remove_if(ParticleFxVec.begin(), ParticleFxVec.end(),
+    [](ParticleEffect* particle_fx) {
+        return particle_fx->getIsGone();
+    }), ParticleFxVec.end());
 
     // ====================== UPDATE SPECIFIC ==========================
 

@@ -2,7 +2,8 @@
 #include <map.h>
 
 // Constructor
-Player::Player(float X, float Y, int w, int h, int hw, int hh, int sim, int sfm, int si, int sf) : Object2D(X, Y, w, h, hw, hh, sim, sfm, si, sf) {}
+Player::Player(float X, float Y, int w, int h, int hw, int hh, int sim, int sfm, int si, int sf) :
+    Object2D(X, Y, w, h, hw, hh) {}
 
 // Fuck her 2nite
 void Player::initPlayer(SDL_Renderer *renderer)
@@ -140,7 +141,7 @@ void Player::setBuffJumpTime(int bjt) { buff_jump_time = bjt; }
 
 void Player::playerDrawSprite(SDL_Renderer *renderer)
 {
-    Camera::objectSetSprite(this, sprite_end_lock);
+    objectSetSprite(sprite_end_lock);
 
     int drawX = Game::WIDTH / 2 + (offset_mid_x - sprite_size*2) * camera_scale
                 + Camera::playerShiftX(this); 

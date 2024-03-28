@@ -11,12 +11,13 @@ Object2D::Object2D(float X, float Y, int w, int h, int hw, int hh) :
     hit_w(hw), hit_h(hh)
 {}
 
-Object2D::Object2D(float X, float Y, int w, int h, int hw, int hh, int sim, int sfm, int si, int sf) : 
+Object2D::Object2D(float X, float Y, int w, int h, int hw, int hh, int sw, int sh, int sim, int sfm, int si, int sf) : 
     x(X), y(Y),
     width(w), height(h),
     hit_w(hw), hit_h(hh),
     sprite_index_max(sim), sprite_frame_max(sfm),
-    sprite_index(si), sprite_frame(sf)
+    sprite_index(si), sprite_frame(sf),
+    sprite_width(sw), sprite_height(sh)
 {}
 
 // Position
@@ -48,24 +49,20 @@ int Object2D::getCombatHitR() { return combat_hit_right; }
 int Object2D::getCombatDamage() { return combat_damage; }
 
 // Draw
+void Object2D::setSprWidth(int sw) { sprite_width = sw; }
+void Object2D::setSprHeight(int sh) { sprite_height = sh; }
 void Object2D::setSprIndex(int si) { sprite_index = si; }
 void Object2D::setSprIndexMax(int sim) { sprite_index_max = sim; }
 void Object2D::setSprFrame(int sf) { sprite_frame = sf; }
 void Object2D::setSprFrameMax(int sfm) { sprite_frame_max = sfm; }
+int Object2D::getSprWidth() { return sprite_width; }
+int Object2D::getSprHeight() { return sprite_height; }
 int Object2D::getSprIndex() { return sprite_index; }
 int Object2D::getSprIndexMax() { return sprite_index_max; }
 int Object2D::getSprFrame() { return sprite_frame; }
 int Object2D::getSprFrameMax() { return sprite_frame_max; }
 
 // Speed / Accelaration
-void Object2D::objectStandardMovement()
-{
-    setX(getX() + getVelX());
-    setY(getY() + getVelY());
-    setVelX(getVelX() + getAccelX());
-    setVelY(getVelY() + getAccelY());
-};
-
 void Object2D::setVelX(float velX) { vel_x = velX; }
 void Object2D::setVelY(float velY) { vel_y = velY; }
 void Object2D::setAccelX(float accX) { accel_x = accX; }
@@ -78,3 +75,32 @@ float Object2D::getAccelY() { return accel_y; }
 // Special Key
 void Object2D::setSpecialKey(int key) { special_key = key; }
 int Object2D::getSpecialKey() { return special_key; }
+
+// VERY HELPFUL METHOD
+void Object2D::objectStandardMovement()
+{
+    setX(getX() + getVelX());
+    setY(getY() + getVelY());
+    setVelX(getVelX() + getAccelX());
+    setVelY(getVelY() + getAccelY());
+};
+
+void Object2D::objectSetSprite(bool end_lock)
+{
+    if (getSprIndexMax())
+    {
+        if (getSprFrame() < getSprFrameMax())
+            setSprFrame(getSprFrame() + 1);
+        else
+        {
+            setSprFrame(0);
+            setSprIndex(getSprIndex() + 1);
+        }
+
+        if (getSprIndex() >= getSprIndexMax())
+            if (end_lock)
+                setSprIndex(getSprIndexMax() - 1);
+            else
+                setSprIndex(0);
+    }
+}
