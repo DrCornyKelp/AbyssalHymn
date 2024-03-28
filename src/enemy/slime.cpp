@@ -75,18 +75,18 @@ void Slime::enemyAI(Player *player, Map *map)
         float vel_x = colli_vx > 0 ? 1 : -1;
         float vel_y = abs(colli_vy / colli_vx) * (colli_vy > 0 ? 1 : -1); 
 
-        map->ProjectileVec.push_back(
-        new Projectile(bulletTexture, getX(), getY(), 16, 16, 16, 16,
-                        vel_x * 20, vel_y * 20, 0, 0, 15, 1000, 1)
-        );
-        map->ProjectileVec.push_back(
-        new Projectile(bulletTexture, getX(), getY(), 16, 16, 16, 16,
-                        vel_x * 20, vel_y * 20 + 1, 0, 0, 15, 1000, 1)
-        );
-        map->ProjectileVec.push_back(
-        new Projectile(bulletTexture, getX(), getY(), 16, 16, 16, 16,
-                        vel_x * 20, vel_y * 20 - 1, 0, 0, 15, 1000, 1)
-        );
+        // map->ProjectileVec.push_back(
+        // new Projectile(bulletTexture, getX(), getY(), 16, 16, 16, 16,
+        //                 vel_x * 20, vel_y * 20, 0, 0, 15, 1000, 1)
+        // );
+        // map->ProjectileVec.push_back(
+        // new Projectile(bulletTexture, getX(), getY(), 16, 16, 16, 16,
+        //                 vel_x * 20, vel_y * 20 + 1, 0, 0, 15, 1000, 1)
+        // );
+        // map->ProjectileVec.push_back(
+        // new Projectile(bulletTexture, getX(), getY(), 16, 16, 16, 16,
+        //                 vel_x * 20, vel_y * 20 - 1, 0, 0, 15, 1000, 1)
+        // );
     }
 
     // The current Texture

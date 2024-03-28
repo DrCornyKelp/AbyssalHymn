@@ -7,7 +7,10 @@ float Projectile::generateRandomFloat() {
     return random / 50;
 }
 
-Projectile::Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, int sw, int sh, float velX, float velY, float accelX, float accelY, int dmg, int age, short harm) :
+Projectile::Projectile( SDL_Texture *bTexture, 
+                        float X, float Y, int hw, int hh,int sw, int sh,
+                        float velX, float velY, float accelX, float accelY,
+                        int dmg, int age, short harm) :
     Object2D(X, Y, sw, sh, hw, hh),
 
     // Bullet properties
@@ -19,7 +22,11 @@ Projectile::Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, 
     setAccelX(accelX); setAccelY(accelY);
 }
 
-Projectile::Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, int sw, int sh, float velX, float velY, float accelX, float accelY, int dmg, int age, short harm, bool parry, bool pierece, bool thruWall) :
+Projectile::Projectile( SDL_Texture *bTexture,
+                        float X, float Y, int hw, int hh, int sw, int sh,
+                        float velX, float velY, float accelX, float accelY,
+                        int dmg, int age, short harm,
+                        bool parry, bool pierece, bool thruWall) :
     Object2D(X, Y, sw, sh, hw, hh),
 
     // Bullet properties
@@ -33,7 +40,12 @@ Projectile::Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, 
     setAccelX(accelX); setAccelY(accelY);
 }
 
-Projectile::Projectile(SDL_Texture *bTexture, float X, float Y, int hw, int hh, int sw, int sh, float velX, float velY, float accelX, float accelY, int dmg, int age, short harm, bool parry, bool pierece, bool thruWall, int sim, int sfm) :
+Projectile::Projectile( SDL_Texture *bTexture,
+                        float X, float Y, int hw, int hh, int sw, int sh,
+                        float velX, float velY, float accelX, float accelY,
+                        int dmg, int age, short harm,
+                        bool parry, bool pierece, bool thruWall,
+                        int sim, int sfm) :
     Object2D(X, Y, sw, sh, hw, hh, sw, sh, sim, sfm, 0, 0),
 
     // Im old
@@ -163,6 +175,13 @@ void Projectile::updateProjectile(SDL_Renderer *renderer, Player *player, Map *m
 {
     projectileAction(renderer, player, map);
     projectileCollision(player, map);
+
+    if (bullet_dead)
+        map->ParticleFxVec.push_back(new ParticleEffect(
+            Sprite::loadTexture(renderer, "res/ParticleSheet/Xplode.png"),
+            getX(), getY(), 200, 200,
+            100, 100, 10, 3, 7, 0
+        ));
 }
 
 void Projectile::draw(SDL_Renderer *renderer, Player *player)
@@ -186,18 +205,6 @@ void Projectile::draw(SDL_Renderer *renderer, Player *player)
     SDL_RenderCopy(renderer, bullet_texture, &srcRect, &desRect);
 }
 
-// Getter
-bool Projectile::getBulletDead()
-{
-    return bullet_dead;
-}
-bool Projectile::getBulletParried()
-{
-    return bullet_parried;
-}
-
-// Setter
-void Projectile::setBulletDead(bool dead)
-{
-    bullet_dead = dead;
-}
+bool Projectile::getBulletDead() { return bullet_dead; }
+void Projectile::setBulletDead(bool dead) { bullet_dead = dead; }
+bool Projectile::getBulletParried() { return bullet_parried; }

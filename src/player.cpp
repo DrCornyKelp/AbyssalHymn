@@ -655,9 +655,11 @@ void Player::playerCombat(Map *map, Input *input)
         jelly_keyhold = true;
         map->ProjectileVec.push_back(new Projectile(
             PlayerSquid, getX(), getY(),
-            16, 16, 32, 32, 
-            act_right * 2 - 1, getVelY() + 10, 0, -.2, 10, 
-            1000, -1, 1, 1, 0, 4, 10
+            16, 16, 32, 32,
+            act_right * 2 - 1, getVelY() + 10, 0, -.2,
+            10, 1000, -1,
+            1, 0, 0,
+            4, 10
         ));
     }
     if (!input->getButton(8) && jelly_keyhold)

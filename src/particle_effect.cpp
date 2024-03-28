@@ -11,6 +11,17 @@ ParticleEffect::ParticleEffect(
     pe_texture(peTxture),
     can_repeat(repeat)
 {}
+ParticleEffect::ParticleEffect(
+    SDL_Texture *peTxture,
+    float X, float Y, int w, int h, // Position/Size in game
+    int sw, int sh, int sim, int sfm, int srow, // Animation properties
+    bool repeat) :
+    Object2D(X, Y, w, h, 0, 0,
+            sw, sh, sim, sfm, 0, 0),
+    sheet_row_max(srow),
+    pe_texture(peTxture),
+    can_repeat(repeat)
+{}
 bool ParticleEffect::getIsGone() { return is_gone; }
 
 void ParticleEffect::draw(SDL_Renderer *renderer, Player *player)
@@ -19,8 +30,17 @@ void ParticleEffect::draw(SDL_Renderer *renderer, Player *player)
     if (Camera::objectOutBound(player, this))
         return;
     // Frame index shitty bang bang stuff handler
-    if (!can_repeat && getSprIndex() == getSprIndexMax())
-        is_gone = true;
+    // (more advanced than the other ig)
+    if (getSprIndex() == getSprIndexMax() - 1)
+    {
+        if (sheet_row < sheet_row_max)
+            sheet_row++;
+        else if (can_repeat)
+            sheet_row = 0;
+        else
+            is_gone = true;
+    }
+
     objectSetSprite();
 
     // Draw
@@ -30,5 +50,10 @@ void ParticleEffect::draw(SDL_Renderer *renderer, Player *player)
                         int(getWidth() * cam_scale),
                         int(getHeight() * cam_scale)};
     
-    SDL_Rect srcRect = {getSprIndex() * getSprWidth(), 0, getSprWidth(), getSprHeight()};
+    SDL_Rect srcRect = {getSprIndex() * getSprWidth(),
+                        sheet_row * getSprHeight(),
+                        getSprWidth(),
+                        getSprHeight()};
+
+    SDL_RenderCopy(renderer, pe_texture, &srcRect, &desRect);
 }

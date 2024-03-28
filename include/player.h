@@ -4,6 +4,7 @@
 #include "input.h"
 #include "block.h"
 #include "enemy.h"
+#include "particle_effect.h"
 
 typedef void (*FocusFunc)(Player *);
 
@@ -146,6 +147,7 @@ private:
     SDL_Texture *PlayerRight;
     SDL_Texture *PlayerLeftWeapon;
     SDL_Texture *PlayerRightWeapon;
+
     SDL_Texture *PlayerSquid;
     
     // Action indexing and stuff idk
