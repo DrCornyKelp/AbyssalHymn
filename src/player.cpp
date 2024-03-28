@@ -15,6 +15,8 @@ void Player::initPlayer(SDL_Renderer *renderer)
     PlayerRightWeapon = Sprite::loadTexture(renderer, "res/NakuSheet/NakuRightWeapon.png");
     PlayerLeftWeapon = Sprite::loadTexture(renderer, "res/NakuSheet/NakuLeftWeapon.png");
 
+    PlayerWtf = Sprite::loadTexture(renderer, "res/NakuSheet/NakuRightWtf.png");
+
     // Nakuru Squid Game
     PlayerSquid = Sprite::loadTexture(renderer, "res/NakuSheet/NakuSquid.png");
 
@@ -155,6 +157,7 @@ void Player::playerDrawSprite(SDL_Renderer *renderer)
     if (!invulnerable_time)
         SDL_SetTextureAlphaMod(playerCurrentTexture, 255);
     SDL_RenderCopy(renderer, playerCurrentTexture, &srcRect, &desRect);
+    SDL_RenderCopy(renderer, PlayerWtf, &srcRect, &desRect);
 }
 
 void Player::playerDrawProperty()
