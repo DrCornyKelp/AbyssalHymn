@@ -83,14 +83,14 @@ struct BlockSyntax
 class Console
 {
 public:
-    std::string version = "1.0.beta";
-    std::string author = "Asciiz";
-    std::string co_author = "Trackmaker";
+    string0D version = "1.0.beta";
+    string0D author = "Asciiz";
+    string0D co_author = "Trackmaker";
 
     char delimiter = '|';
     char comment_syntax = '#';
     // The console file
-    std::string cmd_main = "COMMAND.a";
+    string0D cmd_main = "COMMAND.a";
     World *world;
     Input *input;
     Player *player;
@@ -104,7 +104,7 @@ public:
     void playerCommand(Map *map, string1D cmd);
 
     void execute(Map *map, string1D cmd);
-    void readFile(Map *map, std::string cmd_file);
+    void readFile(Map *map, string0D cmd_file);
     void update();
 
     // ========================= Helpful =========================
@@ -112,10 +112,10 @@ public:
     // Its like arr[-1] in python, thought beware that Max Size =/= Max Index
     static int normalizeIndex(int i, int m_size);
 
-    static std::string toLowerCase(const std::string& str);
-    static string1D splitCmdSegment(std::string str, char delimiter = '|');
+    static string0D toLowerCase(const string0D& str);
+    static string1D splitCmdSegment(string0D str, char delimiter = '|');
     // Compare syntaxes (the reason this command exist is cuz some time the syntax index is way out of range)
-    static bool syntaxComp(string1D cmd, int index, std::string keyword);
+    static bool syntaxComp(string1D cmd, int index, string0D keyword);
     static bool syntaxComps(string1D cmd, int index, string1D keyword);
 };
 

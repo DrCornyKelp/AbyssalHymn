@@ -64,12 +64,12 @@ public:
     // ================ File/Map Manipulation =================
 
     // Generate Block Code (.csv)
-    static std::string blockToCode(Block *block);
+    static string0D blockToCode(Block *block);
     // Generate Block Info From Code
-    static float2D codeToBlockInfo(std::string str);
+    static float2D codeToBlockInfo(string0D str);
     // Append Block To Map Based On File
     static void appendBlock(
-        Map *map, std::string block_dir, short type = 0
+        Map *map, string0D block_dir, short type = 0
     );
 };
 

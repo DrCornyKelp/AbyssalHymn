@@ -28,7 +28,7 @@ void Door::initDoor()
     // Some door are a bit more special (not standard door)
     if (style < 0) return;
 
-    std::string h_dir = handle_left ? "L" : "R";
+    string0D h_dir = handle_left ? "L" : "R";
     door_texture = loadTexture(
         "res/Door/Door" + std::to_string(style) + h_dir + ".png"
     );
@@ -76,7 +76,7 @@ void Door::draw(Player *player)
 
 // ============================ FILE MANIPULATION ===================================
 
-Door *Door::codeToDoorInfo(std::string str)
+Door *Door::codeToDoorInfo(string0D str)
 {
     std::stringstream ss(str);
     char cm = ',';
@@ -98,10 +98,10 @@ Door *Door::codeToDoorInfo(std::string str)
     return door;
 }
 
-void Door::appendDoor(Map *map, std::string door_dir)
+void Door::appendDoor(Map *map, string0D door_dir)
 {
     std::ifstream inputFile(door_dir);
-    std::string line;
+    string0D line;
 
     while (std::getline(inputFile, line))
     {   

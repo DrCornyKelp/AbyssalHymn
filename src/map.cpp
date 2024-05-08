@@ -3,7 +3,7 @@
 
 // ========================= MAP COMPONENT ==========================
 
-void MapComponent::appendDirectory(std::string MapDirectory)
+void MapComponent::appendDirectory(string0D MapDirectory)
 {
     map_dir = MapDirectory;
     playlist = MapDirectory + "/playlist.csv";
@@ -36,7 +36,7 @@ void MapComponent::appendComponent(Map *map)
     map->BlockPath = Map::convertStrVec(block_path);
 
     // PREVIEWER
-    for (std::string path : map->BlockPath)
+    for (string0D path : map->BlockPath)
         map->BlockPreview.push_back(
             Object2D::loadTexture(path)
         );
@@ -187,7 +187,7 @@ void MapComponent::eraseTransitMap(Map *map, int i)
 // ========================= MAP ==============================
 
 Map::~Map() { MapComp.clearComponent(this); }
-Map::Map(std::string mapname) :
+Map::Map(string0D mapname) :
     MapName(mapname),
     MapDirectory("src/map_data/" + mapname)
 {}
@@ -340,10 +340,10 @@ void Map::loadCheckpoint(WorldLocation location)
     MapPlayer->camera.focus_snap = location.snap;
 }
 
-void Map::appendTransitMap(Map *map, std::string trans_dir)
+void Map::appendTransitMap(Map *map, string0D trans_dir)
 {
     std::ifstream inputFile(trans_dir);
-    std::string line;
+    string0D line;
 
     while (std::getline(inputFile, line))
     {
@@ -362,10 +362,10 @@ void Map::appendTransitMap(Map *map, std::string trans_dir)
     }
 }
 
-void Map::appendCameraBox(Map *map, std::string cam_dir)
+void Map::appendCameraBox(Map *map, string0D cam_dir)
 {
     std::ifstream inputFile(cam_dir);
-    std::string line;
+    string0D line;
 
     while (std::getline(inputFile, line))
     {
@@ -389,10 +389,10 @@ void Map::appendCameraBox(Map *map, std::string cam_dir)
 // ================== MAP MANIPULATION ALGORITHM =====================
 
 //-------Covert each line of file into vector--------
-string1D Map::convertStrVec(std::string file_dir)
+string1D Map::convertStrVec(string0D file_dir)
 {
     std::ifstream inputFile(file_dir);
-    std::string line;
+    string0D line;
 
     string1D values;
 
@@ -430,10 +430,10 @@ float2D Map::resizeFloat2D(float1D vec, int r, int c)
 }
 
 // -------Convert String to Vector 1D-------
-int1D Map::convertStrInt1D(std::string str, char delimiter)
+int1D Map::convertStrInt1D(string0D str, char delimiter)
 {
     int1D values;
-    std::string token;
+    string0D token;
     std::istringstream tokenStream(str);
 
     while (std::getline(tokenStream, token, delimiter))
@@ -441,10 +441,10 @@ int1D Map::convertStrInt1D(std::string str, char delimiter)
 
     return values;
 }
-float1D Map::convertStrFloat1D(std::string str, char delimiter)
+float1D Map::convertStrFloat1D(string0D str, char delimiter)
 {
     float1D values;
-    std::string token;
+    string0D token;
     std::istringstream tokenStream(str);
 
     while (std::getline(tokenStream, token, delimiter))

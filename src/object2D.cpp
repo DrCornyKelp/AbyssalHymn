@@ -212,7 +212,7 @@ int Object2D::objectDistR(Object2D *obj1, Object2D *obj2)
 
 // Texture
 
-SDL_Texture *Object2D::loadTexture(std::string path)
+SDL_Texture *Object2D::loadTexture(string0D path)
 {
     if (path == "") return NULL;
 

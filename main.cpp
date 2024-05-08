@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
         new Map("CloudHighway") // 14
     });
     world->initWorld(player, audio, input, collision,
-        {1, 7, 2}
+        {1, 7, 2, 1}
     );
 
     // Console Command

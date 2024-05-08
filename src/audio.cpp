@@ -104,10 +104,10 @@ void Audio::updateTrack()
     playlist.updatePlaylist();
 }
 
-void Audio::appendMapPlaylist(Map *map, std::string t_dir)
+void Audio::appendMapPlaylist(Map *map, string0D t_dir)
 {
     std::ifstream inputFile(t_dir);
-    std::string line;
+    string0D line;
 
     AudioPlaylist newAlbum;
 
@@ -120,8 +120,8 @@ void Audio::appendMapPlaylist(Map *map, std::string t_dir)
 
         std::stringstream ss(line);
 
-        std::string t_path;
-        std::string t_delay;
+        string0D t_path;
+        string0D t_delay;
 
         std::getline(ss, t_path, ',');
         std::getline(ss, t_delay, ',');

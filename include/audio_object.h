@@ -20,10 +20,10 @@ private:
     int vol_max = 100;
 
 public:
-    AudioObject(std::string path, float X, float Y, float R,
+    AudioObject(string0D path, float X, float Y, float R,
                 float maxvolR, float override);
     void updateProximity(Map *map);
-    static void appendAudioObject(Map *map, std::string a_dir);
+    static void appendAudioObject(Map *map, string0D a_dir);
 };
 
 #endif

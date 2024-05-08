@@ -4,7 +4,7 @@ float BubbleStyle::alphaRatio()
 { return 1 - curAlpha/maxAlpha; }
 
 Bubble::~Bubble() { SDL_DestroyTexture(bubble_texture); }
-Bubble::Bubble( std::string bPath, ObjectHitbox bHitbox,
+Bubble::Bubble( string0D bPath, ObjectHitbox bHitbox,
                 ObjectBox bActivebox, BubbleStyle bStyle,
                 short type, int grid ) :
     Object2D(bHitbox.hitboxGrid(grid)),
@@ -74,12 +74,12 @@ void Bubble::draw(Player *player)
 
 // ============================ FILE MANIPULATION ===================================
 
-Bubble *Bubble::codeToBubbleInfo(std::string str)
+Bubble *Bubble::codeToBubbleInfo(string0D str)
 {
     std::stringstream ss(str);
     char cm = ',';
 
-    std::string type, bPath;
+    string0D type, bPath;
     float x, y, w, h;
     int up, down, left, right;
     int offX, offY; float mAlpha;
@@ -102,10 +102,10 @@ Bubble *Bubble::codeToBubbleInfo(std::string str)
     return bubble;
 }
 
-void Bubble::appendBubble(Map *map, std::string bubble_dir)
+void Bubble::appendBubble(Map *map, string0D bubble_dir)
 {
     std::ifstream inputFile(bubble_dir);
-    std::string line;
+    string0D line;
 
     while (std::getline(inputFile, line))
     {

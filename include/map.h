@@ -28,24 +28,24 @@ struct MapBgColor
 struct MapComponent
 {
     // Directory
-    std::string map_dir = "";
-    std::string playlist = "";
-    std::string block_path = "",
+    string0D map_dir = "";
+    string0D playlist = "";
+    string0D block_path = "",
                 block_main = "",
                 block_back = "",
                 block_hidden = "";
-    std::string background = "",
+    string0D background = "",
                 decor_back = "",
                 decor_front = "";
-    std::string door = "",
+    string0D door = "",
                 bubble = "",
                 enemy = "",
                 item = "";
-    std::string audio_obj = "";
-    std::string camera_box = "",
+    string0D audio_obj = "";
+    string0D camera_box = "",
                 transit_map = "";
 
-    void appendDirectory(std::string MapDirectory);
+    void appendDirectory(string0D MapDirectory);
     void appendComponent(Map *map);
     void clearComponent(Map *map);
 
@@ -97,8 +97,8 @@ public:
     Player *MapPlayer;
     Collision *MapCollision;
 
-    std::string MapName = "";
-    std::string MapDirectory = "";
+    string0D MapName = "";
+    string0D MapDirectory = "";
     MapComponent MapComp;
     MapBgColor MapColor;
 
@@ -144,7 +144,7 @@ public:
     // =================== Stage stuff idc ===================
 
     ~Map();
-    Map(std::string mapname);
+    Map(string0D mapname);
 
     void initMapStandard();
     void initMap(World *world, Player *player, Audio *audio,
@@ -156,18 +156,18 @@ public:
     // ================== MAP ... IDK WHAT ALGORITHM =====================
     
     void loadCheckpoint(WorldLocation location);
-    static void appendTransitMap(Map *map, std::string trans_dir);
-    static void appendCameraBox(Map *map, std::string cam_dir);
+    static void appendTransitMap(Map *map, string0D trans_dir);
+    static void appendCameraBox(Map *map, string0D cam_dir);
 
     // ================== MAP MANIPULATION ALGORITHM ===================== ( HELPFUL :D)
 
-    static string1D convertStrVec(std::string file_dir);
+    static string1D convertStrVec(string0D file_dir);
 
     static int2D resizeInt2D(int1D vec, int r, int c);
     static float2D resizeFloat2D(float1D vec, int r, int c);
 
-    static float1D convertStrFloat1D(std::string str, char delimiter = ',');
-    static int1D convertStrInt1D(std::string str, char delimiter = ',');
+    static float1D convertStrFloat1D(string0D str, char delimiter = ',');
+    static int1D convertStrInt1D(string0D str, char delimiter = ',');
 
     static int1D convertFloat1DInt(float1D vec);
     static int2D convertFloat2DInt(float2D vec);

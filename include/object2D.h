@@ -20,21 +20,6 @@
 #include <configuration.h>
 #include <camera.h>
 
-#define int1D std::vector<int>
-#define int2D std::vector<int1D>
-
-#define bool1D std::vector<bool>
-#define bool2D std::vector<bool1D>
-
-#define float1D std::vector<float>
-#define float2D std::vector<float1D>
-
-#define string1D std::vector<std::string>
-#define string2D std::vector<string1D>
-
-#define SDLTexture1D std::vector<SDL_Texture*>
-#define SDLTexture2D std::vector<SDLTexture1D>
-
 #define ObjectBox1D std::vector<ObjectBox>
 #define ObjectBox2D std::vector<ObjectBox1D>
 #define ObjectBox3D std::vector<ObjectBox2D>
@@ -220,7 +205,7 @@ public:
     static int objectDistY(Object2D *obj1, Object2D *obj2, bool absolute = 0);
     static int objectDistR(Object2D *obj1, Object2D *obj2);
 
-    static SDL_Texture *loadTexture(std::string path);
+    static SDL_Texture *loadTexture(string0D path);
     static void deleteTextures(SDLTexture1D textures);
 
     bool objectSetSprite(bool end_lock = 0);

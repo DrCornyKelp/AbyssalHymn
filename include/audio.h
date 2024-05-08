@@ -48,7 +48,7 @@ public:
     int getPlistVolMax();
 
     void updateTrack();
-    static void appendMapPlaylist(Map *map, std::string t_dir);
+    static void appendMapPlaylist(Map *map, string0D t_dir);
 };
 
 #endif

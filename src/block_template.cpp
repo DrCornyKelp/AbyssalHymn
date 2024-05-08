@@ -342,16 +342,16 @@ int2D BlockTemplate::rect(int2D vecSqr, int row, int col)
 
 // ========================= Other Method =============================
 
-std::string BlockTemplate::blockToCode(Block *block)
+string0D BlockTemplate::blockToCode(Block *block)
 {
-    std::string block_main =
+    string0D block_main =
         std::to_string(block->getType()) + "," +
         std::to_string(block->getGridLX()) + "," +
         std::to_string(block->getGridBY()) + "," +
         std::to_string(block->getGridWidth()) + "," +
         std::to_string(block->getGridHeight());
 
-    std::string block_engine = "";
+    string0D block_engine = "";
     for (int1D r : block->getBlockIndexs())
         for (int v : r)
             block_engine += "," + std::to_string(v);
@@ -359,7 +359,7 @@ std::string BlockTemplate::blockToCode(Block *block)
     return block_main + block_engine + "\n";
 }
 
-float2D BlockTemplate::codeToBlockInfo(std::string str)
+float2D BlockTemplate::codeToBlockInfo(string0D str)
 {
     float1D values = Map::convertStrFloat1D(str, ',');
     float1D prop;
@@ -375,10 +375,10 @@ float2D BlockTemplate::codeToBlockInfo(std::string str)
 }
 
 void BlockTemplate::appendBlock(
-    Map *map, std::string block_dir, short type
+    Map *map, string0D block_dir, short type
 ){
     std::ifstream inputFile(block_dir);
-    std::string line;
+    string0D line;
 
     Block1D hiddenSection;
     while (std::getline(inputFile, line)) 

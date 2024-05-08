@@ -7,7 +7,7 @@
 
 struct DecorObject
 {
-    std::string path;
+    string0D path;
     ObjectHitbox box;
     ObjectSprite sprite;
     bool isFolder = 0;
@@ -23,8 +23,8 @@ private:
     bool absolute = 0;
     int alpha = 255;
 
-    std::string decor_path;
-    std::string decor_frame = "";
+    string0D decor_path;
+    string0D decor_frame = "";
 
     SDL_Texture *decor_texture;
     SDLTexture1D decor_textures;
@@ -39,13 +39,13 @@ public:
     // File Manip Decoration
     Decoration(DecorObject decor_obj);
     // Background
-    Decoration(std::string dPath, float whRatio, float scaleVelX = 0.1, float scaleVelY = 0.1, float velX = 0);
+    Decoration(string0D dPath, float whRatio, float scaleVelX = 0.1, float scaleVelY = 0.1, float velX = 0);
     // Static Decoration
-    Decoration(std::string dPath, float X, float Y, float w, float h, bool abs);
+    Decoration(string0D dPath, float X, float Y, float w, float h, bool abs);
     // Standard Animated Decoration
-    Decoration(std::string dPath, float X, float Y, float w, float h, int sw, int sh, int sim, int sfm);
+    Decoration(string0D dPath, float X, float Y, float w, float h, int sw, int sh, int sim, int sfm);
     // Advance Animated Decoration
-    Decoration(std::string dPath, std::string fPath, float X, float Y, float w, float h, int sim, int sfm);
+    Decoration(string0D dPath, string0D fPath, float X, float Y, float w, float h, int sim, int sfm);
 
     float getAddX();
     float getSclVelX();
@@ -62,9 +62,9 @@ public:
     void drawBackground();
 
     // File manip
-    static Decoration *codeToDecorInfo(std::string str);
-    static void appendDecor(Map *map, std::string decor_dir, bool front = 0);
-    static void appendBackground(Map *map, std::string bg_dir);
+    static Decoration *codeToDecorInfo(string0D str);
+    static void appendDecor(Map *map, string0D decor_dir, bool front = 0);
+    static void appendBackground(Map *map, string0D bg_dir);
 };
 
 #endif

@@ -7,7 +7,7 @@ Configuration::Configuration() {};
 
 // METHOD
 
-void Configuration::addDevlog(std::string text, int colorCode)
+void Configuration::addDevlog(string0D text, int colorCode)
 { DEVLOG += "| \033[" + std::to_string(colorCode) + "m" + text + "\033[0m "; }
 void Configuration::printDevlog()
 {

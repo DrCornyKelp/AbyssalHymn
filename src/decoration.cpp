@@ -13,21 +13,21 @@ Decoration::Decoration(DecorObject decor_obj) :
 {}
 
 // Background
-Decoration::Decoration( std::string dPath, float whRatio,
+Decoration::Decoration( string0D dPath, float whRatio,
                         float scaleVelX, float scaleVelY, float velX) :
     decor_path(dPath), w_h_ratio(whRatio),
     scale_vel_x(scaleVelX), scale_vel_y(scaleVelY)
 { setVelX(velX); }
 
 // Static Decoration
-Decoration::Decoration(std::string dPath, float X, float Y, float w, float h, bool abs) :
+Decoration::Decoration(string0D dPath, float X, float Y, float w, float h, bool abs) :
     Object2D((X + w/2)*64, (Y + h/2)*64, w*64, h*64,
             0, 0, w, h, 0, 0, 0, 0),
     decor_path(dPath), absolute(abs)
 {}
 
 // Standard Animated Decoration
-Decoration::Decoration(std::string dPath,
+Decoration::Decoration(string0D dPath,
                         float X, float Y, float w, float h,
                         int sw, int sh, int sim, int sfm) :
     Object2D((X + w/2)*64, (Y + h/2)*64, w*64, h*64,
@@ -36,7 +36,7 @@ Decoration::Decoration(std::string dPath,
 {}
 
 // Advanced Animated Decoration
-Decoration::Decoration(std::string dPath, std::string fPath,
+Decoration::Decoration(string0D dPath, string0D fPath,
                         float X, float Y, float w, float h,
                         int sim, int sfm) :
     Object2D((X + w/2)*64, (Y + h/2)*64, w*64, h*64,
@@ -50,7 +50,7 @@ float Decoration::getSclVelX() { return scale_vel_x; }
 float Decoration::getSclVelY() { return scale_vel_y; }
 
 // Helpful
-std::string convertDigit(int number, int maxNumber)
+string0D convertDigit(int number, int maxNumber)
 {
     // Calculate the number of digits in the maximum number
     int numDigits = 1;
@@ -68,7 +68,7 @@ void Decoration::initDecoration()
     if (decor_frame != "")
         for (int i = 0; i < getSprIndexMax(); i++)
         {
-            std::string frame_path = decor_path + "frame_" +
+            string0D frame_path = decor_path + "frame_" +
                                     convertDigit(i, getSprIndexMax()) +
                                     ".png";
             decor_textures.push_back(loadTexture(frame_path.c_str()));
@@ -174,13 +174,13 @@ void Decoration::drawBackground()
 
 // ============================ FILE MANIPULATION ===================================
 
-Decoration *Decoration::codeToDecorInfo(std::string str)
+Decoration *Decoration::codeToDecorInfo(string0D str)
 {
     std::stringstream ss(str);
     char cm = ',';
 
-    std::string decor_type; // 0: static, 1: sprite sheet, 2: sprite folder
-    std::string path;
+    string0D decor_type; // 0: static, 1: sprite sheet, 2: sprite folder
+    string0D path;
     float x, y, w, h;
     int sw = 0, sh = 0, sim = 0, sfm = 0;
     bool abs = 0;
@@ -206,10 +206,10 @@ Decoration *Decoration::codeToDecorInfo(std::string str)
     return new Decoration(decor_obj);
 }
 
-void Decoration::appendDecor(Map *map, std::string decor_dir, bool front)
+void Decoration::appendDecor(Map *map, string0D decor_dir, bool front)
 {
     std::ifstream inputFile(decor_dir);
-    std::string line;
+    string0D line;
 
     while (std::getline(inputFile, line))
     {   
@@ -231,10 +231,10 @@ void Decoration::appendDecor(Map *map, std::string decor_dir, bool front)
     }
 }
 
-void Decoration::appendBackground(Map *map, std::string bg_dir)
+void Decoration::appendBackground(Map *map, string0D bg_dir)
 {
     std::ifstream inputFile(bg_dir);
-    std::string line;
+    string0D line;
 
     while (std::getline(inputFile, line))
     {
@@ -246,7 +246,7 @@ void Decoration::appendBackground(Map *map, std::string bg_dir)
         std::stringstream ss(line);
         char cm = ',';
 
-        std::string bg_path;
+        string0D bg_path;
 
         // Background Color
         if (line[0] == '*')

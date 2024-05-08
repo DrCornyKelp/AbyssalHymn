@@ -25,7 +25,7 @@ private:
     int bullet_damage = 0;
     float vel_parry_x = 0, vel_parry_y = 0;
 
-    std::string proj_path;
+    string0D proj_path;
     SDL_Texture *proj_texture;
 
     // Fun but unnecessary
@@ -34,11 +34,11 @@ private:
 public:
     ~Projectile();
     // Standard Projectile (can parry, no wall, no pierce)
-    Projectile(std::string pPath, float X, float Y, int hw, int hh, int sw, int sh, float velX, float velY, float accelX, float accelY, int dmg, int age, short harm);
+    Projectile(string0D pPath, float X, float Y, int hw, int hh, int sw, int sh, float velX, float velY, float accelX, float accelY, int dmg, int age, short harm);
     // Customizable No Animation Projectile
-    Projectile(std::string pPath, float X, float Y, int hw, int hh, int sw, int sh, float velX, float velY, float accelX, float accelY, int dmg, int age, short harm, bool parry, bool pierce, bool thruWall);
+    Projectile(string0D pPath, float X, float Y, int hw, int hh, int sw, int sh, float velX, float velY, float accelX, float accelY, int dmg, int age, short harm, bool parry, bool pierce, bool thruWall);
     // Customizable Yes Animation Projectile
-    Projectile(std::string pPath, float X, float Y, int hw, int hh, int sw, int sh, float velX, float velY, float accelX, float accelY, int dmg, int age, short harm, bool parry, bool pierce, bool thruWall, int sim, int sfm);
+    Projectile(string0D pPath, float X, float Y, int hw, int hh, int sw, int sh, float velX, float velY, float accelX, float accelY, int dmg, int age, short harm, bool parry, bool pierce, bool thruWall, int sim, int sfm);
 
     // some things
     static float generateRandomFloat();

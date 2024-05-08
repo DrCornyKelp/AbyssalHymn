@@ -1,7 +1,7 @@
 #include <audio_object.h>
 #include <map.h>
 
-AudioObject::AudioObject(std::string path, float X, float Y,
+AudioObject::AudioObject(string0D path, float X, float Y,
                         float R, float maxvolR, float overrideR) :
     Object2D(X, Y, 0, 0),
     radius(R),
@@ -55,10 +55,10 @@ void AudioObject::updateProximity(Map *map)
 
 // ============================ FILE MANIPULATION ===================================
 
-void AudioObject::appendAudioObject(Map *map, std::string a_dir)
+void AudioObject::appendAudioObject(Map *map, string0D a_dir)
 {
     std::ifstream inputFile(a_dir);
-    std::string line;
+    string0D line;
 
     while (std::getline(inputFile, line))
     {
@@ -70,7 +70,7 @@ void AudioObject::appendAudioObject(Map *map, std::string a_dir)
         std::stringstream ss(line);
         char cm = ',';
 
-        std::string audio_path;
+        string0D audio_path;
         float X, Y, R, MVR, OR;
 
         std::getline(ss, audio_path, ',');

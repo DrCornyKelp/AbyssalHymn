@@ -55,8 +55,8 @@ public:
     void enterDoor(Map *map);
     void draw(Player *player);
 
-    static Door *codeToDoorInfo(std::string str);
-    static void appendDoor(Map *map, std::string door_dir);
+    static Door *codeToDoorInfo(string0D str);
+    static void appendDoor(Map *map, string0D door_dir);
 };
 
 #endif

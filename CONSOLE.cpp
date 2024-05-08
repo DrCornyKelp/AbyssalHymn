@@ -332,7 +332,7 @@ void BlockSyntax::GlobalMerge(string1D cmd,  int &start, short &sorted)
 
 void BlockSyntax::UpdateBlock(bool back, bool f2m)
 {
-    std::string block_path = map->MapDirectory +
+    string0D block_path = map->MapDirectory +
                             (back ? "/block_back.csv" :
                                     "/block_main.csv");
 
@@ -346,7 +346,7 @@ void BlockSyntax::UpdateBlock(bool back, bool f2m)
     }
 
     // MAP TO FILE
-    std::string block_string = "";
+    string0D block_string = "";
     for (Block *block : back ? map->BlockBackVec : map->BlockMainVec)
         block_string += BlockTemplate::blockToCode(block);
 
@@ -498,11 +498,11 @@ void Console::execute(Map *map, string1D cmd)
     if (syntaxComp(cmd, 0, "player")) playerCommand(map, cmd);
 }
 
-void Console::readFile(Map *map, std::string cmd_file)
+void Console::readFile(Map *map, string0D cmd_file)
 {
     // Read File
     std::ifstream inputFile(cmd_file);
-    std::string line;
+    string0D line;
 
     while (std::getline(inputFile, line))
     {
@@ -546,17 +546,17 @@ int Console::normalizeIndex(int i, int m_size)
     return index;
 }
 
-std::string Console::toLowerCase(const std::string& str) {
-    std::string result;
+string0D Console::toLowerCase(const string0D& str) {
+    string0D result;
     for (char c : str)
         result += std::tolower(c);
     return result;
 }
 
-string1D Console::splitCmdSegment(std::string str, char delimiter) {
-    std::vector<std::string> tokens;
+string1D Console::splitCmdSegment(string0D str, char delimiter) {
+    std::vector<string0D> tokens;
     std::stringstream ss(str);
-    std::string token;
+    string0D token;
 
     while (std::getline(ss, token, delimiter))
         tokens.push_back(token);
@@ -565,7 +565,7 @@ string1D Console::splitCmdSegment(std::string str, char delimiter) {
 }
 
 // Compare syntax
-bool Console::syntaxComp(string1D cmd, int index, std::string keyword)
+bool Console::syntaxComp(string1D cmd, int index, string0D keyword)
 {
     if (index < cmd.size() &&
         toLowerCase(cmd[index]) == keyword)
@@ -578,7 +578,7 @@ bool Console::syntaxComps(string1D cmd, int index, string1D keywords)
 {
     if (index >= cmd.size()) return false;
 
-    for (std::string keyword : keywords)
+    for (string0D keyword : keywords)
         if (syntaxComp(cmd, index, keyword)) return true;
 
     return false;

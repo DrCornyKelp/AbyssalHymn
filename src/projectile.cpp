@@ -10,7 +10,7 @@ float Projectile::generateRandomFloat() {
 Projectile::~Projectile()
 { SDL_DestroyTexture(proj_texture); }
 
-Projectile::Projectile( std::string pPath,
+Projectile::Projectile( string0D pPath,
                         float X, float Y, int hw, int hh, int sw, int sh,
                         float velX, float velY, float accelX, float accelY,
                         int dmg, int age, short harm) :
@@ -25,7 +25,7 @@ Projectile::Projectile( std::string pPath,
     setAccelX(accelX); setAccelY(accelY);
 }
 
-Projectile::Projectile( std::string pPath,
+Projectile::Projectile( string0D pPath,
                         float X, float Y, int hw, int hh, int sw, int sh,
                         float velX, float velY, float accelX, float accelY,
                         int dmg, int age, short harm,
@@ -43,7 +43,7 @@ Projectile::Projectile( std::string pPath,
     setAccelX(accelX); setAccelY(accelY);
 }
 
-Projectile::Projectile( std::string pPath,
+Projectile::Projectile( string0D pPath,
                         float X, float Y, int hw, int hh, int sw, int sh,
                         float velX, float velY, float accelX, float accelY,
                         int dmg, int age, short harm,

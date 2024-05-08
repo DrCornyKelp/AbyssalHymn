@@ -24,7 +24,7 @@ class Player;
 class Bubble : public Object2D
 {
 private:
-    std::string bubble_path;
+    string0D bubble_path;
     SDL_Texture *bubble_texture;
 
     short b_type;
@@ -33,7 +33,7 @@ private:
 
 public:
     ~Bubble();
-    Bubble( std::string bPath, ObjectHitbox bHitbox,
+    Bubble( string0D bPath, ObjectHitbox bHitbox,
             ObjectBox bActivebox, BubbleStyle bStyle,
             short type = 0, int grid = 64 );
     // == Init ==
@@ -44,8 +44,8 @@ public:
     void draw(Player *player);
 
     // File Manip
-    static Bubble *codeToBubbleInfo(std::string str);
-    static void appendBubble(Map *map, std::string bubble_dir);
+    static Bubble *codeToBubbleInfo(string0D str);
+    static void appendBubble(Map *map, string0D bubble_dir);
 };
 
 #endif
