@@ -31,8 +31,9 @@ AbyssalHymn:
 		src/enemy/slime.cpp \
 		src/enemy/skeleton.cpp \
 		\
-		src/menu/menu.cpp \
-		src/menu/section.cpp \
+		src/UI/menu.cpp \
+		src/UI/button.cpp \
+		src/UI/section.cpp \
 		src/map.cpp \
 		src/world.cpp \
 		src/scene.cpp \
