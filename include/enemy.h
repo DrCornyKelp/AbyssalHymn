@@ -28,8 +28,7 @@ public:
 
     virtual void draw(Player *player);
 
-    virtual void enemyAI(Player *player, Map *map);
-    virtual void enemyPlayerCollision(Player *player);
+    virtual void enemyAI(Map *map);
     virtual void enemyGetHit(int dmg);
 
     void updateEnemy(Map *map);

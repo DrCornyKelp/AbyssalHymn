@@ -53,14 +53,14 @@ public:
     // Harm the environment (not really, they immortal)
     void blockCollision(Block *block);
     // Harm you
-    void playerCollision(Player *player, Map *map);
+    void playerCollision(Map *map, Player *player);
     // Harm them
     void enemyCollision(Map *map);
     // Harmful in general (lookin at you America)
-    void projectileCollision(Player *player, Map *map);
+    void projectileCollision(Map *map);
 
     // =================== Velocity ====================
-    void projectileAction(Player* player, Map *map);
+    void projectileAction(Map *map);
 
     // =================== Update ======================
     void updateProjectile(Player *player, Map *map);

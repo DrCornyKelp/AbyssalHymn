@@ -43,8 +43,7 @@ public:
 
     int generateRandomDistance();
 
-    void enemyAI(Player *player, Map *map) override;
-    void enemyPlayerCollision(Player *player) override;
+    void enemyAI(Map *map) override;
     void enemyGetHit(int dmg) override;
     void draw(Player* player) override;
 };

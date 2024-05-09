@@ -62,10 +62,9 @@ Projectile::Projectile( string0D pPath,
     setAccelX(accelX); setAccelY(accelY);
 }
 
-void Projectile::playerCollision(Player *player, Map *map)
+void Projectile::playerCollision(Map *map, Player *player)
 {   
     // Player Get Hit Oof It hurt
-
     if (harm_player && Collision::playerCollision(player, this))
     {
         bullet_dead = !can_pierce && true;
@@ -141,9 +140,10 @@ void Projectile::enemyCollision(Map *map)
     // that would be really insane but hey!
 }
 
-void Projectile::projectileCollision(Player *player, Map *map)
+void Projectile::projectileCollision(Map *map)
 {
-    playerCollision(player, map);
+    for (Player *player : map->MapPlayers->Players)
+        playerCollision(map, player);
     // Enemy
     if (harm_enemy) enemyCollision(map);
     // Block
@@ -156,7 +156,7 @@ void Projectile::projectileCollision(Player *player, Map *map)
     };
 }
 
-void Projectile::projectileAction(Player* player, Map *map)
+void Projectile::projectileAction(Map *map)
 {
     if (bullet_age > 0) bullet_age--;
     else bullet_dead = true;
@@ -186,8 +186,8 @@ void Projectile::projectileAction(Player* player, Map *map)
 
 void Projectile::updateProjectile(Player *player, Map *map)
 {
-    projectileAction(player, map);
-    projectileCollision(player, map);
+    projectileAction(map);
+    projectileCollision(map);
 
     if (bullet_dead)
         map->ParticleFrontVec.push_back(new ParticleEffect(

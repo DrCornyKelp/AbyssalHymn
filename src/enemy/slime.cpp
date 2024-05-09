@@ -40,7 +40,7 @@ void Slime::draw(Player *player)
     SDL_RenderCopy(CFG->RENDERER, slimeTexture, &srcRect, &desRect);
 }
 
-void Slime::enemyAI(Player *player, Map *map)
+void Slime::enemyAI(Map *map)
 {
     if (getHp() <= 0 && !getDead())
     {
@@ -67,11 +67,6 @@ void Slime::enemyAI(Player *player, Map *map)
         setInvinTime(getInvinTime() - 1);
         SDL_SetTextureAlphaMod(slimeTexture, (getInvinTime() % 15 > 0) ? 200 : 160);
     }
-}
-
-void Slime::enemyPlayerCollision(Player *player)
-{
-
 }
 
 void Slime::enemyGetHit(int dmg)

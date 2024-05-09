@@ -100,9 +100,6 @@ void Collision::playerEnemyCollision(Map *map, Player *player)
         {
             if (enemy->getCollideDamage())
                 player->playerGetHit(map, enemy->getCollideDamage());
-
-            // Addition enemy logic
-            enemy->enemyPlayerCollision(player);
         }
 
     // ================== DEALING DAMAGE =======================

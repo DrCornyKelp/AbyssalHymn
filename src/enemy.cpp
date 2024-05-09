@@ -10,15 +10,10 @@ Enemy::Enemy(float X, float Y, int w, int h, int hw, int hh,
 
 void Enemy::initEnemy() {}
 void Enemy::draw(Player *player) {}
-void Enemy::enemyAI(Player *player, Map *map) {}
-void Enemy::enemyPlayerCollision(Player *player) {}
+void Enemy::enemyAI(Map *map) {}
 void Enemy::enemyGetHit(int dmg) {}
 
-void Enemy::updateEnemy(Map *map)
-{
-    enemyAI(map->MapPlayers->MAIN, map);
-    enemyPlayerCollision(map->MapPlayers->MAIN);
-}
+void Enemy::updateEnemy(Map *map) { enemyAI(map); }
 
 // Getter
 int Enemy::getHp() { return hp; };

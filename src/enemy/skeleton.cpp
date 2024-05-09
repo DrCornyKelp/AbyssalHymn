@@ -64,7 +64,7 @@ int Skeleton::generateRandomDistance() {
     return dis(gen);
 }
 
-void Skeleton::enemyAI(Player *player, Map *map)
+void Skeleton::enemyAI(Map *map)
 {
     if (getDead())
     {
@@ -110,15 +110,33 @@ void Skeleton::enemyAI(Player *player, Map *map)
         };
     }
 
-    if (!attack_delay && !attack_state &&
-        abs(player->getX() - getX()) < 150 && (
-        (direction > 0 && player->getX() > getX()) ||
-        (direction < 0 && player->getX() < getX())
-    )) {
-        setSprIndex(0);
-        setSprFrameMax(10);
-        attack_state = true;
+    for (Player *player : map->MapPlayers->Players)
+    {
+        if (!attack_delay && !attack_state &&
+            abs(player->getX() - getX()) < 150 && (
+            (direction > 0 && player->getX() > getX()) ||
+            (direction < 0 && player->getX() < getX())
+        )) {
+            setSprIndex(0);
+            setSprFrameMax(10);
+            attack_state = true;
+        }
+
+        if (Collision::playerCombatCollision(player, this, true))
+        {
+            if (!player->combat.invulnerable)
+            {
+                map->ParticleBackVec.push_back(new ParticleEffect(
+                    loadTexture(
+                        "res/ParticleSheet/NakuEffect/Attack.png"),
+                    player->move.hitX(), player->move.hitY(), 100, 100,
+                    64, 64, 8, 4, 0
+                ));
+            }
+            player->playerGetHit(map, 20);
+        }
     }
+
     if (attack_delay) attack_delay--;
     if (stunt_resistance) stunt_resistance--;
 
@@ -148,21 +166,6 @@ void Skeleton::enemyAI(Player *player, Map *map)
         setCombatHitL(0);
         setCombatHitR(0);
     }
-
-    if (Collision::playerCombatCollision(player, this, true))
-    {
-        if (!player->combat.invulnerable)
-        {
-            map->ParticleBackVec.push_back(new ParticleEffect(
-                loadTexture(
-                    "res/ParticleSheet/NakuEffect/Attack.png"),
-                player->move.hitX(), player->move.hitY(), 100, 100,
-                64, 64, 8, 4, 0
-            ));
-        }
-        player->playerGetHit(map, 20);
-    }
-
 
     if ((getInvinTime() < 60 || stunt_resistance) && !idle_time && !attack_state)
         setX(getX() + direction);
@@ -209,11 +212,6 @@ void Skeleton::enemyAI(Player *player, Map *map)
 
     // std::cout << wander_state << " " << wander_time << " " << idle_time << "\n";
     // std::cout << attack_state << " " << stunt_resistance << "\n";
-}
-
-void Skeleton::enemyPlayerCollision(Player *player)
-{
-    if (getDead()) return;
 }
 
 void Skeleton::enemyGetHit(int dmg)
