@@ -274,7 +274,10 @@ void Map::updateMapGlobal()
 void Map::updateMapActive()
 {
     // In the middle of a transition
-    if (MapWorld->map_transition) MapPlayers->MAIN->setStatic();
+    if (MapWorld->map_transition)
+        for (Player *player : MapPlayers->Players)
+            player->setStatic();
+
     if (MapWorld->map_transition > MapWorld->map_transition_mid)
     {
         MapInput->setKeyDelay(MapWorld->map_transition_mid + 10);
@@ -284,25 +287,25 @@ void Map::updateMapActive()
     // ====================== UPDATE PARALLAX BG =======================
     for (int i = 0; i < BackgroundVec.size(); i+=2)
     {
-        BackgroundVec[i]->updateBackground(MapPlayers->MAIN,1);
+        BackgroundVec[i]->updateBackground(MapPlayers->MAIN, 1);
         BackgroundVec[i+1]->updateBackground(MapPlayers->MAIN);
     }
 
     // ====================== UPDATE DOOR ==============================
-    for (Door *door : DoorVec)
-        door->enterDoor(this);
 
     // ====================== UPDATE PLAYER ============================
-    // Input
     MapInput->input();
-    // Collision
-    MapCollision->playerUpdateCollision(this, MapPlayers->MAIN);
-    // Player
+
+    for (Player *player : MapPlayers->Players)
+    {
+        MapCollision->playerUpdateCollision(this, MapPlayers->MAIN);
+        for (Enemy *enemy : EnemyVec) enemy->updateEnemy(this);
+        for (Door *door : DoorVec) door->enterDoor(this);
+    }
+
     MapPlayers->update(this);
 
     // ====================== UPDATE ENEMIES ===========================
-    for (Enemy *enemy : EnemyVec)
-        enemy->updateEnemy(this);
 
     // Erase Dead Enemy
     EnemyVec.erase(std::remove_if(EnemyVec.begin(), EnemyVec.end(),
@@ -334,11 +337,14 @@ void Map::updateMapActive()
 
 void Map::loadCheckpoint(WorldLocation location)
 {
-    MapPlayers->MAIN->setStatic();
-    MapPlayers->MAIN->setX(location.sX*64 + 35);
-    MapPlayers->MAIN->setY(location.sY*64 + 51);
-    MapPlayers->MAIN->camera.resetCamera();
-    MapPlayers->MAIN->camera.focus_snap = location.snap;
+    for (Player *player : MapPlayers->Players)
+    {
+        player->setStatic();
+        player->setX(location.sX*64 + 35);
+        player->setY(location.sY*64 + 51);
+        player->camera.resetCamera();
+        player->camera.focus_snap = location.snap;
+    }
 }
 
 void Map::appendTransitMap(Map *map, string0D trans_dir)

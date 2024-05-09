@@ -35,7 +35,7 @@ void Renderer::renderGameplay(Map *map, Hud *hud)
         enemy->draw(map->MapPlayers->MAIN);
 
     // Player
-    map->MapPlayers->MAIN->draw_prop.playerDrawSprite();
+    map->MapPlayers->draw();
 
     // Projectile
     for (Projectile *projectile : map->ProjectileVec)

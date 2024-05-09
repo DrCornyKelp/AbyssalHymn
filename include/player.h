@@ -8,6 +8,7 @@
 #define CameraBox1D std::vector<PlayerCameraBox>
 
 class Map;
+class Multiplayer;
 
 struct PlayerCameraBox
 {
@@ -229,6 +230,7 @@ private:
 public:
     // ================== Combat ===================
     bool MAIN;
+    Multiplayer *MULTI;
     PlayerState state;
     PlayerCondition condition;
 

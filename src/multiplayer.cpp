@@ -7,12 +7,18 @@ Multiplayer::~Multiplayer()
 };
 Multiplayer::Multiplayer(Player1D players) :
     Players(players), MAIN(Players[0])
-{}
+{ 
+    Players[0]->MAIN = 1;
+    for (Player *player : Players) player->MULTI = this;
+}
 
 void Multiplayer::update(Map *map)
 {
-    for (Player *player : Players)
-        player->playerUpdate(map);
-
+    for (Player *player : Players) player->playerUpdate(map);
     MAIN->camera.playerCameraProperty(map->MapInput);
+}
+
+void Multiplayer::draw()
+{
+    for (Player *player : Players) player->draw_prop.playerDrawSprite();
 }

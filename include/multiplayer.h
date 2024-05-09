@@ -13,6 +13,7 @@ public:
     ~Multiplayer();
     Multiplayer(Player1D players);
     void update(Map *map);
+    void draw();
 };
 
 #endif

@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 
     // Player + Hud
     Multiplayer *multi = new Multiplayer({
-        new Player(1), new Player()
+        new Player(), new Player()
     });
     Hud *hud = new Hud(multi->Players[0]);
 

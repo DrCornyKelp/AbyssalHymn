@@ -213,15 +213,6 @@ void PlayerDrawProp::playerDrawSprite()
 {
     player->objectSetSprite(end_lock);
 
-    SDL_Rect desRect = {
-        Camera::playerDrawX(player, player->getWidth()*4),
-        Camera::playerDrawY(player, player->getWidth()*4),
-        player->getWidth()*4, player->getWidth()*4};
-
-    SDL_Rect srcRect = {player->getSprIndex() * player->getWidth(),
-                        index * player->getWidth(),
-                        player->getWidth(), player->getWidth()};
-
     if (!player->combat.invulnerable)
         SDL_SetTextureAlphaMod(CurrentTexture, 255);
 
@@ -240,6 +231,23 @@ void PlayerDrawProp::playerDrawSprite()
             RightFriction->draw(player);
         }
     }
+    SDL_Rect desRect;
+    if (player->MAIN) desRect = {
+        Camera::playerDrawX(player, player->getWidth()*4),
+        Camera::playerDrawY(player, player->getWidth()*4),
+        player->getWidth()*4, player->getWidth()*4
+    };
+    else desRect = {
+        Camera::objectDrawX(player->MULTI->MAIN, player),
+        Camera::objectDrawY(player->MULTI->MAIN, player),
+        player->getWidth()*4, player->getWidth()*4
+    };
+
+    SDL_Rect srcRect = {
+        player->getSprIndex() * player->getWidth(),
+        index * player->getWidth(),
+        player->getWidth(), player->getWidth()
+    };
 
     SDL_RenderCopy(CFG->RENDERER, CurrentTexture, &srcRect, &desRect);
 }
