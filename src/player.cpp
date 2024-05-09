@@ -238,7 +238,7 @@ void PlayerDrawProp::playerDrawSprite()
         player->getWidth()*4, player->getWidth()*4
     };
     else desRect = {
-        Camera::objectDrawX(player->MULTI->MAIN, player) - player->getWidth()*2,
+        Camera::objectDrawX(player->MULTI->MAIN, player) - player->getWidth(),
         Camera::objectDrawY(player->MULTI->MAIN, player) - player->getWidth()*2,
         player->getWidth()*4, player->getWidth()*4
     };
