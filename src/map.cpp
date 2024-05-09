@@ -298,7 +298,7 @@ void Map::updateMapActive()
 
     for (Player *player : MapPlayers->Players)
     {
-        MapCollision->playerUpdateCollision(this, MapPlayers->MAIN);
+        MapCollision->playerUpdateCollision(this, player);
         for (Enemy *enemy : EnemyVec) enemy->updateEnemy(this);
         for (Door *door : DoorVec) door->enterDoor(this);
     }
