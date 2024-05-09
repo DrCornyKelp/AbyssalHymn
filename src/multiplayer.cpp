@@ -16,13 +16,25 @@ Multiplayer::Multiplayer(Player1D players) :
     }
 }
 
+void Multiplayer::changeMain(int index)
+{
+    for (Player *player : Players)
+        player->MAIN = 0;
+
+    Players[index]->MAIN = 1;
+}
+
 void Multiplayer::update(Map *map)
 {
-    for (Player *player : Players) player->playerUpdate(map);
+    for (Player *player : Players)
+        player->playerUpdate(map);
+    
+    // Update the camera for this player, only
     MAIN->camera.playerCameraProperty(map->MapInput);
 }
 
 void Multiplayer::draw()
 {
-    for (Player *player : Players) player->draw_prop.playerDrawSprite();
+    for (Player *player : Players)
+        player->draw_prop.playerDrawSprite();
 }

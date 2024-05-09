@@ -12,6 +12,7 @@ public:
 
     ~Multiplayer();
     Multiplayer(Player1D players);
+    void changeMain(int index);
     void update(Map *map);
     void draw();
 };
