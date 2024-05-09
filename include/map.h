@@ -5,11 +5,11 @@
 #include <input.h>
 #include <collision.h>
 #include <block_template.h>
+#include <multiplayer.h>
 
 #include <door.h>
 #include <item.h>
 #include <block.h>
-#include <player.h>
 #include <bubble.h>
 #include <decoration.h>
 #include <projectile.h>

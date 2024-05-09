@@ -29,8 +29,10 @@ int main(int argc, char *argv[])
     Renderer *rend = new Renderer();
 
     // Player + Hud
-    Player *player = new Player();
-    Hud *hud = new Hud(player);
+    Multiplayer *multi = new Multiplayer({
+        new Player(), new Player()
+    });
+    Hud *hud = new Hud(multi->Players[0]);
 
     // Collision
     Collision *collision = new Collision();
@@ -57,14 +59,14 @@ int main(int argc, char *argv[])
         new Map("SeaHorizon"), // 13
         new Map("CloudHighway") // 14
     });
-    world->initWorld(player, audio, input, collision,
+    world->initWorld(multi->Players[0], audio, input, collision,
         {1, 7, 2, 1}
     );
 
     // Console Command
-    Console *console = new Console(world, input, player, collision);
+    Console *console = new Console(world, input, multi->Players[0], collision);
     // Map editor
-    Editor *editor = new Editor(console, world, input, player, collision);
+    Editor *editor = new Editor(console, world, input, multi->Players[0], collision);
 
     bool pause = false;
     while (!input->input())
@@ -77,7 +79,7 @@ int main(int argc, char *argv[])
         // audio->updateTrack();
         world->updateWorld();
         rend->renderGameplay(world->MapCurrent, hud);
-        player->playerDeveloper(world->MapCurrent);
+        multi->Players[0]->playerDeveloper(world->MapCurrent);
 
         // Console + Editor
         editor->update();
@@ -88,10 +90,9 @@ int main(int argc, char *argv[])
         CFG->frameHandler(CFG->DELAY_TIME);
     }
 
-    // Clean up
+    // Clean up (REMEMBER TO ADD PLAYER CLEAN UP AS WELL)
     delete  world, audio, input, CFG,
-            collision, hud, rend,
-            player;
+            collision, hud, rend, multi;
 
     SDL_DestroyRenderer(CFG->RENDERER);
     SDL_DestroyWindow(CFG->WINDOW);

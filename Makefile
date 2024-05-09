@@ -17,6 +17,7 @@ AbyssalHymn:
 		src/configuration.cpp \
 		src/object2D.cpp \
 		src/audio_object.cpp \
+		src/multiplayer.cpp \
 		src/player.cpp \
 		src/hud.cpp \
 		src/item.cpp \
