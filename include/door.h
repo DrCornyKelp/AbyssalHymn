@@ -47,12 +47,12 @@ public:
     Door(int style, bool h_left, int X, int Y,
         int m_index, int spawnX, int spawnY,
         int star = 0);
+    void initDoor();
 
     void setStar(int star);
     int getStar();
 
-    void initDoor();
-    void enterDoor(Map *map);
+    void enterDoor(Map *map, Player *player);
     void draw(Player *player);
 
     static Door *codeToDoorInfo(string0D str);

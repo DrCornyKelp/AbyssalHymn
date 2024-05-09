@@ -221,7 +221,7 @@ void Map::updateMapGlobal()
 {
     // ====================== UPDATE PROJECTILE ========================
     for (Projectile *projectile : ProjectileVec)
-        projectile->updateProjectile(MapPlayers->MAIN, this);
+        projectile->updateProjectile(this);
 
     // Erase Dead Bullet
     ProjectileVec.erase(std::remove_if(ProjectileVec.begin(), ProjectileVec.end(),
@@ -246,21 +246,32 @@ void Map::updateMapGlobal()
         return false;
     }), ParticleFrontVec.end());
 
+    // ====================== ERASE DEAD ENEMY =========================
+    EnemyVec.erase(std::remove_if(EnemyVec.begin(), EnemyVec.end(),
+    [](Enemy* enemy) {
+        // The other condition is to ensure enemy play dead animation
+        return enemy->getDead() &&
+        enemy->getSprIndex() >= enemy->getSprIndexMax() - 1;
+    }), EnemyVec.end());
+
     // ====================== UPDATE SEETHOUGH BLOCK ===================
-    for (Block1D blockSection : BlockHiddenVec)
+
+    for (Player *player : MapPlayers->Players)
     {
-        bool seethru = 0;
-        for (Block *block : blockSection)
-            seethru = Collision::objectCollision(MapPlayers->MAIN, block) || seethru;
-        seethru = seethru && MapActive;
+        for (Block1D blockSection : BlockHiddenVec)
+        {
+            bool seethru = 0;
+            for (Block *block : blockSection)
+                seethru = Collision::objectCollision(player, block) || seethru;
+            seethru = seethru && MapActive;
 
-        for (Block *block : blockSection)
-            block->blockSeethrough(this, seethru);
+            for (Block *block : blockSection)
+                block->blockSeethrough(this, seethru);
+        }
+
+        for (Bubble *bubble : BubbleVec)
+            bubble->updateBubble(this, player);
     }
-
-    // ====================== UPDATE DIALOGUE BUBBLE ===================
-    for (Bubble *bubble : BubbleVec)
-        bubble->updateBubble(this);
 
     // ====================== UPDATE EXCLUSIVE =========================
     UpdateExclusive(this);
@@ -273,7 +284,7 @@ void Map::updateMapGlobal()
 
 void Map::updateMapActive()
 {
-    // In the middle of a transition
+    // ================= In the middle of a transition =================
     if (MapWorld->map_transition)
         for (Player *player : MapPlayers->Players)
             player->setStatic();
@@ -284,43 +295,30 @@ void Map::updateMapActive()
         return;
     };
 
+    MapPlayers->update(this);
+    for (Player *player : MapPlayers->Players)
+    {
+        // Collision
+        MapCollision->playerUpdateCollision(this, player);
+        // Door
+        for (Door *door : DoorVec) door->enterDoor(this, player);
+        // Map Transitor
+        for (MapTransit m_trans : TransitMap)
+        if (player->insideGridBox(m_trans.box))
+        {
+            MapWorld->setTransit(m_trans.location);
+            break;
+        }
+    }
+
+    // ====================== UPDATE ENEMIES ===========================
+    for (Enemy *enemy : EnemyVec) enemy->updateEnemy(this);
+
     // ====================== UPDATE PARALLAX BG =======================
-    for (int i = 0; i < BackgroundVec.size(); i+=2)
+    for (int i = 0; i < BackgroundVec.size(); i += 2)
     {
         BackgroundVec[i]->updateBackground(MapPlayers->MAIN, 1);
         BackgroundVec[i+1]->updateBackground(MapPlayers->MAIN);
-    }
-
-    // ====================== UPDATE DOOR ==============================
-
-    // ====================== UPDATE PLAYER ============================
-    MapInput->input();
-
-    for (Player *player : MapPlayers->Players)
-    {
-        MapCollision->playerUpdateCollision(this, player);
-        for (Door *door : DoorVec) door->enterDoor(this);
-    }
-        for (Enemy *enemy : EnemyVec) enemy->updateEnemy(this);
-
-    MapPlayers->update(this);
-
-    // ====================== UPDATE ENEMIES ===========================
-
-    // Erase Dead Enemy
-    EnemyVec.erase(std::remove_if(EnemyVec.begin(), EnemyVec.end(),
-    [](Enemy* enemy) {
-        // The other condition is to ensure enemy play dead animation
-        return enemy->getDead() &&
-        enemy->getSprIndex() >= enemy->getSprIndexMax() - 1;
-    }), EnemyVec.end());
-
-    // ====================== UPDATE TRANSIT ===========================
-    for (MapTransit m_trans : TransitMap)
-    if (MapPlayers->MAIN->insideGridBox(m_trans.box))
-    {
-        MapWorld->setTransit(m_trans.location);
-        break;
     }
 
     // ====================== UPDATE CAMERA ============================

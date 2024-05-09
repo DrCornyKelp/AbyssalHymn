@@ -12,16 +12,13 @@ Door::Door(DoorObject door) :
     Object2D(door.X*64 + 32, door.Y*64 + 64, 64, 128, 64, 128),
     style(door.style), handle_left(door.left),
     location(door.location), need_star(door.star)
-{}
+{ initDoor(); }
 // Create from my ass
 Door::Door( int style, bool h_left, int X, int Y,
             int m_index, int spawnX, int spawnY, int star) :
     Object2D(X*64 + 32, Y*64 + 64, 64, 128),
     location({m_index, spawnX, spawnY}), need_star(star)
-{}
-
-void Door::setStar(int star) { need_star = star; }
-int Door::getStar() { return need_star; }
+{ initDoor(); }
 
 void Door::initDoor()
 { 
@@ -37,13 +34,16 @@ void Door::initDoor()
     );
 }
 
+void Door::setStar(int star) { need_star = star; }
+int Door::getStar() { return need_star; }
+
 // Enter the door
-void Door::enterDoor(Map *map)
+void Door::enterDoor(Map *map, Player *player)
 {
-    if (Collision::playerCollision(map->MapPlayers->MAIN, this) &&
-        map->MapPlayers->MAIN->state.on_ground &&
-        map->MapPlayers->MAIN->getHitHeight() == 80 &&
-        abs(map->MapPlayers->MAIN->getVelX()) < .2 &&
+    if (Collision::playerCollision(player, this) &&
+        player->state.on_ground &&
+        player->getHitHeight() == 80 &&
+        abs(player->getVelX()) < .2 &&
         map->MapInput->getKeyPress(0)
         // Star logic here
         )

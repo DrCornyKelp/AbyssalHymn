@@ -184,7 +184,7 @@ void Projectile::projectileAction(Map *map)
     }
 }
 
-void Projectile::updateProjectile(Player *player, Map *map)
+void Projectile::updateProjectile(Map *map)
 {
     projectileAction(map);
     projectileCollision(map);

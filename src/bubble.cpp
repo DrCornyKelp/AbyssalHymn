@@ -18,11 +18,11 @@ void Bubble::initBubble()
     SDL_SetTextureAlphaMod(bubble_texture, 0);
 }
 
-void Bubble::updateBubble(Map *map)
+void Bubble::updateBubble(Map *map, Player *player)
 {
     // Update Bubble Transparency
     if (map->MapActive &&
-        map->MapPlayers->MAIN->insideGridBox(b_active_box))
+        player->insideGridBox(b_active_box))
     {
         if (b_style.curAlpha < b_style.maxAlpha)
             b_style.curAlpha += 5;

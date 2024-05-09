@@ -63,7 +63,7 @@ public:
     void projectileAction(Map *map);
 
     // =================== Update ======================
-    void updateProjectile(Player *player, Map *map);
+    void updateProjectile(Map *map);
 
     // =================== Draw ====-===================
     void draw(Player *player);

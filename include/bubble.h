@@ -39,7 +39,7 @@ public:
     // == Init ==
     void initBubble();
     // == Update ==
-    void updateBubble(Map *map);
+    void updateBubble(Map *map, Player *player);
     // == Draw ==
     void draw(Player *player);
 
