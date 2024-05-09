@@ -280,6 +280,14 @@ $\Rightarrow$ Player can move between location using `Transition` (from Object2D
 
 - Added destructors and other memory freeing method to avoid leakage
 
+### [`29/4`] DYNAMIC AUDIO OBJECT
+
+- Created a dynamic `audio object`: audio get louder as player get closer, as well as the ability to override the background music
+
+### [`6/4`] MULTIPLAYER: GLOBAL OFFENSIVE
+
+- ADDED MULTIPLAYER
+
 ---
 
 ## Credits

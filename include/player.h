@@ -228,6 +228,7 @@ private:
 public:
     // ================== Combat ===================
     bool MAIN;
+    int INDEX;
     Multiplayer *MULTI;
     PlayerState state;
     PlayerCondition condition;

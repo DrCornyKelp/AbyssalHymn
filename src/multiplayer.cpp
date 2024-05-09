@@ -9,7 +9,11 @@ Multiplayer::Multiplayer(Player1D players) :
     Players(players), MAIN(Players[0])
 { 
     Players[0]->MAIN = 1;
-    for (Player *player : Players) player->MULTI = this;
+    for (int i = 0; i < Players.size(); i++)
+    {
+        Players[i]->INDEX = i;
+        Players[i]->MULTI = this;
+    }
 }
 
 void Multiplayer::update(Map *map)
