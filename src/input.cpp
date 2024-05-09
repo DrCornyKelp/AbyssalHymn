@@ -164,31 +164,6 @@ bool Input::input()
         }
     }
 
-    // === EXTREMELY IRRESPONSIBLE TESTING PROTOCOL PLACEMENT (^v') tehe) ===
-    if (key[15])
-    {
-        if (getKeyPress(11))
-        {
-            keyhold[11] = true;
-            CFG->resizeWindow(CFG->WIDTH, CFG->HEIGHT + 128);
-        }
-        if (getKeyPress(12))
-        {
-            keyhold[12] = true;
-            CFG->resizeWindow(CFG->WIDTH, CFG->HEIGHT - 128);
-        }
-        if (getKeyPress(13))
-        {
-            keyhold[13] = true;
-            CFG->resizeWindow(CFG->WIDTH - 128, CFG->HEIGHT);
-        }
-        if (getKeyPress(14))
-        {
-            keyhold[14] = true;
-            CFG->resizeWindow(CFG->WIDTH + 128, CFG->HEIGHT);
-        }
-    }
-
     return false;
 }
 
