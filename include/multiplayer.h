@@ -8,10 +8,11 @@ class Multiplayer
 {
 public:
     Player1D Players;
+    Player *MAIN;
 
     ~Multiplayer();
     Multiplayer(Player1D players);
-    void updatePlayers(Map *map);
+    void update(Map *map);
 };
 
 #endif

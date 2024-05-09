@@ -25,7 +25,7 @@ public:
     ~World();
     World(std::vector<Map*> mapvec, int startmap = 0);
 
-    void initWorld( Player *player, Audio *audio, Input *input,
+    void initWorld( Multiplayer *multi, Audio *audio, Input *input,
                     Collision *collision, WorldLocation location);
 
     void setTransit(WorldLocation location, int trans_time = 30);

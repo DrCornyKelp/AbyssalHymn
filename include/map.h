@@ -94,8 +94,8 @@ public:
     World *MapWorld;
     Audio *MapAudio;
     Input *MapInput;
-    Player *MapPlayer;
     Collision *MapCollision;
+    Multiplayer *MapPlayers;
 
     string0D MapName = "";
     string0D MapDirectory = "";
@@ -147,7 +147,7 @@ public:
     Map(string0D mapname);
 
     void initMapStandard();
-    void initMap(World *world, Player *player, Audio *audio,
+    void initMap(World *world, Multiplayer *multi, Audio *audio,
                 Input *input, Collision *collision, int id = -1);
 
     void updateMapActive();

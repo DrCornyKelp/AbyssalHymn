@@ -40,10 +40,10 @@ void Door::initDoor()
 // Enter the door
 void Door::enterDoor(Map *map)
 {
-    if (Collision::playerCollision(map->MapPlayer, this) &&
-        map->MapPlayer->state.on_ground &&
-        map->MapPlayer->getHitHeight() == 80 &&
-        abs(map->MapPlayer->getVelX()) < .2 &&
+    if (Collision::playerCollision(map->MapPlayers->MAIN, this) &&
+        map->MapPlayers->MAIN->state.on_ground &&
+        map->MapPlayers->MAIN->getHitHeight() == 80 &&
+        abs(map->MapPlayers->MAIN->getVelX()) < .2 &&
         map->MapInput->getKeyPress(0)
         // Star logic here
         )

@@ -74,7 +74,7 @@ bool Collision::boxCollision(ObjectBox box1, ObjectBox box2, int1D offset)
 
 // Seperate Collision
 
-void Collision::playerBlockCollision(Player *player, Map *map)
+void Collision::playerBlockCollision(Map *map, Player *player)
 {
     PlayerState p_state;
 
@@ -86,7 +86,7 @@ void Collision::playerBlockCollision(Player *player, Map *map)
     player->state = p_state;
 }
 
-void Collision::playerEnemyCollision(Player *player, Map *map)
+void Collision::playerEnemyCollision(Map *map, Player *player)
 {
     for (Enemy *enemy : map->EnemyVec)
     {
@@ -131,19 +131,19 @@ void Collision::playerEnemyCollision(Player *player, Map *map)
     }
 }
 
-void Collision::playerItemCollision(Player *player, Map *map)
+void Collision::playerItemCollision(Map *map, Player *player)
 {
     for (Item *item : map->ItemVec)
     {
     }
 }
 
-void Collision::playerUpdateCollision(Map *map)
+void Collision::playerUpdateCollision(Map *map, Player *player)
 {
-    if (map->MapPlayer->getGodmode()) return;
+    if (player->getGodmode()) return;
 
-    map->MapPlayer->jump.ceiling_min = 20;
-    playerBlockCollision(map->MapPlayer, map);
-    playerEnemyCollision(map->MapPlayer, map);
-    playerItemCollision(map->MapPlayer, map);
+    player->jump.ceiling_min = 20;
+    playerBlockCollision(map, player);
+    playerEnemyCollision(map, player);
+    playerItemCollision(map, player);
 }

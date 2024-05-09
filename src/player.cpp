@@ -4,7 +4,7 @@
 Player::~Player()
 { draw_prop.clearTexture(); }
 // Constructor
-Player::Player() : Object2D()
+Player::Player(bool mc) : Object2D(), MAIN(mc)
 {
     // Nakuru normal mvoement
     draw_prop.RightTexture = loadTexture("res/NakuSheet/NakuRight.png");
@@ -1102,9 +1102,7 @@ void Player::playerUpdate(Map *map)
     playerMovement(map);
     playerCombat(map);
     playerHitBox();
-
     draw_prop.playerDrawProperty(map);
-    camera.playerCameraProperty(map->MapInput);
 }
 
 void Player::playerEnableAllMoveset()

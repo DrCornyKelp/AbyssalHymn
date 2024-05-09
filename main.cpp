@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 
     // Player + Hud
     Multiplayer *multi = new Multiplayer({
-        new Player(), new Player()
+        new Player(1), new Player()
     });
     Hud *hud = new Hud(multi->Players[0]);
 
@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
         new Map("SeaHorizon"), // 13
         new Map("CloudHighway") // 14
     });
-    world->initWorld(multi->Players[0], audio, input, collision,
+    world->initWorld(multi, audio, input, collision,
         {1, 7, 2, 1}
     );
 

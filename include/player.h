@@ -228,6 +228,7 @@ private:
 
 public:
     // ================== Combat ===================
+    bool MAIN;
     PlayerState state;
     PlayerCondition condition;
 
@@ -243,7 +244,7 @@ public:
 
     // Constructor
     ~Player();
-    Player();
+    Player(bool mc = 0);
 
     // Stop Player Current State
     void setStatic();

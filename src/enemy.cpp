@@ -16,8 +16,8 @@ void Enemy::enemyGetHit(int dmg) {}
 
 void Enemy::updateEnemy(Map *map)
 {
-    enemyAI(map->MapPlayer, map);
-    enemyPlayerCollision(map->MapPlayer);
+    enemyAI(map->MapPlayers->MAIN, map);
+    enemyPlayerCollision(map->MapPlayers->MAIN);
 }
 
 // Getter

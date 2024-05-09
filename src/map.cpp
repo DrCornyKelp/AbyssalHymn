@@ -198,15 +198,16 @@ void Map::initMapStandard()
     MapComp.appendComponent(this);
 }
 
-void Map::initMap(World *world, Player *player, Audio *audio,
+void Map::initMap(World *world, Multiplayer *multi, Audio *audio,
                 Input *input, Collision *collision, int id)
 {
     MapId = id;
     MapAudio = audio;
     MapInput = input;
     MapWorld = world;
-    MapPlayer = player;
     MapCollision = collision;
+
+    MapPlayers = multi;
 
     if (MapEmpty) return;
 
@@ -220,7 +221,7 @@ void Map::updateMapGlobal()
 {
     // ====================== UPDATE PROJECTILE ========================
     for (Projectile *projectile : ProjectileVec)
-        projectile->updateProjectile(MapPlayer, this);
+        projectile->updateProjectile(MapPlayers->MAIN, this);
 
     // Erase Dead Bullet
     ProjectileVec.erase(std::remove_if(ProjectileVec.begin(), ProjectileVec.end(),
@@ -250,7 +251,7 @@ void Map::updateMapGlobal()
     {
         bool seethru = 0;
         for (Block *block : blockSection)
-            seethru = Collision::objectCollision(MapPlayer, block) || seethru;
+            seethru = Collision::objectCollision(MapPlayers->MAIN, block) || seethru;
         seethru = seethru && MapActive;
 
         for (Block *block : blockSection)
@@ -273,7 +274,7 @@ void Map::updateMapGlobal()
 void Map::updateMapActive()
 {
     // In the middle of a transition
-    if (MapWorld->map_transition) MapPlayer->setStatic();
+    if (MapWorld->map_transition) MapPlayers->MAIN->setStatic();
     if (MapWorld->map_transition > MapWorld->map_transition_mid)
     {
         MapInput->setKeyDelay(MapWorld->map_transition_mid + 10);
@@ -283,8 +284,8 @@ void Map::updateMapActive()
     // ====================== UPDATE PARALLAX BG =======================
     for (int i = 0; i < BackgroundVec.size(); i+=2)
     {
-        BackgroundVec[i]->updateBackground(MapPlayer,1);
-        BackgroundVec[i+1]->updateBackground(MapPlayer);
+        BackgroundVec[i]->updateBackground(MapPlayers->MAIN,1);
+        BackgroundVec[i+1]->updateBackground(MapPlayers->MAIN);
     }
 
     // ====================== UPDATE DOOR ==============================
@@ -295,9 +296,9 @@ void Map::updateMapActive()
     // Input
     MapInput->input();
     // Collision
-    MapCollision->playerUpdateCollision(this);
+    MapCollision->playerUpdateCollision(this, MapPlayers->MAIN);
     // Player
-    MapPlayer->playerUpdate(this);
+    MapPlayers->update(this);
 
     // ====================== UPDATE ENEMIES ===========================
     for (Enemy *enemy : EnemyVec)
@@ -313,18 +314,18 @@ void Map::updateMapActive()
 
     // ====================== UPDATE TRANSIT ===========================
     for (MapTransit m_trans : TransitMap)
-    if (MapPlayer->insideGridBox(m_trans.box))
+    if (MapPlayers->MAIN->insideGridBox(m_trans.box))
     {
         MapWorld->setTransit(m_trans.location);
         break;
     }
 
     // ====================== UPDATE CAMERA ============================
-    MapPlayer->camera.outside_render = OutsideRender;
+    MapPlayers->MAIN->camera.outside_render = OutsideRender;
     for (PlayerCameraBox f_cam_box : CameraBox)
-    if (MapPlayer->insideGridBox(f_cam_box.box))
+    if (MapPlayers->MAIN->insideGridBox(f_cam_box.box))
     {
-        MapPlayer->camera.setCameraBorder({1, 1, 1, 1}, f_cam_box.cam);
+        MapPlayers->MAIN->camera.setCameraBorder({1, 1, 1, 1}, f_cam_box.cam);
         break;
     }
 }
@@ -333,11 +334,11 @@ void Map::updateMapActive()
 
 void Map::loadCheckpoint(WorldLocation location)
 {
-    MapPlayer->setStatic();
-    MapPlayer->setX(location.sX*64 + 35);
-    MapPlayer->setY(location.sY*64 + 51);
-    MapPlayer->camera.resetCamera();
-    MapPlayer->camera.focus_snap = location.snap;
+    MapPlayers->MAIN->setStatic();
+    MapPlayers->MAIN->setX(location.sX*64 + 35);
+    MapPlayers->MAIN->setY(location.sY*64 + 51);
+    MapPlayers->MAIN->camera.resetCamera();
+    MapPlayers->MAIN->camera.focus_snap = location.snap;
 }
 
 void Map::appendTransitMap(Map *map, string0D trans_dir)

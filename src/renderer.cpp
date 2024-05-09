@@ -16,55 +16,55 @@ void Renderer::renderGameplay(Map *map, Hud *hud)
 
     // Back Block
     for (Block *blockBack : map->BlockBackVec)
-        blockBack->draw(map->MapPlayer);
+        blockBack->draw(map->MapPlayers->MAIN);
 
     // Back Decor
     for (Decoration *decorBack : map->DecorBackVec)
-        decorBack->drawDecoration(map->MapPlayer);
+        decorBack->drawDecoration(map->MapPlayers->MAIN);
 
     // Door
     for (Door *door : map->DoorVec)
-        door->draw(map->MapPlayer);
+        door->draw(map->MapPlayers->MAIN);
 
     // Particle Back
     for (ParticleEffect *particle_fx : map->ParticleBackVec)
-        particle_fx->draw(map->MapPlayer);
+        particle_fx->draw(map->MapPlayers->MAIN);
 
     // Enemies
     for (Enemy *enemy : map->EnemyVec)
-        enemy->draw(map->MapPlayer);
+        enemy->draw(map->MapPlayers->MAIN);
 
     // Player
-    map->MapPlayer->draw_prop.playerDrawSprite();
+    map->MapPlayers->MAIN->draw_prop.playerDrawSprite();
 
     // Projectile
     for (Projectile *projectile : map->ProjectileVec)
-        projectile->draw(map->MapPlayer);
+        projectile->draw(map->MapPlayers->MAIN);
 
     // Block
     for (Block *block : map->BlockMainVec)
-        block->draw(map->MapPlayer);
+        block->draw(map->MapPlayers->MAIN);
 
     // Hidden Block
     for (Block1D block1d : map->BlockHiddenVec)
     for (Block *block : block1d)
-        block->draw(map->MapPlayer);
+        block->draw(map->MapPlayers->MAIN);
 
     // Bubble Dialouge
     for (Bubble *bubble : map->BubbleVec)
-        bubble->draw(map->MapPlayer);
+        bubble->draw(map->MapPlayers->MAIN);
 
     // Front Decor
     for (Decoration *decorFront : map->DecorFrontVec)
-        decorFront->drawDecoration(map->MapPlayer);
+        decorFront->drawDecoration(map->MapPlayers->MAIN);
 
     // Particle Front
     for (ParticleEffect *particle_fx : map->ParticleFrontVec)
-        particle_fx->draw(map->MapPlayer);
+        particle_fx->draw(map->MapPlayers->MAIN);
 
     // ==== Developer mode put player above all ====
-    if (map->MapPlayer->getGodmode())
-        map->MapPlayer->draw_prop.playerDrawSprite();
+    if (map->MapPlayers->MAIN->getGodmode())
+        map->MapPlayers->MAIN->draw_prop.playerDrawSprite();
 
     // ==== However, developer mode eat shit when it come to hud lmao ====
     // Player Hud

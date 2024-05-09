@@ -12,12 +12,12 @@ void Tutorial4Update(Map *map) {
     if (map->MapActive)
     {
     // ============ CAN CAMERA RENDER ANYTHING OUTSIDE FOCUS BORDER ============
-        map->MapPlayer->camera.outside_render = 0;
+        map->MapPlayers->MAIN->camera.outside_render = 0;
 
     // ======================== MAP TRANSITION TRIGGER =========================
 
         for (MapTransit m_trans : tutorial_4_transit)
-        if (map->MapPlayer->insideGridBox(m_trans.box))
+        if (map->MapPlayers->MAIN->insideGridBox(m_trans.box))
         {
             map->MapWorld->setTransit(m_trans.location);
             break;
@@ -26,9 +26,9 @@ void Tutorial4Update(Map *map) {
     // ======================== DYNAMIC CAMERA FOCUS ===========================
 
         for (ObjectBox f_cam_box : tutorial_4_camera_box)
-        if (map->MapPlayer->insideGridBox(f_cam_box))
+        if (map->MapPlayers->MAIN->insideGridBox(f_cam_box))
         {
-            map->MapPlayer->camera.setCameraBorder(
+            map->MapPlayers->MAIN->camera.setCameraBorder(
             {1, 1, 1, 1}, f_cam_box);
             break;
         }

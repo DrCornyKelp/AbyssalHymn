@@ -17,10 +17,10 @@ public:
     static bool hitboxCollision(ObjectHitbox hbox1, ObjectHitbox hbox2, int1D offset = {0, 0});
     static bool boxCollision(ObjectBox box1, ObjectBox box2, int1D offset = {0, 0});
 
-    void playerBlockCollision(Player *player, Map *map);
-    void playerEnemyCollision(Player *player, Map *map);
-    void playerItemCollision(Player *player, Map *map);
-    void playerUpdateCollision(Map *map);
+    void playerBlockCollision(Map *map, Player *player);
+    void playerEnemyCollision(Map *map, Player *player);
+    void playerItemCollision(Map *map, Player *player);
+    void playerUpdateCollision(Map *map, Player *player);
 };
 
 #endif

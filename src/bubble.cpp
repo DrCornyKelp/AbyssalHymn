@@ -22,7 +22,7 @@ void Bubble::updateBubble(Map *map)
 {
     // Update Bubble Transparency
     if (map->MapActive &&
-        map->MapPlayer->insideGridBox(b_active_box))
+        map->MapPlayers->MAIN->insideGridBox(b_active_box))
     {
         if (b_style.curAlpha < b_style.maxAlpha)
             b_style.curAlpha += 5;

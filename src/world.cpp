@@ -10,13 +10,13 @@ World::World(std::vector<Map*> mapvec, int startmap) :
     MapVec(mapvec), MapCurrent(mapvec[startmap]), MapIndex(startmap)
 { MapCurrent->MapActive = 1; }
 
-void World::initWorld(  Player *player, Audio *audio, Input *input,
+void World::initWorld(  Multiplayer *multi, Audio *audio, Input *input,
                         Collision *collision, WorldLocation location)
 {
     // Init Map
     for (int id = 0; id < MapVec.size(); id++)
         MapVec[id]->initMap(
-            this, player, audio, input, collision, id
+            this, multi, audio, input, collision, id
         );
     // Init Player Spawn
     switchMap(location);
