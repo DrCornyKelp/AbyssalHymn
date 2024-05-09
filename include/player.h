@@ -4,6 +4,7 @@
 #include <input.h>
 #include <particle_effect.h>
 
+#define Player1D std::vector<Player*>
 #define CameraBox1D std::vector<PlayerCameraBox>
 
 class Map;
@@ -242,8 +243,7 @@ public:
 
     // Constructor
     ~Player();
-    Player(float X = 640, float Y = 400, int w = 128, int h = 128, int hw = 0, int hh = 0, int sim = 2, int sfm = 20, int si = 0, int sf = 0);
-    void initPlayer();
+    Player();
 
     // Stop Player Current State
     void setStatic();

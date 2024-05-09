@@ -4,13 +4,7 @@
 Player::~Player()
 { draw_prop.clearTexture(); }
 // Constructor
-Player::Player( float X, float Y, int w, int h, int hw, int hh,
-                int sim, int sfm, int si, int sf) :
-    Object2D(X, Y, w, h, hw, hh)
-{}
-
-// Fuck her 2nite
-void Player::initPlayer()
+Player::Player() : Object2D()
 {
     // Nakuru normal mvoement
     draw_prop.RightTexture = loadTexture("res/NakuSheet/NakuRight.png");

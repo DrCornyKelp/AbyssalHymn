@@ -30,7 +30,6 @@ int main(int argc, char *argv[])
 
     // Player + Hud
     Player *player = new Player();
-    player->initPlayer();
     Hud *hud = new Hud(player);
 
     // Collision
@@ -83,20 +82,6 @@ int main(int argc, char *argv[])
         // Console + Editor
         editor->update();
         console->update();
-
-        // FUN STUFF XD
-        if (input->getKeyPress(13))
-        {
-            input->setKeyHold(13, 1);
-            player->setVelY(8);
-            player->setVelX(-20);
-        }
-        if (input->getKeyPress(14))
-        {
-            input->setKeyHold(14, 1);
-            player->setVelY(8);
-            player->setVelX(20);
-        }
 
         // SDL and shit
         SDL_RenderPresent(CFG->RENDERER);
