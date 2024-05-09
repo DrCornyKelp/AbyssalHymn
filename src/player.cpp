@@ -13,15 +13,6 @@ Player::Player(bool mc) : Object2D(), MAIN(mc)
     // Nakuru holding weapon
     draw_prop.RightWeaponTexture = loadTexture("res/NakuSheet/NakuRightWeapon.png");
     draw_prop.LeftWeaponTexture = loadTexture("res/NakuSheet/NakuLeftWeapon.png");
-
-    draw_prop.RightFriction = new ParticleEffect(
-        loadTexture("res/ParticleSheet/NakuEffect/SlideFrictionRight.png"),
-        0, 0, 70, 64, 54, 53, 5, 1, true
-    );
-    draw_prop.LeftFriction = new ParticleEffect(
-        loadTexture("res/ParticleSheet/NakuEffect/SlideFrictionLeft.png"),
-        0, 0, 70, 64, 54, 53, 5, 1, true
-    );
 }
 
 // ============================ PLAYER STATE ============================
@@ -51,7 +42,6 @@ void PlayerDrawProp::clearTexture()
         RightTexture, LeftTexture,
         RightWeaponTexture, LeftWeaponTexture
     });
-    delete RightFriction, LeftFriction;
 }
 
 void PlayerDrawProp::setAct(int idx, bool r)
@@ -216,21 +206,6 @@ void PlayerDrawProp::playerDrawSprite()
     if (!player->combat.invulnerable)
         SDL_SetTextureAlphaMod(CurrentTexture, 255);
 
-    if (player->g_dash.frame && player->state.on_ground)
-    {
-        if (player->getVelX() < 0)
-        {
-            LeftFriction->setX(player->getX() + 50);
-            LeftFriction->setY(player->getY() - 8);
-            LeftFriction->draw(player);
-        }
-        else
-        {
-            RightFriction->setX(player->getX() - 50);
-            RightFriction->setY(player->getY() - 8);
-            RightFriction->draw(player);
-        }
-    }
     SDL_Rect desRect;
     if (player->MAIN) desRect = {
         Camera::playerDrawX(player, player->getWidth()*4),

@@ -157,8 +157,6 @@ struct PlayerDrawProp
     SDL_Texture *RightTexture;
     SDL_Texture *LeftWeaponTexture;
     SDL_Texture *RightWeaponTexture;
-    ParticleEffect *LeftFriction;
-    ParticleEffect *RightFriction;
 
     void clearTexture();
     void setSpriteAlpha(int alp);

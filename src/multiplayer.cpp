@@ -16,8 +16,6 @@ void Multiplayer::update(Map *map)
 {
     for (Player *player : Players) player->playerUpdate(map);
     MAIN->camera.playerCameraProperty(map->MapInput);
-
-    std::cout << Players[0]->getY() << " " << Players[1]->getY() << "\n";
 }
 
 void Multiplayer::draw()
