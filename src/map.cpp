@@ -256,8 +256,11 @@ void Map::updateMapGlobal()
 
     // ====================== UPDATE SEETHOUGH BLOCK ===================
 
-    for (Bubble *bubble : BubbleVec)
-        bubble->updateBubble(this, MapPlayers->MAIN);
+    for (Player *player : MapPlayers->Players)
+    {
+        for (Bubble *bubble : BubbleVec)
+            bubble->updateBubble(this, player);
+    }
 
     for (Block1D blockSection : BlockHiddenVec)
     {

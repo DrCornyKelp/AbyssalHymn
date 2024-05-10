@@ -384,7 +384,7 @@ void PlayerCamera::playerCameraFocus()
         unfocus_y = 1;
         unfocus_direction_y = 1;
         unfocus_offset_y = focus_true.up + p_shift_y;
-        offset_mid_y = getFocusTriggerX() - focus_true.up;
+        offset_mid_y = getFocusTriggerY() - focus_true.up;
     }
     else
     {
