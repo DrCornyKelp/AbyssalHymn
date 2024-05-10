@@ -471,7 +471,7 @@ void Player::playerMovement(Map *map)
 
             move.decel = getVelX() > 1;
             if (getVelX() - getAccelX() > -move.vel_max)
-                setVelX(getVelX() - INDEX*.5 - getAccelX() * (move.decel ? 2.5 : 1));
+                setVelX(getVelX() - INDEX*.1 - getAccelX() * (move.decel ? 2.5 : 1));
         }
 
         if (INPUT.moveR.key && state.hug_wall > -1)
@@ -482,7 +482,7 @@ void Player::playerMovement(Map *map)
 
             move.decel = getVelX() < -1;
             if (getVelX() + getAccelX() < move.vel_max)
-                setVelX(getVelX() + INDEX*.5  + getAccelX() * (move.decel ? 2.5 : 1));
+                setVelX(getVelX() + INDEX*.1  + getAccelX() * (move.decel ? 2.5 : 1));
         }
     }
 
