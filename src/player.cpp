@@ -287,10 +287,10 @@ ObjectXY PlayerCamera::getCenterOffset() {
     {
         center_off.x += Object2D::objectDistX(
             player, playersub
-        ) / 2;
+        );
         center_off.y += Object2D::objectDistY(
             player, playersub
-        ) / 2;
+        );
     }
     center_off.x /= player->MULTI->PlayerCount;
     center_off.y /= player->MULTI->PlayerCount;
@@ -352,8 +352,6 @@ void PlayerCamera::playerCameraFocus()
     int p_shift_y = Camera::playerShiftY(player);
 
     ObjectXY center_off = getCenterOffset();
-
-    std::cout << center_off.x << " " << center_off.y << "\n"
 
     // === Focus X ===
 
