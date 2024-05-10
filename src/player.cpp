@@ -353,6 +353,8 @@ void PlayerCamera::playerCameraFocus()
 
     ObjectXY center_off = getCenterOffset();
 
+    std::cout << center_off.x << " " << center_off.y << "\n"
+
     // === Focus X ===
 
     // Boundary left
