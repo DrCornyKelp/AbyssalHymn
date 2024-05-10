@@ -20,7 +20,7 @@ void KeyState::update(const Uint8* state)
         keythreshold = 0;
     };
 
-    if (keydelay) keydelay--;
+    if (keydelay) keydelay --;
 }
 bool KeyState::press() { return key && !keyhold && !keydelay; }
 bool KeyState::threspass(int max) { return keythreshold >= max; };
@@ -29,20 +29,20 @@ void Input::update()
 {
     // Update KEYBOARD;
     const Uint8* state = SDL_GetKeyboardState(NULL);
-    w.update(state);
-    s.update(state);
-    a.update(state);
-    d.update(state);
-    e.update(state);
-    q.update(state);
-    l.update(state);
-    space.update(state);
-    lshift.update(state);
+    moveU.update(state);
+    moveD.update(state);
+    moveL.update(state);
+    moveR.update(state);
+    proj.update(state);
+    equip.update(state);
+    attack.update(state);
+    jump.update(state);
+    dash.update(state);
     lctrl.update(state);
-    up.update(state);
-    down.update(state);
-    left.update(state);
-    right.update(state);
+    arrowU.update(state);
+    arrowD.update(state);
+    arrowL.update(state);
+    arrowR.update(state);
 
     Uint32 mouseState = SDL_GetMouseState(&mouse_x, &mouse_y);
 }

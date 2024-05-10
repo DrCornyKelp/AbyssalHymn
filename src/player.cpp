@@ -148,7 +148,7 @@ void PlayerDrawProp::playerDrawProperty(Map *map)
             break;
 
         case 3:
-            switch (player->INPUT.l.keyhold)
+            switch (player->INPUT.attack.key)
             {
             case 0:
                 setActSprElock({13, right}, {4, 2}, 1);
@@ -400,12 +400,12 @@ void PlayerCamera::playerCameraProperty(Input *input)
     if (player->state.on_ground && !player->getVelX() &&
         vertical_ahead_time > vertical_ahead_time_max)
     {
-        if (player->INPUT.w.key &&
+        if (player->INPUT.moveU.key &&
             vertical_ahead < vt_max &&
             !(  unfocus_direction_y == 1 &&
                 player->getY() > unfocus_offset_y - vt_max))
             vertical_ahead += (vt_max - abs(vertical_ahead)) / 30;
-        if (player->INPUT.s.key &&
+        if (player->INPUT.moveD.key &&
             vertical_ahead > -vt_max &&
             !(  unfocus_direction_y == -1 &&
                 player->getY() < unfocus_offset_y + vt_max))
@@ -416,14 +416,14 @@ void PlayerCamera::playerCameraProperty(Input *input)
     }
 
     if (player->state.on_ground && !player->getVelX() && !unfocus_y &&
-        (player->INPUT.w.key || player->INPUT.s.key))
+        (player->INPUT.moveU.key || player->INPUT.moveD.key))
         vertical_ahead_time ++;
     else
         vertical_ahead_time = 0;
 
     if (player->getVelX() || player->getVelY() ||
-        (!player->INPUT.w.key && vertical_ahead > 0) ||
-        (!player->INPUT.s.key && vertical_ahead < 0))
+        (!player->INPUT.moveU.key && vertical_ahead > 0) ||
+        (!player->INPUT.moveD.key && vertical_ahead < 0))
         vertical_ahead -= vertical_ahead / 40;
 
     if (!unfocus_x)
@@ -462,7 +462,7 @@ void Player::playerMovement(Map *map)
     // Moving L/R
     if (moveset.move && !g_dash.frame && !a_dash.frame && !move.crawl)
     {
-        if (INPUT.a.key && state.hug_wall < 1)
+        if (INPUT.moveL.key && state.hug_wall < 1)
         {
             // Release from wall
             if (state.hug_wall)
@@ -474,7 +474,7 @@ void Player::playerMovement(Map *map)
                 setVelX(getVelX() - INDEX*.5 - getAccelX() * (move.decel ? 2.5 : 1));
         }
 
-        if (INPUT.d.key && state.hug_wall > -1)
+        if (INPUT.moveR.key && state.hug_wall > -1)
         {
             if (state.hug_wall)
                 setX(getX() + 4);
@@ -487,7 +487,7 @@ void Player::playerMovement(Map *map)
     }
 
     // Not moving anymore
-    if (!INPUT.a.key && !INPUT.d.key &&
+    if (!INPUT.moveL.key && !INPUT.moveR.key &&
         !g_dash.frame && !a_dash.frame)
     {
         if (abs(getVelX()) >= getAccelX())
@@ -497,28 +497,28 @@ void Player::playerMovement(Map *map)
     }
 
     // No more deceleration
-    if ((!INPUT.a.key && move.decel > 0) ||
-        (!INPUT.d.key && move.decel < 0))
+    if ((!INPUT.moveL.key && move.decel > 0) ||
+        (!INPUT.moveR.key && move.decel < 0))
         move.decel = 0;
 
     // Crawling
-    move.crawl= moveset.crawl && INPUT.s.key &&
+    move.crawl= moveset.crawl && INPUT.moveD.key &&
                 state.on_ground && !move.decel &&
                 !g_dash.delay && !g_dash.frame &&
                 abs(getVelX()) < move.vel_max / 2;
     move.crawl = state.crawl_lock || move.crawl;
 
-    if (move.crawl && INPUT.a.key && !g_dash.frame)
+    if (move.crawl && INPUT.moveL.key && !g_dash.frame)
         setVelX(-move.vel_crawl);
-    if (move.crawl && INPUT.d.key && !g_dash.frame)
+    if (move.crawl && INPUT.moveR.key && !g_dash.frame)
         setVelX(move.vel_crawl);
 
     // Ground dash (more like sliding but whatever)
-    if (moveset.g_dash && INPUT.lshift.press() && !g_dash.delay &&
+    if (moveset.g_dash && INPUT.dash.press() && !g_dash.delay &&
         !state.crawl_lock && state.on_ground &&
         !g_dash.frame && !combat.index && !combat.weapon_equip_frame)
     {
-        INPUT.lshift.keyhold = 1;
+        INPUT.dash.keyhold = 1;
 
         map->ParticleBackVec.push_back(new ParticleEffect(
             loadTexture(draw_prop.right ?
@@ -534,7 +534,7 @@ void Player::playerMovement(Map *map)
     }
 
     // Air dash
-    if (moveset.a_dash && INPUT.lshift.press() &&
+    if (moveset.a_dash && INPUT.dash.press() &&
         !a_dash.frame && a_dash.cur &&
         !state.on_ground && !state.hug_wall &&
         !combat.index && !combat.weapon_equip_frame &&
@@ -542,7 +542,7 @@ void Player::playerMovement(Map *map)
             (getVelX() < 0 && a_dash.lock != -1) )
         )
     {
-        INPUT.lshift.keyhold = 1;
+        INPUT.dash.keyhold = 1;
 
         map->ParticleBackVec.push_back(new ParticleEffect(
             loadTexture(draw_prop.right ?
@@ -558,12 +558,12 @@ void Player::playerMovement(Map *map)
     }
 
     // Jump held key
-    if (moveset.jump && INPUT.space.press() &&
+    if (moveset.jump && INPUT.jump.press() &&
         (jump.cur || state.hug_wall) && jump.ceiling_min >= 15 &&
         !g_dash.frame && !a_dash.frame && !move.decel &&
         !state.crawl_lock && !jump.knockout)
     {
-        INPUT.space.keyhold = 1;
+        INPUT.jump.keyhold = 1;
 
         setY(getY() + 10);
         setVelY(
@@ -629,14 +629,14 @@ void Player::playerMovement(Map *map)
                 (combat.weapon_equip ? .8 : 1) *
                 (combat.charge_time ? .8 : 1));
     // Acceleration y
-    setAccelY(  ((INPUT.space.keyhold && getVelY() > 0) ? -.1 : -.2) *
+    setAccelY(  ((INPUT.jump.keyhold && getVelY() > 0) ? -.1 : -.2) *
                 (combat.weapon_equip ? 1.2 : 1) *
                 (combat.charge_time ? 1.2 : 1));
 
     // Velocity X Correction 😭
     // - Check the time spent over speed cap
     if (abs(getVelX()) > move.vel_max) move.vel_over_time++;
-    else                            move.vel_over_time = 0;
+    else                               move.vel_over_time = 0;
     // - Self correct speed
     if (move.vel_over_time > move.vel_over_max)
     {
@@ -716,7 +716,7 @@ void Player::playerCombat(Map *map)
 // ======================== COMBAT INPUT ==============================
 
     // Weapon equipment
-    if (INPUT.q.key && !combat.weapon_equip_delay &&
+    if (INPUT.equip.key && !combat.weapon_equip_delay &&
         state.on_ground)
     {
         setSprIndex(0);
@@ -731,9 +731,9 @@ void Player::playerCombat(Map *map)
         combat.weapon_equip_frame --;
 
     // Special Jelly Projectile
-    if (combat.weapon_equip && INPUT.e.press())
+    if (combat.weapon_equip && INPUT.proj.press())
     {
-        INPUT.e.keyhold = 1;
+        INPUT.proj.keyhold = 1;
 
         map->ProjectileVec.push_back(new Projectile(
             "res/NakuSheet/NakuSquid.png",
@@ -868,12 +868,12 @@ void Player::playerCombat(Map *map)
 
     // On ground
     if (!combat.delay && !move.crawl && !g_dash.frame &&
-        INPUT.l.keythrespeak &&
-        INPUT.l.keythrespeak < 100)
+        INPUT.attack.keythrespeak &&
+        INPUT.attack.keythrespeak < 100)
     {
-        INPUT.l.keythrespeak = 0;
+        INPUT.attack.keythrespeak = 0;
 
-        if (!state.hug_wall && !INPUT.w.key)
+        if (!state.hug_wall && !INPUT.moveU.key)
         {
             if (!combat.combo_time && !combat.index)
             {
@@ -897,7 +897,7 @@ void Player::playerCombat(Map *map)
                 setVelY(state.on_ground ? 0 : 1);
             }
         }
-        else if (!state.hug_wall && INPUT.w.key)
+        else if (!state.hug_wall && INPUT.moveU.key)
         {
             if (!combat.combo_time && !combat.index)
             {
@@ -927,7 +927,7 @@ void Player::playerCombat(Map *map)
     {
         combat.index = 3;
 
-        if (!INPUT.l.key &&
+        if (!INPUT.attack.key &&
             combat.charge_time > 50)
         {
             combat.time = 10;
@@ -938,8 +938,11 @@ void Player::playerCombat(Map *map)
         }
     }
 
+    std::cout << INPUT.attack.keythreshold << " "
+            << INPUT.attack.keythrespeak << "\n";
+
     if (!combat.delay && !combat.time &&
-        INPUT.l.threspass(100) &&
+        INPUT.attack.threspass(100) &&
         !draw_prop.end_lock && !move.crawl &&
         !state.hug_wall &&
         !a_dash.frame && !g_dash.frame)

@@ -3,7 +3,6 @@
 
 #include <object2D.h>
 
-#define KeyState1D std::vector<KeyState>
 struct KeyState
 {
 	SDL_Scancode code;
@@ -12,10 +11,15 @@ struct KeyState
 	int keythreshold = 0,
 		keythrespeak = 0;
 	int keydelay = 0;
-	
+
 	void update(const Uint8* state);
 	bool press();
 	bool threspass(int max);
+};
+
+struct KeyTemplate
+{
+	void Template1();
 };
 
 class Player;
@@ -43,20 +47,23 @@ public:
 // ====================================================================
 
 	KeyState
-		w = {SDL_SCANCODE_W},
-		s = {SDL_SCANCODE_S},
-		a = {SDL_SCANCODE_A},
-		d = {SDL_SCANCODE_D},
-		e = {SDL_SCANCODE_E},
-		q = {SDL_SCANCODE_Q},
-		l = {SDL_SCANCODE_L},
-		space = {SDL_SCANCODE_SPACE},
-		lshift = {SDL_SCANCODE_LSHIFT},
+		// Gameplay
+		moveU = {SDL_SCANCODE_W},
+		moveD = {SDL_SCANCODE_S},
+		moveL = {SDL_SCANCODE_A},
+		moveR = {SDL_SCANCODE_D},
+		proj = {SDL_SCANCODE_E},
+		equip = {SDL_SCANCODE_Q},
+		attack = {SDL_SCANCODE_L},
+		jump = {SDL_SCANCODE_SPACE},
+		dash = {SDL_SCANCODE_LSHIFT},
 		lctrl = {SDL_SCANCODE_LCTRL},
-		up = {SDL_SCANCODE_UP},
-		down = {SDL_SCANCODE_DOWN},
-		left = {SDL_SCANCODE_LEFT},
-		right = {SDL_SCANCODE_RIGHT};
+
+		//
+		arrowU = {SDL_SCANCODE_UP},
+		arrowD = {SDL_SCANCODE_DOWN},
+		arrowL = {SDL_SCANCODE_LEFT},
+		arrowR = {SDL_SCANCODE_RIGHT};
 
 	void update();
 
