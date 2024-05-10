@@ -23,7 +23,6 @@ int main(int argc, char *argv[])
 
     // Input Handler
     Input *input = new Input();
-    input->initInput();
 
     // Renderer
     Renderer *rend = new Renderer();

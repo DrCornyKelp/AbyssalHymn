@@ -1,7 +1,7 @@
 #include <input.h>
 #include <player.h>
 
-void Input::initInput()
+Input::Input()
 {
     // ============= Initialize Controller ==============
     // Check for controller support

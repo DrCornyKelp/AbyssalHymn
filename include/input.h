@@ -3,6 +3,10 @@
 
 #include <object2D.h>
 
+struct InputState
+{
+};
+
 class Player;
 class Input 
 {
@@ -46,7 +50,7 @@ private:
 	int click_delay = 0;
 	SDL_Event event;
 public:
-	void initInput();
+	Input();
 	bool input();
 
 	// Keyboard/Controller
