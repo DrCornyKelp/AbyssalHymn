@@ -42,6 +42,8 @@ void Input::update()
     down.update(state);
     left.update(state);
     right.update(state);
+
+    Uint32 mouseState = SDL_GetMouseState(&mouse_x, &mouse_y);
 }
 
 Input::Input()
@@ -240,7 +242,7 @@ int Input::getMOffMidX() {
     return CFG->WIDTH / 2 - mouse_x;
 }
 int Input::getMOffMidY() {
-    return CFG->HEIGHT / 2 - mouse_y;
+    return mouse_y - CFG->HEIGHT / 2;
 }
 int Input::getMOffPlayerX(Player *player) {
     return-(player->camera.offset_mid_x +

@@ -462,7 +462,7 @@ void Player::playerMovement(Map *map)
     // Moving L/R
     if (moveset.move && !g_dash.frame && !a_dash.frame && !move.crawl)
     {
-        if (map->MapInput->getKeyHold(2) && state.hug_wall < 1)
+        if (INPUT.a.key && state.hug_wall < 1)
         {
             // Release from wall
             if (state.hug_wall)
@@ -474,7 +474,7 @@ void Player::playerMovement(Map *map)
                 setVelX(getVelX() - INDEX*.5 - getAccelX() * (move.decel ? 2.5 : 1));
         }
 
-        if (map->MapInput->getKeyHold(3) && state.hug_wall > -1)
+        if (INPUT.d.key && state.hug_wall > -1)
         {
             if (state.hug_wall)
                 setX(getX() + 4);
@@ -487,8 +487,7 @@ void Player::playerMovement(Map *map)
     }
 
     // Not moving anymore
-    if (!map->MapInput->getKeyHold(2) &&
-        !map->MapInput->getKeyHold(3) &&
+    if (!INPUT.a.key && !INPUT.d.key &&
         !g_dash.frame && !a_dash.frame)
     {
         if (abs(getVelX()) >= getAccelX())
@@ -498,28 +497,28 @@ void Player::playerMovement(Map *map)
     }
 
     // No more deceleration
-    if ((!map->MapInput->getKeyHold(2) && move.decel > 0) ||
-        (!map->MapInput->getKeyHold(3) && move.decel < 0))
+    if ((!INPUT.a.key && move.decel > 0) ||
+        (!INPUT.d.key && move.decel < 0))
         move.decel = 0;
 
     // Crawling
-    move.crawl= moveset.crawl && map->MapInput->getKeyHold(1) &&
+    move.crawl= moveset.crawl && INPUT.s.key &&
                 state.on_ground && !move.decel &&
                 !g_dash.delay && !g_dash.frame &&
                 abs(getVelX()) < move.vel_max / 2;
     move.crawl = state.crawl_lock || move.crawl;
 
-    if (move.crawl && map->MapInput->getKeyHold(2) && !g_dash.frame)
+    if (move.crawl && INPUT.a.key && !g_dash.frame)
         setVelX(-move.vel_crawl);
-    if (move.crawl && map->MapInput->getKeyHold(3) && !g_dash.frame)
+    if (move.crawl && INPUT.d.key && !g_dash.frame)
         setVelX(move.vel_crawl);
 
     // Ground dash (more like sliding but whatever)
-    if (moveset.g_dash && map->MapInput->getKeyPress(5) && !g_dash.delay &&
+    if (moveset.g_dash && INPUT.lshift.press() && !g_dash.delay &&
         !state.crawl_lock && state.on_ground &&
         !g_dash.frame && !combat.index && !combat.weapon_equip_frame)
     {
-        map->MapInput->setKeyHold(5, true);
+        INPUT.lshift.keyhold = 1;
 
         map->ParticleBackVec.push_back(new ParticleEffect(
             loadTexture(draw_prop.right ?
@@ -535,7 +534,7 @@ void Player::playerMovement(Map *map)
     }
 
     // Air dash
-    if (moveset.a_dash && map->MapInput->getKeyPress(5) &&
+    if (moveset.a_dash && INPUT.lshift.press() &&
         !a_dash.frame && a_dash.cur &&
         !state.on_ground && !state.hug_wall &&
         !combat.index && !combat.weapon_equip_frame &&
@@ -543,7 +542,7 @@ void Player::playerMovement(Map *map)
             (getVelX() < 0 && a_dash.lock != -1) )
         )
     {
-        map->MapInput->setKeyHold(5, true);
+        INPUT.lshift.keyhold = 1;
 
         map->ParticleBackVec.push_back(new ParticleEffect(
             loadTexture(draw_prop.right ?
@@ -630,8 +629,7 @@ void Player::playerMovement(Map *map)
                 (combat.weapon_equip ? .8 : 1) *
                 (combat.charge_time ? .8 : 1));
     // Acceleration y
-    setAccelY(  ((map->MapInput->getKeyHold(4) &&
-                getVelY() > 0) ? -.1 : -.2) *
+    setAccelY(  ((INPUT.space.keyhold && getVelY() > 0) ? -.1 : -.2) *
                 (combat.weapon_equip ? 1.2 : 1) *
                 (combat.charge_time ? 1.2 : 1));
 
@@ -1050,8 +1048,8 @@ void Player::playerDeveloper(Map *map)
 
         CFG->addDevlog("MOUSE", 41);
         CFG->addDevlog(
-            "X: " + std::to_string(map->MapInput->getMMapX(this)) +
-            " - Y: " + std::to_string(map->MapInput->getMMapY(this))
+            "X: " + std::to_string(INPUT.getMMapX(this)) +
+            " - Y: " + std::to_string(INPUT.getMMapY(this))
         ,31);
 
         CFG->addDevlog("Player", 42);
