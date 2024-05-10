@@ -559,12 +559,12 @@ void Player::playerMovement(Map *map)
     }
 
     // Jump held key
-    if (moveset.jump && map->MapInput->getKeyPress(4) &&
+    if (moveset.jump && INPUT.space.press() &&
         (jump.cur || state.hug_wall) && jump.ceiling_min >= 15 &&
         !g_dash.frame && !a_dash.frame && !move.decel &&
         !state.crawl_lock && !jump.knockout)
     {
-        map->MapInput->setKeyHold(4, true);
+        INPUT.space.keyhold = 1;
 
         setY(getY() + 10);
         setVelY(
@@ -875,7 +875,7 @@ void Player::playerCombat(Map *map)
     {
         map->MapInput->resetKeyThresPeak(6);
 
-        if (!state.hug_wall && !map->MapInput->getKeyHold(0))
+        if (!state.hug_wall && !INPUT.w.key)
         {
             if (!combat.combo_time && !combat.index)
             {
@@ -899,7 +899,7 @@ void Player::playerCombat(Map *map)
                 setVelY(state.on_ground ? 0 : 1);
             }
         }
-        else if (!state.hug_wall && map->MapInput->getKeyHold(0))
+        else if (!state.hug_wall && INPUT.w.key)
         {
             if (!combat.combo_time && !combat.index)
             {
@@ -929,7 +929,7 @@ void Player::playerCombat(Map *map)
     {
         combat.index = 3;
 
-        if (!map->MapInput->getKeyHold(6) &&
+        if (!INPUT.q.key &&
             combat.charge_time > 50)
         {
             combat.time = 10;
@@ -1097,8 +1097,7 @@ bool Player::getGodmode() { return godmode; }
 // by intensive <player> calculation
 void Player::playerUpdate(Map *map)
 {
-    const Uint8* state = SDL_GetKeyboardState(NULL);
-    if (state[SDL_SCANCODE_1]) std::cout << INDEX << "\n";
+    INPUT.update();
 
     playerMovement(map);
     playerCombat(map);

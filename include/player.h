@@ -229,8 +229,8 @@ public:
     // ================== META ===================
     bool MAIN;
     int INDEX;
+    Input INPUT;
     Multiplayer *MULTI;
-    InputState INPUTSTATE;
 
     // ================== STATE ==================
     PlayerState state;

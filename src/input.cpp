@@ -1,6 +1,49 @@
 #include <input.h>
 #include <player.h>
 
+
+void KeyState::update(const Uint8* state)
+{
+    if (state[code]) key = 1;
+    else {
+        key = 0; keyhold = 0;
+    }
+
+    if (key)
+    {
+        keythreshold ++;
+        keythrespeak = 0;
+    }
+    else if (keythreshold)
+    {
+        keythrespeak = keythreshold;
+        keythreshold = 0;
+    };
+
+    if (keydelay) keydelay--;
+}
+bool KeyState::press() { return key && !keyhold && !keydelay; }
+bool KeyState::threspass(int max) { return keythreshold >= max; };
+
+void Input::update()
+{
+    const Uint8* state = SDL_GetKeyboardState(NULL);
+    w.update(state);
+    s.update(state);
+    a.update(state);
+    d.update(state);
+    e.update(state);
+    q.update(state);
+    l.update(state);
+    space.update(state);
+    lshift.update(state);
+    lctrl.update(state);
+    up.update(state);
+    down.update(state);
+    left.update(state);
+    right.update(state);
+}
+
 Input::Input()
 {
     // ============= Initialize Controller ==============

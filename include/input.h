@@ -12,29 +12,16 @@ struct KeyState
 	int keythreshold = 0,
 		keythrespeak = 0;
 	int keydelay = 0;
-};
-
-struct InputState
-{
-	KeyState
-		w = {SDL_SCANCODE_W},
-		s = {SDL_SCANCODE_S},
-		a = {SDL_SCANCODE_A},
-		d = {SDL_SCANCODE_D},
-		l = {SDL_SCANCODE_L},
-		space = {SDL_SCANCODE_SPACE},
-		lshift = {SDL_SCANCODE_LSHIFT},
-		lctrl = {SDL_SCANCODE_LCTRL},
-		up = {SDL_SCANCODE_UP},
-		down = {SDL_SCANCODE_DOWN},
-		left = {SDL_SCANCODE_LEFT},
-		right = {SDL_SCANCODE_RIGHT};
+	
+	void update(const Uint8* state);
+	bool press();
+	bool threspass(int max);
 };
 
 class Player;
 class Input 
 {
-private:
+public:
 	// Input
 	bool1D key, click = {0, 0};
 	bool1D keyhold, clickhold = {0, 0};
@@ -52,6 +39,28 @@ private:
 	// mouse_x start from left
 	// mouse_y start from bottom
 	int mouse_x, mouse_y;
+
+// ====================================================================
+
+	KeyState
+		w = {SDL_SCANCODE_W},
+		s = {SDL_SCANCODE_S},
+		a = {SDL_SCANCODE_A},
+		d = {SDL_SCANCODE_D},
+		e = {SDL_SCANCODE_E},
+		q = {SDL_SCANCODE_Q},
+		l = {SDL_SCANCODE_L},
+		space = {SDL_SCANCODE_SPACE},
+		lshift = {SDL_SCANCODE_LSHIFT},
+		lctrl = {SDL_SCANCODE_LCTRL},
+		up = {SDL_SCANCODE_UP},
+		down = {SDL_SCANCODE_DOWN},
+		left = {SDL_SCANCODE_LEFT},
+		right = {SDL_SCANCODE_RIGHT};
+
+	void update();
+
+// ====================================================================
 
 	// 0: up
 	// 1: down
