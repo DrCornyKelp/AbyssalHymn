@@ -71,7 +71,7 @@ public:
 	int click_delay = 0;
 	SDL_Event event;
 
-	int input_delay;
+	int input_delay = 0;
 
 	Input();
 	bool input();
