@@ -340,13 +340,11 @@ void PlayerCamera::playerCameraFocus()
         player->MULTI->Players[1], player->MULTI->Players[0]
     ) / 2;
 
-    std::cout << getFocusTriggerX() << " / " << focus_true.left << "\n";
-
     // === Focus X ===
 
     // Boundary left
     if (focus_dir.left &&
-        getFocusTriggerX() < focus_true.left)
+        getFocusTriggerX() - dist_x < focus_true.left)
     {
         unfocus_x = 1;
         unfocus_offset_x = focus_true.left + p_shift_x ;
@@ -354,7 +352,7 @@ void PlayerCamera::playerCameraFocus()
     }
     // Boundary right
     else if (focus_dir.right &&
-        getFocusTriggerX() > focus_true.right)
+        getFocusTriggerX() - dist_x > focus_true.right)
     {
         unfocus_x = 1;
         unfocus_offset_x = focus_true.right + p_shift_x;
@@ -363,7 +361,7 @@ void PlayerCamera::playerCameraFocus()
     else
     {
         unfocus_x = 0;
-        offset_mid_x = 0;
+        offset_mid_x = dist_x;
     }
 
     // === Focus Y ===

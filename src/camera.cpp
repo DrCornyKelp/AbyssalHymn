@@ -37,7 +37,8 @@ bool Camera::objectIgnore(Player *player, Object2D *obj, bool camIndependent)
 int Camera::playerShiftX(Player *player)
 {
     return  player->camera.ease_x +
-            player->camera.effect_x; }
+            player->camera.effect_x;
+}
 int Camera::playerShiftY(Player *player)
 {
     return  player->camera.ease_y +
