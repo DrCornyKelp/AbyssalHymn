@@ -3,6 +3,7 @@
 
 class Player;
 class Object2D;
+class Multiplayer;
 class Camera
 {
 private:

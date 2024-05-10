@@ -256,21 +256,19 @@ void Map::updateMapGlobal()
 
     // ====================== UPDATE SEETHOUGH BLOCK ===================
 
-    for (Player *player : MapPlayers->Players)
+    for (Bubble *bubble : BubbleVec)
+        bubble->updateBubble(this, MapPlayers->MAIN);
+
+    for (Block1D blockSection : BlockHiddenVec)
     {
-        for (Block1D blockSection : BlockHiddenVec)
-        {
-            bool seethru = 0;
-            for (Block *block : blockSection)
+        bool seethru = 0;
+        for (Block *block : blockSection)
+            for (Player *player : MapPlayers->Players)
                 seethru = Collision::objectCollision(player, block) || seethru;
-            seethru = seethru && MapActive;
+        seethru = seethru && MapActive;
 
-            for (Block *block : blockSection)
-                block->blockSeethrough(this, seethru);
-        }
-
-        for (Bubble *bubble : BubbleVec)
-            bubble->updateBubble(this, player);
+        for (Block *block : blockSection)
+            block->blockSeethrough(this, seethru);
     }
 
     // ====================== UPDATE EXCLUSIVE =========================

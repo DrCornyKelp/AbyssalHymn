@@ -28,7 +28,7 @@ void Multiplayer::update(Map *map)
 {
     for (Player *player : Players)
         player->playerUpdate(map);
-    
+
     // Update the camera for this player, only
     MAIN->camera.playerCameraProperty(map->MapInput);
 }

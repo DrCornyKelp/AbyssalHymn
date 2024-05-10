@@ -1,4 +1,4 @@
-#include <player.h>
+#include <multiplayer.h>
 
 bool Camera::objectIgnore(Player *player, Object2D *obj, bool camIndependent)
 {
@@ -35,12 +35,15 @@ bool Camera::objectIgnore(Player *player, Object2D *obj, bool camIndependent)
 }
 
 int Camera::playerShiftX(Player *player)
-{return player->camera.ease_x +
-        player->camera.effect_x; }
+{
+    return  player->camera.ease_x +
+            player->camera.effect_x; }
 int Camera::playerShiftY(Player *player)
-{return player->camera.ease_y +
-        player->camera.vertical_ahead + // Gameplay advantage move
-        player->camera.effect_y; }
+{
+    return  player->camera.ease_y +
+            player->camera.vertical_ahead + // Gameplay advantage move
+            player->camera.effect_y;
+}
 
 int Camera::objectDrawX(Player *player, Object2D *obj)
 {
