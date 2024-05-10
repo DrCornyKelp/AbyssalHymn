@@ -384,7 +384,7 @@ void PlayerCamera::playerCameraFocus()
 void PlayerCamera::playerCameraProperty(Input *input)
 {
     // ======================== CAMERA ============================
-    
+
     // Center The camera in the middle if godmode
     if (player->getGodmode())
     {

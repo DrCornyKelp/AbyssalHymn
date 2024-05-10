@@ -2,16 +2,16 @@
 #include <player.h>
 
 
-void KeyState::update(const Uint8* state)
+void KeyState::update(const Uint8* state, bool input_delay)
 {
-    if (state[code]) key = 1;
+    if (state[code] && !input_delay) key = 1;
     else {
         key = 0; keyhold = 0;
     }
 
     if (key)
     {
-        keythreshold ++;
+        keythreshold++;
         keythrespeak = 0;
     }
     else if (keythreshold)
@@ -20,30 +20,34 @@ void KeyState::update(const Uint8* state)
         keythreshold = 0;
     };
 
-    if (keydelay) keydelay --;
+    if (keydelay) keydelay--;
 }
 bool KeyState::press() { return key && !keyhold && !keydelay; }
 bool KeyState::threspass(int max) { return keythreshold >= max; };
 
 void Input::update()
 {
+    // Update Delay
+    if (input_delay) input_delay--;
+
     // Update KEYBOARD;
     const Uint8* state = SDL_GetKeyboardState(NULL);
-    moveU.update(state);
-    moveD.update(state);
-    moveL.update(state);
-    moveR.update(state);
-    proj.update(state);
-    equip.update(state);
-    attack.update(state);
-    jump.update(state);
-    dash.update(state);
-    lctrl.update(state);
-    arrowU.update(state);
-    arrowD.update(state);
-    arrowL.update(state);
-    arrowR.update(state);
+    moveU.update(state, input_delay);
+    moveD.update(state, input_delay);
+    moveL.update(state, input_delay);
+    moveR.update(state, input_delay);
+    proj.update(state, input_delay);
+    equip.update(state, input_delay);
+    attack.update(state, input_delay);
+    jump.update(state, input_delay);
+    dash.update(state, input_delay);
+    lctrl.update(state, input_delay);
+    arrowU.update(state, input_delay);
+    arrowD.update(state, input_delay);
+    arrowL.update(state, input_delay);
+    arrowR.update(state, input_delay);
 
+    // Update MOUSE
     Uint32 mouseState = SDL_GetMouseState(&mouse_x, &mouse_y);
 }
 

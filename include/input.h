@@ -12,7 +12,7 @@ struct KeyState
 		keythrespeak = 0;
 	int keydelay = 0;
 
-	void update(const Uint8* state);
+	void update(const Uint8* state, bool input_delay = 0);
 	bool press();
 	bool threspass(int max);
 };
@@ -59,39 +59,24 @@ public:
 		dash = {SDL_SCANCODE_LSHIFT},
 		lctrl = {SDL_SCANCODE_LCTRL},
 
-		//
+		// Other
 		arrowU = {SDL_SCANCODE_UP},
 		arrowD = {SDL_SCANCODE_DOWN},
 		arrowL = {SDL_SCANCODE_LEFT},
 		arrowR = {SDL_SCANCODE_RIGHT};
 
-	void update();
-
-// ====================================================================
-
-	// 0: up
-	// 1: down
-	// 2: left
-	// 3: right
-	// 4: jump
-	// 5: dash
-	// 6: attack
-	// 7: swap
-	// 8: throw
-	// 9: command
-	// 10: editor menu
-	// 11: up arrow
-	// 12: down arrow
-	// 13: left arrow
-	// 14: right arrow
 	SDL_GameController *controller;
 
 	int key_delay = 0;
 	int click_delay = 0;
 	SDL_Event event;
-public:
+
+	int input_delay;
+
 	Input();
 	bool input();
+
+	void update();
 
 	// Keyboard/Controller
 	void setKeyDelay(int delay);
