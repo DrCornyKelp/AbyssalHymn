@@ -227,10 +227,6 @@ void PlayerDrawProp::playerDrawSprite()
     SDL_RenderCopy(CFG->RENDERER, CurrentTexture, &srcRect, &desRect);
 }
 
-// Combat / Hitbox
-// int Player::getHitX() { return getX() + hit_offset_x; }
-// int Player::getHitY() { return getY() + hit_offset_y; }
-
 // ============================ PLAYER CAMERA ============================
 
 void PlayerCamera::resetCamera()
@@ -303,25 +299,6 @@ int PlayerCamera::getFocusTriggerX() {
 }
 int PlayerCamera::getFocusTriggerY() {
     return player->getY() - Camera::playerShiftY(player);
-}
-
-// Stop Player Current State
-void Player::setStatic()
-{
-    setVelX(0); setVelY(0);
-    setSprFrame(0); setSprIndex(0);
-    // Reset Movement
-    move.crawl = 0;
-    a_dash.frame = 0;
-    g_dash.frame = 0;
-
-    setHitWidth(58);
-    setHitHeight(80);
-
-    // Reset Combat
-    combat.delay = 0;
-    combat.combo_time = 0;
-    combat.charge_time = 0;
 }
 
 void PlayerCamera::playerCameraFocus()
@@ -971,6 +948,25 @@ void Player::playerCombat(Map *map)
         combat.charge_time ++;
     else
         combat.charge_time = 0;
+}
+
+// Stop Player Current State
+void Player::setStatic()
+{   
+    // Reset Sprite State
+    setSprFrame(0); setSprIndex(0);
+    // Reset Movement
+    setVelX(0); setVelY(0);
+    move.crawl = 0;
+    a_dash.frame = 0;
+    g_dash.frame = 0;
+    // Reset HitBox
+    setHitWidth(58);
+    setHitHeight(80);
+    // Reset Combat
+    combat.delay = 0;
+    combat.combo_time = 0;
+    combat.charge_time = 0;
 }
 
 void Player::playerHitBox()
