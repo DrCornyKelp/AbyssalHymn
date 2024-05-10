@@ -226,13 +226,17 @@ private:
     };
 
 public:
-    // ================== Combat ===================
+    // ================== META ===================
     bool MAIN;
     int INDEX;
     Multiplayer *MULTI;
+    InputState INPUTSTATE;
+
+    // ================== STATE ==================
     PlayerState state;
     PlayerCondition condition;
 
+    // ============ MOVEMENT/COMBAT ==============
     PlayerMoveset moveset;
     PlayerMoving move = {this};
     PlayerJumping jump = {this};
@@ -240,6 +244,7 @@ public:
     PlayerGroundDash g_dash = {this};
     PlayerCombat combat = {this};
 
+    // ============== CAMERA/DRAW ================
     PlayerDrawProp draw_prop = {this};
     PlayerCamera camera = {this};
 
