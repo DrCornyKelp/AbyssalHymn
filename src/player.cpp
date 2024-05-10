@@ -1097,6 +1097,9 @@ bool Player::getGodmode() { return godmode; }
 // by intensive <player> calculation
 void Player::playerUpdate(Map *map)
 {
+    const Uint8* state = SDL_GetKeyboardState(NULL);
+    if (state[SDL_SCANCODE_1]) std::cout << INDEX << "\n";
+
     playerMovement(map);
     playerCombat(map);
     playerHitBox();

@@ -11,6 +11,7 @@ struct KeyState
 	bool keyhold = 0;
 	int keythreshold = 0,
 		keythrespeak = 0;
+	int keydelay = 0;
 };
 
 struct InputState

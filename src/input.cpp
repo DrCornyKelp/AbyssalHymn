@@ -91,6 +91,49 @@ bool Input::input()
             wheel = event.wheel.y;
             break;
 
+        // KEYBOARD
+        case SDL_KEYDOWN:
+            switch (event.key.keysym.sym) {
+                case SDLK_ESCAPE: return true; break;
+                case SDLK_w: key[0] = true; break;
+                case SDLK_s: key[1] = true; break;
+                case SDLK_a: key[2] = true; break;
+                case SDLK_d: key[3] = true; break;
+                case SDLK_SPACE: key[4] = true; break;
+                case SDLK_LSHIFT: key[5] = true; break;
+                case SDLK_l: key[6] = true; break;
+                case SDLK_q: key[7] = true; break;
+                case SDLK_e: key[8] = true; break;
+                case SDLK_SLASH : key[9] = true; break;
+                case SDLK_BACKSLASH : key[10] = true; break;
+                case SDLK_UP: key[11] = true; break;
+                case SDLK_DOWN: key[12] = true; break;
+                case SDLK_LEFT: key[13] = true; break;
+                case SDLK_RIGHT: key[14] = true; break;
+                case SDLK_LCTRL: key[15] = true; break;
+            }
+            break;
+        case SDL_KEYUP:
+            switch (event.key.keysym.sym) {
+                case SDLK_w: key[0] = false; keyhold[0] = false; break;
+                case SDLK_s: key[1] = false; keyhold[1] = false; break;
+                case SDLK_a: key[2] = false; keyhold[2] = false; break;
+                case SDLK_d: key[3] = false; keyhold[3] = false; break;
+                case SDLK_SPACE: key[4] = false; keyhold[4] = false; break;
+                case SDLK_LSHIFT: key[5] = false; keyhold[5] = false; break;
+                case SDLK_l: key[6] = false; keyhold[6] = false; break;
+                case SDLK_q: key[7] = false; keyhold[7] = false; break;
+                case SDLK_e: key[8] = false; keyhold[8] = false; break;
+                case SDLK_SLASH: key[9] = false; keyhold[9] = false; break;
+                case SDLK_BACKSLASH: key[10] = false; keyhold[10] = false; break;
+                case SDLK_UP: key[11] = false; keyhold[11] = false; break;
+                case SDLK_DOWN: key[12] = false; keyhold[12] = false; break;
+                case SDLK_LEFT: key[13] = false; keyhold[13] = false; break;
+                case SDLK_RIGHT: key[14] = false; keyhold[14] = false; break;
+                case SDLK_LCTRL: key[15] = false; keyhold[15] = false; break;
+            }
+            break;
+
         // CONTROLLER
         case SDL_CONTROLLERBUTTONDOWN:
             switch (event.cbutton.button) {
