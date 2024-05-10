@@ -8,8 +8,12 @@ Multiplayer::~Multiplayer()
 Multiplayer::Multiplayer(Player1D players) :
     Players(players), MAIN(Players[0])
 { 
+    // Set Player Count
+    PlayerCount = Players.size();
+    // Set Main Player
     Players[0]->MAIN = 1;
-    for (int i = 0; i < Players.size(); i++)
+    // Set Players Index
+    for (int i = 0; i < PlayerCount; i++)
     {
         Players[i]->INDEX = i;
         Players[i]->MULTI = this;

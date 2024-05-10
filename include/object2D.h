@@ -24,7 +24,8 @@
 #define ObjectBox2D std::vector<ObjectBox1D>
 #define ObjectBox3D std::vector<ObjectBox2D>
 
-// Bd
+struct ObjectXY
+{ int x = 0, y = 0; };
 struct ObjectHitbox
 {
     float x = 0, y = 0;

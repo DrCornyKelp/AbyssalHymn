@@ -57,7 +57,6 @@ struct PlayerMoving
     int hit_offset_x = 0;
     int hit_offset_y = 0;
 
-    void movingInput();
     int hitX();
     int hitY();
 };
@@ -134,6 +133,7 @@ struct PlayerCamera
     float vertical_ahead = 0;
     float vertical_ahead_max = 192;
 
+    ObjectXY getCenterOffset();
     int getFocusTriggerX();
     int getFocusTriggerY();
 
@@ -240,8 +240,8 @@ public:
     PlayerGroundDash g_dash = {this};
     PlayerCombat combat = {this};
 
-    PlayerCamera camera = {this};
     PlayerDrawProp draw_prop = {this};
+    PlayerCamera camera = {this};
 
     // Constructor
     ~Player();

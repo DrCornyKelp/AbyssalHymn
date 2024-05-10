@@ -10,6 +10,8 @@ public:
     Player1D Players;
     Player *MAIN;
 
+    int PlayerCount = 0;
+
     ~Multiplayer();
     Multiplayer(Player1D players);
     void changeMain(int index);
