@@ -3,8 +3,31 @@
 
 #include <object2D.h>
 
+#define KeyState1D std::vector<KeyState>
+struct KeyState
+{
+	SDL_Scancode code;
+	bool key = 0;
+	bool keyhold = 0;
+	int keythreshold = 0,
+		keythrespeak = 0;
+};
+
 struct InputState
 {
+	KeyState
+		w = {SDL_SCANCODE_W},
+		s = {SDL_SCANCODE_S},
+		a = {SDL_SCANCODE_A},
+		d = {SDL_SCANCODE_D},
+		l = {SDL_SCANCODE_L},
+		space = {SDL_SCANCODE_SPACE},
+		lshift = {SDL_SCANCODE_LSHIFT},
+		lctrl = {SDL_SCANCODE_LCTRL},
+		up = {SDL_SCANCODE_UP},
+		down = {SDL_SCANCODE_DOWN},
+		left = {SDL_SCANCODE_LEFT},
+		right = {SDL_SCANCODE_RIGHT};
 };
 
 class Player;
