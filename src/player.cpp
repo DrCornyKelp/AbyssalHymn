@@ -471,7 +471,7 @@ void Player::playerMovement(Map *map)
 
             move.decel = getVelX() > 1;
             if (getVelX() - getAccelX() > -move.vel_max)
-                setVelX(getVelX() - getAccelX() * (move.decel ? 2.5 : 1));
+                setVelX(getVelX() - INDEX*.5 - getAccelX() * (move.decel ? 2.5 : 1));
         }
 
         if (map->MapInput->getKeyHold(3) && state.hug_wall > -1)
@@ -482,7 +482,7 @@ void Player::playerMovement(Map *map)
 
             move.decel = getVelX() < -1;
             if (getVelX() + getAccelX() < move.vel_max)
-                setVelX(getVelX() + getAccelX() * (move.decel ? 2.5 : 1));
+                setVelX(getVelX() + INDEX*.5  + getAccelX() * (move.decel ? 2.5 : 1));
         }
     }
 
@@ -626,7 +626,7 @@ void Player::playerMovement(Map *map)
                 (combat.weapon_equip ? .8 : 1) *
                 (combat.charge_time ? .8 : 1);
     // Acceleration x
-    setAccelX(  (state.on_ice ? 0.06 : 0.1) *
+    setAccelX(  (state.on_ice ? .06 : .1) *
                 (combat.weapon_equip ? .8 : 1) *
                 (combat.charge_time ? .8 : 1));
     // Acceleration y

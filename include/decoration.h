@@ -39,7 +39,7 @@ public:
     // File Manip Decoration
     Decoration(DecorObject decor_obj);
     // Background
-    Decoration(string0D dPath, float whRatio, float scaleVelX = 0.1, float scaleVelY = 0.1, float velX = 0);
+    Decoration(string0D dPath, float whRatio, float scaleVelX = .1, float scaleVelY = .1, float velX = 0);
     // Static Decoration
     Decoration(string0D dPath, float X, float Y, float w, float h, bool abs);
     // Standard Animated Decoration

@@ -262,7 +262,7 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
 
             player->jump.knockout = 50;
             player->setY(getY() - getHeight() / 2 - 40 - p_vel_y);
-            player->setVelY(-p_vel_y * 0.1);
+            player->setVelY(-p_vel_y * .1);
             return;
         }
 
