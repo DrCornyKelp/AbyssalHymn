@@ -148,7 +148,7 @@ void PlayerDrawProp::playerDrawProperty(Map *map)
             break;
 
         case 3:
-            switch (map->MapInput->getKeyHold(6))
+            switch (player->INPUT.l.keyhold)
             {
             case 0:
                 setActSprElock({13, right}, {4, 2}, 1);
@@ -400,12 +400,12 @@ void PlayerCamera::playerCameraProperty(Input *input)
     if (player->state.on_ground && !player->getVelX() &&
         vertical_ahead_time > vertical_ahead_time_max)
     {
-        if (input->getKeyHold(0) &&
+        if (player->INPUT.w.key &&
             vertical_ahead < vt_max &&
             !(  unfocus_direction_y == 1 &&
                 player->getY() > unfocus_offset_y - vt_max))
             vertical_ahead += (vt_max - abs(vertical_ahead)) / 30;
-        if (input->getKeyHold(1) &&
+        if (player->INPUT.s.key &&
             vertical_ahead > -vt_max &&
             !(  unfocus_direction_y == -1 &&
                 player->getY() < unfocus_offset_y + vt_max))
@@ -416,14 +416,14 @@ void PlayerCamera::playerCameraProperty(Input *input)
     }
 
     if (player->state.on_ground && !player->getVelX() && !unfocus_y &&
-        (input->getKeyHold(0) || input->getKeyHold(1)))
+        (player->INPUT.w.key || player->INPUT.s.key))
         vertical_ahead_time ++;
     else
         vertical_ahead_time = 0;
 
     if (player->getVelX() || player->getVelY() ||
-        (!input->getKeyHold(0) && vertical_ahead > 0) ||
-        (!input->getKeyHold(1) && vertical_ahead < 0))
+        (!player->INPUT.w.key && vertical_ahead > 0) ||
+        (!player->INPUT.s.key && vertical_ahead < 0))
         vertical_ahead -= vertical_ahead / 40;
 
     if (!unfocus_x)
@@ -716,7 +716,7 @@ void Player::playerCombat(Map *map)
 // ======================== COMBAT INPUT ==============================
 
     // Weapon equipment
-    if (map->MapInput->getKeyHold(7) && !combat.weapon_equip_delay &&
+    if (INPUT.q.key && !combat.weapon_equip_delay &&
         state.on_ground)
     {
         setSprIndex(0);
@@ -731,9 +731,9 @@ void Player::playerCombat(Map *map)
         combat.weapon_equip_frame --;
 
     // Special Jelly Projectile
-    if (combat.weapon_equip && map->MapInput->getKeyPress(8))
+    if (combat.weapon_equip && INPUT.e.press())
     {
-        map->MapInput->setKeyHold(8, true);
+        INPUT.e.keyhold = 1;
 
         map->ProjectileVec.push_back(new Projectile(
             "res/NakuSheet/NakuSquid.png",
@@ -868,10 +868,10 @@ void Player::playerCombat(Map *map)
 
     // On ground
     if (!combat.delay && !move.crawl && !g_dash.frame &&
-        map->MapInput->getKeyThresPeak(6) &&
-        map->MapInput->getKeyThresPeak(6) < 100)
+        INPUT.l.keythrespeak &&
+        INPUT.l.keythrespeak < 100)
     {
-        map->MapInput->resetKeyThresPeak(6);
+        INPUT.l.keythrespeak = 0;
 
         if (!state.hug_wall && !INPUT.w.key)
         {
@@ -927,7 +927,7 @@ void Player::playerCombat(Map *map)
     {
         combat.index = 3;
 
-        if (!INPUT.q.key &&
+        if (!INPUT.l.key &&
             combat.charge_time > 50)
         {
             combat.time = 10;
@@ -939,7 +939,7 @@ void Player::playerCombat(Map *map)
     }
 
     if (!combat.delay && !combat.time &&
-        map->MapInput->getKeyThreshold(6, 100) &&
+        INPUT.l.threspass(100) &&
         !draw_prop.end_lock && !move.crawl &&
         !state.hug_wall &&
         !a_dash.frame && !g_dash.frame)

@@ -27,6 +27,7 @@ bool KeyState::threspass(int max) { return keythreshold >= max; };
 
 void Input::update()
 {
+    // Update KEYBOARD;
     const Uint8* state = SDL_GetKeyboardState(NULL);
     w.update(state);
     s.update(state);
