@@ -312,19 +312,19 @@ void Block::draw(Player *player)
 
     if (Camera::objectIgnore(player, this))
         return;
-
+    
+    int center_off_x = distX(player, this) - player->camera.offset_mid_x + getWidth() / 2;
+    int center_off_y = distY(player, this) - player->camera.offset_mid_y - getHeight() / 2;
+    int p_shift_x = Camera::playerShiftX(player);
+    int p_shift_y = Camera::playerShiftY(player);
     // Draw
     for (int i = 0; i < block_textures.size(); i++)
     for (int j = 0; j < block_textures[i].size(); j++)
     {
         // If a grid x grid texture is out of bound
         // Ignore the rendering process
-        int colli_x = abs(
-            distX(player, this) - player->camera.offset_mid_x + getWidth() / 2 - j*grid
-        ) + Camera::playerShiftX(player);
-        int colli_y = abs(
-            distY(player, this) - player->camera.offset_mid_y - getHeight() / 2 + i*grid
-        ) + Camera::playerShiftY(player);
+        int colli_x = abs(center_off_x - j*grid) + p_shift_x;
+        int colli_y = abs(center_off_y + i*grid) + p_shift_y;
         if (block_indexs[i][j] == -1 ||
             colli_x - grid / 2 > CFG->WIDTH ||
             colli_y - grid / 2 > CFG->HEIGHT)
