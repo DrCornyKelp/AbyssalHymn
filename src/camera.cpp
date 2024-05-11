@@ -5,10 +5,10 @@ bool Camera::renderIgnore(Player *player, Object2D *obj, bool camIndependent)
     if (obj->getIgnore()) return true;
 
     int colli_x = abs(
-        Object2D::distX(player, obj) - player->camera.offset_mid_x - playerShiftX(player)
+        Object2D::distX(player, obj) - player->camera.offset_x
     );
     int colli_y = abs(
-        Object2D::distY(player, obj) - player->camera.offset_mid_y - playerShiftY(player)
+        Object2D::distY(player, obj) - player->camera.offset_y
     );
 
     // Object outside of playable/usuable view
@@ -38,17 +38,6 @@ bool Camera::renderIgnore(Player *player, Object2D *obj, bool camIndependent)
     return outside_window || outside_cam;
 }
 
-int Camera::playerShiftX(Player *player)
-{
-    return  player->camera.ease_x +
-            player->camera.effect_x;
-}
-int Camera::playerShiftY(Player *player)
-{
-    return  player->camera.ease_y +
-            player->camera.effect_y;
-}
-
 int Camera::objectDrawX(Player *player, Object2D *obj)
 {
     // X is fine
@@ -56,8 +45,7 @@ int Camera::objectDrawX(Player *player, Object2D *obj)
 
     return (player->camera.unfocus_x ?
             CFG->WIDTH/2 + obj->getX() - player->camera.unfocus_offset_x - obj->getWidth()/2 :
-            CFG->WIDTH/2 + dist_x + player->camera.offset_mid_x - obj->getWidth()/2)
-            + Camera::playerShiftX(player);
+            CFG->WIDTH/2 + dist_x + player->camera.offset_x - obj->getWidth()/2);
 }
 int Camera::objectDrawY(Player *player, Object2D *obj)
 {
@@ -66,18 +54,21 @@ int Camera::objectDrawY(Player *player, Object2D *obj)
 
     return (player->camera.unfocus_y ?
             CFG->HEIGHT/2 - obj->getY() + player->camera.unfocus_offset_y - obj->getHeight()/2 :
-            CFG->HEIGHT/2 - dist_y - player->camera.offset_mid_y - obj->getHeight()/2)
-            + Camera::playerShiftY(player);
+            CFG->HEIGHT/2 - dist_y - player->camera.offset_y - obj->getHeight()/2);
 }
 
 int Camera::playerDrawX(Player *player, int W)
 {
-    return  CFG->WIDTH/2 + player->camera.offset_mid_x
-            - W/2 + playerShiftX(player);
+    return  CFG->WIDTH/2
+            + player->camera.mid_x
+            + player->camera.shift_x
+            - W/2;
 }
 
 int Camera::playerDrawY(Player *player, int H)
 {
-    return  CFG->HEIGHT/2 - player->camera.offset_mid_y
-            - H/2 + playerShiftY(player);
+    return  CFG->HEIGHT/2
+            - player->camera.mid_y
+            + player->camera.shift_y
+            - H/2;
 }

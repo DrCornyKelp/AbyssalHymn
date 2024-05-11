@@ -104,12 +104,19 @@ struct PlayerGroundDash
 struct PlayerCamera
 {
     Player *player;
-    int offset_mid_x = 0;
-    int offset_mid_y = 0;
+    int mid_x = 0;
+    int mid_y = 0;
     bool unfocus_x = 0;
     bool unfocus_y = 0;
     int unfocus_offset_x = 0;
     int unfocus_offset_y = 0;
+    int shift_x = 0;
+    int shift_y = 0;
+
+    int offset_x = 0;
+    int offset_y = 0;
+
+    ObjectXY center_off; // For >1 players
 
     // Goal Value
     ObjectBox focus_dir;
@@ -128,6 +135,8 @@ struct PlayerCamera
     float effect_y = 0;
 
     ObjectXY getCenterOffset();
+    int getShiftX();
+    int getShiftY();
     int getFocusTriggerX();
     int getFocusTriggerY();
 

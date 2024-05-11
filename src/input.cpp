@@ -291,16 +291,14 @@ int Input::getMOffMidX() {
     return CFG->WIDTH / 2 - mouse_x;
 }
 int Input::getMOffMidY() {
-    return mouse_y - CFG->HEIGHT / 2;
+    return CFG->HEIGHT / 2 - mouse_y; // Wrong formula
 }
 int Input::getMOffPlayerX(Player *player) {
-    return-(player->camera.offset_mid_x +
-            Camera::playerShiftX(player) +
+    return-(player->camera.offset_x +
             getMOffMidX());
 }
 int Input::getMOffPlayerY(Player *player) {
-    return-(player->camera.offset_mid_y +
-            Camera::playerShiftY(player) +
+    return-(player->camera.offset_y +
             getMOffMidY());
 }
 int Input::getMMapX(Player *player, short grid)

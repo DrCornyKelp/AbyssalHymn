@@ -11,9 +11,6 @@ private:
 public:
     static bool renderIgnore(Player *player, Object2D *objSub, bool camIndependent = 0);
 
-    static int playerShiftX(Player *player);
-    static int playerShiftY(Player *player);
-
     // For drawing object relative to player
     static int objectDrawX(Player *player, Object2D *obj);
     static int objectDrawY(Player *player, Object2D *obj);

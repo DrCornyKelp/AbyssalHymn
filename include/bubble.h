@@ -19,6 +19,12 @@ struct BubbleStyle
     float alphaRatio();
 };
 
+// The reason for the existance of BubbleObject is because
+struct BubbleObject
+{
+
+};
+
 class Map;
 class Player;
 class Bubble : public Object2D

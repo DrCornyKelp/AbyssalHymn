@@ -310,10 +310,12 @@ void Block::draw(Player *player)
     if (Camera::renderIgnore(player, this))
         return;
 
-    int p_shift_x = Camera::playerShiftX(player);
-    int p_shift_y = Camera::playerShiftY(player);
-    int center_off_x = distX(player, this) - player->camera.offset_mid_x - p_shift_x + getWidth() / 2;
-    int center_off_y = distY(player, this) - player->camera.offset_mid_y - p_shift_y - getHeight() / 2;
+    int center_off_x = distX(player, this) 
+                    - player->camera.offset_x
+                    + getWidth() / 2;
+    int center_off_y = distY(player, this)
+                    - player->camera.offset_y
+                    - getHeight() / 2;
 
     // Draw
     for (int i = 0; i < block_textures.size(); i++)

@@ -227,7 +227,7 @@ void PlayerCamera::resetCamera()
 {
     ease_x = 0; ease_y = 0;
     effect_x = 0; effect_y = 0;
-    offset_mid_x = 0; offset_mid_y = 0;
+    mid_x = 0; mid_y = 0;
 }
 
 void PlayerCamera::setCameraBorder(ObjectBox f_dir, ObjectBox f_val)
@@ -289,10 +289,17 @@ ObjectXY PlayerCamera::getCenterOffset() {
 };
 // Camera Focus Trigger
 int PlayerCamera::getFocusTriggerX() {
-    return player->getX() - Camera::playerShiftX(player);
+    return player->getX() - shift_x;
 }
 int PlayerCamera::getFocusTriggerY() {
-    return player->getY() - Camera::playerShiftY(player);
+    return player->getY() - shift_y;
+}
+// Camera Shift
+int PlayerCamera::getShiftX() {
+    return ease_x + effect_x;
+}
+int PlayerCamera::getShiftY() {
+    return ease_y + effect_y;
 }
 
 void PlayerCamera::playerCameraFocus()
@@ -319,11 +326,6 @@ void PlayerCamera::playerCameraFocus()
     if (focus_snap && !focus_true.compare(focus_point))
     { focus_snap = 0;  focus_true.copy(focus_point); }
 
-    int p_shift_x = Camera::playerShiftX(player);
-    int p_shift_y = Camera::playerShiftY(player);
-
-    ObjectXY center_off = getCenterOffset();
-
     // === Focus X ===
 
     // Boundary left
@@ -331,21 +333,21 @@ void PlayerCamera::playerCameraFocus()
         getFocusTriggerX() - center_off.x < focus_true.left)
     {
         unfocus_x = 1;
-        unfocus_offset_x = focus_true.left + p_shift_x ;
-        offset_mid_x = getFocusTriggerX() - focus_true.left;
+        unfocus_offset_x = focus_true.left ;
+        mid_x = getFocusTriggerX() - focus_true.left;
     }
     // Boundary right
     else if (focus_dir.right &&
         getFocusTriggerX() - center_off.x > focus_true.right)
     {
         unfocus_x = 1;
-        unfocus_offset_x = focus_true.right + p_shift_x;
-        offset_mid_x = getFocusTriggerX() - focus_true.right;
+        unfocus_offset_x = focus_true.right;
+        mid_x = getFocusTriggerX() - focus_true.right;
     }
     else
     {
         unfocus_x = 0;
-        offset_mid_x = center_off.x;
+        mid_x = center_off.x;
     }
 
     // === Focus Y ===
@@ -355,28 +357,26 @@ void PlayerCamera::playerCameraFocus()
         getFocusTriggerY() - center_off.y < focus_true.down)
     {
         unfocus_y = 1;
-        unfocus_offset_y = focus_true.down + p_shift_y;
-        offset_mid_y = getFocusTriggerY() - focus_true.down;
+        unfocus_offset_y = focus_true.down;
+        mid_y = getFocusTriggerY() - focus_true.down;
     }
     // Boundary Up
     else if (focus_dir.up &&
         getFocusTriggerY() - center_off.y > focus_true.up)
     {
         unfocus_y = 1;
-        unfocus_offset_y = focus_true.up + p_shift_y;
-        offset_mid_y = getFocusTriggerY() - focus_true.up;
+        unfocus_offset_y = focus_true.up;
+        mid_y = getFocusTriggerY() - focus_true.up;
     }
     else
     {
         unfocus_y = 0;
-        offset_mid_y = center_off.y;
+        mid_y = center_off.y;
     }
 }
 
 void PlayerCamera::playerCameraProperty(Input *input)
 {
-    // ======================== CAMERA ============================
-
     // Center The camera in the middle if godmode
     if (player->getGodmode())
     {
@@ -386,6 +386,15 @@ void PlayerCamera::playerCameraProperty(Input *input)
         return;
     }
     else playerCameraFocus();
+
+    // Update the values
+    shift_x = getShiftX();
+    shift_y = getShiftY();
+    center_off = getCenterOffset();
+
+    // Total offset from center
+    offset_x = shift_x + mid_x;
+    offset_y = shift_x + mid_y;
 
     if (!unfocus_x)
     {
@@ -982,9 +991,9 @@ void Player::playerDeveloper(Map *map)
         SDL_SetRenderDrawColor(CFG->RENDERER, 0, 255, 0, 255);
 
         int gridLineX = camera.unfocus_x ? 0 :
-            int(getX()) % 64 - Camera::playerShiftX(this);
+            int(getX()) % 64 - camera.shift_x;
         int gridLineY = camera.unfocus_y ? 0 :
-            int(getY()) % 64 + Camera::playerShiftY(this);
+            int(getY()) % 64 + camera.shift_y;
 
         for (int i = 0; i < int(CFG->WIDTH / 60); i++)
         {
