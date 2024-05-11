@@ -46,8 +46,21 @@ void Multiplayer::update(Map *map)
         Players.back()->setY(MAIN->getY());
 
         Players.back()->MULTI = this;
+        Players.back()->INPUT.setTemplate(PlayerCount);
         Players.back()->INDEX = PlayerCount;
         PlayerCount++;
+    }
+
+    if (MAIN->INPUT.f4.press())
+    {
+        MAIN->INPUT.f4.keyhold = 1;
+
+        for (Player *player : Players)
+        if (!player->MAIN)
+        {
+            player->setX(MAIN->getX());
+            player->setY(MAIN->getY());
+        }
     }
 }
 

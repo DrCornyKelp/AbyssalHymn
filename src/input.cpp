@@ -120,6 +120,7 @@ void Input::setTemplate(int keytemplate)
     }
 }
 
+// OBSOLETE
 bool Input::input()
 {
     if (key_delay) key_delay--;
