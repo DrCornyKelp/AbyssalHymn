@@ -4,7 +4,19 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SFML/Audio.hpp>
+
+#include <algorithm>
+#include <random>
 #include <string>
+#include <iomanip>
+#include <sstream>
+#include <fstream>
+#include <math.h>
+#include <cmath>
+#include <vector>
+#include <tuple>
+#include <map>
 
 #define int1D std::vector<int>
 #define int2D std::vector<int1D>

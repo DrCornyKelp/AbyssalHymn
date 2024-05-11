@@ -1,22 +1,6 @@
 #ifndef OBJECT2D_H
 #define OBJECT2D_H
 
-#include <iostream>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SFML/Audio.hpp>
-
-#include <algorithm>
-#include <random>
-#include <string>
-#include <iomanip>
-#include <sstream>
-#include <fstream>
-#include <math.h>
-#include <cmath>
-#include <vector>
-#include <tuple>
-
 #include <configuration.h>
 #include <camera.h>
 
