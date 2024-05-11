@@ -9,7 +9,7 @@ class Camera
 private:
 
 public:
-    static bool objectIgnore(Player *player, Object2D *objSub, bool camIndependent = 0);
+    static bool renderIgnore(Player *player, Object2D *objSub, bool camIndependent = 0);
 
     static int playerShiftX(Player *player);
     static int playerShiftY(Player *player);

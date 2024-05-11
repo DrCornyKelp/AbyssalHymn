@@ -222,6 +222,15 @@ int Object2D::distR(Object2D *obj1, Object2D *obj2)
     return sqrt(sqrX + sqrY);
 }
 
+bool Object2D::objectIgnore(Object2D *objMain, Object2D *objSub)
+{
+    int dist_x = Object2D::distX(objMain, objSub);
+    int dist_y = Object2D::distY(objMain, objSub);
+
+    return (dist_x - objSub->getWidth() > CFG->WIDTH ||
+            dist_y - objSub->getHeight() > CFG->HEIGHT);
+};
+
 // Texture
 
 SDL_Texture *Object2D::loadTexture(string0D path)

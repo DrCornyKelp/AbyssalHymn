@@ -200,7 +200,7 @@ void Projectile::updateProjectile(Map *map)
 void Projectile::draw(Player *player)
 {   
     // Only render if box is in sight
-    if (Camera::objectIgnore(player, this))
+    if (Camera::renderIgnore(player, this))
         return;
     // Set animation
     objectSetSprite();

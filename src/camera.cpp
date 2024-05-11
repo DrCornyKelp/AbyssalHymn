@@ -1,6 +1,6 @@
 #include <multiplayer.h>
 
-bool Camera::objectIgnore(Player *player, Object2D *obj, bool camIndependent)
+bool Camera::renderIgnore(Player *player, Object2D *obj, bool camIndependent)
 {
     if (obj->getIgnore()) return true;
 

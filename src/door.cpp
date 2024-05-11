@@ -57,7 +57,7 @@ void Door::enterDoor(Map *map, Player *player)
 void Door::draw(Player *player)
 {
     // Outside seeable? unrender
-    if (Camera::objectIgnore(player, this) ||
+    if (Camera::renderIgnore(player, this) ||
         style < 0) return;
 
     // Draw Door

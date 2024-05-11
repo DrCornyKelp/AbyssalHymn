@@ -192,6 +192,8 @@ public:
     static int distBorderY(Object2D *obj1, Object2D *obj2);
     static int distR(Object2D *obj1, Object2D *obj2);
 
+    static bool objectIgnore(Object2D *objMain, Object2D *objSub);
+
     static SDL_Texture *loadTexture(string0D path);
     static void deleteTextures(SDLTexture1D textures);
 

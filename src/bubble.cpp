@@ -42,7 +42,7 @@ void Bubble::updateBubble(Map *map, Player *player)
 
 void Bubble::draw(Player *player)
 {
-    if (Camera::objectIgnore(player, this, 1) &&
+    if (Camera::renderIgnore(player, this, 1) &&
         !b_type == 2) return;
 
     SDL_Rect desRect;

@@ -107,8 +107,7 @@ void Block::blockSeethrough(Map *map, bool yes)
 
 void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
 {
-    if (Camera::objectIgnore(player, this, 1))
-        return;
+    if (objectIgnore(player, this)) return;
 
     // Player Value
     int px = player->getX();
@@ -131,8 +130,6 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
 
     isHugged = false;
     isStepOn = false;
-
-    player;
 
     // Bridge block has different hitbox detection
     if (type == 3 && !pState.on_ground &&
@@ -310,7 +307,7 @@ void Block::draw(Player *player)
     else
         isMoving = false;
 
-    if (Camera::objectIgnore(player, this))
+    if (Camera::renderIgnore(player, this))
         return;
 
     int p_shift_x = Camera::playerShiftX(player);

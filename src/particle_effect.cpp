@@ -29,7 +29,7 @@ bool ParticleEffect::getIsGone() { return is_gone; }
 void ParticleEffect::draw(Player *player)
 {
     // Outside seeable? unrender
-    if (Camera::objectIgnore(player, this, true)) return;
+    if (Camera::renderIgnore(player, this, true)) return;
 
     // Frame index shitty bang bang stuff handler
     // (more advanced than the other ig)

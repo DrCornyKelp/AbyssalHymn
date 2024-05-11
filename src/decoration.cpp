@@ -91,7 +91,7 @@ void Decoration::setAlpha(int a)
 void Decoration::drawDecoration(Player *player)
 {
     // Only render if box is in sight
-    if (!absolute && Camera::objectIgnore(player, this))
+    if (!absolute && Camera::renderIgnore(player, this))
         return;
     // Frame index shitty bang bang stuff handler
     objectSetSprite();
