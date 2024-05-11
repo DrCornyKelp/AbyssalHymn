@@ -197,28 +197,27 @@ void PlayerDrawProp::playerDrawProperty(Map *map)
         (player->combat.weapon_equip ? LeftWeaponTexture : LeftTexture);
 
     player->setWidth(player->combat.weapon_equip ? 64 : 32);
-}
 
-void PlayerDrawProp::playerDrawSprite()
-{
+    // Update Rect
     player->objectSetSprite(end_lock);
-
-    if (!player->combat.invulnerable)
-        SDL_SetTextureAlphaMod(CurrentTexture, 255);
-
-    SDL_Rect desRect = {
+    des_rect = {
         Camera::objectDrawX(player->MULTI->MAIN, player) - player->getWidth()*3/2,
         Camera::objectDrawY(player->MULTI->MAIN, player) - player->getWidth()*2,
         player->getWidth()*4, player->getWidth()*4
     };
-
-    SDL_Rect srcRect = {
+    src_rect = {
         player->getSprIndex() * player->getWidth(),
         index * player->getWidth(),
         player->getWidth(), player->getWidth()
     };
 
-    SDL_RenderCopy(CFG->RENDERER, CurrentTexture, &srcRect, &desRect);
+    if (!player->combat.invulnerable)
+        SDL_SetTextureAlphaMod(CurrentTexture, 255);
+}
+
+void PlayerDrawProp::playerDrawSprite()
+{
+    SDL_RenderCopy(CFG->RENDERER, CurrentTexture, &src_rect, &des_rect);
 }
 
 // ============================ PLAYER CAMERA ============================

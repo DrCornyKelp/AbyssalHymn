@@ -161,6 +161,9 @@ struct PlayerDrawProp
     SDL_Texture *LeftWeaponTexture;
     SDL_Texture *RightWeaponTexture;
 
+    SDL_Rect des_rect;
+    SDL_Rect src_rect;
+
     void clearTexture();
     void setSpriteAlpha(int alp);
 

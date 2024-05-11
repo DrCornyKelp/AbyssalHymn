@@ -163,17 +163,19 @@ void Decoration::updateBackground(Player *player, bool left_prlx)
     // Parallax moving (player focus)
     else
         setY(CFG->HEIGHT/2 + int((player->getY() - center_offset.y) * scale_vel_y));
-}
 
-void Decoration::drawBackground()
-{
-    SDL_Rect desRect = {
+
+    // Update Rect
+    des_rect = {
         int(getX() - getWidth() / 2),
         int(getY() - getHeight() / 2),
         getWidth(), getHeight()
     };
+}
 
-    SDL_RenderCopy(CFG->RENDERER, decor_texture, NULL, &desRect);
+void Decoration::drawBackground()
+{
+    SDL_RenderCopy(CFG->RENDERER, decor_texture, NULL, &des_rect);
 }
 
 // ============================ FILE MANIPULATION ===================================
