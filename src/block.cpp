@@ -321,10 +321,10 @@ void Block::draw(Player *player)
         // Ignore the rendering process
         int colli_x = abs(
             distX(player, this) - player->camera.offset_mid_x + getWidth() / 2 - j*grid
-        );
+        ) + Camera::playerShiftX(player);
         int colli_y = abs(
             distY(player, this) - player->camera.offset_mid_y - getHeight() / 2 + i*grid
-        );
+        ) + Camera::playerShiftY(player);
         if (block_indexs[i][j] == -1 ||
             colli_x - grid / 2 > CFG->WIDTH ||
             colli_y - grid / 2 > CFG->HEIGHT)
