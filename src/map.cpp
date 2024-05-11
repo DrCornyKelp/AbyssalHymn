@@ -292,7 +292,8 @@ void Map::updateMapActive()
 
     if (MapWorld->map_transition > MapWorld->map_transition_mid)
     {
-        MapInput->setKeyDelay(MapWorld->map_transition_mid + 10);
+        for (Player *player : MapPlayers->Players)
+            player->INPUT.input_delay = MapWorld->map_transition_mid + 10;
         return;
     };
 

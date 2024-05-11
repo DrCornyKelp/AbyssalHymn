@@ -44,11 +44,11 @@ void Door::enterDoor(Map *map, Player *player)
         player->state.on_ground &&
         player->getHitHeight() == 80 &&
         abs(player->getVelX()) < .2 &&
-        map->MapInput->getKeyPress(0)
+        player->INPUT.moveU.press()
         // Star logic here
         )
     {
-        map->MapInput->setKeyHold(0, true);
+        player->INPUT.moveU.keyhold = 1;
         map->MapWorld->setTransit(location);
     }
 }
