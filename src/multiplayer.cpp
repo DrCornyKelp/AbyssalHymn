@@ -15,6 +15,7 @@ Multiplayer::Multiplayer(Player1D players) :
     // Set Players Index
     for (int i = 0; i < PlayerCount; i++)
     {
+        Players[i]->INPUT = Input(i);
         Players[i]->INDEX = i;
         Players[i]->MULTI = this;
     }
@@ -35,6 +36,19 @@ void Multiplayer::update(Map *map)
 
     // Update the camera for this player, only
     MAIN->camera.playerCameraProperty(map->MapInput);
+
+    // TESTING
+    if (MAIN->INPUT.lctrl.press())
+    {
+        MAIN->INPUT.lctrl.keyhold = 1;
+        Players.push_back(new Player());
+        Players.back()->setX(MAIN->getX());
+        Players.back()->setY(MAIN->getY());
+
+        Players.back()->MULTI = this;
+        Players.back()->INDEX = PlayerCount;
+        PlayerCount++;
+    }
 }
 
 void Multiplayer::draw()

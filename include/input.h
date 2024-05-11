@@ -17,9 +17,32 @@ struct KeyState
 	bool threspass(int max);
 };
 
-struct KeyTemplate
+struct KeyTemplate0
 {
-	void Template1();
+	KeyState
+		moveU = {SDL_SCANCODE_W},
+		moveD = {SDL_SCANCODE_S},
+		moveL = {SDL_SCANCODE_A},
+		moveR = {SDL_SCANCODE_D},
+		proj = {SDL_SCANCODE_R},
+		equip = {SDL_SCANCODE_E},
+		attack = {SDL_SCANCODE_F},
+		jump = {SDL_SCANCODE_G},
+		dash = {SDL_SCANCODE_H}; 
+};
+
+struct KeyTemplate1
+{
+	KeyState
+		moveU = {SDL_SCANCODE_UP},
+		moveD = {SDL_SCANCODE_DOWN},
+		moveL = {SDL_SCANCODE_LEFT},
+		moveR = {SDL_SCANCODE_RIGHT},
+		proj = {SDL_SCANCODE_O},
+		equip = {SDL_SCANCODE_L},
+		attack = {SDL_SCANCODE_P},
+		jump = {SDL_SCANCODE_LEFTBRACKET},
+		dash = {SDL_SCANCODE_RIGHTBRACKET};
 };
 
 class Player;
@@ -57,9 +80,9 @@ public:
 		attack = {SDL_SCANCODE_L},
 		jump = {SDL_SCANCODE_SPACE},
 		dash = {SDL_SCANCODE_LSHIFT},
-		lctrl = {SDL_SCANCODE_LCTRL},
 
 		// Other
+		lctrl = {SDL_SCANCODE_LCTRL},
 		arrowU = {SDL_SCANCODE_UP},
 		arrowD = {SDL_SCANCODE_DOWN},
 		arrowL = {SDL_SCANCODE_LEFT},
@@ -73,7 +96,7 @@ public:
 
 	int input_delay = 0;
 
-	Input();
+	Input(int keytemplate = 0);
 	bool input();
 
 	void update();

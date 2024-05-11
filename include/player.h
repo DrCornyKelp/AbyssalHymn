@@ -218,8 +218,8 @@ private:
     bool godmode = false;
 
     std::vector<SDL_Scancode> toggle_code = {
-        SDL_SCANCODE_H,
-        SDL_SCANCODE_G
+        SDL_SCANCODE_F1,
+        SDL_SCANCODE_F2
     };
     std::vector<bool> toggle_hold = {
         false, false

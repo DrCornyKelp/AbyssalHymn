@@ -1,7 +1,6 @@
 #include <input.h>
 #include <player.h>
 
-
 void KeyState::update(const Uint8* state, bool input_delay)
 {
     if (state[code] && !input_delay) key = 1;
@@ -41,6 +40,7 @@ void Input::update()
     attack.update(state, input_delay);
     jump.update(state, input_delay);
     dash.update(state, input_delay);
+
     lctrl.update(state, input_delay);
     arrowU.update(state, input_delay);
     arrowD.update(state, input_delay);
@@ -51,7 +51,7 @@ void Input::update()
     Uint32 mouseState = SDL_GetMouseState(&mouse_x, &mouse_y);
 }
 
-Input::Input()
+Input::Input(int keytemplate)
 {
     // ============= Initialize Controller ==============
     // Check for controller support
@@ -74,6 +74,33 @@ Input::Input()
         keyhold.push_back(false);
         keythreshold.push_back(0);
         keythrespeak.push_back(0);
+    }
+
+    if (!keytemplate)
+    {
+        KeyTemplate0 keytemplate;
+            moveU = keytemplate.moveU;
+            moveD = keytemplate.moveD;
+            moveL = keytemplate.moveL;
+            moveR = keytemplate.moveR;
+            proj = keytemplate.proj;
+            equip = keytemplate.equip;
+            attack = keytemplate.attack;
+            jump = keytemplate.jump;
+            dash = keytemplate.dash;
+    }
+    if (keytemplate >= 1)
+    {
+        KeyTemplate1 keytemplate;
+            moveU = keytemplate.moveU;
+            moveD = keytemplate.moveD;
+            moveL = keytemplate.moveL;
+            moveR = keytemplate.moveR;
+            proj = keytemplate.proj;
+            equip = keytemplate.equip;
+            attack = keytemplate.attack;
+            jump = keytemplate.jump;
+            dash = keytemplate.dash;
     }
 }
 

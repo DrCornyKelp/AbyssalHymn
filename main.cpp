@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 
     // Player + Hud
     Player1D PlayerVec;
-    for (int i = 0; i < 1; i++)
+    for (int i = 0; i < 2; i++)
         PlayerVec.push_back(new Player());
     Multiplayer *multi = new Multiplayer(PlayerVec);
 
