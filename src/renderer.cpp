@@ -1,6 +1,6 @@
 #include <renderer.h>
 
-void Renderer::renderGameplay(Map *map, Hud *hud)
+void Renderer::renderGameplay(Map *map)
 {
     // ============== Performance unintensive (kinda) =================
 
@@ -35,7 +35,7 @@ void Renderer::renderGameplay(Map *map, Hud *hud)
         enemy->draw(map->MapPlayers->MAIN);
 
     // Player
-    map->MapPlayers->draw();
+    map->MapPlayers->drawPlayers();
 
     // Projectile
     for (Projectile *projectile : map->ProjectileVec)
@@ -66,9 +66,8 @@ void Renderer::renderGameplay(Map *map, Hud *hud)
     if (map->MapPlayers->MAIN->getGodmode())
         map->MapPlayers->MAIN->draw_prop.playerDrawSprite();
 
-    // ==== However, developer mode eat shit when it come to hud lmao ====
-    // Player Hud
-    hud->draw();
+    // Hud
+    map->MapPlayers->drawHuds();
 
     // Black Screen
     if (map->MapWorld->map_transition)

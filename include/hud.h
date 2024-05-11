@@ -1,14 +1,15 @@
 #ifndef HUD_H
 #define HUD_H
 
-#include <player.h>
 #include <object2D.h>
 
+class Multiplayer;
+class Player;
 class Hud {
 private:
     float alpha = 120; // Opacity
 
-    Player* player;
+    Player *player;
 
     int bobbing = 0;
     int bobbing_direction = 1;

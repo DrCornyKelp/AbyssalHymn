@@ -16,8 +16,8 @@ Multiplayer::Multiplayer(Player1D players) :
     for (int i = 0; i < PlayerCount; i++)
     {
         Players[i]->INDEX = i;
-        Players[i]->INPUT = Input(i);
         Players[i]->MULTI = this;
+        Players[i]->INPUT.setTemplate(i);
     }
 }
 
@@ -38,9 +38,9 @@ void Multiplayer::update(Map *map)
     MAIN->camera.playerCameraProperty(map->MapInput);
 
     // TESTING
-    if (MAIN->INPUT.lctrl.press())
+    if (MAIN->INPUT.f1.press())
     {
-        MAIN->INPUT.lctrl.keyhold = 1;
+        MAIN->INPUT.f1.keyhold = 1;
         Players.push_back(new Player());
         Players.back()->setX(MAIN->getX());
         Players.back()->setY(MAIN->getY());
@@ -51,8 +51,13 @@ void Multiplayer::update(Map *map)
     }
 }
 
-void Multiplayer::draw()
+void Multiplayer::drawPlayers()
 {
     for (Player *player : Players)
         player->draw_prop.playerDrawSprite();
+}
+void Multiplayer::drawHuds()
+{
+    for (Player *player : Players)
+        player->HUD.draw();
 }

@@ -206,13 +206,7 @@ void PlayerDrawProp::playerDrawSprite()
     if (!player->combat.invulnerable)
         SDL_SetTextureAlphaMod(CurrentTexture, 255);
 
-    SDL_Rect desRect;
-    if (player->MAIN) desRect = {
-        Camera::playerDrawX(player, player->getWidth()*4),
-        Camera::playerDrawY(player, player->getWidth()*4),
-        player->getWidth()*4, player->getWidth()*4
-    };
-    else desRect = {
+    SDL_Rect desRect = {
         Camera::objectDrawX(player->MULTI->MAIN, player) - player->getWidth()*3/2,
         Camera::objectDrawY(player->MULTI->MAIN, player) - player->getWidth()*2,
         player->getWidth()*4, player->getWidth()*4
@@ -361,7 +355,6 @@ void PlayerCamera::playerCameraFocus()
         getFocusTriggerY() - center_off.y < focus_true.down)
     {
         unfocus_y = 1;
-        unfocus_direction_y = -1;
         unfocus_offset_y = focus_true.down + p_shift_y;
         offset_mid_y = getFocusTriggerY() - focus_true.down;
     }
@@ -370,7 +363,6 @@ void PlayerCamera::playerCameraFocus()
         getFocusTriggerY() - center_off.y > focus_true.up)
     {
         unfocus_y = 1;
-        unfocus_direction_y = 1;
         unfocus_offset_y = focus_true.up + p_shift_y;
         offset_mid_y = getFocusTriggerY() - focus_true.up;
     }
@@ -394,37 +386,6 @@ void PlayerCamera::playerCameraProperty(Input *input)
         return;
     }
     else playerCameraFocus();
-
-    // Look vertical up and down
-    float vt_max = vertical_ahead_max;
-    if (player->state.on_ground && !player->getVelX() &&
-        vertical_ahead_time > vertical_ahead_time_max)
-    {
-        if (player->INPUT.moveU.key &&
-            vertical_ahead < vt_max &&
-            !(  unfocus_direction_y == 1 &&
-                player->getY() > unfocus_offset_y - vt_max))
-            vertical_ahead += (vt_max - abs(vertical_ahead)) / 30;
-        if (player->INPUT.moveD.key &&
-            vertical_ahead > -vt_max &&
-            !(  unfocus_direction_y == -1 &&
-                player->getY() < unfocus_offset_y + vt_max))
-            vertical_ahead -= (vt_max - abs(vertical_ahead)) / 30;
-
-        vertical_ahead = vertical_ahead > vt_max ? vt_max : vertical_ahead;
-        vertical_ahead = vertical_ahead < -vt_max ? -vt_max : vertical_ahead;
-    }
-
-    if (player->state.on_ground && !player->getVelX() && !unfocus_y &&
-        (player->INPUT.moveU.key || player->INPUT.moveD.key))
-        vertical_ahead_time ++;
-    else
-        vertical_ahead_time = 0;
-
-    if (player->getVelX() || player->getVelY() ||
-        (!player->INPUT.moveU.key && vertical_ahead > 0) ||
-        (!player->INPUT.moveD.key && vertical_ahead < 0))
-        vertical_ahead -= vertical_ahead / 40;
 
     if (!unfocus_x)
     {
@@ -1059,32 +1020,28 @@ void Player::playerDeveloper(Map *map)
         ,32);
     }
 
-    const Uint8 *state = SDL_GetKeyboardState(NULL);
-
     // ===============DEVELOPER input===============
     // GODMODE
-    if (state[toggle_code[0]] && !toggle_hold[0])
+    if (INPUT.f2.press())
     {
-        toggle_hold[0] = true;
+        INPUT.f2.keyhold = 1;
         godmode = !godmode;
     }
-    if (!state[toggle_code[0]]) toggle_hold[0] = false;
 
     if (godmode)
     {
-        int vel_developer = state[SDL_SCANCODE_LCTRL] ? 20 : 4;
-        if (state[SDL_SCANCODE_W]) setY(getY() + vel_developer);
-        if (state[SDL_SCANCODE_S]) setY(getY() - vel_developer);
-        if (state[SDL_SCANCODE_D]) setX(getX() + vel_developer);
-        if (state[SDL_SCANCODE_A]) setX(getX() - vel_developer);
+        int vel_developer = INPUT.lctrl.key ? 20 : 4;
+        if (INPUT.moveU.key) setY(getY() + vel_developer);
+        if (INPUT.moveD.key) setY(getY() - vel_developer);
+        if (INPUT.moveL.key) setX(getX() - vel_developer);
+        if (INPUT.moveR.key) setX(getX() + vel_developer);
     }
     // DISPLAY GRID
-    if (state[toggle_code[1]] && !toggle_hold[1])
+    if (INPUT.f3.press())
     {
-        toggle_hold[1] = true;
+        INPUT.f3.keyhold = 1;
         grid = !grid;
     };
-    if (!state[toggle_code[1]]) toggle_hold[1] = false;
 }
 
 bool Player::getGodmode() { return godmode; }

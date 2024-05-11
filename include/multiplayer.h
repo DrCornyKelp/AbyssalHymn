@@ -16,7 +16,8 @@ public:
     Multiplayer(Player1D players);
     void changeMain(int index);
     void update(Map *map);
-    void draw();
+    void drawPlayers();
+    void drawHuds();
 };
 
 #endif

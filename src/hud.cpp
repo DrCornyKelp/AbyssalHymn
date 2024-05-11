@@ -1,4 +1,4 @@
-#include <hud.h>
+#include <multiplayer.h>
 
 Hud::~Hud()
 {
@@ -26,11 +26,19 @@ void Hud::setAlpha(int a)
 
 void Hud::drawHeadUpStat()
 {
-    SDL_Rect desRect = {Camera::playerDrawX(player, 128),
-                        Camera::playerDrawY(player, 128) -
-                        (player->move.crawl ? 0 : 8),
-                        128, 128};
+    int off_x = player->combat.weapon_equip ? 32 : 48;
+    int off_y = 64 + (player->move.crawl ? 0 : 8);
+    SDL_Rect desRect = {
+        Camera::objectDrawX(player->MULTI->MAIN, player) - off_x,
+        Camera::objectDrawY(player->MULTI->MAIN, player) - off_y,
+        128, 128
+    };
     SDL_Rect srcRect = {0, 0, 64, 64};
+
+    if (player->MAIN)
+        std::cout << Camera::objectDrawX(
+            player->MULTI->MAIN, player
+        ) << "\n";
 
     // Combat
     if (player->combat.weapon_equip)
@@ -43,7 +51,7 @@ void Hud::drawHeadUpStat()
         SDL_RenderCopy(CFG->RENDERER, combatTexture, &srcRect, &desRect);
     }
 
-    // Jump 
+    // Jump
     if (player->jump.super >= player->jump.super_max)
         SDL_RenderCopy(CFG->RENDERER, jumpSuperTexture, &srcRect, &desRect);
     else if (player->jump.cur == 2)

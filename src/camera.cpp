@@ -46,7 +46,6 @@ int Camera::playerShiftX(Player *player)
 int Camera::playerShiftY(Player *player)
 {
     return  player->camera.ease_y +
-            player->camera.vertical_ahead + // Gameplay advantage move
             player->camera.effect_y;
 }
 

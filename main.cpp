@@ -33,8 +33,6 @@ int main(int argc, char *argv[])
         PlayerVec.push_back(new Player());
     Multiplayer *multi = new Multiplayer(PlayerVec);
 
-    Hud *hud = new Hud(multi->Players[0]);
-
     // Collision
     Collision *collision = new Collision();
 
@@ -79,7 +77,7 @@ int main(int argc, char *argv[])
         // Main
         // audio->updateTrack();
         world->updateWorld();
-        rend->renderGameplay(world->MapCurrent, hud);
+        rend->renderGameplay(world->MapCurrent);
         multi->Players[0]->playerDeveloper(world->MapCurrent);
 
         // Console + Editor
@@ -93,7 +91,7 @@ int main(int argc, char *argv[])
 
     // Clean up (REMEMBER TO ADD PLAYER CLEAN UP AS WELL)
     delete  world, audio, input, CFG,
-            collision, hud, rend, multi;
+            collision, rend, multi;
 
     SDL_DestroyRenderer(CFG->RENDERER);
     SDL_DestroyWindow(CFG->WINDOW);

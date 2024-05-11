@@ -1,6 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include <hud.h>
 #include <input.h>
 #include <particle_effect.h>
 
@@ -107,7 +108,6 @@ struct PlayerCamera
     int offset_mid_y = 0;
     bool unfocus_x = 0;
     bool unfocus_y = 0;
-    short unfocus_direction_y = 0; // 1 : up, -1: down
     int unfocus_offset_x = 0;
     int unfocus_offset_y = 0;
 
@@ -126,12 +126,6 @@ struct PlayerCamera
     float ease_y = 0;
     float effect_x = 0;
     float effect_y = 0;
-
-    // Vertical ahead
-    int vertical_ahead_time = 0;
-    int vertical_ahead_time_max = 150;
-    float vertical_ahead = 0;
-    float vertical_ahead_max = 192;
 
     ObjectXY getCenterOffset();
     int getFocusTriggerX();
@@ -217,19 +211,12 @@ private:
 
     bool godmode = false;
 
-    std::vector<SDL_Scancode> toggle_code = {
-        SDL_SCANCODE_F1,
-        SDL_SCANCODE_F2
-    };
-    std::vector<bool> toggle_hold = {
-        false, false
-    };
-
 public:
     // ================== META ===================
     bool MAIN;
     int INDEX;
     Input INPUT;
+    Hud HUD = Hud(this);
     Multiplayer *MULTI;
 
     // ================== STATE ==================

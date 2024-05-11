@@ -86,7 +86,14 @@ public:
 		arrowU = {SDL_SCANCODE_UP},
 		arrowD = {SDL_SCANCODE_DOWN},
 		arrowL = {SDL_SCANCODE_LEFT},
-		arrowR = {SDL_SCANCODE_RIGHT};
+		arrowR = {SDL_SCANCODE_RIGHT},
+
+		// Function Key
+		f1 = {SDL_SCANCODE_F1},
+		f2 = {SDL_SCANCODE_F2},
+		f3 = {SDL_SCANCODE_F3},
+		f4 = {SDL_SCANCODE_F4},
+		f5 = {SDL_SCANCODE_F5};
 
 	SDL_GameController *controller;
 
@@ -96,8 +103,9 @@ public:
 
 	int input_delay = 0;
 
-	Input(int keytemplate = 0);
+	Input();
 	bool input();
+	void setTemplate(int keytemplate);
 
 	void update();
 

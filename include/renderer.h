@@ -10,7 +10,7 @@ class Renderer
 private:
 
 public:
-    void renderGameplay(Map *map, Hud *hud);
+    void renderGameplay(Map *map);
     void renderMainMenu(Scene *main_menu);
     void renderLevelSelectMenu(Scene *main_menu);
 };

@@ -47,11 +47,17 @@ void Input::update()
     arrowL.update(state, input_delay);
     arrowR.update(state, input_delay);
 
+    f1.update(state, input_delay);
+    f2.update(state, input_delay);
+    f3.update(state, input_delay);
+    f4.update(state, input_delay);
+    f5.update(state, input_delay);
+
     // Update MOUSE
     Uint32 mouseState = SDL_GetMouseState(&mouse_x, &mouse_y);
 }
 
-Input::Input(int keytemplate)
+Input::Input()
 {
     // ============= Initialize Controller ==============
     // Check for controller support
@@ -75,7 +81,10 @@ Input::Input(int keytemplate)
         keythreshold.push_back(0);
         keythrespeak.push_back(0);
     }
+}
 
+void Input::setTemplate(int keytemplate)
+{
     if (!keytemplate)
     {
         KeyTemplate0 keytemplate;
