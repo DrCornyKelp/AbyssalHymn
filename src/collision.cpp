@@ -113,7 +113,7 @@ void Collision::playerEnemyCollision(Map *map, Player *player)
             {
                 enemy->enemyGetHit(player->getCombatDamage());
 
-                map->ParticleBackVec.push_back(new ParticleEffect(
+                map->appendParticle(new ParticleEffect(
                     Object2D::loadTexture(
                         "res/ParticleSheet/NakuEffect/Attack.png"),
                     enemy->getX(), enemy->getY(), 100, 100,

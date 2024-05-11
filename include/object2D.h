@@ -200,11 +200,13 @@ public:
 
     // =================== VERY HELPFUL METHOD ======================
 
-    // Note!!!: objectDist is a vector in both direction,
+    // Note!!!: dist is a vector in both direction,
     // not the absolute value
-    static int objectDistX(Object2D *obj1, Object2D *obj2, bool absolute = 0);
-    static int objectDistY(Object2D *obj1, Object2D *obj2, bool absolute = 0);
-    static int objectDistR(Object2D *obj1, Object2D *obj2);
+    static int distX(Object2D *obj1, Object2D *obj2, bool absolute = 0);
+    static int distY(Object2D *obj1, Object2D *obj2, bool absolute = 0);
+    static int distBorderX(Object2D *obj1, Object2D *obj2);
+    static int distBorderY(Object2D *obj1, Object2D *obj2);
+    static int distR(Object2D *obj1, Object2D *obj2);
 
     static SDL_Texture *loadTexture(string0D path);
     static void deleteTextures(SDLTexture1D textures);

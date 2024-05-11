@@ -28,9 +28,11 @@ int main(int argc, char *argv[])
     Renderer *rend = new Renderer();
 
     // Player + Hud
-    Multiplayer *multi = new Multiplayer({
-        new Player(), new Player(), new Player(), new Player(), new Player()
-    });
+    Player1D PlayerVec;
+    for (int i = 0; i < 100; i++)
+        PlayerVec.push_back(new Player());
+    Multiplayer *multi = new Multiplayer(PlayerVec);
+
     Hud *hud = new Hud(multi->Players[0]);
 
     // Collision

@@ -191,11 +191,12 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
             );
             if (player->a_dash.frame || player->g_dash.frame)
             {
-                map->ParticleBackVec.push_back(new ParticleEffect(
+                map->appendParticle(new ParticleEffect(
                     Object2D::loadTexture(
                         "res/ParticleSheet/NakuEffect/WallBangRight.png"),
                     player->getX(), player->getY(), 128, 128,
-                    64, 64, 8, 4, 0));
+                    64, 64, 8, 4, 0
+                ));
 
                 if (player->g_dash.frame)
                     player->draw_prop.right = 0;
@@ -230,11 +231,12 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
             );
             if (player->a_dash.frame || player->g_dash.frame)
             {
-                map->ParticleBackVec.push_back(new ParticleEffect(
+                map->appendParticle(new ParticleEffect(
                     Object2D::loadTexture(
                         "res/ParticleSheet/NakuEffect/WallBangLeft.png"),
                     player->getX(), player->getY(), 128, 128,
-                    64, 64, 8, 4, 0));
+                    64, 64, 8, 4, 0
+                ));
 
                 if (player->g_dash.frame)
                     player->draw_prop.right = 1;
@@ -254,11 +256,12 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
             p_hit_y < getY() + p_vel_y + 4 &&
             colli_y < hit_dist_y)
         {
-            map->ParticleBackVec.push_back(new ParticleEffect(
+            map->appendParticle(new ParticleEffect(
                 Object2D::loadTexture(
                     "res/ParticleSheet/NakuEffect/WallBangDown.png"),
                 player->getX(), player->getY(), 70, 70,
-                64, 64, 8, 4, 0));
+                64, 64, 8, 4, 0
+            ));
 
             player->jump.knockout = 50;
             player->setY(getY() - getHeight() / 2 - 40 - p_vel_y);

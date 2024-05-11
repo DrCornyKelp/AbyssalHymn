@@ -392,6 +392,18 @@ void Map::appendCameraBox(Map *map, string0D cam_dir)
     }
 }
 
+void Map::appendParticle(ParticleEffect *particle, bool front)
+{
+    if (front)
+        if (ParticleFrontVec.size() < 128)
+            ParticleFrontVec.push_back(particle);
+        else delete particle;
+    else
+        if (ParticleBackVec.size() < 128)
+            ParticleBackVec.push_back(particle);
+        else delete particle;
+}
+
 // ================== MAP MANIPULATION ALGORITHM =====================
 
 //-------Covert each line of file into vector--------

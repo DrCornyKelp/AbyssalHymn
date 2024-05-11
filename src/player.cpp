@@ -281,10 +281,10 @@ ObjectXY PlayerCamera::getCenterOffset() {
     ObjectXY center_off = {0, 0};
     for (Player *playersub : player->MULTI->Players)
     {
-        center_off.x += Object2D::objectDistX(
+        center_off.x += Object2D::distX(
             player, playersub
         );
-        center_off.y += Object2D::objectDistY(
+        center_off.y += Object2D::distY(
             player, playersub
         );
     }
@@ -520,7 +520,7 @@ void Player::playerMovement(Map *map)
     {
         INPUT.dash.keyhold = 1;
 
-        map->ParticleBackVec.push_back(new ParticleEffect(
+        map->appendParticle(new ParticleEffect(
             loadTexture(draw_prop.right ?
                 "res/ParticleSheet/NakuEffect/GDashSmokeRight.png" :
                 "res/ParticleSheet/NakuEffect/GDashSmokeLeft.png"
@@ -544,7 +544,7 @@ void Player::playerMovement(Map *map)
     {
         INPUT.dash.keyhold = 1;
 
-        map->ParticleBackVec.push_back(new ParticleEffect(
+        map->appendParticle(new ParticleEffect(
             loadTexture(draw_prop.right ?
                 "res/ParticleSheet/NakuEffect/ADashSmokeRight.png" :
                 "res/ParticleSheet/NakuEffect/ADashSmokeLeft.png"
@@ -577,7 +577,7 @@ void Player::playerMovement(Map *map)
         // Particle effect
         if (jump.super == jump.super_max)
         {
-            map->ParticleBackVec.push_back(new ParticleEffect(
+            map->appendParticle(new ParticleEffect(
                 loadTexture(
                     "res/ParticleSheet/NakuEffect/SuperJumpSmoke.png"),
                 move.hitX(), move.hitY(), 150, 36,
@@ -586,7 +586,7 @@ void Player::playerMovement(Map *map)
 
             setVelY(7.3);
         } else if (state.on_ground)
-            map->ParticleBackVec.push_back(new ParticleEffect(
+            map->appendParticle(new ParticleEffect(
                 loadTexture(
                     "res/ParticleSheet/NakuEffect/JumpSmoke.png"),
                 getX(), getY() - 24, 50, 50,
@@ -597,7 +597,7 @@ void Player::playerMovement(Map *map)
         a_dash.lock = 0;
         if (state.hug_wall)
         {
-            map->ParticleBackVec.push_back(new ParticleEffect(
+            map->appendParticle(new ParticleEffect(
                 loadTexture(
                     state.hug_wall > 0 ?
                     "res/ParticleSheet/NakuEffect/JumpWallRight.png" :
@@ -992,14 +992,14 @@ void Player::playerGetHit(Map *map, int dmg)
 {
     if (combat.invulnerable || combat.invincible) return;
 
-    // map->ParticleBackVec.push_back(new ParticleEffect(
+    // map->appendParticle(new ParticleEffect(
     //     loadTexture(CFG->RENDERER,
     //         "res/ParticleSheet/NakuEffect/BloodSplatter.png"),
     //     getX(), getY(), 300, 300,
     //     100, 100, 6, 3, 4, 0
     // ));
 
-    // map->ParticleBackVec.push_back(new ParticleEffect(
+    // map->appendParticle(new ParticleEffect(
     //     loadTexture(CFG->RENDERER,
     //         "res/ParticleSheet/Explode.png"),
     //     getX(), getY(), 300, 300,

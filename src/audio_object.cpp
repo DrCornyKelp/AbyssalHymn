@@ -32,7 +32,7 @@ void AudioObject::updateProximity(Map *map)
         music.getDuration().asMilliseconds())
         play_once = true;
 
-    float distant = objectDistR(map->MapPlayers->MAIN, this);
+    float distant = distR(map->MapPlayers->MAIN, this);
 
     float dr_ratio = (distant - radius_max_vol) / radius;
     volume = vol_max * (1 - (dr_ratio < 0 ? 0 : dr_ratio) );

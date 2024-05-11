@@ -69,7 +69,7 @@ void Skeleton::enemyAI(Map *map)
     if (getDead())
     {
         if (getSprIndex() == getSprIndexMax() - 1)
-            map->ParticleBackVec.push_back(new ParticleEffect(
+            map->appendParticle(new ParticleEffect(
                 loadTexture(
                     "res/ParticleSheet/Explode.png"),
                 getX(), getY(), 120, 120,
@@ -126,7 +126,7 @@ void Skeleton::enemyAI(Map *map)
         {
             if (!player->combat.invulnerable)
             {
-                map->ParticleBackVec.push_back(new ParticleEffect(
+                map->appendParticle(new ParticleEffect(
                     loadTexture(
                         "res/ParticleSheet/NakuEffect/Attack.png"),
                     player->move.hitX(), player->move.hitY(), 100, 100,

@@ -193,20 +193,32 @@ bool Object2D::insideGridBox(ObjectBox gridbox)
 // ======================== VERY HELPFUL METHOD ========================
 
 // Distance
-int Object2D::objectDistX(Object2D *obj1, Object2D *obj2, bool absolute)
+int Object2D::distX(Object2D *obj1, Object2D *obj2, bool absolute)
 {   
     int distX = obj1->getX() - obj2->getX();
     return absolute ? abs(distX) : distX;
 }
-int Object2D::objectDistY(Object2D *obj1, Object2D *obj2, bool absolute)
+int Object2D::distY(Object2D *obj1, Object2D *obj2, bool absolute)
 {
     int distY = obj1->getY() - obj2->getY();
     return absolute ? abs(distY) : distY;
 }
-int Object2D::objectDistR(Object2D *obj1, Object2D *obj2)
+int Object2D::distBorderX(Object2D *obj1, Object2D *obj2)
 {
-    int sqrX = pow(objectDistX(obj1, obj2), 2);
-    int sqrY = pow(objectDistY(obj1, obj2), 2);
+    int dist_x = distX(obj1, obj2, 1);
+    int dist_border_x = dist_x - obj1->getWidth()/2 - obj2->getWidth()/2;
+    return dist_border_x;
+}
+int Object2D::distBorderY(Object2D *obj1, Object2D *obj2)
+{
+    int dist_y = distY(obj1, obj2, 1);
+    int dist_border_y = dist_y - obj1->getHeight()/2 - obj2->getHeight()/2;
+    return dist_border_y;
+}
+int Object2D::distR(Object2D *obj1, Object2D *obj2)
+{
+    int sqrX = pow(distX(obj1, obj2), 2);
+    int sqrY = pow(distY(obj1, obj2), 2);
     return sqrt(sqrX + sqrY);
 }
 

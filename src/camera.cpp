@@ -4,8 +4,8 @@ bool Camera::objectIgnore(Player *player, Object2D *obj, bool camIndependent)
 {
     if (obj->getIgnore()) return true;
 
-    int colli_x = abs(Object2D::objectDistX(player, obj));
-    int colli_y = abs(Object2D::objectDistY(player, obj));
+    int colli_x = abs(Object2D::distX(player, obj));
+    int colli_y = abs(Object2D::distY(player, obj));
 
     // Object outside of playable/usuable view
     bool outside_window = 
@@ -49,7 +49,7 @@ int Camera::playerShiftY(Player *player)
 int Camera::objectDrawX(Player *player, Object2D *obj)
 {
     // X is fine
-    int dist_x = Object2D::objectDistX(obj, player);
+    int dist_x = Object2D::distX(obj, player);
 
     return (player->camera.unfocus_x ?
             CFG->WIDTH/2 + obj->getX() - player->camera.unfocus_offset_x - obj->getWidth()/2 :
@@ -59,7 +59,7 @@ int Camera::objectDrawX(Player *player, Object2D *obj)
 int Camera::objectDrawY(Player *player, Object2D *obj)
 {
     // Y focus is fine but unfocus is a piece of shit
-    int dist_y = Object2D::objectDistY(obj, player);
+    int dist_y = Object2D::distY(obj, player);
 
     return (player->camera.unfocus_y ?
             CFG->HEIGHT/2 - obj->getY() + player->camera.unfocus_offset_y - obj->getHeight()/2 :

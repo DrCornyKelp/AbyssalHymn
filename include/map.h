@@ -159,6 +159,8 @@ public:
     static void appendTransitMap(Map *map, string0D trans_dir);
     static void appendCameraBox(Map *map, string0D cam_dir);
 
+    void appendParticle(ParticleEffect *particle, bool front = 0);
+
     // ================== MAP MANIPULATION ALGORITHM ===================== ( HELPFUL :D)
 
     static string1D convertStrVec(string0D file_dir);

@@ -169,13 +169,13 @@ void Projectile::projectileAction(Map *map)
         
         if (!parry_effect)
         {
-            map->ParticleFrontVec.push_back(new ParticleEffect(
+            map->appendParticle(new ParticleEffect(
                 loadTexture(
                     "res/ParticleSheet/BulletParry.png"
                 ),
                 getX(), getY(), 150, 150,
                 64, 64, 7, 3, 0
-            ));
+            ), 1);
 
             setSprFrameMax(getSprFrameMax() / 3);
             setVelX(vel_parry_x);
@@ -190,11 +190,11 @@ void Projectile::updateProjectile(Map *map)
     projectileCollision(map);
 
     if (bullet_dead)
-        map->ParticleFrontVec.push_back(new ParticleEffect(
+        map->appendParticle(new ParticleEffect(
             loadTexture("res/ParticleSheet/Explode.png"),
             getX(), getY(), 200, 200,
             100, 100, 10, 7, 3, 0
-        ));
+        ), 1);
 }
 
 void Projectile::draw(Player *player)
