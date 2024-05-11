@@ -4,13 +4,13 @@ bool Camera::objectIgnore(Player *player, Object2D *obj, bool camIndependent)
 {
     if (obj->getIgnore()) return true;
 
-    int colli_x = abs(Object2D::distX(player, obj));
-    int colli_y = abs(Object2D::distY(player, obj));
+    int colli_x = abs(Object2D::distX(player, obj) - player->camera.offset_mid_x);
+    int colli_y = abs(Object2D::distY(player, obj) - player->camera.offset_mid_y);
 
     // Object outside of playable/usuable view
     bool outside_window = 
-        colli_x - obj->getWidth() / 2 > CFG->WIDTH * 1.2 ||
-        colli_y - obj->getHeight() / 2 > CFG->HEIGHT * 1.2;
+        colli_x - obj->getWidth() / 2 > CFG->WIDTH / 1.5 ||
+        colli_y - obj->getHeight() / 2 > CFG->HEIGHT / 1.5;
 
     ObjectBox oBox = obj->getBox();
     ObjectBox bBox = player->camera.focus_border;

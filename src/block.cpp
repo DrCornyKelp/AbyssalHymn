@@ -320,12 +320,12 @@ void Block::draw(Player *player)
         // If a grid x grid texture is out of bound
         // Ignore the rendering process
         // This cannot use camera cuz holy shit wtf
-        int colli_x = abs(player->getX() - getX() + getWidth() / 2 - j*grid);
-        int colli_y = abs(player->getY() - getY() - getHeight() / 2 + i*grid);
-        if (block_indexs[i][j] == -1 ||
-            colli_x - grid / 2 > CFG->WIDTH ||
-            colli_y - grid / 2 > CFG->HEIGHT)
-            continue;
+        // int colli_x = abs(player->getX() - getX() + getWidth() / 2 - j*grid);
+        // int colli_y = abs(player->getY() - getY() - getHeight() / 2 + i*grid);
+        // if (block_indexs[i][j] == -1 ||
+        //     colli_x - grid / 2 > CFG->WIDTH ||
+        //     colli_y - grid / 2 > CFG->HEIGHT)
+        //     continue;
 
         if (type == -1)
             SDL_SetTextureAlphaMod(block_textures[i][j], seeAlpha);

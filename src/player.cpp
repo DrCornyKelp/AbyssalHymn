@@ -332,6 +332,13 @@ void PlayerCamera::playerCameraFocus()
 
     // === Focus X ===
 
+    if (player->MAIN)
+        std::cout <<
+            abs(Object2D::distX(
+                player, player->MULTI->Players[1]
+            ) - offset_mid_x) << " " <<
+            CFG->WIDTH / 2 << "\n";
+
     // Boundary left
     if (focus_dir.left &&
         getFocusTriggerX() - center_off.x < focus_true.left)
