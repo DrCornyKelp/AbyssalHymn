@@ -11,7 +11,6 @@ void Configuration::addDevlog(string0D text, int colorCode)
 { DEVLOG += "| \033[" + std::to_string(colorCode) + "m" + text + "\033[0m "; }
 void Configuration::printDevlog()
 {
-    
     if (DEVLOG == "" || DEVLOG == PRELOG) return;
     PRELOG = DEVLOG;
     std::cout << DEVLOG << "\n";

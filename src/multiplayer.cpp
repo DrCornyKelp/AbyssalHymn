@@ -15,8 +15,8 @@ Multiplayer::Multiplayer(Player1D players) :
     // Set Players Index
     for (int i = 0; i < PlayerCount; i++)
     {
-        Players[i]->INPUT = Input(i);
         Players[i]->INDEX = i;
+        Players[i]->INPUT = Input(i);
         Players[i]->MULTI = this;
     }
 }

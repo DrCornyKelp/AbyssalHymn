@@ -4,6 +4,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <string>
 
 #define int1D std::vector<int>
 #define int2D std::vector<int1D>
@@ -20,7 +21,6 @@
 
 #define SDLTexture1D std::vector<SDL_Texture*>
 #define SDLTexture2D std::vector<SDLTexture1D>
-
 
 class Configuration
 {
