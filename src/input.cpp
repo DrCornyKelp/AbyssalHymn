@@ -56,7 +56,12 @@ void Input::update()
     // Update MOUSE
     SDL_PumpEvents();
     Uint32 mouseState = SDL_GetMouseState(&mouse_x, &mouse_y);
-    if (mouseState && SDL_BUTTON(SDL_BUTTON_LEFT)) std::cout << "scroll???? \n";
+
+    while (SDL_PollEvent(&event)) {
+        if (event.type == SDL_MOUSEWHEEL) {
+            wheel = event.wheel.y;
+        }
+    }
 }
 
 Input::Input()
