@@ -162,7 +162,7 @@ void Decoration::updateBackground(Player *player, bool left_prlx)
         setY(CFG->HEIGHT/2 + int(player->camera.unfocus_offset_y * scale_vel_y));
     // Parallax moving (player focus)
     else
-        setY(CFG->HEIGHT/2 + int(player->getY() * scale_vel_y));
+        setY(CFG->HEIGHT/2 + int((player->getY() - center_offset.y) * scale_vel_y));
 }
 
 void Decoration::drawBackground()

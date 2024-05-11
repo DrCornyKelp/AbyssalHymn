@@ -333,7 +333,7 @@ void PlayerCamera::playerCameraFocus()
         getFocusTriggerX() - center_off.x < focus_true.left)
     {
         unfocus_x = 1;
-        unfocus_offset_x = focus_true.left ;
+        unfocus_offset_x = focus_true.left + shift_x;
         mid_x = getFocusTriggerX() - focus_true.left;
     }
     // Boundary right
@@ -341,7 +341,7 @@ void PlayerCamera::playerCameraFocus()
         getFocusTriggerX() - center_off.x > focus_true.right)
     {
         unfocus_x = 1;
-        unfocus_offset_x = focus_true.right;
+        unfocus_offset_x = focus_true.right + shift_x;
         mid_x = getFocusTriggerX() - focus_true.right;
     }
     else
@@ -357,7 +357,7 @@ void PlayerCamera::playerCameraFocus()
         getFocusTriggerY() - center_off.y < focus_true.down)
     {
         unfocus_y = 1;
-        unfocus_offset_y = focus_true.down;
+        unfocus_offset_y = focus_true.down + shift_y;
         mid_y = getFocusTriggerY() - focus_true.down;
     }
     // Boundary Up
@@ -365,7 +365,7 @@ void PlayerCamera::playerCameraFocus()
         getFocusTriggerY() - center_off.y > focus_true.up)
     {
         unfocus_y = 1;
-        unfocus_offset_y = focus_true.up;
+        unfocus_offset_y = focus_true.up + shift_y;
         mid_y = getFocusTriggerY() - focus_true.up;
     }
     else
@@ -394,7 +394,7 @@ void PlayerCamera::playerCameraProperty(Input *input)
 
     // Total offset from center
     offset_x = shift_x + mid_x;
-    offset_y = shift_x + mid_y;
+    offset_y = shift_y + mid_y;
 
     if (!unfocus_x)
     {

@@ -45,7 +45,8 @@ int Camera::objectDrawX(Player *player, Object2D *obj)
 
     return (player->camera.unfocus_x ?
             CFG->WIDTH/2 + obj->getX() - player->camera.unfocus_offset_x - obj->getWidth()/2 :
-            CFG->WIDTH/2 + dist_x + player->camera.offset_x - obj->getWidth()/2);
+            CFG->WIDTH/2 + dist_x + player->camera.mid_x - obj->getWidth()/2)
+            + player->camera.shift_x;
 }
 int Camera::objectDrawY(Player *player, Object2D *obj)
 {
@@ -54,7 +55,8 @@ int Camera::objectDrawY(Player *player, Object2D *obj)
 
     return (player->camera.unfocus_y ?
             CFG->HEIGHT/2 - obj->getY() + player->camera.unfocus_offset_y - obj->getHeight()/2 :
-            CFG->HEIGHT/2 - dist_y - player->camera.offset_y - obj->getHeight()/2);
+            CFG->HEIGHT/2 - dist_y - player->camera.mid_y - obj->getHeight()/2)
+            + player->camera.shift_y;
 }
 
 int Camera::playerDrawX(Player *player, int W)
