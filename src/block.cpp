@@ -319,8 +319,12 @@ void Block::draw(Player *player)
     {
         // If a grid x grid texture is out of bound
         // Ignore the rendering process
-        int colli_x = abs(distX(player, this) - player->camera.offset_mid_x + getWidth() / 2 - j*grid);
-        int colli_y = abs(distX(player, this) - player->camera.offset_mid_y - getHeight() / 2 + i*grid);
+        int colli_x = abs(
+            distX(player, this) - player->camera.offset_mid_x + getWidth() / 2 - j*grid
+        );
+        int colli_y = abs(
+            distY(player, this) - player->camera.offset_mid_y - getHeight() / 2 + i*grid
+        );
         if (block_indexs[i][j] == -1 ||
             colli_x - grid / 2 > CFG->WIDTH ||
             colli_y - grid / 2 > CFG->HEIGHT)
