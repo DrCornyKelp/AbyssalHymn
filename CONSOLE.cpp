@@ -554,7 +554,7 @@ string0D Console::toLowerCase(const string0D& str) {
 }
 
 string1D Console::splitCmdSegment(string0D str, char delimiter) {
-    std::vector<string0D> tokens;
+    string1D tokens;
     std::stringstream ss(str);
     string0D token;
 
