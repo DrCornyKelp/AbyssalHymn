@@ -27,7 +27,7 @@ struct KeyTemplate0
 		proj = {SDL_SCANCODE_R},
 		equip = {SDL_SCANCODE_E},
 		attack = {SDL_SCANCODE_F},
-		jump = {SDL_SCANCODE_G},
+		jump = {SDL_SCANCODE_W}, // FOR TESTING
 		dash = {SDL_SCANCODE_H}; 
 };
 
@@ -41,7 +41,7 @@ struct KeyTemplate1
 		proj = {SDL_SCANCODE_O},
 		equip = {SDL_SCANCODE_L},
 		attack = {SDL_SCANCODE_P},
-		jump = {SDL_SCANCODE_LEFTBRACKET},
+		jump = {SDL_SCANCODE_UP}, // FOR TESTING
 		dash = {SDL_SCANCODE_RIGHTBRACKET};
 };
 
@@ -57,15 +57,9 @@ public:
 
 	KeyState
 		// Gameplay
-		moveU = {SDL_SCANCODE_W},
-		moveD = {SDL_SCANCODE_S},
-		moveL = {SDL_SCANCODE_A},
-		moveR = {SDL_SCANCODE_D},
-		proj = {SDL_SCANCODE_E},
-		equip = {SDL_SCANCODE_Q},
-		attack = {SDL_SCANCODE_L},
-		jump = {SDL_SCANCODE_SPACE},
-		dash = {SDL_SCANCODE_LSHIFT},
+		moveU, moveD, moveL, moveR,
+		proj, equip, attack,
+		jump, dash,
 
 		// Other
 		lctrl = {SDL_SCANCODE_LCTRL},
