@@ -49,23 +49,9 @@ class Player;
 class Input 
 {
 public:
-	// Input
-	bool1D key, click = {0, 0};
-	bool1D keyhold, clickhold = {0, 0};
-
-	int1D keythreshold;
-	int1D clickthreshold = {0, 0};
-
-	int1D keythrespeak;
-	int1D clickthrespeak = {0, 0};
-
+	int mouse_x, mouse_y;
 	// -1: Scroll Down, 1: Scroll Up
 	short wheel = 0;
-
-	// Note:
-	// mouse_x start from left
-	// mouse_y start from bottom
-	int mouse_x, mouse_y;
 
 // ====================================================================
 
@@ -95,19 +81,29 @@ public:
 		f4 = {SDL_SCANCODE_F4},
 		f5 = {SDL_SCANCODE_F5};
 
-	SDL_GameController *controller;
-
-	int key_delay = 0;
-	int click_delay = 0;
-	SDL_Event event;
-
 	int input_delay = 0;
 
 	Input();
 	bool input();
 	void setTemplate(int keytemplate);
-
 	void update();
+
+	// ==================== OBSOLETE ======================
+	// Input
+	bool1D key, click = {0, 0};
+	bool1D keyhold, clickhold = {0, 0};
+
+	int1D keythreshold;
+	int1D clickthreshold = {0, 0};
+
+	int1D keythrespeak;
+	int1D clickthrespeak = {0, 0};
+
+	SDL_GameController *controller;
+
+	int key_delay = 0;
+	int click_delay = 0;
+	SDL_Event event;
 
 	// Keyboard/Controller
 	void setKeyDelay(int delay);

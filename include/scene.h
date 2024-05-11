@@ -1,32 +1,45 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include <iostream>
-#include <SDL2/SDL.h>
-
-#include <configuration.h>
-#include <input.h>
+#include "input.h"
 
 class Object2D;
 class Scene
 {
 private:
-    SDL_Texture *main_menu_bg;
-    SDL_Texture *level_select_bg;
-public:
     short menu_counter = 0;
-    short game_state;   // 0: Main Menu
-                        // 1: Level Select
-                        // 2: Stage 1 (for testing)
-                        // 3: Pause
-                        // 4: Quit
+    
+    bool pressed = false;
 
-    SDL_Texture *getMainMenuBg();
-    SDL_Texture *getLevelSelectBg();
+    // Placeholder input for easy access
+    Input *input;
+    
+    // Textures
+    SDL_Texture *main_bg;
+    SDL_Texture *pause_bg;
+    SDL_Texture *button_sheet;
+    SDL_Texture *button_high_sheet;
 
-    void initMainMenuBg(const char *path);
-    void initLevelSelectBg(const char *path);
-    void mainMenuNavi(Input *Input);
+    SDL_Rect src_rect;
+    SDL_Rect des_rect;
+public:
+    short game_state = 0;   // 0: Main Menu
+                            // 1: Gameplay
+                            // 2: Pause
+                            // 3: Quit
+
+    // SDL_Texture *getMainBg();
+    // SDL_Texture *getPauseBg();
+
+    void initScenes(Input *in);
+
+    // Navigation (Button only)
+    void naviMainMenu();
+    void naviPauseMenu();
+
+    // Render (option menu for keymapping soon?)
+    void renderMainMenu();
+    void renderPauseMenu();
 };
 
 #endif

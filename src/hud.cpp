@@ -35,11 +35,6 @@ void Hud::drawHeadUpStat()
     };
     SDL_Rect srcRect = {0, 0, 64, 64};
 
-    if (player->MAIN)
-        std::cout << Camera::objectDrawX(
-            player->MULTI->MAIN, player
-        ) << "\n";
-
     // Combat
     if (player->combat.weapon_equip)
     {

@@ -73,20 +73,3 @@ void Renderer::renderGameplay(Map *map)
     if (map->MapWorld->map_transition)
         SDL_RenderCopy(CFG->RENDERER, map->MapWorld->BlackScreen, NULL, NULL);
 }
-
-void Renderer::renderMainMenu(Scene *scene)
-{
-    SDL_RenderCopy(CFG->RENDERER, scene->getMainMenuBg(), NULL, NULL);
-
-    SDL_SetRenderDrawColor(CFG->RENDERER, 255, 0, 0, 100);
-    SDL_Rect box = {480, 300 + scene->menu_counter*100, 160, 100};
-    SDL_RenderFillRect(CFG->RENDERER, &box);
-}
-
-void Renderer::renderLevelSelectMenu(Scene *scene)
-{
-    SDL_RenderCopy(CFG->RENDERER, scene->getLevelSelectBg(), NULL, NULL);
-    // SDL_SetRenderDrawColor(255, 0, 0, 200);
-    // SDL_Rect box = {480, 300 + scene->menu_counter*100, 160, 100};
-    // SDL_RenderFillRect(&box);
-}

@@ -54,7 +54,9 @@ void Input::update()
     f5.update(state, input_delay);
 
     // Update MOUSE
+    SDL_PumpEvents();
     Uint32 mouseState = SDL_GetMouseState(&mouse_x, &mouse_y);
+    if (mouseState && SDL_BUTTON(SDL_BUTTON_LEFT)) std::cout << "scroll???? \n";
 }
 
 Input::Input()

@@ -1,12 +1,9 @@
-#include <scene.h>
-#include <hud.h>
 #include <renderer.h>
-#include <world.h>
+#include <audio.h>
 
 #include <developer/editor.h>
 #include <developer/console.h>
 
-#include <audio.h>
 
 int main(int argc, char *argv[])
 {
