@@ -171,8 +171,9 @@ struct PlayerDrawProp
     void setSprite(int m_index, int m_frame);
     void setEndLock(bool lock);
     void setActSprElock(int1D act, int1D spr, short lock = 0);
-    void playerDrawSprite();
-    void playerDrawProperty(Map *map);
+
+    void draw();
+    void drawProperty(Map *map);
 };
 
 struct PlayerSFX

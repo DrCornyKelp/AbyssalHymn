@@ -67,8 +67,9 @@ void Multiplayer::update(Map *map)
 void Multiplayer::drawPlayers()
 {
     for (Player *player : Players)
-        player->draw_prop.playerDrawSprite();
+        player->draw_prop.draw();
 }
+
 void Multiplayer::drawHuds()
 {
     for (Player *player : Players)

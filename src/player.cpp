@@ -83,7 +83,7 @@ void PlayerDrawProp::setActSprElock(int1D act, int1D spr, short lock)
     if (lock) setEndLock(lock > 0);
 }
 
-void PlayerDrawProp::playerDrawProperty(Map *map)
+void PlayerDrawProp::drawProperty(Map *map)
 {
     // ======================== SRPITES ===========================
     // Set index and stuff
@@ -215,7 +215,7 @@ void PlayerDrawProp::playerDrawProperty(Map *map)
         SDL_SetTextureAlphaMod(CurrentTexture, 255);
 }
 
-void PlayerDrawProp::playerDrawSprite()
+void PlayerDrawProp::draw()
 {
     SDL_RenderCopy(CFG->RENDERER, CurrentTexture, &src_rect, &des_rect);
 }
@@ -1065,7 +1065,7 @@ void Player::playerUpdate(Map *map)
     playerMovement(map);
     playerCombat(map);
     playerHitBox();
-    draw_prop.playerDrawProperty(map);
+    draw_prop.drawProperty(map);
 }
 
 void Player::playerEnableAllMoveset()

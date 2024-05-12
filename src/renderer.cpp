@@ -64,7 +64,7 @@ void Renderer::renderGameplay(Map *map)
 
     // ==== Developer mode put player above all ====
     if (map->MapPlayers->MAIN->getGodmode())
-        map->MapPlayers->MAIN->draw_prop.playerDrawSprite();
+        map->MapPlayers->MAIN->draw_prop.draw();
 
     // Hud
     map->MapPlayers->drawHuds();
