@@ -20,7 +20,7 @@ void Renderer::renderGameplay(Map *map)
 
     // Back Decor
     for (Decoration *decorBack : map->DecorBackVec)
-        decorBack->drawDecoration(map->MapPlayers->MAIN);
+        decorBack->draw(map->MapPlayers->MAIN);
 
     // Door
     for (Door *door : map->DoorVec)
@@ -56,7 +56,7 @@ void Renderer::renderGameplay(Map *map)
 
     // Front Decor
     for (Decoration *decorFront : map->DecorFrontVec)
-        decorFront->drawDecoration(map->MapPlayers->MAIN);
+        decorFront->draw(map->MapPlayers->MAIN);
 
     // Particle Front
     for (ParticleEffect *particle_fx : map->ParticleFrontVec)

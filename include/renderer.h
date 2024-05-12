@@ -5,8 +5,6 @@
 
 class Renderer
 {
-private:
-
 public:
     void renderGameplay(Map *map);
 };

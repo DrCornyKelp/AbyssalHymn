@@ -58,7 +58,7 @@ public:
     void initDecoration();
 
     // Decoration
-    void drawDecoration(Player *player);
+    void draw(Player *player);
     // Background
     void updateBackground(Player *player, bool left_prlx = 0);
     void drawBackground();

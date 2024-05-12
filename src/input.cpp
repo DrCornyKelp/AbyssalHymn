@@ -120,6 +120,8 @@ void Input::executeScript(string0D script_dir)
             line[0] ==  '#') continue;
 
         long1D script = CFG->convertStrLong1D(line);
+        // A .1 ms input, needed to ensure correct hold/release cycle
+        if (script.size() % 2) script.push_back(script.back() + 1);
 
         if (index == 1) moveU.script = script;
         if (index == 2) moveD.script = script;

@@ -88,7 +88,7 @@ void Decoration::setAlpha(int a)
     SDL_SetTextureAlphaMod(decor_texture, a);
 }
 
-void Decoration::drawDecoration(Player *player)
+void Decoration::draw(Player *player)
 {
     // Only render if box is in sight
     if (!absolute && Camera::renderIgnore(player, this))
