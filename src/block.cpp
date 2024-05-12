@@ -317,6 +317,9 @@ void Block::draw(Player *player)
                     - player->camera.offset_y
                     - getHeight() / 2;
 
+    int drawX = Camera::objectDrawX(player, this);
+    int drawY = Camera::objectDrawY(player, this);
+
     // Draw
     for (int i = 0; i < block_textures.size(); i++)
     for (int j = 0; j < block_textures[i].size(); j++)
@@ -333,9 +336,7 @@ void Block::draw(Player *player)
         if (type == -1)
             SDL_SetTextureAlphaMod(block_textures[i][j], seeAlpha);
 
-        SDL_Rect desRect = {Camera::objectDrawX(player, this) + j*grid,
-                            Camera::objectDrawY(player, this) + i*grid,
-                            grid, grid};
+        SDL_Rect desRect = {drawX + j*grid, drawY + i*grid, grid, grid};
 
         SDL_RenderCopy(CFG->RENDERER, block_textures[i][j], NULL, &desRect);        
     }
@@ -343,9 +344,6 @@ void Block::draw(Player *player)
     // Highlighter
     if (highlight)
     {
-        int drawX = Camera::objectDrawX(player, this);
-        int drawY = Camera::objectDrawY(player, this);
-
         SDL_SetRenderDrawColor(CFG->RENDERER, 0, 255, 0, 150);
         SDL_Rect highlightRect = {drawX, drawY, getWidth(), getHeight()};
         SDL_RenderCopy(CFG->RENDERER, highlight_texture, NULL, &highlightRect);
