@@ -3,8 +3,11 @@
 
 #include <object2D.h>
 
+class Input;
+
 struct KeyState
 {
+	bool moveset = 1;
 	SDL_Scancode code;
 	bool key = 0;
 	bool keyhold = 0;
@@ -12,9 +15,14 @@ struct KeyState
 		keythrespeak = 0;
 	int keydelay = 0;
 
-	void update(const Uint8* state, bool input_delay = 0);
+	long1D script;
+	long1D script_history;
+
+	void update(const Uint8* state, Input *input);
 	bool press();
 	bool threspass(int max);
+
+	string0D scriptHistoryToStr();
 };
 
 struct KeyTemplate0
@@ -62,20 +70,23 @@ public:
 		jump, dash,
 
 		// Other
-		lctrl = {SDL_SCANCODE_LCTRL},
-		arrowU = {SDL_SCANCODE_UP},
-		arrowD = {SDL_SCANCODE_DOWN},
-		arrowL = {SDL_SCANCODE_LEFT},
-		arrowR = {SDL_SCANCODE_RIGHT},
+		lctrl = {0, SDL_SCANCODE_LCTRL},
+		arrowU = {0, SDL_SCANCODE_UP},
+		arrowD = {0, SDL_SCANCODE_DOWN},
+		arrowL = {0, SDL_SCANCODE_LEFT},
+		arrowR = {0, SDL_SCANCODE_RIGHT},
 
 		// Function Key
-		f1 = {SDL_SCANCODE_F1},
-		f2 = {SDL_SCANCODE_F2},
-		f3 = {SDL_SCANCODE_F3},
-		f4 = {SDL_SCANCODE_F4},
-		f5 = {SDL_SCANCODE_F5};
+		f1 = {0, SDL_SCANCODE_F1},
+		f2 = {0, SDL_SCANCODE_F2},
+		f3 = {0, SDL_SCANCODE_F3},
+		f4 = {0, SDL_SCANCODE_F4},
+		f5 = {0, SDL_SCANCODE_F5};
 
-	int input_delay = 0;
+	string0D script_history_full = "";
+
+	int delay = 0;
+	bool script_active = 0;
 
 	Input();
 	bool input();

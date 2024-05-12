@@ -34,10 +34,10 @@ void Multiplayer::update(Map *map)
     for (Player *player : Players)
         player->playerUpdate(map);
 
-    // Update the camera for this player, only
+    // Update the camera for only MAIN player
     MAIN->camera.playerCameraProperty(map->MapInput);
 
-    // TESTING
+    // ===================== TESTING =======================
     if (MAIN->INPUT.f1.press())
     {
         MAIN->INPUT.f1.keyhold = 1;
@@ -62,6 +62,21 @@ void Multiplayer::update(Map *map)
             player->setY(MAIN->getY());
         }
     }
+
+    if (MAIN->INPUT.f5.press())
+    {
+        MAIN->INPUT.f5.keyhold = 1;
+
+        MAIN->INPUT.jump.script = {
+            CFG->TIME + 50,
+            CFG->TIME + 100,
+            CFG->TIME + 150,
+            CFG->TIME + 200,
+        };
+    }
+
+    std::ofstream outputFile("PlayerScript.csv");
+    outputFile << MAIN->INPUT.script_history_full;
 }
 
 void Multiplayer::drawPlayers()

@@ -28,6 +28,8 @@ void Configuration::frameHandler(int dlt)
     Uint32 frame_duration = SDL_GetTicks() - frame_start;
     if (frame_duration < dlt)
         SDL_Delay(dlt - frame_duration);
+
+    TIME++;
 }
 
 void Configuration::drawIcon()

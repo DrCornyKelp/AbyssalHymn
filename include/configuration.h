@@ -21,11 +21,14 @@
 #define int1D std::vector<int>
 #define int2D std::vector<int1D>
 
-#define bool1D std::vector<bool>
-#define bool2D std::vector<bool1D>
-
 #define float1D std::vector<float>
 #define float2D std::vector<float1D>
+
+#define long1D std::vector<long>
+#define long2D std::vector<long1D>
+
+#define bool1D std::vector<bool>
+#define bool2D std::vector<bool1D>
 
 #define string0D std::string
 #define string1D std::vector<string0D>
@@ -50,6 +53,9 @@ public:
     // WINDOW SIZE
     // int WIDTH = 1536, HEIGHT = 896;
     int WIDTH = 1280, HEIGHT = 768;
+
+    // TIMER
+    long TIME = 0;
 
     // WINDOW/RENDERER
     SDL_Window *WINDOW = SDL_CreateWindow("Abyssal Hymn", SDL_WINDOWPOS_UNDEFINED,

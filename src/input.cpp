@@ -1,13 +1,38 @@
 #include <input.h>
 #include <player.h>
 
-void KeyState::update(const Uint8* state, bool input_delay)
+void KeyState::update(const Uint8* state, Input *input)
 {
-    if (state[code] && !input_delay) key = 1;
+    // Key Script
+    if (!(script_history.size() % 2) && key ||
+        script_history.size() % 2 && !key)
+        script_history.push_back(CFG->TIME);
+
+    input->script_history_full += scriptHistoryToStr() + "\n";
+
+    // Key State
+    int script_size = script.size();
+    // // KEY SCRIPT
+    if (script_size)
+    {
+        if (CFG->TIME >= script[0])
+        {
+            if (CFG->TIME == script[0])
+            {
+                if (script_size % 2) {
+                    key = 0; keyhold = 0;
+                } else key = 1;
+            }
+            script.erase(script.begin());
+        }
+    }
+    // // KEY INPUT
     else {
-        key = 0; keyhold = 0;
+        if (state[code] && !input->delay) key = 1;
+        else { key = 0; keyhold = 0; }
     }
 
+    // Threshold
     if (key)
     {
         keythreshold++;
@@ -19,39 +44,55 @@ void KeyState::update(const Uint8* state, bool input_delay)
         keythreshold = 0;
     };
 
+    // Key Delay
     if (keydelay) keydelay--;
 }
 bool KeyState::press() { return key && !keyhold && !keydelay; }
 bool KeyState::threspass(int max) { return keythreshold >= max; };
+string0D KeyState::scriptHistoryToStr()
+{
+    if (!script_history.size()) return "-";
+    string0D script_str = "";
+
+    for (long num : script_history)
+        script_str += std::to_string(num) + ",";
+    // Remove the comma at the end
+    script_str.erase(script_str.size() - 1);
+
+    return script_str;
+}
 
 void Input::update()
 {
     // Update Delay
-    if (input_delay) input_delay--;
+    if (delay) delay--;
 
     // Update KEYBOARD;
     const Uint8* state = SDL_GetKeyboardState(NULL);
-    moveU.update(state, input_delay);
-    moveD.update(state, input_delay);
-    moveL.update(state, input_delay);
-    moveR.update(state, input_delay);
-    proj.update(state, input_delay);
-    equip.update(state, input_delay);
-    attack.update(state, input_delay);
-    jump.update(state, input_delay);
-    dash.update(state, input_delay);
 
-    lctrl.update(state, input_delay);
-    arrowU.update(state, input_delay);
-    arrowD.update(state, input_delay);
-    arrowL.update(state, input_delay);
-    arrowR.update(state, input_delay);
+	script_history_full = "";
 
-    f1.update(state, input_delay);
-    f2.update(state, input_delay);
-    f3.update(state, input_delay);
-    f4.update(state, input_delay);
-    f5.update(state, input_delay);
+    moveU.update(state, this);
+    moveD.update(state, this);
+    moveL.update(state, this);
+    moveR.update(state, this);
+    proj.update(state, this);
+    equip.update(state, this);
+    attack.update(state, this);
+    jump.update(state, this);
+    dash.update(state, this);
+
+    lctrl.update(state, this);
+    arrowU.update(state, this);
+    arrowD.update(state, this);
+    arrowL.update(state, this);
+    arrowR.update(state, this);
+
+    f1.update(state, this);
+    f2.update(state, this);
+    f3.update(state, this);
+    f4.update(state, this);
+    f5.update(state, this);
 
     // Update MOUSE
     SDL_PumpEvents();
