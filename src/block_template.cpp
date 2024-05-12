@@ -361,7 +361,7 @@ string0D BlockTemplate::blockToCode(Block *block)
 
 float2D BlockTemplate::codeToBlockInfo(string0D str)
 {
-    float1D values = Map::convertStrFloat1D(str, ',');
+    float1D values = CFG->convertStrFloat1D(str, ',');
     float1D prop;
 
     for (int i = 0; i < 5; i++)
@@ -397,8 +397,8 @@ void BlockTemplate::appendBlock(
 
         float2D info = BlockTemplate::codeToBlockInfo(line);
 
-        int2D index_info = Map::convertFloat2DInt(
-            Map::resizeFloat2D(
+        int2D index_info = CFG->convertFloat2DInt(
+            CFG->resizeFloat2D(
                 info[1], info[0][4], info[0][3]
             )
         );

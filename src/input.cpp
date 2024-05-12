@@ -8,7 +8,7 @@ void KeyState::update(const Uint8* state, Input *input)
         script_history.size() % 2 && !key)
         script_history.push_back(CFG->TIME);
 
-    input->script_history_full += scriptHistoryToStr() + "\n";
+    if (moveset) input->script_history_full += scriptHistoryToStr() + "\n";
 
     // Key State
     int script_size = script.size();
@@ -104,6 +104,37 @@ void Input::update()
         }
     }
 }
+
+void Input::executeScript(string0D script_dir)
+{
+    std::ifstream inputFile(script_dir);
+    string0D line;
+
+    int index = 0;
+    while (std::getline(inputFile, line))
+    {   
+        index ++;
+        // Empty or Comment => Skip
+        if (line == "-" || line == "" ||
+            line.back() == '#' ||
+            line[0] ==  '#') continue;
+
+        long1D script = CFG->convertStrLong1D(line);
+
+        if (index == 1) moveU.script = script;
+        if (index == 2) moveD.script = script;
+        if (index == 3) moveL.script = script;
+        if (index == 4) moveR.script = script;
+        if (index == 5) proj.script = script;
+        if (index == 6) equip.script = script;
+        if (index == 7) attack.script = script;
+        if (index == 8) jump.script = script;
+        if (index == 9) dash.script = script;
+    }
+}
+
+// ============================== OLD AND OBSOLETE ==============================
+
 
 Input::Input()
 {

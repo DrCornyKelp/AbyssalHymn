@@ -161,18 +161,6 @@ public:
 
     void appendParticle(ParticleEffect *particle, bool front = 0);
 
-    // ================== MAP MANIPULATION ALGORITHM ===================== ( HELPFUL :D)
-
-    static string1D convertStrVec(string0D file_dir);
-
-    static int2D resizeInt2D(int1D vec, int r, int c);
-    static float2D resizeFloat2D(float1D vec, int r, int c);
-
-    static float1D convertStrFloat1D(string0D str, char delimiter = ',');
-    static int1D convertStrInt1D(string0D str, char delimiter = ',');
-
-    static int1D convertFloat1DInt(float1D vec);
-    static int2D convertFloat2DInt(float2D vec);
 };
 
 #endif

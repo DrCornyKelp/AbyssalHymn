@@ -7,8 +7,8 @@ class Input;
 
 struct KeyState
 {
-	bool moveset = 1;
 	SDL_Scancode code;
+	bool moveset = 1; // If these are gameplay key or not
 	bool key = 0;
 	bool keyhold = 0;
 	int keythreshold = 0,
@@ -70,18 +70,18 @@ public:
 		jump, dash,
 
 		// Other
-		lctrl = {0, SDL_SCANCODE_LCTRL},
-		arrowU = {0, SDL_SCANCODE_UP},
-		arrowD = {0, SDL_SCANCODE_DOWN},
-		arrowL = {0, SDL_SCANCODE_LEFT},
-		arrowR = {0, SDL_SCANCODE_RIGHT},
+		lctrl = {SDL_SCANCODE_LCTRL, 0},
+		arrowU = {SDL_SCANCODE_UP, 0},
+		arrowD = {SDL_SCANCODE_DOWN, 0},
+		arrowL = {SDL_SCANCODE_LEFT, 0},
+		arrowR = {SDL_SCANCODE_RIGHT, 0},
 
 		// Function Key
-		f1 = {0, SDL_SCANCODE_F1},
-		f2 = {0, SDL_SCANCODE_F2},
-		f3 = {0, SDL_SCANCODE_F3},
-		f4 = {0, SDL_SCANCODE_F4},
-		f5 = {0, SDL_SCANCODE_F5};
+		f1 = {SDL_SCANCODE_F1, 0},
+		f2 = {SDL_SCANCODE_F2, 0},
+		f3 = {SDL_SCANCODE_F3, 0},
+		f4 = {SDL_SCANCODE_F4, 0},
+		f5 = {SDL_SCANCODE_F5, 0};
 
 	string0D script_history_full = "";
 
@@ -89,11 +89,14 @@ public:
 	bool script_active = 0;
 
 	Input();
-	bool input();
 	void setTemplate(int keytemplate);
 	void update();
+	void executeScript(string0D script_dir);
 
 	// ==================== OBSOLETE ======================
+
+	bool input();
+
 	// Input
 	bool1D key, click = {0, 0};
 	bool1D keyhold, clickhold = {0, 0};

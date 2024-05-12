@@ -33,7 +33,7 @@ void MapComponent::appendComponent(Map *map)
     Decoration::appendBackground(map, background);
 
     // ======================= BLOCKS ============================
-    map->BlockPath = Map::convertStrVec(block_path);
+    map->BlockPath = CFG->convertStrVec(block_path);
 
     // PREVIEWER
     for (string0D path : map->BlockPath)
@@ -359,7 +359,7 @@ void Map::appendTransitMap(Map *map, string0D trans_dir)
             line.back() == '#' ||
             line[0] == '#') continue;
 
-        int1D mtr = convertStrInt1D(line);
+        int1D mtr = CFG->convertStrInt1D(line);
         bool snap = mtr.size() == 8 ? 1 : 0;
 
         map->TransitMap.push_back({
@@ -384,7 +384,7 @@ void Map::appendCameraBox(Map *map, string0D cam_dir)
         if (line == "*")
         { map->OutsideRender = true; return; }
 
-        int1D cb = convertStrInt1D(line);
+        int1D cb = CFG->convertStrInt1D(line);
 
         map->CameraBox.push_back({
             {cb[0], cb[1], cb[2], cb[3]},
@@ -406,97 +406,3 @@ void Map::appendParticle(ParticleEffect *particle, bool front)
 }
 
 // ================== MAP MANIPULATION ALGORITHM =====================
-
-//-------Covert each line of file into vector--------
-string1D Map::convertStrVec(string0D file_dir)
-{
-    std::ifstream inputFile(file_dir);
-    string0D line;
-
-    string1D values;
-
-    while (std::getline(inputFile, line))
-        if (line != "" && line.back() != '#' && line[0] != '#')
-            values.push_back((line));
-
-    return values;
-}
-
-// ------Vector Resizer------
-int2D Map::resizeInt2D(int1D vec, int r, int c)
-{
-    int2D result;
-    auto it = vec.begin();
-    for (int i = 0; i < r; ++i)
-    {
-        result.push_back(int1D(it, it + c));
-        it += c;
-    }
-
-    return result;
-}
-float2D Map::resizeFloat2D(float1D vec, int r, int c)
-{
-    float2D result;
-    auto it = vec.begin();
-    for (int i = 0; i < r; ++i)
-    {
-        result.push_back(float1D(it, it + c));
-        it += c;
-    }
-
-    return result;
-}
-
-// -------Convert String to Vector 1D-------
-int1D Map::convertStrInt1D(string0D str, char delimiter)
-{
-    int1D values;
-    string0D token;
-    std::istringstream tokenStream(str);
-
-    while (std::getline(tokenStream, token, delimiter))
-        values.push_back(std::stoi(token));
-
-    return values;
-}
-float1D Map::convertStrFloat1D(string0D str, char delimiter)
-{
-    float1D values;
-    string0D token;
-    std::istringstream tokenStream(str);
-
-    while (std::getline(tokenStream, token, delimiter))
-        values.push_back(std::stof(token));
-
-    return values;
-}
-
-// ---------Convert Vec Float to Int---------
-int1D Map::convertFloat1DInt(float1D vec)
-{
-    int1D intVec;
-
-    for (float value : vec)
-        intVec.push_back(value);
-
-    return intVec;
-}
-int2D Map::convertFloat2DInt(float2D floatVec)
-{
-    int2D intVec;
-
-    for (const auto& row : floatVec) {
-        int1D intRow;
-
-        for (const auto& element : row) {
-            int intElement = static_cast<int>(element);
-            intRow.push_back(intElement);
-        }
-
-        // Add the converted row to the integer vector
-        intVec.push_back(intRow);
-    }
-
-    return intVec;
-}

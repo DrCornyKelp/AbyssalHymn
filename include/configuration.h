@@ -73,6 +73,20 @@ public:
     void resizeWindow(int W, int H);
     void frameHandler(int dlt);
     void drawIcon();
+
+    // Some manipulation with string and vector
+
+    string1D convertStrVec(string0D file_dir);
+
+    int2D resizeInt2D(int1D vec, int r, int c);
+    float2D resizeFloat2D(float1D vec, int r, int c);
+
+    int1D convertStrInt1D(string0D str, char delimiter = ',');
+    float1D convertStrFloat1D(string0D str, char delimiter = ',');
+    long1D convertStrLong1D(string0D str, char delimiter = ',');
+
+    int1D convertFloat1DInt(float1D vec);
+    int2D convertFloat2DInt(float2D vec);
 };
 
 extern Configuration *CFG;

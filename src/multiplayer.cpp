@@ -10,8 +10,6 @@ Multiplayer::Multiplayer(Player1D players) :
 { 
     // Set Player Count
     PlayerCount = Players.size();
-    // Set Main Player
-    Players[0]->MAIN = 1;
     // Set Players Index
     for (int i = 0; i < PlayerCount; i++)
     {
@@ -19,6 +17,11 @@ Multiplayer::Multiplayer(Player1D players) :
         Players[i]->MULTI = this;
         Players[i]->INPUT.setTemplate(i);
     }
+    // Set Main Player
+    MAIN->MAIN = 1;
+
+    // TESTING FOR FUN
+    MAIN->INPUT.executeScript("PlayerScript.csv");
 }
 
 void Multiplayer::changeMain(int index)
@@ -75,8 +78,8 @@ void Multiplayer::update(Map *map)
         };
     }
 
-    std::ofstream outputFile("PlayerScript.csv");
-    outputFile << MAIN->INPUT.script_history_full;
+    // std::ofstream outputFile("PlayerScript.csv");
+    // outputFile << MAIN->INPUT.script_history_full;
 }
 
 void Multiplayer::drawPlayers()

@@ -77,7 +77,7 @@ void BlockSyntax::Highlight(string1D cmd, int &start)
     // Highlight Chosen Block"s", yes, can be many
     else
     {
-        int1D b_indexs_line = Map::convertStrInt1D(cmd[start]);
+        int1D b_indexs_line = CFG->convertStrInt1D(cmd[start]);
         for (int b : b_indexs_line)
         {
             int b_index = Console::normalizeIndex(b, ini_size);
@@ -101,7 +101,7 @@ void BlockSyntax::InsertOffset(string1D cmd, int &start,
         }))
     return;
 
-    int1D newXY = Map::convertStrInt1D(cmd[start + 1]);
+    int1D newXY = CFG->convertStrInt1D(cmd[start + 1]);
     b_syn_temp.newX += newXY[0];
     b_syn_temp.newY += newXY[1];
     start += 2;
@@ -116,7 +116,7 @@ void BlockSyntax::InsertAbsolute(string1D cmd, int &start,
         }))
     return;
 
-    int1D newXY = Map::convertStrInt1D(cmd[start + 1]);
+    int1D newXY = CFG->convertStrInt1D(cmd[start + 1]);
     b_syn_temp.newX = newXY[0];
     b_syn_temp.newY = newXY[1];
     start += 2;
@@ -143,7 +143,7 @@ void BlockSyntax::InsertLine(string1D cmd, int &start,
 
     bool lineY = Console::syntaxComp(cmd, start + 1, "y");
 
-    int1D index1d = Map::convertStrInt1D(cmd[start + 2]);
+    int1D index1d = CFG->convertStrInt1D(cmd[start + 2]);
     int2D index2d;
     if (lineY) for (int index : index1d) index2d.push_back({index});
     else index2d = {index1d};
@@ -159,7 +159,7 @@ void BlockSyntax::InsertRect(string1D cmd, int &start,
     if (start == -1 || !b_syn_temp.valid ||
         !Console::syntaxComps(cmd, start, {"re", "rect"})) return;
 
-    int1D rect_index_1d = Map::convertStrInt1D(cmd[start + 1]);
+    int1D rect_index_1d = CFG->convertStrInt1D(cmd[start + 1]);
     int2D rect_new_index;
 
     // Invalid Block
@@ -173,14 +173,14 @@ void BlockSyntax::InsertRect(string1D cmd, int &start,
     // 2 x 2 Block
     if (rect_index_1d.size() == 4)
     {
-        rect_new_index = Map::resizeInt2D(rect_index_1d, 2, 2);
+        rect_new_index = CFG->resizeInt2D(rect_index_1d, 2, 2);
         start += 2;
     }
     // 3 x 3 Block
     else if (rect_index_1d.size() == 9)
     {
-        int2D rect_index_2d = Map::resizeInt2D(rect_index_1d, 3, 3);
-        int1D rect_size = Map::convertStrInt1D(cmd[start + 2]);
+        int2D rect_index_2d = CFG->resizeInt2D(rect_index_1d, 3, 3);
+        int1D rect_size = CFG->convertStrInt1D(cmd[start + 2]);
 
         rect_new_index = BlockTemplate::rect(
         rect_index_2d, rect_size[1], rect_size[0]);
@@ -253,7 +253,7 @@ void BlockSyntax::GlobalShift(string1D cmd, int &start)
 {
     if (!Console::syntaxComp(cmd, start, "shift")) return;
 
-    int1D shiftXY = Map::convertStrInt1D(cmd[start + 1]);
+    int1D shiftXY = CFG->convertStrInt1D(cmd[start + 1]);
 
     for (Block *block : (front ? map->BlockMainVec : map->BlockBackVec))
     {
