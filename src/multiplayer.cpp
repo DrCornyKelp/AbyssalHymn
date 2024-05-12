@@ -19,9 +19,6 @@ Multiplayer::Multiplayer(Player1D players) :
     }
     // Set Main Player
     MAIN->MAIN = 1;
-
-    // TESTING FOR FUN
-    MAIN->INPUT.executeScript("PlayerScript.csv");
 }
 
 void Multiplayer::changeMain(int index)
@@ -70,16 +67,11 @@ void Multiplayer::update(Map *map)
     {
         MAIN->INPUT.f5.keyhold = 1;
 
-        MAIN->INPUT.jump.script = {
-            CFG->TIME + 50,
-            CFG->TIME + 100,
-            CFG->TIME + 150,
-            CFG->TIME + 200,
-        };
+        MAIN->INPUT.executeScript("ExecuteScript.csv", 1);
     }
 
-    // std::ofstream outputFile("PlayerScript.csv");
-    // outputFile << MAIN->INPUT.script_history_full;
+    std::ofstream outputFile("PlayerScript.csv");
+    outputFile << MAIN->INPUT.script_history_full;
 }
 
 void Multiplayer::drawPlayers()

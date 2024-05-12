@@ -105,7 +105,7 @@ void Input::update()
     }
 }
 
-void Input::executeScript(string0D script_dir)
+void Input::executeScript(string0D script_dir, bool from_cur)
 {
     std::ifstream inputFile(script_dir);
     string0D line;
@@ -120,6 +120,8 @@ void Input::executeScript(string0D script_dir)
             line[0] ==  '#') continue;
 
         long1D script = CFG->convertStrLong1D(line);
+        if (from_cur) for (long &s : script) s += CFG->TIME;
+
         // A .1 ms input, needed to ensure correct hold/release cycle
         if (script.size() % 2) script.push_back(script.back() + 1);
 

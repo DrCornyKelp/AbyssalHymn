@@ -91,7 +91,7 @@ public:
 	Input();
 	void setTemplate(int keytemplate);
 	void update();
-	void executeScript(string0D script_dir);
+	void executeScript(string0D script_dir, bool from_cur = 0);
 
 	// ==================== OBSOLETE ======================
 
