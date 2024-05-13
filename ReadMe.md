@@ -197,7 +197,7 @@ Movement and game design planning:
 
 - Combined `dynamic` and `static` `decorations` into one class `Decoration`, `Decoration` now inherit `Object2D` 
 - Implement grid style for block, decoration placement in stages
-- Moving block logic implementation, setting up debug mode (printing grid lines, grid positions, add god mode) 
+- Moving block logic implementation, setting up debug mode (printing grid lines, grid positions, add godmode) 
 - Design and import `Map1` layout 
 
 ### [`25/3`] REFINEMENT AND HITBOX FIXES
@@ -209,13 +209,13 @@ Movement and game design planning:
 
 ### [`27/3`] EXPANDING GAMEPLAY ELEMENTS
 
-- Class `Npc` added
+- Added `Npc`
 - Combat finished (range attack, parry, charged attack) 
 - Separating `input` from movement calculation, allowing for player control outside of just player character (for menu navigation) 
 - `Map1` finished (not really)
-- Menu concept and demo finished (No proper menu yet) 
-- Class `Item` added 
-- Class `Collision` added
+- Menu concept and demo
+- Added `Item` 
+- Added `Collision`
 
 ### [`28/3`] MAP OVERHAUL: SIMPLIFICATION
 
@@ -228,14 +228,14 @@ Movement and game design planning:
 ### [`3/4`] INPUT EVOLUTION: VERSATILITY
 
 - Input can now exist in 3 states: 
-  - `Press`: for instant action 
-  - `Hold`: for repeating action 
-  - `Threshold`: similar to Hold but only start trigger after a certain time (threshold) 
-- Clean up old input method for the combat charge attack 
+  - `Press`: for instant action
+  - `Hold`: for repeating action
+  - `Threshold`: similar to Hold but only start trigger after a certain time (threshold)
+- Clean up old input method for the combat charge attack
 
 ### [`8/4`] WORLD NAVIGATION
 
-- Object2D has additional method for boundary checking
+- `Object2D` has additional method for boundary checking
 - Added class `World`
 - `Maps` are now a part of `World`, player can switch between `Maps` using the `switchMap()` function
 - Each map now includes:
@@ -253,20 +253,24 @@ $\Rightarrow$ Player can move between location using `Transition` (from Object2D
 
 ### [`20/4`] EMPOWERING MAP EDITING (ft. Parallax Bg Revamp)
 
-##### Block Editor 
+##### Block Editor
 - Includes a user-friendly interface allowing for an easier time making map 
-- Includes a script that convert LDTK `map.csv` file into a map template (contain the structure but no textures) 
-- Includes function that utilize the Game Engine from before
+- Includes several useful script:
+  - Convert LDTK `map.csv` file into a map template (contain the structure but no textures) 
+  - Perform the `block engine`'s merging adjacent block features to `map.csv` itself beforehand instead of doing so in runtime
 
 ##### Parallax Background:
-- Added an independent background speed for moving component like clouds 
-- Fixes background size ratio being affected by the window width and height by making it expand/shrink with respect to a specific window size's property to always fit the screen but remain true to original image
+- Added an independent `background speed` for moving component like clouds, wind, etc 
+- Fixes `background size ratio` being affected by the window width and height by making it expand/shrink with respect to a specific window size's property $\Rightarrow$ Background always fits the screen but remains true to original image
 - Fixes background jittering when entering new map
+- Fixes background snapping when entering a `camera unfocus` section (section where `camera` no longer depends on `player`)
 
 ### [`25/4`] LIBRARY ARCHITECTURE OVERHAUL.
 
-- Libraries are now `x64` instead of `x32` $\Rightarrow$ More compatibility with libraries
-- Update `g++` from 6.3.0 to 13.2.0 $\Rightarrow$ Added a new library previously incompatible: SFML for audio playback; removing SDL_mixer from libraries list
+- Libraries are now `x64` instead of `x32` $\Rightarrow$ More compatibility with modern system + Higher `long` value (`max: 2^64 - 1`)
+- Update `g++` from `6.3.0` to `13.2.0` $\Rightarrow$ Added a new library previously incompatible:
+  - `SFML` for audio playback
+  - Removing `SDL_mixer` from libraries list due to bad performance and bug infestation
 
 ### [`26/4`] AUDIO INTEGRATION AND HARMONY
 
@@ -274,11 +278,12 @@ $\Rightarrow$ Player can move between location using `Transition` (from Object2D
 
 ### [`27/4`] SPEED CONTROL OPTIMIZATION
 
-- `Speed` (both `horizontal` and `vertical`) is now dynamically adjusted, no longer rigidly constrained to the `speed limit` once it exceeds the maximum threshold. If the `speed` remains above the `limit` for a certain period of time, it will automatically ease back to the `limit`
+- `Speed` (both `horizontal` and `vertical`) is now dynamically adjusted, no longer rigidly constrained to the `speed limit` once it exceeds the maximum threshold.
+- If `speed` remains above the `limit` for a certain period of time, it will automatically ease back to the `limit` instead of a "snap back to reality"
 
 ### [`28/4`] MEMORY MANAGEMENT
 
-- Added destructors and other memory freeing method to avoid leakage
+- Added destructors and memory freeing methods to every component in `map` to avoid memory leakage
 
 ### [`29/4`] DYNAMIC AUDIO OBJECT
 
@@ -286,20 +291,25 @@ $\Rightarrow$ Player can move between location using `Transition` (from Object2D
 
 ### [`6/4`] MULTIPLAYER: CONCEPT
 
-- ADDED MULTIPLAYER (concept): Multiple `Player` entities can exist in game, opening up opportunity for functioning multiplayer
+- ADDED MULTIPLAYER (concept): Multiple `Player` entities can exist in game, opening up opportunities for functioning multiplayer
 
 ### [`12/4`] MULTIPLAYER: FUNCTIONALITY
 
 - `Muliplayer` is now functioning (in demo stages, bugs and missing interactions to be expected)
 - `Map Components` now have more interactions with each seperate `player`
 - `Camera` dynamically shift to include all `players` on screen
-- REWORKED `Input`:
+- REWORKED `input` for more compatibility with the new `multiplayer`:
   - Each `player` now has a seperate input method for *multiple controller support (still a WIP)*
-  - Improve `Input` code readability by explicitly defining keys' by their `name` instead of their indexs `number`
+  - Improve `input` code readability by explicitly defining keys' by their `name` instead of their indexs `number`
+  - Added more methods for involvement with the `map`:
+    - Accurate `map` position based on the `mouse position`
+    - Accurate `offset` from `main player`
+  - Apply the `hold/threshold/threspeak` paradigm from `key input` to `mouse input`
+  - Added `wheel` value for scroll direction
 
 ---
 
 ## Credits
-- ***Asciiz*** (add me on steam I'm 9k elo (I am kicked 4 times for team killing for fun) in CS2: 1263698907).
+- ***Asciiz*** (add me on steam I'm 9k elo (I have been cooldown 4 times for team killing for fun) in CS2: 1263698907).
 - ***Trackmaker***.
-- ***ChatGPT*** for the fucking introduction paragraph lol.
+- ***ChatGPT*** for the introduction paragraph lol.
