@@ -3,37 +3,47 @@
 
 // ========================= MAP COMPONENT ==========================
 
-void MapComponent::appendDirectory(string0D MapDirectory)
+void MapComponent::appendDirectory()
 {
-    map_dir = MapDirectory;
-    playlist = MapDirectory + "/playlist.csv";
-    block_path = MapDirectory + "/block_path.csv";
-    block_main = MapDirectory + "/block_main.csv";
-    block_back = MapDirectory + "/block_back.csv";
-    block_hidden = MapDirectory + "/block_hidden.csv";
-    background = MapDirectory + "/background.csv";
-    decor_back = MapDirectory + "/decoration_back.csv";
-    decor_front = MapDirectory + "/decoration_front.csv";
-    bubble = MapDirectory + "/bubble.csv";
-    door = MapDirectory + "/door.csv";
-    audio_obj = MapDirectory + "/audio_obj.csv";
-    camera_box = MapDirectory + "/camera_box.csv";
-    transit_map = MapDirectory + "/transit_map.csv";
+    playlist = map->MapDirectory + "/playlist.csv";
+    block_path = map->MapDirectory + "/block_path.csv";
+    block_main = map->MapDirectory + "/block_main.csv";
+    block_back = map->MapDirectory + "/block_back.csv";
+    block_hidden = map->MapDirectory + "/block_hidden.csv";
+    background = map->MapDirectory + "/background.csv";
+    decor_back = map->MapDirectory + "/decoration_back.csv";
+    decor_front = map->MapDirectory + "/decoration_front.csv";
+    bubble = map->MapDirectory + "/bubble.csv";
+    door = map->MapDirectory + "/door.csv";
+    audio_obj = map->MapDirectory + "/audio_obj.csv";
+    camera_box = map->MapDirectory + "/camera_box.csv";
+    transit_map = map->MapDirectory + "/transit_map.csv";
 }
 
-void MapComponent::appendComponent(Map *map)
+void MapComponent::appendComponent()
 {
     // ======================= DELETE PREVIOUS ===================
-    clearComponent(map);
+    clearComponent();
 
-    // ======================= TRACKS ============================
-    Audio::appendMapPlaylist(map, playlist);
+    // ======================= APPEND NEW ========================
 
-    // ======================= BACKGROUND ========================
-    Decoration::appendBackground(map, background);
+    appendPlaylist();
+    appendBlockPath();
+    appendBlockMain();
+    appendBlockBack();
+    appendBlockHidden();
+    appendBackground();
+    appendDecorBack();
+    appendDecorFront();
+    appendDoor();
+    appendBubble();
+    appendEnemy();
+    appendItem();
+    appendAudioObj();
+    appendCameraBox();
+    appendTransitMap();
 
-    // ======================= BLOCKS ============================
-    map->BlockPath = CFG->convertStrVec(block_path);
+    // ======================= OTHER =============================
 
     // PREVIEWER
     for (string0D path : map->BlockPath)
@@ -43,150 +53,157 @@ void MapComponent::appendComponent(Map *map)
     map->BlockPreview.push_back(
         Object2D::loadTexture("res/BlockTile/Null.png")
     );
-
-    // GAMEPLAY
-    BlockTemplate::appendBlock(map, block_main);
-    BlockTemplate::appendBlock(map, block_back, 1);
-    BlockTemplate::appendBlock(map, block_hidden, 2);
-
-    // ======================= DECORATION ========================
-    Decoration::appendDecor(map, decor_back);
-    Decoration::appendDecor(map, decor_front, 1);
-
-    // ======================= DIALOGUE BUBBLE ===================
-    Bubble::appendBubble(map, bubble);
-
-    // ======================= DOOR ==============================
-    Door::appendDoor(map, door);
-
-    // ======================= AUDIO OBJECT ======================
-    AudioObject::appendAudioObject(map, audio_obj);
-
-    // ======================= CAMERA BOX ========================
-    Map::appendCameraBox(map, camera_box);
-
-    // ======================= MAP TRANSIT =======================
-    Map::appendTransitMap(map, transit_map);
 }
 
-void MapComponent::clearComponent(Map *map)
+void MapComponent::appendPlaylist()
+{ Audio::appendMapPlaylist(map, playlist); }
+void MapComponent::appendBlockPath()
+{ map->BlockPath = CFG->convertStrVec(block_path); }
+void MapComponent::appendBlockMain()
+{ BlockTemplate::appendBlock(map, block_main); }
+void MapComponent::appendBlockBack()
+{ BlockTemplate::appendBlock(map, block_back, 1); }
+void MapComponent::appendBlockHidden()
+{ BlockTemplate::appendBlock(map, block_hidden, 2); }
+void MapComponent::appendBackground()
+{ Decoration::appendBackground(map, background); }
+void MapComponent::appendDecorBack()
+{ Decoration::appendDecor(map, decor_back); }
+void MapComponent::appendDecorFront()
+{ Decoration::appendDecor(map, decor_front, 1); }
+void MapComponent::appendDoor()
+{ Door::appendDoor(map, door); }
+void MapComponent::appendBubble()
+{ Bubble::appendBubble(map, bubble); }
+void MapComponent::appendEnemy()
+{}
+void MapComponent::appendItem()
+{}
+void MapComponent::appendAudioObj()
+{ AudioObject::appendAudioObject(map, audio_obj); }
+void MapComponent::appendCameraBox()
+{ map->appendCameraBox(camera_box); }
+void MapComponent::appendTransitMap()
+{ map->appendTransitMap(transit_map); }
+
+void MapComponent::clearComponent()
 {
-    clearPlaylist(map);
-    clearBlockPath(map);
-    clearBlockMain(map);
-    clearBlockBack(map);
-    clearBlockHidden(map);
-    clearBackground(map);
-    clearDecorBack(map);
-    clearDecorFront(map);
-    clearDoor(map);
-    clearBubble(map);
-    clearEnemy(map);
-    clearItem(map);
-    clearAudioObj(map);
-    clearCameraBox(map);
-    clearTransitMap(map);
+    clearPlaylist();
+    clearBlockPath();
+    clearBlockMain();
+    clearBlockBack();
+    clearBlockHidden();
+    clearBackground();
+    clearDecorBack();
+    clearDecorFront();
+    clearDoor();
+    clearBubble();
+    clearEnemy();
+    clearItem();
+    clearAudioObj();
+    clearCameraBox();
+    clearTransitMap();
 }
 
-void MapComponent::clearPlaylist(Map *map) { map->MapPlaylist = {}; }
-void MapComponent::clearBlockPath(Map *map) {
+void MapComponent::clearPlaylist() { map->MapPlaylist = {}; }
+void MapComponent::clearBlockPath() {
     map->BlockPath = {};
     for (SDL_Texture *preview : map->BlockPreview)
         SDL_DestroyTexture(preview);
     map->BlockPreview = {};
 }
-void MapComponent::clearBlockMain(Map *map)
+void MapComponent::clearBlockMain()
 { for (Block *block : map->BlockMainVec) delete block; map->BlockMainVec = {}; }
-void MapComponent::clearBlockBack(Map *map)
+void MapComponent::clearBlockBack()
 { for (Block *block : map->BlockBackVec) delete block; map->BlockBackVec = {}; }
-void MapComponent::clearBlockHidden(Map *map)
+void MapComponent::clearBlockHidden()
 { 
     for (Block1D block1d : map->BlockHiddenVec)
     for (Block *block : block1d) delete block;
     map->BlockHiddenVec = {};
 }
-void MapComponent::clearBackground(Map *map)
+void MapComponent::clearBackground()
 { for (Decoration *bg : map->BackgroundVec) delete bg; map->BackgroundVec = {}; }
-void MapComponent::clearDecorBack(Map *map)
+void MapComponent::clearDecorBack()
 { for (Decoration *decor : map->DecorBackVec) delete decor; map->DecorBackVec = {}; }
-void MapComponent::clearDecorFront(Map *map)
+void MapComponent::clearDecorFront()
 { for (Decoration *decor : map->DecorFrontVec) delete decor; map->DecorFrontVec = {}; }
-void MapComponent::clearDoor(Map *map)
+void MapComponent::clearDoor()
 { for (Door *door : map->DoorVec) delete door; map->DoorVec = {}; }
-void MapComponent::clearBubble(Map *map)
+void MapComponent::clearBubble()
 { for (Bubble *bubble : map->BubbleVec) delete bubble; map->BubbleVec = {}; }
-void MapComponent::clearEnemy(Map *map)
+void MapComponent::clearEnemy()
 { for (Enemy *enemy : map->EnemyVec) delete enemy; map->EnemyVec = {}; }
-void MapComponent::clearItem(Map *map)
+void MapComponent::clearItem()
 { for (Item *item : map->ItemVec) delete item; map->ItemVec = {}; }
-void MapComponent::clearAudioObj(Map *map)
+void MapComponent::clearAudioObj()
 { for (AudioObject *aObj : map->AudioObjVec) delete aObj; map->AudioObjVec = {}; }
-void MapComponent::clearCameraBox(Map *map) { map->CameraBox = {}; }
-void MapComponent::clearTransitMap(Map *map) { map->TransitMap = {}; }
+void MapComponent::clearCameraBox() { map->CameraBox = {}; }
+void MapComponent::clearTransitMap() { map->TransitMap = {}; }
 
-void MapComponent::eraseBlockMain(Map *map, int i)
+void MapComponent::eraseBlockMain(int i)
 {
     delete map->BlockMainVec[i];
     map->BlockMainVec.erase(map->BlockMainVec.begin() + i);
 }
-void MapComponent::eraseBlockBack(Map *map, int i)
+void MapComponent::eraseBlockBack(int i)
 {
     delete map->BlockBackVec[i];
     map->BlockBackVec.erase(map->BlockBackVec.begin() + i);
 }
-void MapComponent::eraseBlockHidden(Map *map, int i)
+void MapComponent::eraseBlockHidden(int i)
 {
     for (Block *block : map->BlockHiddenVec[i]) delete block;
     map->BlockHiddenVec.erase(map->BlockHiddenVec.begin() + i);
 }
-void MapComponent::eraseBackground(Map *map, int i)
+void MapComponent::eraseBackground(int i)
 {
     delete map->BackgroundVec[i];
     map->BackgroundVec.erase(map->BackgroundVec.begin() + i);
 }
-void MapComponent::eraseDecorBack(Map *map, int i)
+void MapComponent::eraseDecorBack(int i)
 {
     delete map->DecorBackVec[i];
     map->DecorBackVec.erase(map->DecorBackVec.begin() + i);
 }
-void MapComponent::eraseDecorFront(Map *map, int i)
+void MapComponent::eraseDecorFront(int i)
 {
     delete map->DecorFrontVec[i];
     map->DecorFrontVec.erase(map->DecorFrontVec.begin() + i);
 }
-void MapComponent::eraseDoor(Map *map, int i)
+void MapComponent::eraseDoor(int i)
 {
     delete map->DoorVec[i];
     map->DoorVec.erase(map->DoorVec.begin() + i);
 }
-void MapComponent::eraseBubble(Map *map, int i)
+void MapComponent::eraseBubble(int i)
 {
     delete map->BubbleVec[i];
     map->BubbleVec.erase(map->BubbleVec.begin() + i);
 }
-void MapComponent::eraseEnemy(Map *map, int i)
+void MapComponent::eraseEnemy(int i)
 {
     delete map->EnemyVec[i];
     map->EnemyVec.erase(map->EnemyVec.begin() + i);
 }
-void MapComponent::eraseItem(Map *map, int i)
+void MapComponent::eraseItem(int i)
 {
     delete map->ItemVec[i];
     map->ItemVec.erase(map->ItemVec.begin() + i);
 }
-void MapComponent::eraseAudioObj(Map *map, int i)
+void MapComponent::eraseAudioObj(int i)
 {
     delete map->AudioObjVec[i];
     map->AudioObjVec.erase(map->AudioObjVec.begin() + i);
 }
-void MapComponent::eraseCameraBox(Map *map, int i)
+void MapComponent::eraseCameraBox(int i)
 { map->CameraBox.erase(map->CameraBox.begin() + i); }
-void MapComponent::eraseTransitMap(Map *map, int i)
+void MapComponent::eraseTransitMap(int i)
 { map->TransitMap.erase(map->TransitMap.begin() + i); }
 
 // ========================= MAP ==============================
 
-Map::~Map() { MapComp.clearComponent(this); }
+Map::~Map() { MapComp.clearComponent(); }
 Map::Map(string0D mapname) :
     MapName(mapname),
     MapDirectory("src/map_data/" + mapname)
@@ -194,8 +211,9 @@ Map::Map(string0D mapname) :
 
 void Map::initMapStandard()
 {
-    MapComp.appendDirectory(MapDirectory);
-    MapComp.appendComponent(this);
+    MapComp.map = this;
+    MapComp.appendDirectory();
+    MapComp.appendComponent();
 }
 
 void Map::initMap(World *world, Multiplayer *multi, Audio *audio,
@@ -206,7 +224,6 @@ void Map::initMap(World *world, Multiplayer *multi, Audio *audio,
     MapInput = input;
     MapWorld = world;
     MapCollision = collision;
-
     MapMulti = multi;
 
     if (MapEmpty) return;
@@ -347,7 +364,7 @@ void Map::loadCheckpoint(WorldLocation location)
     }
 }
 
-void Map::appendTransitMap(Map *map, string0D trans_dir)
+void Map::appendTransitMap(string0D trans_dir)
 {
     std::ifstream inputFile(trans_dir);
     string0D line;
@@ -362,14 +379,14 @@ void Map::appendTransitMap(Map *map, string0D trans_dir)
         int1D mtr = CFG->convertStrInt1D(line);
         bool snap = mtr.size() == 8 ? 1 : 0;
 
-        map->TransitMap.push_back({
+        TransitMap.push_back({
             {mtr[0], mtr[1], mtr[2], mtr[3]},
             {mtr[4], mtr[5], mtr[6], snap}
         });
     }
 }
 
-void Map::appendCameraBox(Map *map, string0D cam_dir)
+void Map::appendCameraBox(string0D cam_dir)
 {
     std::ifstream inputFile(cam_dir);
     string0D line;
@@ -382,11 +399,11 @@ void Map::appendCameraBox(Map *map, string0D cam_dir)
             line[0] == '#') continue;
 
         if (line == "*")
-        { map->OutsideRender = true; return; }
+        { OutsideRender = true; return; }
 
         int1D cb = CFG->convertStrInt1D(line);
 
-        map->CameraBox.push_back({
+        CameraBox.push_back({
             {cb[0], cb[1], cb[2], cb[3]},
             {cb[4], cb[5], cb[6], cb[7]}
         });

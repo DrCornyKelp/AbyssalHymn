@@ -22,64 +22,89 @@ typedef void(*ExclusiveUpdate)(Map *);
 
 #define MapTransit1D std::vector<MapTransit>
 
+class Map;
+
 struct MapBgColor
 { int R = 0, G = 0, B = 0; };
 
 struct MapComponent
 {
+    Map *map;
     // Directory
-    string0D map_dir = "";
-    string0D playlist = "";
-    string0D block_path = "",
-                block_main = "",
-                block_back = "",
-                block_hidden = "";
-    string0D background = "",
-                decor_back = "",
-                decor_front = "";
-    string0D door = "",
-                bubble = "",
-                enemy = "",
-                item = "";
-    string0D audio_obj = "";
-    string0D camera_box = "",
-                transit_map = "";
+    string0D 
+        map_dir = "",
+        playlist = "",
 
-    void appendDirectory(string0D MapDirectory);
-    void appendComponent(Map *map);
-    void clearComponent(Map *map);
+        block_path = "",
+        block_main = "",
+        block_back = "",
+        block_hidden = "",
 
-    // Clear all
-    static void clearPlaylist(Map *map);
-    static void clearBlockPath(Map *map);
-    static void clearBlockMain(Map *map);
-    static void clearBlockHidden(Map *map);
-    static void clearBlockBack(Map *map);
-    static void clearBackground(Map *map);
-    static void clearDecorBack(Map *map);
-    static void clearDecorFront(Map *map);
-    static void clearDoor(Map *map);
-    static void clearBubble(Map *map);
-    static void clearEnemy(Map *map);
-    static void clearItem(Map *map);
-    static void clearAudioObj(Map *map);
-    static void clearCameraBox(Map *map);
-    static void clearTransitMap(Map *map);
+        background = "",
+        decor_back = "",
+        decor_front = "",
+
+        door = "",
+        bubble = "",
+        enemy = "",
+        item = "",
+        audio_obj = "",
+    
+        camera_box = "",
+        transit_map = "";
+
+    void appendDirectory();
+    void appendComponent();
+    void clearComponent();
+
+    // Append specific
+    void appendPlaylist();
+    void appendBlockPath();
+    void appendBlockMain();
+    void appendBlockHidden();
+    void appendBlockBack();
+    void appendBackground();
+    void appendDecorBack();
+    void appendDecorFront();
+    void appendDoor();
+    void appendBubble();
+    void appendEnemy();
+    void appendItem();
+    void appendAudioObj();
+    void appendCameraBox();
+    void appendTransitMap();
+
+    // Clear specific
+    void clearPlaylist();
+    void clearBlockPath();
+    void clearBlockMain();
+    void clearBlockHidden();
+    void clearBlockBack();
+    void clearBackground();
+    void clearDecorBack();
+    void clearDecorFront();
+    void clearDoor();
+    void clearBubble();
+    void clearEnemy();
+    void clearItem();
+    void clearAudioObj();
+    void clearCameraBox();
+    void clearTransitMap();
 
     // Delete specific
-    static void eraseBlockMain(Map *map, int i);
-    static void eraseBlockBack(Map *map, int i);
-    static void eraseBlockHidden(Map *map, int i);
-    static void eraseBackground(Map *map, int i);
-    static void eraseDecorBack(Map *map, int i);
-    static void eraseDecorFront(Map *map, int i);
-    static void eraseDoor(Map *map, int i);
-    static void eraseBubble(Map *map, int i);
-    static void eraseEnemy(Map *map, int i);
-    static void eraseItem(Map *map, int i);
-    static void eraseAudioObj(Map *map, int i);
-    static void eraseCameraBox(Map *map, int i);
-    static void eraseTransitMap(Map *map, int i);
+    void eraseBlockMain(int i);
+    void eraseBlockBack(int i);
+    void eraseBlockHidden(int i);
+    void eraseBackground(int i);
+    void eraseDecorBack(int i);
+    void eraseDecorFront(int i);
+    void eraseDoor(int i);
+    void eraseBubble(int i);
+    void eraseEnemy(int i);
+    void eraseItem(int i);
+    void eraseAudioObj(int i);
+    void eraseCameraBox(int i);
+    void eraseTransitMap(int i);
 
 };
 
@@ -99,8 +124,8 @@ public:
 
     string0D MapName = "";
     string0D MapDirectory = "";
+    
     MapComponent MapComp;
-    MapBgColor MapColor;
 
     // ======== MAP ENTITY ========
 
@@ -126,6 +151,7 @@ public:
     // Item
     Item1D ItemVec;
     // Cosmetic
+    MapBgColor MapColor;
     Decoration1D BackgroundVec;
     Decoration1D DecorBackVec;
     Decoration1D DecorFrontVec;
@@ -156,8 +182,8 @@ public:
     // ================== MAP ... IDK WHAT ALGORITHM =====================
     
     void loadCheckpoint(WorldLocation location);
-    static void appendTransitMap(Map *map, string0D trans_dir);
-    static void appendCameraBox(Map *map, string0D cam_dir);
+    void appendTransitMap(string0D trans_dir);
+    void appendCameraBox(string0D cam_dir);
 
     void appendParticle(ParticleEffect *particle, bool front = 0);
 

@@ -162,7 +162,7 @@ void Editor::blockEditor()
                             map_cur->BlockMainVec[i]
                         );
                         // Erase current block
-                        MapComponent::eraseBlockMain(map_cur, i);
+                        map_cur->MapComp.eraseBlockMain(i);
                         // Append singular block
                         for (Block *block : splitted)
                         {
@@ -183,7 +183,7 @@ void Editor::blockEditor()
                             map_cur->BlockBackVec[i]
                         );
                         // Erase current block
-                        MapComponent::eraseBlockBack(map_cur, i);
+                        map_cur->MapComp.eraseBlockBack(i);
                         // Append singular block
                         for (Block *block : splitted)
                         {
@@ -233,7 +233,7 @@ void Editor::blockEditor()
                 if (map_cur->BlockMainVec[i]->getBox().contain(mx1, my1) &&
                     map_cur->BlockMainVec[i]->isType(BlockEdit.type))
                 {
-                    MapComponent::eraseBlockMain(map_cur, i);
+                    map_cur->MapComp.eraseBlockMain(i);
                     break;
                 }
             }
@@ -243,7 +243,7 @@ void Editor::blockEditor()
                 if (map_cur->BlockBackVec[i]->getBox().contain(mx1, my1) &&
                     map_cur->BlockBackVec[i]->isType(BlockEdit.type))
                 {
-                    MapComponent::eraseBlockBack(map_cur, i);
+                    map_cur->MapComp.eraseBlockBack(i);
                     break;
                 }
             }
@@ -269,11 +269,11 @@ void Editor::blockEditor()
             // Delete Last Block (instant)
             else if (player->INPUT.mouse.inbox({mU, mD, 260, 360}))
             {
-                if (BlockEdit.front) MapComponent::eraseBlockMain(
-                    map_cur, map_cur->BlockMainVec.size() - 1
+                if (BlockEdit.front) map_cur->MapComp.eraseBlockMain(
+                    map_cur->BlockMainVec.size() - 1
                 );
-                else                 MapComponent::eraseBlockBack(
-                    map_cur, map_cur->BlockBackVec.size() - 1
+                else                 map_cur->MapComp.eraseBlockBack(
+                    map_cur->BlockBackVec.size() - 1
                 );
             }
             // Apply global function to MAP
@@ -295,13 +295,17 @@ void Editor::blockEditor()
             else if (player->INPUT.mouse.inbox({mU, mD, 590, 690}))
             {
                 CFG->addDevlog("MAP LOADED", 45);
-                console->execute(map_cur, {"block", "front", "update", "from"});
-                console->execute(map_cur, {"block", "back", "update", "from"});
+                
+                map_cur->MapComp.clearBlockMain();
+                map_cur->MapComp.appendBlockMain();
+                map_cur->MapComp.clearBlockBack();
+                map_cur->MapComp.appendBlockBack();
             }
             // Useless click
             else meaningful_input = false;
 
-            if (meaningful_input) player->INPUT.mouse.L.hold = 1;
+            if (meaningful_input)
+                player->INPUT.mouse.L.hold = 1;
         }
 
         if (player->INPUT.mouse.R.click() && !minimize)

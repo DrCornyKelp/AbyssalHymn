@@ -31,16 +31,16 @@ void BlockSyntax::Delete(string1D cmd)
 {
     if (Console::syntaxComps(cmd, 3, {"a", "all"}))
     {
-        if (front) MapComponent::clearBlockMain(map);
-        else       MapComponent::clearBlockBack(map);
+        if (front) map->MapComp.clearBlockMain();
+        else       map->MapComp.clearBlockBack();
         return;
     }
 
     int del_index = Console::normalizeIndex(std::stoi(cmd[3]), ini_size);
     if (del_index == -1) return;
 
-    if (front) MapComponent::eraseBlockMain(map, del_index);
-    else       MapComponent::eraseBlockBack(map, del_index);
+    if (front) map->MapComp.eraseBlockMain(del_index);
+    else       map->MapComp.eraseBlockBack(del_index);
 }
 
 // ------------------ Highlight -------------------
@@ -339,8 +339,8 @@ void BlockSyntax::UpdateBlock(bool back, bool f2m)
     // FILE TO MAP
     if (f2m)
     {
-        if (back) MapComponent::clearBlockBack(map);
-        else      MapComponent::clearBlockMain(map);
+        if (back) map->MapComp.clearBlockBack();
+        else      map->MapComp.clearBlockMain();
         BlockTemplate::appendBlock(map, block_path, !back);
         return;
     }
@@ -429,8 +429,8 @@ void Console::blockCommand(Map *map,string1D cmd)
             b_syn_temp.type, b_syn_temp.newIndex);
         newBlock->blockEngine(map->BlockPath);
         // Delete Old Unextended Block
-        if (blocksyntax.front) MapComponent::eraseBlockMain(map, blocksyntax.ini_size - 1);
-        else                   MapComponent::eraseBlockBack(map, blocksyntax.ini_size - 1);
+        if (blocksyntax.front) map->MapComp.eraseBlockMain(blocksyntax.ini_size - 1);
+        else                   map->MapComp.eraseBlockBack(blocksyntax.ini_size - 1);
         // Append New Block
         blocksyntax.AppendBlock(newBlock);
     }
@@ -480,8 +480,8 @@ void Console::playerCommand(Map *map, string1D cmd)
 
     if (syntaxComp(cmd, 1, "reset"))
     {
-        map->MapComp.clearComponent(map);
-        map->MapComp.appendComponent(map);
+        map->MapComp.clearComponent();
+        map->MapComp.appendComponent();
     }
 }
 
