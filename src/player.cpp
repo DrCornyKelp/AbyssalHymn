@@ -1015,11 +1015,11 @@ void Player::playerDeveloper(Map *map)
                                 CFG->WIDTH, drawGridY + 1);
         }
 
-        // CFG->addDevlog("MOUSE", 41);
-        // CFG->addDevlog(
-        //     "X: " + std::to_string(INPUT.getMMapX(this)) +
-        //     " - Y: " + std::to_string(INPUT.getMMapY(this))
-        // ,31);
+        CFG->addDevlog("MOUSE", 41);
+        CFG->addDevlog(
+            "X: " + std::to_string(INPUT.mouse.mapX(this)) +
+            " - Y: " + std::to_string(INPUT.mouse.mapY(this))
+        ,31);
 
         CFG->addDevlog("Player", 42);
         CFG->addDevlog(

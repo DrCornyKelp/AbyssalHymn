@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
         // audio->updateTrack();
         world->updateWorld();
         rend->renderGameplay(world->MapCurrent);
-        multi->Players[0]->playerDeveloper(world->MapCurrent);
+        multi->MAIN->playerDeveloper(world->MapCurrent);
 
         // Console + Editor
         editor->update();
