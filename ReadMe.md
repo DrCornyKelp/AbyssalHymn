@@ -16,6 +16,8 @@ Read Aloud Copy Regenerate Bad Repsonse Message ChatGPT…
 Upgrade plan
 Get GPT-4, DALL·E, and more @openai... wait oh crap
 
+Yea gonna be honest I am too focus on functionality of the game I completely neglect the story :sob:
+
 ---
 
 ## SOME OUTSIDE INSTALLATION
