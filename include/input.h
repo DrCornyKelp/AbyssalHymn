@@ -11,27 +11,18 @@ struct KeyState
 	bool moveset = 1; // If these are gameplay key or not
 	bool key = 0;
 	bool hold = 0;
-	bool press();
+	bool press(); // Instant press
 	int threshold = 0,
 		threspeak = 0;
+	bool threspass(int max);
 	int keydelay = 0;
 
 	long1D script;
 	long1D script_history;
 
 	void update(const Uint8* state, Input *input);
-	bool threspass(int max);
 
 	string0D scriptHistoryToStr();
-};
-
-struct MouseState
-{
-	bool click = 0;
-	bool hold = 0;
-	int threshold = 0,
-		threspeak = 0;
-	int keydelay = 0;
 };
 
 struct KeyTemplate0
@@ -62,15 +53,25 @@ struct KeyTemplate1
 		dash = {SDL_SCANCODE_RIGHTBRACKET};
 };
 
+struct MouseState
+{
+	int button = 0;
+	bool mouse = 0;
+	bool hold = 0;
+	bool click(); // Instant click
+	int threshold = 0,
+		threspeak = 0;
+	bool threspass(int max);
+
+	void update(Uint32 state, Input *input);
+};
+
 class Player;
 class Input 
 {
 public:
-	int mouse_x, mouse_y;
-	// -1: Scroll Down, 1: Scroll Up
-	short wheel = 0;
 
-// ====================================================================
+// =============================KEYSTATE===========================
 
 	KeyState
 		// Gameplay
@@ -96,9 +97,24 @@ public:
 		f5 = {SDL_SCANCODE_F5, 0};
 
 	string0D script_history_full = "";
+	bool script_active = 0;
+
+// ===========================MOUSESTATE===========================
+
+	MouseState 
+		mouseL = {SDL_BUTTON_LEFT},
+		mouseM = {SDL_BUTTON_MIDDLE},
+		mouseR = {SDL_BUTTON_RIGHT};
+
+	int mouse_x,
+		mouse_y;
+	// -1: Scroll Down, 1: Scroll Up
+	short wheel = 0;
+	int scroll = 0;
+
+// ===========================INPUTFUNC===========================
 
 	int delay = 0;
-	bool script_active = 0;
 
 	Input();
 	void setTemplate(int keytemplate);
@@ -107,46 +123,12 @@ public:
 
 	// ==================== OBSOLETE ======================
 
-	bool input();
-
-	// Input
-	bool1D key, click = {0, 0};
-	bool1D hold, clickhold = {0, 0};
-
-	int1D threshold;
-	int1D clickthreshold = {0, 0};
-
-	int1D threspeak;
-	int1D clickthrespeak = {0, 0};
-
 	SDL_GameController *controller;
 
-	int key_delay = 0;
-	int click_delay = 0;
 	SDL_Event event;
 
-	// Keyboard/Controller
-	void setKeyDelay(int delay);
-	void sethold(int i, bool held);
-	bool gethold(int i);
-	bool getKeyPress(int i);
-	bool getthreshold(int i, int max);
-	int getKeyThresValue(int i);
-	int getthrespeak(int i);
-	void resetthrespeak(int i);
+	// MOUSE STATE
 
-	// Mouse Click/Motion
-	void setClickDelay(int delay);
-	void setClickHold(int i, bool held);
-	bool getClickHold(int i);
-	bool getClickPress(int i);
-	bool getClickThreshold(int i, int max);
-	int getClickThresValue(int i);
-	int getClickThresPeak(int i);
-	void resetClickThresPeak(int i);
-
-	int getMouseX(bool fromright = 0);
-	int getMouseY(bool fromtop = 0);
 	int getMOffMidX();
 	int getMOffMidY();
 	int getMOffPlayerX(Player *player);

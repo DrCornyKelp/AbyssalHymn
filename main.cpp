@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
     Editor *editor = new Editor(console, world, multi->Players[0], collision);
 
     bool pause = false;
-    while (!input->input())
+    while (!pause)
     {
         // Devlog
         CFG->printDevlog();
