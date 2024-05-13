@@ -1,7 +1,0 @@
-# Corner Left
-Block | Front | Insert | Single | 15#
-# Middle Section
-Block | Front | Insert | Single | 0
-Block | Front | Expand | -1 | X | 10
-# Corner Right
-Block | Front | Insert | Offset | 101, 0 | Single | 17#

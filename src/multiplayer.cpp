@@ -68,10 +68,10 @@ void Multiplayer::update(Map *map)
         MAIN->INPUT.f5.hold = 1;
 
         // Hold Ctrl To convert script to current time
-        MAIN->INPUT.executeScript("ExecuteScript.csv", MAIN->INPUT.lctrl.state);
+        MAIN->INPUT.executeScript("player_data/ExecuteScript.csv", MAIN->INPUT.lctrl.state);
     }
 
-    std::ofstream outputFile("PlayerScript.csv");
+    std::ofstream outputFile("player_data/PlayerScript.csv");
     outputFile << MAIN->INPUT.script_history_full;
 }
 

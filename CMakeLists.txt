@@ -19,6 +19,8 @@ set(ASSETS ${PROJECT_SOURCE_DIR}/res)
 file(COPY ${ASSETS} DESTINATION ${CMAKE_BINARY_DIR})
 set(MAP_DATA ${PROJECT_SOURCE_DIR}/map_data)
 file(COPY ${MAP_DATA} DESTINATION ${CMAKE_BINARY_DIR})
+set(PLAYER_DATA ${PROJECT_SOURCE_DIR}/player_data)
+file(COPY ${PLAYER_DATA} DESTINATION ${CMAKE_BINARY_DIR})
 
 add_executable(AbyssalHymn
     src/configuration.cpp
