@@ -7,13 +7,18 @@ include_directories(
     libraries/SDL2/include
     libraries/SFML/include
     include
-    src/map_data
+    map_data
 )
 
 link_directories(
     libraries/SDL2/lib
     libraries/SFML/lib
 )
+
+set(ASSETS ${PROJECT_SOURCE_DIR}/res)
+file(COPY ${ASSETS} DESTINATION ${CMAKE_BINARY_DIR})
+set(MAP_DATA ${PROJECT_SOURCE_DIR}/map_data)
+file(COPY ${MAP_DATA} DESTINATION ${CMAKE_BINARY_DIR})
 
 add_executable(AbyssalHymn
     src/configuration.cpp
@@ -56,4 +61,5 @@ target_link_libraries(AbyssalHymn
     SDL2_image
     sfml-system
     sfml-audio
+    openal32
 )

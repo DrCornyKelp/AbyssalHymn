@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 
     int playercount;
 
-    std::cout << "SET PLAYER COUNT: ";
+    std::cout << "SET COUNT: ";
     std::cin >> playercount;
     std::cout << "\n";
 
@@ -71,6 +71,8 @@ int main(int argc, char *argv[])
         // Devlog
         CFG->printDevlog();
         CFG->DEVLOG = "";
+
+        std::cout << "NMASDSADSD \n";
 
         // Main
         // audio->updateTrack();

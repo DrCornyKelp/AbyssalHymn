@@ -206,7 +206,7 @@ void MapComponent::eraseTransitMap(int i)
 Map::~Map() { MapComp.clearComponent(); }
 Map::Map(string0D mapname) :
     MapName(mapname),
-    MapDirectory("src/map_data/" + mapname)
+    MapDirectory("map_data/" + mapname)
 {}
 
 void Map::initMapStandard()
