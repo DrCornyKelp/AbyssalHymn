@@ -4,7 +4,6 @@
 #include <developer/editor.h>
 #include <developer/console.h>
 
-
 int main(int argc, char *argv[])
 {
     SDL_Init(SDL_INIT_GAMECONTROLLER);
@@ -23,13 +22,15 @@ int main(int argc, char *argv[])
 
     int playercount;
 
-    std::cout << "SET COUNT: ";
+    std::cout << "SET PLAYER COUNT: ";
     std::cin >> playercount;
     std::cout << "\n";
 
     for (int i = 0; i < playercount; i++)
         PlayerVec.push_back(new Player());
     Multiplayer *multi = new Multiplayer(PlayerVec);
+
+
 
     // Collision
     Collision *collision = new Collision();

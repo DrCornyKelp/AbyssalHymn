@@ -82,7 +82,7 @@ void Projectile::playerCollision(Map *map, Player *player)
         Collision::playerCombatCollision(player, this))
     {
         bullet_parried = true;
-        harm_player = false;
+        harm_player = true;
         harm_enemy = true;
 
         vel_parry_x = player->draw_prop.right ? 10 : -10;
