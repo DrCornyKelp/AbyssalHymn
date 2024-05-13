@@ -44,7 +44,6 @@ public:
 
     // GAMESTATE
     bool QUIT = 0;
-    SDL_Surface *ICON = SDL_LoadBMP("res/icon.bmp");
 
     // FPS
     int FPS = 100;
@@ -61,6 +60,7 @@ public:
     SDL_Window *WINDOW = SDL_CreateWindow("Abyssal Hymn", SDL_WINDOWPOS_UNDEFINED,
                                             SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_ALLOW_HIGHDPI);
     SDL_Renderer *RENDERER = SDL_CreateRenderer(WINDOW, -1, 0);
+    SDL_Surface *ICON = SDL_LoadBMP("res/icon.bmp");
 
     // DEBUG LOGGING
     string0D PRELOG = "";
@@ -72,9 +72,9 @@ public:
 
     void resizeWindow(int W, int H);
     void frameHandler(int dlt);
-    void drawIcon();
 
     // Some manipulation with string and vector
+    bool isComment(string0D str);
 
     string1D convertStrVec(string0D file_dir);
 

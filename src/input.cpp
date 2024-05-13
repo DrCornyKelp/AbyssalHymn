@@ -53,7 +53,7 @@ bool KeyState::press() { return state && !hold && !keydelay; }
 bool KeyState::threspass(int max) { return threshold >= max; }
 string0D KeyState::scriptHistoryToStr()
 {
-    if (!script_history.size()) return "-";
+    if (!script_history.size()) return "#";
     string0D script_str = "";
 
     for (long num : script_history)
@@ -97,7 +97,7 @@ void MouseMain::update()
     // Update MOUSE WHEEL
     while (SDL_PollEvent(&event))
     {
-        if (event.type == SDL_MOUSEWHEEL) 
+        if (event.type == SDL_MOUSEWHEEL)
             W = event.wheel.y;
     }
 }
@@ -130,14 +130,15 @@ bool MouseMain::inbox(ObjectBox mbox)
 
 void Input::update()
 {
-    // Update Delay
+    // ====================== Update Delay ======================
     if (delay) delay--;
 
-    // Update KEYBOARD;
+    // ====================== Update KEYBOARD ======================;
     const Uint8* keystate = SDL_GetKeyboardState(NULL);
 
 	script_history_full = "";
 
+    // UPDATE MOVESET KEY
     moveU.update(keystate, this);
     moveD.update(keystate, this);
     moveL.update(keystate, this);
@@ -148,6 +149,7 @@ void Input::update()
     jump.update(keystate, this);
     dash.update(keystate, this);
 
+    // UPDATE OTHER KEYS
     lctrl.update(keystate, this);
     arrowU.update(keystate, this);
     arrowD.update(keystate, this);
@@ -176,12 +178,10 @@ void Input::executeScript(string0D script_dir, bool from_cur)
 
     int index = 0;
     while (std::getline(inputFile, line))
-    {   
+    {
         index ++;
         // Empty or Comment => Skip
-        if (line == "-" || line == "" ||
-            line.back() == '#' ||
-            line[0] ==  '#') continue;
+        if (CFG->isComment(line)) continue;
 
         long1D script = CFG->convertStrLong1D(line);
         if (from_cur) for (long &s : script) s += CFG->TIME;

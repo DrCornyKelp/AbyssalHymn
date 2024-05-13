@@ -114,9 +114,7 @@ void Audio::appendMapPlaylist(Map *map, string0D t_dir)
     while (std::getline(inputFile, line))
     {
         // Empty or Comment => Skip
-        if (line == "" ||
-            line.back() == '#' ||
-            line[0] == '#') continue;
+        if (CFG->isComment(line)) continue;
 
         std::stringstream ss(line);
 

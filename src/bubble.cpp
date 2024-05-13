@@ -110,9 +110,7 @@ void Bubble::appendBubble(Map *map, string0D bubble_dir)
     while (std::getline(inputFile, line))
     {
         // Empty or Comment => Skip
-        if (line == "" ||
-            line.back() == '#' ||
-            line[0] == '#') continue;
+        if (CFG->isComment(line)) continue;
 
         map->BubbleVec.push_back(codeToBubbleInfo(line));
     }

@@ -220,9 +220,7 @@ void Decoration::appendDecor(Map *map, string0D decor_dir, bool front)
     while (std::getline(inputFile, line))
     {   
         // Empty or Comment => Skip
-        if (line == "" ||
-            line.back() == '#' ||
-            line[0] ==  '#') continue;
+        if (CFG->isComment(line)) continue;
 
         if (front)
         {
@@ -245,9 +243,7 @@ void Decoration::appendBackground(Map *map, string0D bg_dir)
     while (std::getline(inputFile, line))
     {
         // Empty or Comment => Skip
-        if (line == "" ||
-            line.back() == '#' ||
-            line[0] == '#') continue;
+        if (CFG->isComment(line)) continue;
 
         std::stringstream ss(line);
         char cm = ',';

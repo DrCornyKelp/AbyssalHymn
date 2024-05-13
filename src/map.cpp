@@ -372,9 +372,7 @@ void Map::appendTransitMap(string0D trans_dir)
     while (std::getline(inputFile, line))
     {
         // Empty or Comment => Skip
-        if (line == "" ||
-            line.back() == '#' ||
-            line[0] == '#') continue;
+        if (CFG->isComment(line)) continue;
 
         int1D mtr = CFG->convertStrInt1D(line);
         bool snap = mtr.size() == 8 ? 1 : 0;
@@ -394,9 +392,7 @@ void Map::appendCameraBox(string0D cam_dir)
     while (std::getline(inputFile, line))
     {
         // Empty or Comment => Skip
-        if (line == "" ||
-            line.back() == '#' ||
-            line[0] == '#') continue;
+        if (CFG->isComment(line)) continue;
 
         if (line == "*")
         { OutsideRender = true; return; }

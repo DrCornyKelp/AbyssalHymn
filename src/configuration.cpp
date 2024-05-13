@@ -3,12 +3,16 @@
 Configuration *CFG = new Configuration();
 
 // CONSTRUCTOR
-Configuration::Configuration() {};
+Configuration::Configuration()
+{
+    SDL_SetWindowIcon(WINDOW, ICON);
+};
 
 // METHOD
 
 void Configuration::addDevlog(string0D text, int colorCode)
 { DEVLOG += "| \033[" + std::to_string(colorCode) + "m" + text + "\033[0m "; }
+
 void Configuration::printDevlog()
 {
     if (DEVLOG == "" || DEVLOG == PRELOG) return;
@@ -32,8 +36,8 @@ void Configuration::frameHandler(int dlt)
     TIME++;
 }
 
-void Configuration::drawIcon()
-{ SDL_SetWindowIcon(WINDOW, ICON); }
+bool Configuration::isComment(string0D str)
+{ return str == "" || str.back() == '#' ||str[0] ==  '#'; }
 
 //-------Covert each line of file into vector--------
 string1D Configuration::convertStrVec(string0D file_dir)

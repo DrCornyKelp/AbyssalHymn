@@ -9,12 +9,6 @@ int main(int argc, char *argv[])
 {
     SDL_Init(SDL_INIT_GAMECONTROLLER);
 
-    bool quit = false;
-    SDL_Event event;
-
-    // Game
-    CFG->drawIcon();
-
     // Audio Handler
     Audio *audio = new Audio();
 
@@ -26,7 +20,14 @@ int main(int argc, char *argv[])
 
     // Player + Hud
     Player1D PlayerVec;
-    for (int i = 0; i < 1; i++)
+
+    int playercount;
+
+    std::cout << "SET PLAYER COUNT: ";
+    std::cin >> playercount;
+    std::cout << "\n";
+
+    for (int i = 0; i < playercount; i++)
         PlayerVec.push_back(new Player());
     Multiplayer *multi = new Multiplayer(PlayerVec);
 
