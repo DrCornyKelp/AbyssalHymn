@@ -11,9 +11,6 @@ int main(int argc, char *argv[])
     // Audio Handler
     Audio *audio = new Audio();
 
-    // Input Handler
-    Input *input = new Input();
-
     // Renderer
     Renderer *rend = new Renderer();
 
@@ -24,13 +21,11 @@ int main(int argc, char *argv[])
 
     std::cout << "SET PLAYER COUNT: ";
     std::cin >> playercount;
-    std::cout << "\n";
+    std::cout << "હેલો \n";
 
     for (int i = 0; i < playercount; i++)
         PlayerVec.push_back(new Player());
     Multiplayer *multi = new Multiplayer(PlayerVec);
-
-
 
     // Collision
     Collision *collision = new Collision();
@@ -57,7 +52,7 @@ int main(int argc, char *argv[])
         new Map("SeaHorizon"), // 13
         new Map("CloudHighway") // 14
     });
-    world->initWorld(multi, audio, input, collision,
+    world->initWorld(multi, audio, collision,
         {1, 7, 2, 1}
     );
 
@@ -89,7 +84,7 @@ int main(int argc, char *argv[])
     }
 
     // Clean up (REMEMBER TO ADD PLAYER CLEAN UP AS WELL)
-    delete  world, audio, input, CFG,
+    delete  world, audio, CFG,
             collision, rend, multi;
 
     SDL_DestroyRenderer(CFG->RENDERER);

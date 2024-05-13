@@ -35,7 +35,7 @@ void Multiplayer::update(Map *map)
         player->playerUpdate(map);
 
     // Update the camera for only MAIN player
-    MAIN->camera.playerCameraProperty(map->MapInput);
+    MAIN->camera.playerCameraProperty();
 
     // ===================== TESTING =======================
     if (MAIN->INPUT.f1.press())

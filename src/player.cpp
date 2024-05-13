@@ -288,10 +288,10 @@ ObjectXY PlayerCamera::getCenterOffset() {
 };
 // Camera Focus Trigger
 int PlayerCamera::getFocusTriggerX() {
-    return player->getX() - shift.x;
+    return player->getX() - shift.x - center_off.x;
 }
 int PlayerCamera::getFocusTriggerY() {
-    return player->getY() - shift.y;
+    return player->getY() - shift.y - center_off.y;
 }
 // Camera Shift
 int PlayerCamera::getShiftX() {
@@ -329,52 +329,52 @@ void PlayerCamera::playerCameraFocus()
 
     // Boundary left
     if (focus_dir.left &&
-        getFocusTriggerX() - center_off.x < focus_true.left)
+        getFocusTriggerX() < focus_true.left)
     {
         unfocus.x = 1;
-        unfocus_offset.x = focus_true.left + shift.x;
-        mid.x = getFocusTriggerX() - focus_true.left;
+        unfocus_offset.x = focus_true.left;
+        mid.x = player->getX() - focus_true.left;
     }
     // Boundary right
     else if (focus_dir.right &&
-        getFocusTriggerX() - center_off.x > focus_true.right)
+        getFocusTriggerX() > focus_true.right)
     {
         unfocus.x = 1;
-        unfocus_offset.x = focus_true.right + shift.x;
-        mid.x = getFocusTriggerX() - focus_true.right;
+        unfocus_offset.x = focus_true.right;
+        mid.x = player->getX() - focus_true.right;
     }
     else
     {
         unfocus.x = 0;
-        mid.x = center_off.x;
+        mid.x = 0;
     }
 
     // === Focus Y ===
 
     // Boundary Down
     if (focus_dir.down &&
-        getFocusTriggerY() - center_off.y < focus_true.down)
+        getFocusTriggerY() < focus_true.down)
     {
         unfocus.y = 1;
-        unfocus_offset.y = focus_true.down + shift.y;
-        mid.y = getFocusTriggerY() - focus_true.down;
+        unfocus_offset.y = focus_true.down;
+        mid.y = player->getY() - focus_true.down;
     }
     // Boundary Up
     else if (focus_dir.up &&
-        getFocusTriggerY() - center_off.y > focus_true.up)
+        getFocusTriggerY() > focus_true.up)
     {
         unfocus.y = 1;
-        unfocus_offset.y = focus_true.up + shift.y;
-        mid.y = getFocusTriggerY() - focus_true.up;
+        unfocus_offset.y = focus_true.up;
+        mid.y = player->getY() - focus_true.up;
     }
     else
     {
         unfocus.y = 0;
-        mid.y = center_off.y;
+        mid.y = 0;
     }
 }
 
-void PlayerCamera::playerCameraProperty(Input *input)
+void PlayerCamera::playerCameraProperty()
 {
     // Center The camera in the middle if godmode
     if (player->getGodmode())
@@ -392,15 +392,15 @@ void PlayerCamera::playerCameraProperty(Input *input)
     center_off = getCenterOffset();
 
     // Total offset from center
-    offset.x = shift.x + mid.x;
-    offset.y = shift.y + mid.y;
+    offset.x = shift.x + mid.x + center_off.x;
+    offset.y = shift.y + mid.y + center_off.y;
 
     if (!unfocus.x)
     {
         float ease_x_max =  (player->combat.weapon_equip ? 64 : 96) +
                             // Velociy pass a cap
                             (player->getVelX()>player->move.vel_max ?
-                                (player->getVelX()-player->move.vel_max)*64 : 0);
+                                (player->getVelX() - player->move.vel_max)*64 : 0);
         // Damping / Easing effect X
         if (player->draw_prop.right && ease_x > -ease_x_max)
             ease_x -= abs(player->getVelX() / 5);
@@ -419,6 +419,22 @@ void PlayerCamera::playerCameraProperty(Input *input)
         }
         else if (effect_x)
             effect_x -= effect_x / 40;
+    }
+
+    if (!unfocus.y)
+    {
+        float ease_y_max =  (player->combat.weapon_equip ? 64 : 96) +
+                            // Velociy pass a cap
+                            (player->getVelY() < player->jump.terminal ?
+                                (player->jump.terminal - player->getVelY())*64 : 0);
+        // Damping / Easing effect X
+        if (ease_y > -ease_y_max && player->getVelY() < 0)
+            ease_y -= abs(player->getVelY() / 5);
+        if (ease_y < ease_y_max && player->getVelY() > 0)
+            ease_y += abs(player->getVelY() / 5);
+        // Turn off easing effect
+        if (!player->getVelY() || abs(ease_y) > ease_y_max)
+            ease_y -= ease_y / 100;
     }
 }
 

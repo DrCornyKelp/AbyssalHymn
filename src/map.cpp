@@ -217,11 +217,10 @@ void Map::initMapStandard()
 }
 
 void Map::initMap(World *world, Multiplayer *multi, Audio *audio,
-                Input *input, Collision *collision, int id)
+                Collision *collision, int id)
 {
     MapId = id;
     MapAudio = audio;
-    MapInput = input;
     MapWorld = world;
     MapCollision = collision;
     MapMulti = multi;

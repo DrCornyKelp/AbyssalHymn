@@ -21,6 +21,7 @@
 typedef void(*ExclusiveUpdate)(Map *);
 
 #define MapTransit1D std::vector<MapTransit>
+#define હેલો "lmao"
 
 class Map;
 
@@ -118,7 +119,6 @@ public:
 
     World *MapWorld;
     Audio *MapAudio;
-    Input *MapInput;
     Collision *MapCollision;
     Multiplayer *MapMulti;
 
@@ -174,7 +174,7 @@ public:
 
     void initMapStandard();
     void initMap(World *world, Multiplayer *multi, Audio *audio,
-                Input *input, Collision *collision, int id = -1);
+                Collision *collision, int id = -1);
 
     void updateMapActive();
     void updateMapGlobal();

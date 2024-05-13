@@ -138,7 +138,7 @@ struct PlayerCamera
     void setCameraBorder(ObjectBox f_dir, ObjectBox f_val);
     void setCameraFocus(ObjectBox f_dir, ObjectBox f_val, short gr);
     void playerCameraFocus();
-    void playerCameraProperty(Input *input);
+    void playerCameraProperty();
 };
 
 struct PlayerDrawProp
