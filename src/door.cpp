@@ -48,7 +48,7 @@ void Door::enterDoor(Map *map, Player *player)
         // Star logic here
         )
     {
-        player->INPUT.moveU.keyhold = 1;
+        player->INPUT.moveU.hold = 1;
         map->MapWorld->setTransit(location);
     }
 }

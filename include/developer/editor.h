@@ -24,7 +24,6 @@ private:
     Console *console;
     World *world;
     Map *map_cur;
-    Input *input;
     Player *player;
     Collision *collision;
 
@@ -53,7 +52,7 @@ public:
     bool open = 0;
 
     ~Editor();
-    Editor(Console *consl, World *w, Input *i, Player *p, Collision *c);
+    Editor(Console *consl, World *w, Player *p, Collision *c);
 
     void blockEditor();
 

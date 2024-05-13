@@ -487,7 +487,7 @@ void Player::playerMovement(Map *map)
         !state.crawl_lock && state.on_ground &&
         !g_dash.frame && !combat.index && !combat.weapon_equip_frame)
     {
-        INPUT.dash.keyhold = 1;
+        INPUT.dash.hold = 1;
 
         map->appendParticle(new ParticleEffect(
             loadTexture(draw_prop.right ?
@@ -511,7 +511,7 @@ void Player::playerMovement(Map *map)
             (getVelX() < 0 && a_dash.lock != -1) )
         )
     {
-        INPUT.dash.keyhold = 1;
+        INPUT.dash.hold = 1;
 
         map->appendParticle(new ParticleEffect(
             loadTexture(draw_prop.right ?
@@ -532,7 +532,7 @@ void Player::playerMovement(Map *map)
         !g_dash.frame && !a_dash.frame && !move.decel &&
         !state.crawl_lock && !jump.knockout)
     {
-        INPUT.jump.keyhold = 1;
+        INPUT.jump.hold = 1;
 
         setY(getY() + 10);
         setVelY(
@@ -598,7 +598,7 @@ void Player::playerMovement(Map *map)
                 (combat.weapon_equip ? .8 : 1) *
                 (combat.charge_time ? .8 : 1));
     // Acceleration y
-    setAccelY(  ((INPUT.jump.keyhold && getVelY() > 0) ? -.1 : -.2) *
+    setAccelY(  ((INPUT.jump.hold && getVelY() > 0) ? -.1 : -.2) *
                 (combat.weapon_equip ? 1.2 : 1) *
                 (combat.charge_time ? 1.2 : 1));
 
@@ -702,7 +702,7 @@ void Player::playerCombat(Map *map)
     // Special Jelly Projectile
     if (combat.weapon_equip && INPUT.proj.press())
     {
-        INPUT.proj.keyhold = 1;
+        INPUT.proj.hold = 1;
 
         map->ProjectileVec.push_back(new Projectile(
             "res/NakuSheet/NakuSquid.png",
@@ -837,10 +837,10 @@ void Player::playerCombat(Map *map)
 
     // On ground
     if (!combat.delay && !move.crawl && !g_dash.frame &&
-        INPUT.attack.keythrespeak &&
-        INPUT.attack.keythrespeak < 100)
+        INPUT.attack.threspeak &&
+        INPUT.attack.threspeak < 100)
     {
-        INPUT.attack.keythrespeak = 0;
+        INPUT.attack.threspeak = 0;
 
         if (!state.hug_wall && !INPUT.moveU.key)
         {
@@ -1032,7 +1032,7 @@ void Player::playerDeveloper(Map *map)
     // GODMODE
     if (INPUT.f2.press())
     {
-        INPUT.f2.keyhold = 1;
+        INPUT.f2.hold = 1;
         godmode = !godmode;
     }
 
@@ -1047,7 +1047,7 @@ void Player::playerDeveloper(Map *map)
     // DISPLAY GRID
     if (INPUT.f3.press())
     {
-        INPUT.f3.keyhold = 1;
+        INPUT.f3.hold = 1;
         grid = !grid;
     };
 }

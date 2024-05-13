@@ -40,7 +40,7 @@ void Multiplayer::update(Map *map)
     // ===================== TESTING =======================
     if (MAIN->INPUT.f1.press())
     {
-        MAIN->INPUT.f1.keyhold = 1;
+        MAIN->INPUT.f1.hold = 1;
         Players.push_back(new Player());
         Players.back()->setX(MAIN->getX());
         Players.back()->setY(MAIN->getY());
@@ -53,7 +53,7 @@ void Multiplayer::update(Map *map)
 
     if (MAIN->INPUT.f4.press())
     {
-        MAIN->INPUT.f4.keyhold = 1;
+        MAIN->INPUT.f4.hold = 1;
 
         for (Player *player : Players)
         if (!player->MAIN)
@@ -65,10 +65,14 @@ void Multiplayer::update(Map *map)
 
     if (MAIN->INPUT.f5.press())
     {
-        MAIN->INPUT.f5.keyhold = 1;
+        MAIN->INPUT.f5.hold = 1;
 
-        MAIN->INPUT.executeScript("ExecuteScript.csv", 1);
+        // Hold Ctrl To convert script to current time
+        MAIN->INPUT.executeScript("ExecuteScript.csv", MAIN->INPUT.lctrl.key);
     }
+
+    std::cout<< MAIN->INPUT.mouse_x << " " <<
+                MAIN->INPUT.mouse_y << "\n";
 
     std::ofstream outputFile("PlayerScript.csv");
     outputFile << MAIN->INPUT.script_history_full;

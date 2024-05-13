@@ -60,9 +60,9 @@ int main(int argc, char *argv[])
     );
 
     // Console Command
-    Console *console = new Console(world, input, multi->Players[0], collision);
+    Console *console = new Console(world, multi->Players[0], collision);
     // Map editor
-    Editor *editor = new Editor(console, world, input, multi->Players[0], collision);
+    Editor *editor = new Editor(console, world, multi->Players[0], collision);
 
     bool pause = false;
     while (!input->input())

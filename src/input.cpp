@@ -20,7 +20,7 @@ void KeyState::update(const Uint8* state, Input *input)
             if (CFG->TIME == script[0])
             {
                 if (script_size % 2) {
-                    key = 0; keyhold = 0;
+                    key = 0; hold = 0;
                 } else key = 1;
             }
             script.erase(script.begin());
@@ -29,26 +29,26 @@ void KeyState::update(const Uint8* state, Input *input)
     // // KEY INPUT
     else {
         if (state[code] && !input->delay) key = 1;
-        else { key = 0; keyhold = 0; }
+        else { key = 0; hold = 0; }
     }
 
     // Threshold
     if (key)
     {
-        keythreshold++;
-        keythrespeak = 0;
+        threshold++;
+        threspeak = 0;
     }
-    else if (keythreshold)
+    else if (threshold)
     {
-        keythrespeak = keythreshold;
-        keythreshold = 0;
+        threspeak = threshold;
+        threshold = 0;
     };
 
     // Key Delay
     if (keydelay) keydelay--;
 }
-bool KeyState::press() { return key && !keyhold && !keydelay; }
-bool KeyState::threspass(int max) { return keythreshold >= max; };
+bool KeyState::press() { return key && !hold && !keydelay; }
+bool KeyState::threspass(int max) { return threshold >= max; };
 string0D KeyState::scriptHistoryToStr()
 {
     if (!script_history.size()) return "-";
@@ -88,6 +88,9 @@ void Input::update()
     arrowL.update(state, this);
     arrowR.update(state, this);
 
+    slash.update(state, this);
+    backslash.update(state, this);
+
     f1.update(state, this);
     f2.update(state, this);
     f3.update(state, this);
@@ -97,6 +100,16 @@ void Input::update()
     // Update MOUSE
     SDL_PumpEvents();
     Uint32 mouseState = SDL_GetMouseState(&mouse_x, &mouse_y);
+
+        // Check for left mouse button click
+        if (mouseState & SDL_BUTTON(SDL_BUTTON_LEFT)) {
+            std::cout << ":D";
+        }
+
+        // Check for right mouse button click
+        if (mouseState & SDL_BUTTON(SDL_BUTTON_RIGHT)) {
+            std::cout << "D:";
+        }
 
     while (SDL_PollEvent(&event)) {
         if (event.type == SDL_MOUSEWHEEL) {
@@ -160,9 +173,9 @@ Input::Input()
     for (int i = 0; i < 20; i++)
     {
         key.push_back(false);
-        keyhold.push_back(false);
-        keythreshold.push_back(0);
-        keythrespeak.push_back(0);
+        hold.push_back(false);
+        threshold.push_back(0);
+        threspeak.push_back(0);
     }
 }
 
@@ -206,13 +219,13 @@ bool Input::input()
     for (int i = 0; i < key.size(); i++)
         if (key[i])
         {
-            keythreshold[i] ++;
-            keythrespeak[i] = 0;
+            threshold[i] ++;
+            threspeak[i] = 0;
         }
-        else if (keythreshold[i])
+        else if (threshold[i])
         {
-            keythrespeak[i] = keythreshold[i];
-            keythreshold[i] = 0;
+            threspeak[i] = threshold[i];
+            threshold[i] = 0;
         };
     // Click Threshold
     for (int i = 0; i < 2; i++)
@@ -285,22 +298,22 @@ bool Input::input()
             break;
         case SDL_KEYUP:
             switch (event.key.keysym.sym) {
-                case SDLK_w: key[0] = false; keyhold[0] = false; break;
-                case SDLK_s: key[1] = false; keyhold[1] = false; break;
-                case SDLK_a: key[2] = false; keyhold[2] = false; break;
-                case SDLK_d: key[3] = false; keyhold[3] = false; break;
-                case SDLK_SPACE: key[4] = false; keyhold[4] = false; break;
-                case SDLK_LSHIFT: key[5] = false; keyhold[5] = false; break;
-                case SDLK_l: key[6] = false; keyhold[6] = false; break;
-                case SDLK_q: key[7] = false; keyhold[7] = false; break;
-                case SDLK_e: key[8] = false; keyhold[8] = false; break;
-                case SDLK_SLASH: key[9] = false; keyhold[9] = false; break;
-                case SDLK_BACKSLASH: key[10] = false; keyhold[10] = false; break;
-                case SDLK_UP: key[11] = false; keyhold[11] = false; break;
-                case SDLK_DOWN: key[12] = false; keyhold[12] = false; break;
-                case SDLK_LEFT: key[13] = false; keyhold[13] = false; break;
-                case SDLK_RIGHT: key[14] = false; keyhold[14] = false; break;
-                case SDLK_LCTRL: key[15] = false; keyhold[15] = false; break;
+                case SDLK_w: key[0] = false; hold[0] = false; break;
+                case SDLK_s: key[1] = false; hold[1] = false; break;
+                case SDLK_a: key[2] = false; hold[2] = false; break;
+                case SDLK_d: key[3] = false; hold[3] = false; break;
+                case SDLK_SPACE: key[4] = false; hold[4] = false; break;
+                case SDLK_LSHIFT: key[5] = false; hold[5] = false; break;
+                case SDLK_l: key[6] = false; hold[6] = false; break;
+                case SDLK_q: key[7] = false; hold[7] = false; break;
+                case SDLK_e: key[8] = false; hold[8] = false; break;
+                case SDLK_SLASH: key[9] = false; hold[9] = false; break;
+                case SDLK_BACKSLASH: key[10] = false; hold[10] = false; break;
+                case SDLK_UP: key[11] = false; hold[11] = false; break;
+                case SDLK_DOWN: key[12] = false; hold[12] = false; break;
+                case SDLK_LEFT: key[13] = false; hold[13] = false; break;
+                case SDLK_RIGHT: key[14] = false; hold[14] = false; break;
+                case SDLK_LCTRL: key[15] = false; hold[15] = false; break;
             }
             break;
 
@@ -320,15 +333,15 @@ bool Input::input()
             break;
         case SDL_CONTROLLERBUTTONUP:
             switch (event.cbutton.button) {
-                case SDL_CONTROLLER_BUTTON_DPAD_UP: key[0] = false; keyhold[0] = false; break;
-                case SDL_CONTROLLER_BUTTON_DPAD_DOWN: key[1] = false; keyhold[1] = false; break;
-                case SDL_CONTROLLER_BUTTON_DPAD_LEFT: key[2] = false; keyhold[2] = false; break;
-                case SDL_CONTROLLER_BUTTON_DPAD_RIGHT: key[3] = false; keyhold[3] = false; break;
-                case SDL_CONTROLLER_BUTTON_A: key[4] = false; keyhold[4] = false; break;
-                case SDL_CONTROLLER_BUTTON_RIGHTSHOULDER: key[5] = false; keyhold[5] = false; break;
-                case SDL_CONTROLLER_BUTTON_X: key[6] = false; keyhold[6] = false; break;
-                case SDL_CONTROLLER_BUTTON_Y: key[7] = false; keyhold[7] = false; break;
-                case SDL_CONTROLLER_BUTTON_B: key[8] = false; keyhold[8] = false; break;
+                case SDL_CONTROLLER_BUTTON_DPAD_UP: key[0] = false; hold[0] = false; break;
+                case SDL_CONTROLLER_BUTTON_DPAD_DOWN: key[1] = false; hold[1] = false; break;
+                case SDL_CONTROLLER_BUTTON_DPAD_LEFT: key[2] = false; hold[2] = false; break;
+                case SDL_CONTROLLER_BUTTON_DPAD_RIGHT: key[3] = false; hold[3] = false; break;
+                case SDL_CONTROLLER_BUTTON_A: key[4] = false; hold[4] = false; break;
+                case SDL_CONTROLLER_BUTTON_RIGHTSHOULDER: key[5] = false; hold[5] = false; break;
+                case SDL_CONTROLLER_BUTTON_X: key[6] = false; hold[6] = false; break;
+                case SDL_CONTROLLER_BUTTON_Y: key[7] = false; hold[7] = false; break;
+                case SDL_CONTROLLER_BUTTON_B: key[8] = false; hold[8] = false; break;
             }
             break;
         }
@@ -339,13 +352,13 @@ bool Input::input()
 
 // KEYBOARD/CONTROLLER
 void Input::setKeyDelay(int delay) { key_delay = delay; }
-void Input::setKeyHold(int i, bool held) { keyhold[i] = held; }
-bool Input::getKeyHold(int i) { return key[i]; }
-bool Input::getKeyPress(int i) { return key[i] && !keyhold[i] && !key_delay; }
-bool Input::getKeyThreshold(int i, int max) { return keythreshold[i] >= max; }
-int Input::getKeyThresValue(int i) { return keythreshold[i]; }
-int Input::getKeyThresPeak(int i) { return keythrespeak[i]; }
-void Input::resetKeyThresPeak(int i) { keythrespeak[i] = 0; }
+void Input::sethold(int i, bool held) { hold[i] = held; }
+bool Input::gethold(int i) { return key[i]; }
+bool Input::getKeyPress(int i) { return key[i] && !hold[i] && !key_delay; }
+bool Input::getthreshold(int i, int max) { return threshold[i] >= max; }
+int Input::getKeyThresValue(int i) { return threshold[i]; }
+int Input::getthrespeak(int i) { return threspeak[i]; }
+void Input::resetthrespeak(int i) { threspeak[i] = 0; }
 
 // MOUSE
 void Input::setClickDelay(int delay) { click_delay = delay; }

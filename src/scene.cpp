@@ -18,18 +18,18 @@ void Scene::naviMainMenu()
     pressed = false;
     if (input->getKeyPress(0) && menu_counter > 0)
     {
-        input->setKeyHold(0, true);
+        input->sethold(0, true);
         menu_counter--;
     }
     if (input->getKeyPress(1) && menu_counter < 1) 
     {
-        input->setKeyHold(1, true);
+        input->sethold(1, true);
         menu_counter++;
     }
     // Play pressed
     if (input->getKeyPress(4) && menu_counter == 0) 
     {
-        input->setKeyHold(4, true);
+        input->sethold(4, true);
         pressed = true;
         game_state = 1;
         return;
@@ -37,7 +37,7 @@ void Scene::naviMainMenu()
     // Exit pressed
     if (input->getKeyPress(4) && menu_counter == 1) 
     {
-        input->setKeyHold(4, true);
+        input->sethold(4, true);
         pressed = true;
         game_state = 3;
         return;
@@ -49,18 +49,18 @@ void Scene::naviPauseMenu()
     pressed = false;
     if (input->getKeyPress(0) && menu_counter > 0)
     {
-        input->setKeyHold(0, true);
+        input->sethold(0, true);
         menu_counter--;
     }
     if (input->getKeyPress(1) && menu_counter < 2) 
     {
-        input->setKeyHold(1, true);
+        input->sethold(1, true);
         menu_counter++;
     }
     // Continue pressed
     if (input->getKeyPress(4) && menu_counter == 0) 
     {
-        input->setKeyHold(4, true);
+        input->sethold(4, true);
         pressed = true;
         game_state = 1;
         return;
@@ -68,7 +68,7 @@ void Scene::naviPauseMenu()
     // Exit to main pressed
     if (input->getKeyPress(4) && menu_counter == 1) 
     {
-        input->setKeyHold(4, true);
+        input->sethold(4, true);
         pressed = true;
         game_state = 0;
         return;
@@ -76,7 +76,7 @@ void Scene::naviPauseMenu()
     // Exit game pressed
     if (input->getKeyPress(4) && menu_counter == 2) 
     {
-        input->setKeyHold(4, true);
+        input->sethold(4, true);
         pressed = true;
         game_state = 3;
         return;

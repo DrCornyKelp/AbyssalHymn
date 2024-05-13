@@ -364,8 +364,8 @@ void BlockSyntax::AppendBlock(Block *block)
 
 // ======================= MAIN CONSOLE ============================== 
 
-Console::Console(World *w, Input *i, Player *p, Collision *c) :
-    world(w), input(i), player(p), collision(c)
+Console::Console(World *w, Player *p, Collision *c) :
+    world(w), player(p), collision(c)
 {};
 
 void Console::blockCommand(Map *map,string1D cmd)
@@ -492,7 +492,7 @@ void Console::execute(Map *map, string1D cmd)
     if (syntaxComp(cmd, 0, "block")) 
     {
         if (world->MapCurrent->MapEmpty) return;
-        blocksyntax = {world->MapCurrent, input, player, collision};
+        blocksyntax = {world->MapCurrent, player, collision};
         blockCommand(map, cmd);
     }
     if (syntaxComp(cmd, 0, "player")) playerCommand(map, cmd);
@@ -525,9 +525,9 @@ void Console::readFile(Map *map, string0D cmd_file)
 
 void Console::update()
 {
-    if (input->getKeyPress(10))
+    if (player->INPUT.slash.press())
     {
-        input->setKeyHold(10, 1);
+        player->INPUT.slash.hold = 1;
         readFile(world->MapCurrent, cmd_main);
     };
 }

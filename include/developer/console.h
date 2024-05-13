@@ -24,7 +24,6 @@ struct BlockSyntaxTemplate
 struct BlockSyntax
 {
     Map *map;
-    Input *input;
     Player *player;
     Collision *collision;
 
@@ -92,13 +91,12 @@ public:
     // The console file
     string0D cmd_main = "COMMAND.a";
     World *world;
-    Input *input;
     Player *player;
     Collision *collision;
 
     BlockSyntax blocksyntax;
 
-    Console(World *w, Input *i, Player *p, Collision *c);
+    Console(World *w, Player *p, Collision *c);
 
     void blockCommand(Map *map, string1D cmd);
     void playerCommand(Map *map, string1D cmd);

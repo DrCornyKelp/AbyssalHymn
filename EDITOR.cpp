@@ -21,11 +21,11 @@ Editor::~Editor()
     Object2D::deleteTextures(EditNumber);
 }
 
-Editor::Editor(Console *consl, World *w, Input *i, Player *p, Collision *c) :
-    console(consl), world(w), input(i), player(p), collision(c)
+Editor::Editor(Console *consl, World *w, Player *p, Collision *c) :
+    console(consl), world(w), player(p), collision(c)
 {
     map_cur = world->MapCurrent;
-    
+
     EditBack = Object2D::loadTexture("res/Editor/EditorBack.png");
 
     EditArrow = {
@@ -57,8 +57,8 @@ void Editor::blockEditor()
     SDL_RenderCopy(CFG->RENDERER, EditBack, NULL, &bgRect);
 
     // SOME STARTING VALUE
-    int mX = input->getMMapX(player);
-    int mY = input->getMMapY(player);
+    int mX = player->INPUT.getMMapX(player);
+    int mY = player->INPUT.getMMapY(player);
 
     int pageRatioInt = map_cur->BlockPreview.size() / blockPerPage;
     int maxPage =   map_cur->BlockPreview.size() % blockPerPage ?
@@ -68,41 +68,31 @@ void Editor::blockEditor()
 
     // -------------------- KEYBOARD --------------------
 
-    // Change Block Type
-    if (input->getKeyPress(11))
-    { input->setKeyHold(11, 1); BlockEdit.type++; }
-    if (input->getKeyPress(12))
-    { input->setKeyHold(12, 1); BlockEdit.type--; }
-    // Change Block Page
-    if (input->getKeyPress(13))
-    { input->setKeyHold(13, 1); BlockEdit.page--; }
-    if (input->getKeyPress(14))
-    { input->setKeyHold(14, 1); BlockEdit.page++; }
     // Change stuff with scroll
-    if (input->getWheel())
+    if (player->INPUT.getWheel())
     {
         // Normal Scrolling -> Scroll Through Block
-        if (!input->getKeyHold(15))
+        if (!player->INPUT.lctrl.key)
         {
-            BlockEdit.index += input->getWheel();
+            BlockEdit.index += player->INPUT.getWheel();
             BlockEdit.normalize(map_cur->BlockPreview.size(), maxPage);
             BlockEdit.page = BlockEdit.index / blockPerPage;
         }
         // Hold Ctrl + Scrolling -> Scroll Through Type
         else
         {
-            BlockEdit.type += input->getWheel();
+            BlockEdit.type += player->INPUT.getWheel();
             BlockEdit.normalize(map_cur->BlockPreview.size(), maxPage);
         }
 
-        input->resetWheel();
+        player->INPUT.resetWheel();
     }
-    
+
     // -------------------- MOUSE ------------------------
 
     int menuSize = minimize ?
-        input->mouseInBox({CFG->HEIGHT, CFG->HEIGHT - 200, 0, 200}) :
-        input->mouseInBox({CFG->HEIGHT, CFG->HEIGHT - 200});
+        player->INPUT.mouseInBox({CFG->HEIGHT, CFG->HEIGHT - 200, 0, 200}) :
+        player->INPUT.mouseInBox({CFG->HEIGHT, CFG->HEIGHT - 200});
 
     // INPUT WITH CERTAIN BOUNDARY
     switch (menuSize)
@@ -114,7 +104,7 @@ void Editor::blockEditor()
         if (BlockEdit.front) for (int i = 0; i < map_cur->BlockMainVec.size(); i++)
         {
             if (map_cur->BlockMainVec[i]->getBox().contain(
-                    input->getMMapX(player, 1), input->getMMapY(player, 1)
+                    player->INPUT.getMMapX(player, 1), player->INPUT.getMMapY(player, 1)
                 ) && map_cur->BlockMainVec[i]->isType(BlockEdit.type))
             {
                 CFG->addDevlog("B_FRONT", 46);
@@ -131,7 +121,7 @@ void Editor::blockEditor()
         else for (int i = 0; i < map_cur->BlockBackVec.size(); i++)
         {
             if (map_cur->BlockBackVec[i]->getBox().contain(
-                    input->getMMapX(player, 1), input->getMMapY(player, 1)
+                    player->INPUT.getMMapX(player, 1), player->INPUT.getMMapY(player, 1)
                 ) && map_cur->BlockBackVec[i]->isType(BlockEdit.type))
             {
                 CFG->addDevlog("B_BACK", 44);
@@ -147,27 +137,27 @@ void Editor::blockEditor()
 
 
         // Click manipulation
-        if (input->getClickPress(0))
+        if (player->INPUT.getClickPress(0))
         { 
-            input->setClickHold(0, 1);
+            player->INPUT.setClickHold(0, 1);
             DragLast = {};
 
-            if (input->getKeyHold(15))
+            if (player->INPUT.gethold(15))
                 BlockEdit.front = !BlockEdit.front;
         }
 
-        if (input->getClickPress(1))
+        if (player->INPUT.getClickPress(1))
         { 
-            input->setClickHold(1, 1);
+            player->INPUT.setClickHold(1, 1);
 
             // SPLIT INTO SINU
-            if (input->getKeyHold(15))
+            if (player->INPUT.gethold(15))
             {
                 if (BlockEdit.front)
                 for (int i = 0; i < map_cur->BlockMainVec.size(); i++)
                 {
                     if (map_cur->BlockMainVec[i]->getBox().contain(
-                        input->getMMapX(player, 1), input->getMMapY(player, 1)
+                        player->INPUT.getMMapX(player, 1), player->INPUT.getMMapY(player, 1)
                     )&& map_cur->BlockMainVec[i]->isType(BlockEdit.type))
                     {
                         // Split into singular block
@@ -189,7 +179,7 @@ void Editor::blockEditor()
                 for (int i = 0; i < map_cur->BlockBackVec.size(); i++)
                 {
                     if (map_cur->BlockBackVec[i]->getBox().contain(
-                        input->getMMapX(player, 1), input->getMMapY(player, 1)
+                        player->INPUT.getMMapX(player, 1), player->INPUT.getMMapY(player, 1)
                     )&& map_cur->BlockBackVec[i]->isType(BlockEdit.type))
                     {
                         // Split into singular block
@@ -210,10 +200,10 @@ void Editor::blockEditor()
             }
         }
 
-        if (input->getKeyHold(15)) break;
+        if (player->INPUT.gethold(15)) break;
 
         // Placing block (draggable)
-        if (input->getClickHold(0))
+        if (player->INPUT.getClickHold(0))
         {
             // Cant place in occupied position
             bool newDrag = true;
@@ -239,13 +229,13 @@ void Editor::blockEditor()
             }
         }
         // Deleting block (also draggable)
-        if (input->getClickHold(1))
+        if (player->INPUT.getClickHold(1))
         {
             if (BlockEdit.front)
             for (int i = 0; i < map_cur->BlockMainVec.size(); i++)
             {
                 if (map_cur->BlockMainVec[i]->getBox().contain(
-                    input->getMMapX(player, 1), input->getMMapY(player, 1)
+                    player->INPUT.getMMapX(player, 1), player->INPUT.getMMapY(player, 1)
                 )&& map_cur->BlockMainVec[i]->isType(BlockEdit.type))
                 {
                     MapComponent::eraseBlockMain(map_cur, i);
@@ -256,7 +246,7 @@ void Editor::blockEditor()
             for (int i = 0; i < map_cur->BlockBackVec.size(); i++)
             {
                 if (map_cur->BlockBackVec[i]->getBox().contain(
-                    input->getMMapX(player, 1), input->getMMapY(player, 1)
+                    player->INPUT.getMMapX(player, 1), player->INPUT.getMMapY(player, 1)
                 )&& map_cur->BlockBackVec[i]->isType(BlockEdit.type))
                 {
                     MapComponent::eraseBlockBack(map_cur, i);
@@ -272,18 +262,18 @@ void Editor::blockEditor()
             mD = CFG->HEIGHT - 178;
 
         // ===================== Instant Press =====================
-        if (input->getClickPress(0))
+        if (player->INPUT.getClickPress(0))
         {
             bool meaningful_input = true;
 
             // Change Block Type
-            if (input->mouseInBox({mU, mD, 100, 150}))
+            if (player->INPUT.mouseInBox({mU, mD, 100, 150}))
                 BlockEdit.type++;
             // Change Block Direction
-            else if (input->mouseInBox({mU, mD, 150, 250}))
+            else if (player->INPUT.mouseInBox({mU, mD, 150, 250}))
                 BlockEdit.front = !BlockEdit.front;
             // Delete Last Block (instant)
-            else if (input->mouseInBox({mU, mD, 260, 360}))
+            else if (player->INPUT.mouseInBox({mU, mD, 260, 360}))
             {
                 if (BlockEdit.front) MapComponent::eraseBlockMain(
                     map_cur, map_cur->BlockMainVec.size() - 1
@@ -293,7 +283,7 @@ void Editor::blockEditor()
                 );
             }
             // Apply global function to MAP
-            else if (input->mouseInBox({mU, mD, 370, 470}))
+            else if (player->INPUT.mouseInBox({mU, mD, 370, 470}))
             {
                 console->execute(map_cur, {"block", "front",
                 "global", "split", "sort", "merge", "sort", "y", "merge", "row"});
@@ -301,14 +291,14 @@ void Editor::blockEditor()
                 "global", "split", "sort", "merge", "sort", "y", "merge", "row"});
             }
             // Save Map To File
-            else if (input->mouseInBox({mU, mD, 480, 580}))
+            else if (player->INPUT.mouseInBox({mU, mD, 480, 580}))
             {
                 CFG->addDevlog("MAP SAVED", 45);
                 console->execute(map_cur, {"block", "front", "update", "to"});
                 console->execute(map_cur, {"block", "back", "update", "to"});
             }
             // Load Map From File
-            else if (input->mouseInBox({mU, mD, 590, 690}))
+            else if (player->INPUT.mouseInBox({mU, mD, 590, 690}))
             {
                 CFG->addDevlog("MAP LOADED", 45);
                 console->execute(map_cur, {"block", "front", "update", "from"});
@@ -317,28 +307,28 @@ void Editor::blockEditor()
             // Useless click
             else meaningful_input = false;
 
-            if (meaningful_input) input->setClickHold(0, 1);
+            if (meaningful_input) player->INPUT.setClickHold(0, 1);
         }
 
-        if (input->getClickPress(1) && !minimize)
+        if (player->INPUT.getClickPress(1) && !minimize)
         {
             bool meaningful_input = true;
 
             // Change Block Type
-            if (input->mouseInBox({mU, mD, 100, 150}))
+            if (player->INPUT.mouseInBox({mU, mD, 100, 150}))
                 BlockEdit.type--;
             else meaningful_input = false;
 
             if (meaningful_input)
-                input->setClickHold(1, 1);
+                player->INPUT.setClickHold(1, 1);
         }
 
         // ===================== Threshold Press =====================
 
         // Delete Last Block (repeat)
-        if (input->getClickThreshold(0, 100) &&
-            input->getClickThresValue(0) % 10 == 1 &&
-            input->mouseInBox({mU, mD, 260, 360}))
+        if (player->INPUT.getClickThreshold(0, 100) &&
+            player->INPUT.getClickThresValue(0) % 10 == 1 &&
+            player->INPUT.mouseInBox({mU, mD, 260, 360}))
         {
             if (BlockEdit.front && map_cur->BlockMainVec.size())
                 map_cur->BlockMainVec.pop_back();
@@ -397,13 +387,13 @@ void Editor::blockEditor()
         else
             SDL_SetTextureAlphaMod(map_cur->BlockPreview[cur_index], 80);
 
-        if (input->mouseInBox({
+        if (player->INPUT.mouseInBox({
             CFG->HEIGHT - 32, CFG->HEIGHT - 96,
             i*96 + 22, i*96 + 106}))
         {
-            if (input->getClickPress(0))
+            if (player->INPUT.getClickPress(0))
             {
-                input->setClickHold(0, 1);
+                player->INPUT.setClickHold(0, 1);
                 BlockEdit.index = cur_index;
             }
             else if (cur_index != BlockEdit.index)
@@ -455,16 +445,18 @@ void Editor::blockEditor()
 void Editor::update()
 {
     // Open/Close Editor (/)
-    if (!input->getKeyHold(15) && input->getKeyPress(9))
+    if (!player->INPUT.lctrl.key &&
+        player->INPUT.slash.press())
     { 
-        input->setKeyHold(9, true);
+        player->INPUT.slash.hold = 1;
         open = !open;
     }
 
     // Mini/Maximizing Editor (Ctrl + /)
-    if (input->getKeyHold(15) && input->getKeyPress(9))
+    if (player->INPUT.lctrl.key &&
+        player->INPUT.slash.press())
     {
-        input->setKeyHold(9, true);
+        player->INPUT.slash.hold = 1;
         open = true;
         minimize = !minimize;
     }

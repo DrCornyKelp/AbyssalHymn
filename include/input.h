@@ -10,19 +10,28 @@ struct KeyState
 	SDL_Scancode code;
 	bool moveset = 1; // If these are gameplay key or not
 	bool key = 0;
-	bool keyhold = 0;
-	int keythreshold = 0,
-		keythrespeak = 0;
+	bool hold = 0;
+	bool press();
+	int threshold = 0,
+		threspeak = 0;
 	int keydelay = 0;
 
 	long1D script;
 	long1D script_history;
 
 	void update(const Uint8* state, Input *input);
-	bool press();
 	bool threspass(int max);
 
 	string0D scriptHistoryToStr();
+};
+
+struct MouseState
+{
+	bool click = 0;
+	bool hold = 0;
+	int threshold = 0,
+		threspeak = 0;
+	int keydelay = 0;
 };
 
 struct KeyTemplate0
@@ -76,6 +85,9 @@ public:
 		arrowL = {SDL_SCANCODE_LEFT, 0},
 		arrowR = {SDL_SCANCODE_RIGHT, 0},
 
+		slash = {SDL_SCANCODE_SLASH, 0},
+		backslash = {SDL_SCANCODE_BACKSLASH, 0},
+
 		// Function Key
 		f1 = {SDL_SCANCODE_F1, 0},
 		f2 = {SDL_SCANCODE_F2, 0},
@@ -99,12 +111,12 @@ public:
 
 	// Input
 	bool1D key, click = {0, 0};
-	bool1D keyhold, clickhold = {0, 0};
+	bool1D hold, clickhold = {0, 0};
 
-	int1D keythreshold;
+	int1D threshold;
 	int1D clickthreshold = {0, 0};
 
-	int1D keythrespeak;
+	int1D threspeak;
 	int1D clickthrespeak = {0, 0};
 
 	SDL_GameController *controller;
@@ -115,13 +127,13 @@ public:
 
 	// Keyboard/Controller
 	void setKeyDelay(int delay);
-	void setKeyHold(int i, bool held);
-	bool getKeyHold(int i);
+	void sethold(int i, bool held);
+	bool gethold(int i);
 	bool getKeyPress(int i);
-	bool getKeyThreshold(int i, int max);
+	bool getthreshold(int i, int max);
 	int getKeyThresValue(int i);
-	int getKeyThresPeak(int i);
-	void resetKeyThresPeak(int i);
+	int getthrespeak(int i);
+	void resetthrespeak(int i);
 
 	// Mouse Click/Motion
 	void setClickDelay(int delay);
