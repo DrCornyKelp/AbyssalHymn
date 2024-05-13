@@ -157,6 +157,8 @@ void Input::update()
     slash.update(keystate, this);
     backslash.update(keystate, this);
 
+    escape.update(keystate, this);
+
     f1.update(keystate, this);
     f2.update(keystate, this);
     f3.update(keystate, this);
