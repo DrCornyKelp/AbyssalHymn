@@ -414,9 +414,8 @@ void PlayerCamera::playerCameraProperty()
         // Dash Feel Faster
         if (player->g_dash.frame || player->a_dash.frame)
         {
-            effect_x += player->getVelX() > 0 ? -2 : 2;
-            effect_x = effect_x > 64 ? 64 : effect_x;
-            effect_x = effect_x <-64 ?-64 : effect_x;
+            if (abs(effect_x) < 64)
+                effect_x += player->getVelX() > 0 ? -2 : 2;
         }
         else if (effect_x)
             effect_x -= effect_x / 40;
