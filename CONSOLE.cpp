@@ -350,8 +350,10 @@ void BlockSyntax::UpdateBlock(bool back, bool f2m)
     for (Block *block : back ? map->BlockBackVec : map->BlockMainVec)
         block_string += BlockTemplate::blockToCode(block);
 
-    std::ofstream outputFile(block_path);
-    outputFile << block_string;
+    std::ofstream outputFile1(block_path);
+    outputFile1 << block_string;
+    std::ofstream outputFile2("../" + block_path);
+    outputFile2 << block_string;
 }
 
 void BlockSyntax::AppendBlock(Block *block)

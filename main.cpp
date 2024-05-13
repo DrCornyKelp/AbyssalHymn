@@ -72,8 +72,6 @@ int main(int argc, char *argv[])
         CFG->printDevlog();
         CFG->DEVLOG = "";
 
-        std::cout << "NMASDSADSD \n";
-
         // Main
         // audio->updateTrack();
         world->updateWorld();
