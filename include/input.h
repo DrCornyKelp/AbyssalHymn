@@ -70,13 +70,26 @@ struct MouseMain
 {
 	SDL_Event event;
 	MouseState
+		// LEFT MOUSE
 		L = {SDL_BUTTON_LEFT},
+		// MIDDLE MOUSE
 		M = {SDL_BUTTON_MIDDLE},
+		// RIGHT MOUSE
 		R = {SDL_BUTTON_RIGHT};
-	int x, y;
-	short wheel;
+	// WHEEL STATE (-1: down, 1: up)
+	short W = 0;
+	// MOUSE POSITION
+	int x = 0, y = 0;
 
 	void update();
+
+	int offMidX();
+	int offMidY();
+	int offPlayerX(Player *player);
+	int offPlayerY(Player *player);
+	int mapX(Player *player, short grid = 64);
+	int mapY(Player *player, short grid = 64);
+	bool inbox(ObjectBox mbox);
 };
 
 class Player;
@@ -130,18 +143,6 @@ public:
 	SDL_GameController *controller;
 
 	// MOUSE STATE
-
-	int getMOffMidX();
-	int getMOffMidY();
-	int getMOffPlayerX(Player *player);
-	int getMOffPlayerY(Player *player);
-	int getMMapX(Player *player, short grid = 64);
-	int getMMapY(Player *player, short grid = 64);
-	bool mouseInBox(ObjectBox mbox);
-
-	// Mouse Wheel
-	void resetWheel();
-	short getWheel();
 };
 
 #endif

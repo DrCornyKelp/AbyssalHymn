@@ -71,7 +71,8 @@ void Multiplayer::update(Map *map)
         MAIN->INPUT.executeScript("ExecuteScript.csv", MAIN->INPUT.lctrl.key);
     }
 
-    std::cout << MAIN->INPUT.mouse.wheel << "\n";
+    std::cout<< MAIN->INPUT.mouse.offPlayerX(MAIN) << " " <<
+                MAIN->INPUT.mouse.offPlayerY(MAIN) << "\n";
 
     std::ofstream outputFile("PlayerScript.csv");
     outputFile << MAIN->INPUT.script_history_full;

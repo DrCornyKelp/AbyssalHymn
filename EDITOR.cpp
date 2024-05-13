@@ -57,8 +57,8 @@ void Editor::blockEditor()
     SDL_RenderCopy(CFG->RENDERER, EditBack, NULL, &bgRect);
 
     // SOME STARTING VALUE
-    int mX = player->INPUT.getMMapX(player);
-    int mY = player->INPUT.getMMapY(player);
+    // int mX = player->INPUT.getMMapX(player);
+    // int mY = player->INPUT.getMMapY(player);
 
     int pageRatioInt = map_cur->BlockPreview.size() / blockPerPage;
     int maxPage =   map_cur->BlockPreview.size() % blockPerPage ?
@@ -69,23 +69,23 @@ void Editor::blockEditor()
     // -------------------- KEYBOARD --------------------
 
     // Change stuff with scroll
-    if (player->INPUT.getWheel())
+    if (player->INPUT.mouse.W)
     {
         // Normal Scrolling -> Scroll Through Block
         if (!player->INPUT.lctrl.key)
         {
-            BlockEdit.index += player->INPUT.getWheel();
+            BlockEdit.index += player->INPUT.mouse.W;
             BlockEdit.normalize(map_cur->BlockPreview.size(), maxPage);
             BlockEdit.page = BlockEdit.index / blockPerPage;
         }
         // Hold Ctrl + Scrolling -> Scroll Through Type
         else
         {
-            BlockEdit.type += player->INPUT.getWheel();
+            BlockEdit.type += player->INPUT.mouse.W;
             BlockEdit.normalize(map_cur->BlockPreview.size(), maxPage);
         }
 
-        player->INPUT.resetWheel();
+        player->INPUT.mouse.W = 0;
     }
 
     // -------------------- MOUSE ------------------------

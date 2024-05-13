@@ -98,10 +98,34 @@ void MouseMain::update()
     while (SDL_PollEvent(&event))
     {
         if (event.type == SDL_MOUSEWHEEL) {
-            wheel = event.wheel.y;
+            W = event.wheel.y;
         }
     }
 }
+
+int MouseMain::offMidX()
+{ return CFG->WIDTH / 2 - x; }
+int MouseMain::offMidY()
+{ return y - CFG->HEIGHT / 2; }
+int MouseMain::offPlayerX(Player *player)
+{ return - ( player->camera.offset_x + offMidX() ); }
+int MouseMain::offPlayerY(Player *player)
+{ return - ( player->camera.offset_y + offMidY() ); }
+int MouseMain::mapX(Player *player, short grid)
+{
+    return 1;
+}
+int MouseMain::mapY(Player *player, short grid)
+{
+    return 1;
+}
+bool MouseMain::inbox(ObjectBox mbox)
+{ return !(
+    (y > mbox.up && mbox.up > -1) ||
+    (y < mbox.down && mbox.down > -1) ||
+    (x < mbox.left && mbox.left > -1) ||
+    (x > mbox.right && mbox.right > -1)
+); }
 
 void Input::update()
 {
@@ -223,38 +247,34 @@ void Input::setTemplate(int keytemplate)
     }
 }
 
-int Input::getMOffMidX() {
-    return CFG->WIDTH / 2 - mouse_x;
-}
-int Input::getMOffMidY() {
-    return CFG->HEIGHT / 2 - mouse_y; // Wrong formula
-}
-int Input::getMOffPlayerX(Player *player) {
-    return-(player->camera.offset_x +
-            getMOffMidX());
-}
-int Input::getMOffPlayerY(Player *player) {
-    return-(player->camera.offset_y +
-            getMOffMidY());
-}
-int Input::getMMapX(Player *player, short grid)
-{ 
-    int mx = player->getX() + getMOffPlayerX(player);
-    return (mx > 0) ? (mx/grid) : (mx/grid - 1);
-}
-int Input::getMMapY(Player *player, short grid)
-{
-    int my = player->getY() + getMOffPlayerY(player);
-    return (my > 0) ? (my/grid) : (my/grid - 1);
-}
-bool Input::mouseInBox(ObjectBox mbox)
-{ return !(
-    (mouse_y > mbox.up && mbox.up > -1) ||
-    (mouse_y < mbox.down && mbox.down > -1) ||
-    (mouse_x < mbox.left && mbox.left > -1) ||
-    (mouse_x > mbox.right && mbox.right > -1)
-); }
-
-// Mouse Wheel
-void Input::resetWheel() { wheel = 0; }
-short Input::getWheel() { return wheel; }
+// int Input::getMOffMidX() {
+//     return CFG->WIDTH / 2 - mouse_x;
+// }
+// int Input::getMOffMidY() {
+//     return CFG->HEIGHT / 2 - mouse_y; // Wrong formula
+// }
+// int Input::getMOffPlayerX(Player *player) {
+//     return-(player->camera.offset_x +
+//             getMOffMidX());
+// }
+// int Input::getMOffPlayerY(Player *player) {
+//     return-(player->camera.offset_y +
+//             getMOffMidY());
+// }
+// int Input::getMMapX(Player *player, short grid)
+// { 
+//     int mx = player->getX() + getMOffPlayerX(player);
+//     return (mx > 0) ? (mx/grid) : (mx/grid - 1);
+// }
+// int Input::getMMapY(Player *player, short grid)
+// {
+//     int my = player->getY() + getMOffPlayerY(player);
+//     return (my > 0) ? (my/grid) : (my/grid - 1);
+// }
+// bool Input::mouseInBox(ObjectBox mbox)
+// { return !(
+//     (mouse_y > mbox.up && mbox.up > -1) ||
+//     (mouse_y < mbox.down && mbox.down > -1) ||
+//     (mouse_x < mbox.left && mbox.left > -1) ||
+//     (mouse_x > mbox.right && mbox.right > -1)
+// ); }
