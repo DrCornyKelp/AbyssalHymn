@@ -424,7 +424,7 @@ void PlayerCamera::playerCameraProperty()
 
     if (!unfocus.y)
     {
-        float ease_y_max =  (player->combat.weapon_equip ? 64 : 96);
+        float ease_y_max =  (player->combat.weapon_equip ? 32 : 64);
         // Damping / Easing effect Y
         if (ease_y > -ease_y_max && player->getVelY() > 0)
             ease_y -= abs(player->getVelY() / 5);
