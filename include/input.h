@@ -9,9 +9,10 @@ struct KeyState
 {
 	SDL_Scancode code;
 	bool moveset = 1; // If these are gameplay key or not
-	bool key = 0;
+	bool state = 0;
 	bool hold = 0;
-	bool press(); // Instant press
+	// Instant press
+	bool press();
 	int threshold = 0,
 		threspeak = 0;
 	bool threspass(int max);
@@ -56,14 +57,15 @@ struct KeyTemplate1
 struct MouseState
 {
 	int button = 0;
-	bool mouse = 0;
+	bool state = 0;
 	bool hold = 0;
-	bool click(); // Instant click
+	// Instant click
+	bool click(); 
 	int threshold = 0,
 		threspeak = 0;
 	bool threspass(int max);
 
-	void update(Uint32 state);
+	void update(Uint32 mousestate);
 };
 
 struct MouseMain

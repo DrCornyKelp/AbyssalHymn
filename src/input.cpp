@@ -3,11 +3,11 @@
 
 // ============================== KEYSTATE ==============================
 
-void KeyState::update(const Uint8* state, Input *input)
+void KeyState::update(const Uint8* keystate, Input *input)
 {
     // Key Script
-    if (!(script_history.size() % 2) && key ||
-        script_history.size() % 2 && !key)
+    if (!(script_history.size() % 2) && state ||
+        script_history.size() % 2 && !state)
         script_history.push_back(CFG->TIME);
 
     if (moveset) input->script_history_full += scriptHistoryToStr() + "\n";
@@ -22,20 +22,20 @@ void KeyState::update(const Uint8* state, Input *input)
             if (CFG->TIME == script[0])
             {
                 if (script_size % 2) {
-                    key = 0; hold = 0;
-                } else key = 1;
+                    state = 0; hold = 0;
+                } else state = 1;
             }
             script.erase(script.begin());
         }
     }
     // // KEY INPUT
     else {
-        if (state[code] && !input->delay) key = 1;
-        else { key = 0; hold = 0; }
+        if (keystate[code] && !input->delay) state = 1;
+        else { state = 0; hold = 0; }
     }
 
     // Threshold
-    if (key)
+    if (state)
     {
         threshold++;
         threspeak = 0;
@@ -49,7 +49,7 @@ void KeyState::update(const Uint8* state, Input *input)
     // Key Delay
     if (keydelay) keydelay--;
 }
-bool KeyState::press() { return key && !hold && !keydelay; }
+bool KeyState::press() { return state && !hold && !keydelay; }
 bool KeyState::threspass(int max) { return threshold >= max; }
 string0D KeyState::scriptHistoryToStr()
 {
@@ -66,12 +66,12 @@ string0D KeyState::scriptHistoryToStr()
 
 // ============================== MOUSESTATE ==============================
 
-void MouseState::update(Uint32 state)
+void MouseState::update(Uint32 mousestate)
 {
-    if (state & SDL_BUTTON(button)) mouse = 1;
-    else { mouse = 0; hold = 0; }
+    if (mousestate & SDL_BUTTON(button)) state = 1;
+    else { state = 0; hold = 0; }
 
-    if (mouse)
+    if (state)
     {
         threshold++;
         threspeak = 0;
@@ -82,7 +82,7 @@ void MouseState::update(Uint32 state)
         threshold = 0;
     }
 }
-bool MouseState::click() { return mouse && !hold; }
+bool MouseState::click() { return state && !hold; }
 bool MouseState::threspass(int max) { return threshold >= max; }
 
 void MouseMain::update()
@@ -97,9 +97,8 @@ void MouseMain::update()
     // Update MOUSE WHEEL
     while (SDL_PollEvent(&event))
     {
-        if (event.type == SDL_MOUSEWHEEL) {
+        if (event.type == SDL_MOUSEWHEEL) 
             W = event.wheel.y;
-        }
     }
 }
 

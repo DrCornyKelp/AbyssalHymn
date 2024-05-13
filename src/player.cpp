@@ -148,7 +148,7 @@ void PlayerDrawProp::drawProperty(Map *map)
             break;
 
         case 3:
-            switch (player->INPUT.attack.key)
+            switch (player->INPUT.attack.state)
             {
             case 0:
                 setActSprElock({13, right}, {4, 2}, 1);
@@ -431,7 +431,7 @@ void Player::playerMovement(Map *map)
     // Moving L/R
     if (moveset.move && !g_dash.frame && !a_dash.frame && !move.crawl)
     {
-        if (INPUT.moveL.key && state.hug_wall < 1)
+        if (INPUT.moveL.state && state.hug_wall < 1)
         {
             // Release from wall
             if (state.hug_wall)
@@ -443,7 +443,7 @@ void Player::playerMovement(Map *map)
                 setVelX(getVelX() - getAccelX() * (move.decel ? 2.5 : 1));
         }
 
-        if (INPUT.moveR.key && state.hug_wall > -1)
+        if (INPUT.moveR.state && state.hug_wall > -1)
         {
             if (state.hug_wall)
                 setX(getX() + 4);
@@ -456,7 +456,7 @@ void Player::playerMovement(Map *map)
     }
 
     // Not moving anymore
-    if (!INPUT.moveL.key && !INPUT.moveR.key &&
+    if (!INPUT.moveL.state && !INPUT.moveR.state &&
         !g_dash.frame && !a_dash.frame)
     {
         if (abs(getVelX()) >= getAccelX())
@@ -466,20 +466,20 @@ void Player::playerMovement(Map *map)
     }
 
     // No more deceleration
-    if ((!INPUT.moveL.key && move.decel > 0) ||
-        (!INPUT.moveR.key && move.decel < 0))
+    if ((!INPUT.moveL.state && move.decel > 0) ||
+        (!INPUT.moveR.state && move.decel < 0))
         move.decel = 0;
 
     // Crawling
-    move.crawl= moveset.crawl && INPUT.moveD.key &&
+    move.crawl= moveset.crawl && INPUT.moveD.state &&
                 state.on_ground && !move.decel &&
                 !g_dash.delay && !g_dash.frame &&
                 abs(getVelX()) < move.vel_max / 2;
     move.crawl = state.crawl_lock || move.crawl;
 
-    if (move.crawl && INPUT.moveL.key && !g_dash.frame)
+    if (move.crawl && INPUT.moveL.state && !g_dash.frame)
         setVelX(-move.vel_crawl);
-    if (move.crawl && INPUT.moveR.key && !g_dash.frame)
+    if (move.crawl && INPUT.moveR.state && !g_dash.frame)
         setVelX(move.vel_crawl);
 
     // Ground dash (more like sliding but whatever)
@@ -685,7 +685,7 @@ void Player::playerCombat(Map *map)
 // ======================== COMBAT INPUT ==============================
 
     // Weapon equipment
-    if (INPUT.equip.key && !combat.weapon_equip_delay &&
+    if (INPUT.equip.state && !combat.weapon_equip_delay &&
         state.on_ground)
     {
         setSprIndex(0);
@@ -842,7 +842,7 @@ void Player::playerCombat(Map *map)
     {
         INPUT.attack.threspeak = 0;
 
-        if (!state.hug_wall && !INPUT.moveU.key)
+        if (!state.hug_wall && !INPUT.moveU.state)
         {
             if (!combat.combo_time && !combat.index)
             {
@@ -866,7 +866,7 @@ void Player::playerCombat(Map *map)
                 setVelY(state.on_ground ? 0 : 1);
             }
         }
-        else if (!state.hug_wall && INPUT.moveU.key)
+        else if (!state.hug_wall && INPUT.moveU.state)
         {
             if (!combat.combo_time && !combat.index)
             {
@@ -896,7 +896,7 @@ void Player::playerCombat(Map *map)
     {
         combat.index = 3;
 
-        if (!INPUT.attack.key &&
+        if (!INPUT.attack.state &&
             combat.charge_time > 50)
         {
             combat.time = 10;
@@ -1038,11 +1038,11 @@ void Player::playerDeveloper(Map *map)
 
     if (godmode)
     {
-        int vel_developer = INPUT.lctrl.key ? 20 : 4;
-        if (INPUT.moveU.key) setY(getY() + vel_developer);
-        if (INPUT.moveD.key) setY(getY() - vel_developer);
-        if (INPUT.moveL.key) setX(getX() - vel_developer);
-        if (INPUT.moveR.key) setX(getX() + vel_developer);
+        int vel_developer = INPUT.lctrl.state ? 20 : 4;
+        if (INPUT.moveU.state) setY(getY() + vel_developer);
+        if (INPUT.moveD.state) setY(getY() - vel_developer);
+        if (INPUT.moveL.state) setX(getX() - vel_developer);
+        if (INPUT.moveR.state) setX(getX() + vel_developer);
     }
     // DISPLAY GRID
     if (INPUT.f3.press())
