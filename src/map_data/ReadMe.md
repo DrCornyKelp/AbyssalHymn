@@ -43,12 +43,12 @@
 - EX:
 
 ```cpp
--1,8,6,2,6,10,10,10,10,10,10,10,10,10,10,6,7
--1,10,6,2,2,10,10,7,10
--1,3,7,5,5,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,7,7
+-1,8,6,2, 6,10,10,10,10,10,10,10,10,10,10,6,7
+-1,10,6,2, 2,10,10,7,10
+-1,3,7,5, 5,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,7,7
 >
--1,47,0,2,6,10,10,10,10,10,10,10,10,10,10,10,10
--1,49,0,2,5,10,10,10,11,10,11,10,11,10,11
+-1,47,0,2, 6,10,10,10,10,10,10,10,10,10,10,10,10
+-1,49,0,2, 5,10,10,10,11,10,11,10,11,10,11
 >
 ```
 
@@ -118,7 +118,7 @@
 - `audio path`, `audio x`, `audio y`, `radius effect`, `radius max vol`, `radius override`
   - **`radius effect`**: the radius in which the audio volume start changing
   - **`radius max vol`**: the radius in which the audio reach max volume (`vol = 100`)
-  - **`radius override`**: the radius in which the map `playlist` volume set to `0`
+  - **`radius override`**: the radius in which the map `playlist` volume reached `0`
 - **Note**: for `radius effect`, the closer the player is to the source
   - The higher the `source volume`
   - The lower the `map playlist (or background music) volume`
