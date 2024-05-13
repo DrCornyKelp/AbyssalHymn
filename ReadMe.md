@@ -14,7 +14,7 @@ Dive deep into the depths of imagination and embark on an unforgettable odyssey 
 
 Read Aloud Copy Regenerate Bad Repsonse Message ChatGPT…
 Upgrade plan
-Get GPT-4, DALL·E, and more @openai... wait oh shit
+Get GPT-4, DALL·E, and more @openai... wait oh crap
 
 ---
 
