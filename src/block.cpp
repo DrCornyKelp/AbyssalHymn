@@ -311,10 +311,10 @@ void Block::draw(Player *player)
         return;
 
     int center_off_x = distX(player, this) 
-                    - player->camera.offset_x
+                    - player->camera.offset.x
                     + getWidth() / 2;
     int center_off_y = distY(player, this)
-                    - player->camera.offset_y
+                    - player->camera.offset.y
                     - getHeight() / 2;
 
     int drawX = Camera::objectDrawX(player, this);

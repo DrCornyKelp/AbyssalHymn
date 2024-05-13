@@ -104,18 +104,12 @@ struct PlayerGroundDash
 struct PlayerCamera
 {
     Player *player;
-    int mid_x = 0;
-    int mid_y = 0;
-    bool unfocus_x = 0;
-    bool unfocus_y = 0;
-    int unfocus_offset_x = 0;
-    int unfocus_offset_y = 0;
-    int shift_x = 0;
-    int shift_y = 0;
 
-    int offset_x = 0;
-    int offset_y = 0;
-
+    ObjectXY mid;
+    ObjectXY unfocus;
+    ObjectXY unfocus_offset;
+    ObjectXY shift;
+    ObjectXY offset;
     ObjectXY center_off; // For >1 players
 
     // Goal Value

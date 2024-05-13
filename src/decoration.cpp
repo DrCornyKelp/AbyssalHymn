@@ -148,9 +148,9 @@ void Decoration::updateBackground(Player *player, bool left_prlx)
         setX(bg_shift - getAddX());
     }
     // Parallax stop (player unfocus)
-    else if (player->camera.unfocus_x)
+    else if (player->camera.unfocus.x)
         setX(bg_shift - int(
-            (player->camera.unfocus_offset_x) * scale_vel_x
+            (player->camera.unfocus_offset.x) * scale_vel_x
         ) % getWidth());
     // Parallax moving (player focus)
     else
@@ -158,8 +158,8 @@ void Decoration::updateBackground(Player *player, bool left_prlx)
 
     // ==================== Parallax Y ====================
     // Parallax stop (player unfocus)
-    if (player->camera.unfocus_y)
-        setY(CFG->HEIGHT/2 + int(player->camera.unfocus_offset_y * scale_vel_y));
+    if (player->camera.unfocus.y)
+        setY(CFG->HEIGHT/2 + int(player->camera.unfocus_offset.y * scale_vel_y));
     // Parallax moving (player focus)
     else
         setY(CFG->HEIGHT/2 + int((player->getY() - center_offset.y) * scale_vel_y));
