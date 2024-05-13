@@ -63,7 +63,20 @@ struct MouseState
 		threspeak = 0;
 	bool threspass(int max);
 
-	void update(Uint32 state, Input *input);
+	void update(Uint32 state);
+};
+
+struct MouseMain
+{
+	SDL_Event event;
+	MouseState
+		L = {SDL_BUTTON_LEFT},
+		M = {SDL_BUTTON_MIDDLE},
+		R = {SDL_BUTTON_RIGHT};
+	int x, y;
+	short wheel;
+
+	void update();
 };
 
 class Player;
@@ -101,16 +114,7 @@ public:
 
 // ===========================MOUSESTATE===========================
 
-	MouseState 
-		mouseL = {SDL_BUTTON_LEFT},
-		mouseM = {SDL_BUTTON_MIDDLE},
-		mouseR = {SDL_BUTTON_RIGHT};
-
-	int mouse_x,
-		mouse_y;
-	// -1: Scroll Down, 1: Scroll Up
-	short wheel = 0;
-	int scroll = 0;
+	MouseMain mouse;
 
 // ===========================INPUTFUNC===========================
 
@@ -124,8 +128,6 @@ public:
 	// ==================== OBSOLETE ======================
 
 	SDL_GameController *controller;
-
-	SDL_Event event;
 
 	// MOUSE STATE
 

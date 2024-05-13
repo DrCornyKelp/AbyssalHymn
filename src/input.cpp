@@ -66,7 +66,7 @@ string0D KeyState::scriptHistoryToStr()
 
 // ============================== MOUSESTATE ==============================
 
-void MouseState::update(Uint32 state, Input *input)
+void MouseState::update(Uint32 state)
 {
     if (state & SDL_BUTTON(button)) mouse = 1;
     else { mouse = 0; hold = 0; }
@@ -84,6 +84,24 @@ void MouseState::update(Uint32 state, Input *input)
 }
 bool MouseState::click() { return mouse && !hold; }
 bool MouseState::threspass(int max) { return threshold >= max; }
+
+void MouseMain::update()
+{
+    // Update MOUSE POSITION/CLICK
+    SDL_PumpEvents();
+    Uint32 mousestate = SDL_GetMouseState(&x, &y);
+    L.update(mousestate);
+    M.update(mousestate);
+    R.update(mousestate);
+
+    // Update MOUSE WHEEL
+    while (SDL_PollEvent(&event))
+    {
+        if (event.type == SDL_MOUSEWHEEL) {
+            wheel = event.wheel.y;
+        }
+    }
+}
 
 void Input::update()
 {
@@ -120,21 +138,8 @@ void Input::update()
     f4.update(keystate, this);
     f5.update(keystate, this);
 
-    // Update MOUSE POSITION/CLICK
-    SDL_PumpEvents();
-    Uint32 mousestate = SDL_GetMouseState(&mouse_x, &mouse_y);
-
-    mouseL.update(mousestate, this);
-    mouseM.update(mousestate, this);
-    mouseR.update(mousestate, this);
-
-    // Update MOUSE WHEEL
-    while (SDL_PollEvent(&event))
-    {
-        if (event.type == SDL_MOUSEWHEEL) {
-            wheel = event.wheel.y;
-        }
-    }
+    // UPDATE MOUSE IN GENERAL
+    mouse.update();
 }
 
 void Input::executeScript(string0D script_dir, bool from_cur)
