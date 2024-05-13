@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
         CFG->DEVLOG = "";
 
         // Main
-        // audio->updateTrack();
+        audio->updateTrack();
         world->updateWorld();
         rend->renderGameplay(world->MapCurrent);
         multi->MAIN->playerDeveloper(world->MapCurrent);

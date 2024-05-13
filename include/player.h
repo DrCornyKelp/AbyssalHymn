@@ -111,6 +111,7 @@ struct PlayerCamera
     ObjectXY shift;
     ObjectXY offset;
     ObjectXY center_off; // For >1 players
+    ObjectXYf focus_trigger;
 
     // Goal Value
     ObjectBox focus_dir;
@@ -128,11 +129,9 @@ struct PlayerCamera
     float effect_x = 0;
     float effect_y = 0;
 
+    ObjectXY getShift();
     ObjectXY getCenterOffset();
-    int getShiftX();
-    int getShiftY();
-    int getFocusTriggerX();
-    int getFocusTriggerY();
+    ObjectXYf getFocusTrigger();
 
     void resetCamera();
     void setCameraBorder(ObjectBox f_dir, ObjectBox f_val);

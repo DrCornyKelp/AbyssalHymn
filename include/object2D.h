@@ -10,6 +10,8 @@
 
 struct ObjectXY
 { int x = 0, y = 0; };
+struct ObjectXYf
+{ float x = 0, y = 0; };
 struct ObjectHitbox
 {
     float x = 0, y = 0;

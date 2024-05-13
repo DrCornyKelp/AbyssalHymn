@@ -269,6 +269,13 @@ void PlayerCamera::setCameraBorder(ObjectBox f_dir, ObjectBox f_val)
 void PlayerCamera::setCameraFocus(ObjectBox f_dir, ObjectBox f_val, short gr)
 { focus_dir = f_dir; focus_point = f_val; focus_point.grid(gr); }
 
+// Camera Shift
+ObjectXY PlayerCamera::getShift() {
+    return {
+        int(ease_x + effect_x),
+        int(ease_y + effect_y)
+    };
+}
 // Center Offset
 ObjectXY PlayerCamera::getCenterOffset() {
     ObjectXY center_off = {0, 0};
@@ -287,18 +294,11 @@ ObjectXY PlayerCamera::getCenterOffset() {
     return center_off;
 };
 // Camera Focus Trigger
-int PlayerCamera::getFocusTriggerX() {
-    return player->getX() - shift.x - center_off.x;
-}
-int PlayerCamera::getFocusTriggerY() {
-    return player->getY() - shift.y - center_off.y;
-}
-// Camera Shift
-int PlayerCamera::getShiftX() {
-    return ease_x + effect_x;
-}
-int PlayerCamera::getShiftY() {
-    return ease_y + effect_y;
+ObjectXYf PlayerCamera::getFocusTrigger() {
+    return {
+        player->getX() - shift.x - center_off.x,
+        player->getY() - shift.y - center_off.y
+    };
 }
 
 void PlayerCamera::playerCameraFocus()
@@ -329,7 +329,7 @@ void PlayerCamera::playerCameraFocus()
 
     // Boundary left
     if (focus_dir.left &&
-        getFocusTriggerX() < focus_true.left)
+        focus_trigger.x < focus_true.left)
     {
         unfocus.x = 1;
         unfocus_offset.x = focus_true.left;
@@ -337,7 +337,7 @@ void PlayerCamera::playerCameraFocus()
     }
     // Boundary right
     else if (focus_dir.right &&
-        getFocusTriggerX() > focus_true.right)
+        focus_trigger.x > focus_true.right)
     {
         unfocus.x = 1;
         unfocus_offset.x = focus_true.right;
@@ -353,7 +353,7 @@ void PlayerCamera::playerCameraFocus()
 
     // Boundary Down
     if (focus_dir.down &&
-        getFocusTriggerY() < focus_true.down)
+        focus_trigger.y < focus_true.down)
     {
         unfocus.y = 1;
         unfocus_offset.y = focus_true.down;
@@ -361,7 +361,7 @@ void PlayerCamera::playerCameraFocus()
     }
     // Boundary Up
     else if (focus_dir.up &&
-        getFocusTriggerY() > focus_true.up)
+        focus_trigger.y > focus_true.up)
     {
         unfocus.y = 1;
         unfocus_offset.y = focus_true.up;
@@ -387,13 +387,14 @@ void PlayerCamera::playerCameraProperty()
     else playerCameraFocus();
 
     // Update the values
-    shift.x = getShiftX();
-    shift.y = getShiftY();
+    shift = getShift();
     center_off = getCenterOffset();
-
+    focus_trigger = getFocusTrigger();
     // Total offset from center
     offset.x = shift.x + mid.x + center_off.x;
     offset.y = shift.y + mid.y + center_off.y;
+
+    // EASING EFFECT FOR MOVEMENT FOR BETTER LOOKAHEAD
 
     if (!unfocus.x)
     {
@@ -423,14 +424,11 @@ void PlayerCamera::playerCameraProperty()
 
     if (!unfocus.y)
     {
-        float ease_y_max =  (player->combat.weapon_equip ? 64 : 96) +
-                            // Velociy pass a cap
-                            (player->getVelY() < player->jump.terminal ?
-                                (player->jump.terminal - player->getVelY())*64 : 0);
-        // Damping / Easing effect X
-        if (ease_y > -ease_y_max && player->getVelY() < 0)
+        float ease_y_max =  (player->combat.weapon_equip ? 64 : 96);
+        // Damping / Easing effect Y
+        if (ease_y > -ease_y_max && player->getVelY() > 0)
             ease_y -= abs(player->getVelY() / 5);
-        if (ease_y < ease_y_max && player->getVelY() > 0)
+        if (ease_y < ease_y_max && player->getVelY() < 0)
             ease_y += abs(player->getVelY() / 5);
         // Turn off easing effect
         if (!player->getVelY() || abs(ease_y) > ease_y_max)

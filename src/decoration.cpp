@@ -136,8 +136,6 @@ void Decoration::updateBackground(Player *player, bool left_prlx)
 
     int bg_shift = left_prlx ? getWidth()/2 : getWidth()*3/2;
 
-    ObjectXY center_offset = player->camera.getCenterOffset();
-
     // ==================== Parallax X ====================
     // Automatic scroll
     if (getVelX())
@@ -150,20 +148,25 @@ void Decoration::updateBackground(Player *player, bool left_prlx)
     // Parallax stop (player unfocus)
     else if (player->camera.unfocus.x)
         setX(bg_shift - int(
-            (player->camera.unfocus_offset.x) * scale_vel_x
+            player->camera.unfocus_offset.x * scale_vel_x
         ) % getWidth());
     // Parallax moving (player focus)
     else
-        setX(bg_shift - int((player->getX() - center_offset.x) * scale_vel_x) % getWidth());
+        setX(bg_shift - int(
+            (player->getX() - player->camera.offset.x) * scale_vel_x
+        ) % getWidth());
 
     // ==================== Parallax Y ====================
     // Parallax stop (player unfocus)
     if (player->camera.unfocus.y)
-        setY(CFG->HEIGHT/2 + int(player->camera.unfocus_offset.y * scale_vel_y));
+        setY(CFG->HEIGHT/2 + int(
+            player->camera.unfocus_offset.y * scale_vel_y
+        ));
     // Parallax moving (player focus)
     else
-        setY(CFG->HEIGHT/2 + int((player->getY() - center_offset.y) * scale_vel_y));
-
+        setY(CFG->HEIGHT/2 + int(
+            (player->getY() - player->camera.offset.y) * scale_vel_y
+        ));
 
     // Update Rect
     des_rect = {
