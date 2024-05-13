@@ -1,0 +1,1 @@
+  -LC:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/libraries/SDL2/lib  -LC:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/libraries/SFML/lib  -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lsfml-system -lsfml-audio -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 

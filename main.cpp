@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 
     int playercount;
 
-    std::cout << "SET PLAYER COUNT: ";
+    std::cout << "SET COUNT: ";
     std::cin >> playercount;
     std::cout << "\n";
 

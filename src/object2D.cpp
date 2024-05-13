@@ -169,12 +169,12 @@ int Object2D::getSpecialKey() { return special_key; }
 
 // BOX
 ObjectBox Object2D::getBox()
-{
-    return {int(getY() + getHeight() / 2),
-            int(getY() - getHeight() / 2),
-            int(getX() - getWidth() / 2),
-            int(getX() + getWidth() / 2)};
-}
+{ return {
+    int(getY() + getHeight() / 2),
+    int(getY() - getHeight() / 2),
+    int(getX() - getWidth() / 2),
+    int(getX() + getWidth() / 2)
+}; }
 bool Object2D::insideBox(ObjectBox box)
 {
     return  (getY() <= box.up || box.up == -1) &&

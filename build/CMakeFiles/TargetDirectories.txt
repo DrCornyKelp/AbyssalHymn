@@ -1,0 +1,3 @@
+C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build/CMakeFiles/AbyssalHymn.dir
+C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build/CMakeFiles/edit_cache.dir
+C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build/CMakeFiles/rebuild_cache.dir
