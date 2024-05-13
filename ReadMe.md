@@ -288,6 +288,12 @@ $\Rightarrow$ Player can move between location using `Transition` (from Object2D
 
 - ADDED MULTIPLAYER
 
+### [`12/4`] MULTIPLAYER: FUNCTIONALITY
+
+- `Map Components` now have more interaction with each seperate `players`
+- `Camera` dynamically shift to include all `players` on screen
+- Changed `Input` method for better readability
+
 ---
 
 ## Credits
