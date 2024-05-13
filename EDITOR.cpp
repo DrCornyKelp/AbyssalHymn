@@ -87,8 +87,8 @@ void Editor::blockEditor()
     // -------------------- MOUSE ------------------------
 
     int menuSize = minimize ?
-        player->INPUT.mouse.inbox({0, 200, 0, 200}) :
-        player->INPUT.mouse.inbox({0, 200});
+        player->INPUT.mouse.inbox({200, 0, 0, 200}) :
+        player->INPUT.mouse.inbox({200, 0});
 
     int mx1 = player->INPUT.mouse.mapX(player, 1);
     int my1 = player->INPUT.mouse.mapY(player, 1);
@@ -154,9 +154,8 @@ void Editor::blockEditor()
                 if (BlockEdit.front)
                 for (int i = 0; i < map_cur->BlockMainVec.size(); i++)
                 {
-                    if (map_cur->BlockMainVec[i]->getBox().contain(
-                    player->INPUT.mouse.mapX(player, 1), player->INPUT.mouse.mapY(player, 1)
-                    )&& map_cur->BlockMainVec[i]->isType(BlockEdit.type))
+                    if (map_cur->BlockMainVec[i]->getBox().contain(mx1, my1) &&
+                    map_cur->BlockMainVec[i]->isType(BlockEdit.type))
                     {
                         // Split into singular block
                         Block1D splitted = BlockTemplate::split(
