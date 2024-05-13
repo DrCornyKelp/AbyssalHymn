@@ -284,15 +284,18 @@ $\Rightarrow$ Player can move between location using `Transition` (from Object2D
 
 - Created a dynamic `audio object`: audio get louder as player get closer, as well as the ability to override the background music
 
-### [`6/4`] MULTIPLAYER: GLOBAL OFFENSIVE
+### [`6/4`] MULTIPLAYER: CONCEPT
 
-- ADDED MULTIPLAYER
+- ADDED MULTIPLAYER (concept): Multiple `Player` entities can exist in game, opening up opportunity for functioning multiplayer
 
 ### [`12/4`] MULTIPLAYER: FUNCTIONALITY
 
-- `Map Components` now have more interaction with each seperate `players`
+- `Muliplayer` is now functioning (in demo stages, bugs and missing interactions to be expected)
+- `Map Components` now have more interactions with each seperate `player`
 - `Camera` dynamically shift to include all `players` on screen
-- Changed `Input` method for better readability
+- REWORKED `Input`:
+  - Each `player` now has a seperate input method for *multiple controller support (still a WIP)*
+  - Improve `Input` code readability by explicitly defining keys' by their `name` instead of their indexs `number`
 
 ---
 
