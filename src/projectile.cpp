@@ -142,7 +142,7 @@ void Projectile::enemyCollision(Map *map)
 
 void Projectile::projectileCollision(Map *map)
 {
-    for (Player *player : map->MapPlayers->Players)
+    for (Player *player : map->MapMulti->Players)
         playerCollision(map, player);
     // Enemy
     if (harm_enemy) enemyCollision(map);

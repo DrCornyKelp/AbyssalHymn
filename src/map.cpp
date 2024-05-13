@@ -207,7 +207,7 @@ void Map::initMap(World *world, Multiplayer *multi, Audio *audio,
     MapWorld = world;
     MapCollision = collision;
 
-    MapPlayers = multi;
+    MapMulti = multi;
 
     if (MapEmpty) return;
 
@@ -256,7 +256,7 @@ void Map::updateMapGlobal()
 
     // ====================== UPDATE SEETHOUGH BLOCK ===================
 
-    for (Player *player : MapPlayers->Players)
+    for (Player *player : MapMulti->Players)
     {
         for (Bubble *bubble : BubbleVec)
             bubble->updateBubble(this, player);
@@ -266,7 +266,7 @@ void Map::updateMapGlobal()
     {
         bool seethru = 0;
         for (Block *block : blockSection)
-            for (Player *player : MapPlayers->Players)
+            for (Player *player : MapMulti->Players)
                 seethru = Collision::objectCollision(player, block) || seethru;
         seethru = seethru && MapActive;
 
@@ -287,18 +287,18 @@ void Map::updateMapActive()
 {
     // ================= In the middle of a transition =================
     if (MapWorld->map_transition)
-        for (Player *player : MapPlayers->Players)
+        for (Player *player : MapMulti->Players)
             player->setStatic();
 
     if (MapWorld->map_transition > MapWorld->map_transition_mid)
     {
-        for (Player *player : MapPlayers->Players)
+        for (Player *player : MapMulti->Players)
             player->INPUT.delay = MapWorld->map_transition_mid + 10;
         return;
     };
 
-    MapPlayers->update(this);
-    for (Player *player : MapPlayers->Players)
+    MapMulti->update(this);
+    for (Player *player : MapMulti->Players)
     {
         // Collision
         MapCollision->playerUpdateCollision(this, player);
@@ -319,16 +319,16 @@ void Map::updateMapActive()
     // ====================== UPDATE PARALLAX BG =======================
     for (int i = 0; i < BackgroundVec.size(); i += 2)
     {
-        BackgroundVec[i]->updateBackground(MapPlayers->MAIN, 1);
-        BackgroundVec[i+1]->updateBackground(MapPlayers->MAIN);
+        BackgroundVec[i]->updateBackground(MapMulti->MAIN, 1);
+        BackgroundVec[i+1]->updateBackground(MapMulti->MAIN);
     }
 
     // ====================== UPDATE CAMERA ============================
-    MapPlayers->MAIN->camera.outside_render = OutsideRender;
+    MapMulti->MAIN->camera.outside_render = OutsideRender;
     for (PlayerCameraBox f_cam_box : CameraBox)
-    if (MapPlayers->MAIN->insideGridBox(f_cam_box.box))
+    if (MapMulti->MAIN->insideGridBox(f_cam_box.box))
     {
-        MapPlayers->MAIN->camera.setCameraBorder({1, 1, 1, 1}, f_cam_box.cam);
+        MapMulti->MAIN->camera.setCameraBorder({1, 1, 1, 1}, f_cam_box.cam);
         break;
     }
 }
@@ -337,7 +337,7 @@ void Map::updateMapActive()
 
 void Map::loadCheckpoint(WorldLocation location)
 {
-    for (Player *player : MapPlayers->Players)
+    for (Player *player : MapMulti->Players)
     {
         player->setStatic();
         player->setX(location.sX*64 + 35);

@@ -60,12 +60,12 @@ int main(int argc, char *argv[])
     );
 
     // Console Command
-    Console *console = new Console(world, multi->Players[0], collision);
+    Console *console = new Console(world, multi->MAIN, collision);
     // Map editor
-    Editor *editor = new Editor(console, world, multi->Players[0], collision);
+    Editor *editor = new Editor(console, world, multi->MAIN, collision);
 
     bool pause = false;
-    while (!pause)
+    while (!multi->MAIN->INPUT.escape.state)
     {
         // Devlog
         CFG->printDevlog();

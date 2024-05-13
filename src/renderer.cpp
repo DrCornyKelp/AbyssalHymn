@@ -16,58 +16,58 @@ void Renderer::renderGameplay(Map *map)
 
     // Back Block
     for (Block *blockBack : map->BlockBackVec)
-        blockBack->draw(map->MapPlayers->MAIN);
+        blockBack->draw(map->MapMulti->MAIN);
 
     // Back Decor
     for (Decoration *decorBack : map->DecorBackVec)
-        decorBack->draw(map->MapPlayers->MAIN);
+        decorBack->draw(map->MapMulti->MAIN);
 
     // Door
     for (Door *door : map->DoorVec)
-        door->draw(map->MapPlayers->MAIN);
+        door->draw(map->MapMulti->MAIN);
 
     // Particle Back
     for (ParticleEffect *particle_fx : map->ParticleBackVec)
-        particle_fx->draw(map->MapPlayers->MAIN);
+        particle_fx->draw(map->MapMulti->MAIN);
 
     // Enemies
     for (Enemy *enemy : map->EnemyVec)
-        enemy->draw(map->MapPlayers->MAIN);
+        enemy->draw(map->MapMulti->MAIN);
 
     // Player
-    map->MapPlayers->drawPlayers();
+    map->MapMulti->drawPlayers();
 
     // Projectile
     for (Projectile *projectile : map->ProjectileVec)
-        projectile->draw(map->MapPlayers->MAIN);
+        projectile->draw(map->MapMulti->MAIN);
 
     // Block
     for (Block *block : map->BlockMainVec)
-        block->draw(map->MapPlayers->MAIN);
+        block->draw(map->MapMulti->MAIN);
 
     // Hidden Block
     for (Block1D block1d : map->BlockHiddenVec)
     for (Block *block : block1d)
-        block->draw(map->MapPlayers->MAIN);
+        block->draw(map->MapMulti->MAIN);
 
     // Bubble Dialouge
     for (Bubble *bubble : map->BubbleVec)
-        bubble->draw(map->MapPlayers->MAIN);
+        bubble->draw(map->MapMulti->MAIN);
 
     // Front Decor
     for (Decoration *decorFront : map->DecorFrontVec)
-        decorFront->draw(map->MapPlayers->MAIN);
+        decorFront->draw(map->MapMulti->MAIN);
 
     // Particle Front
     for (ParticleEffect *particle_fx : map->ParticleFrontVec)
-        particle_fx->draw(map->MapPlayers->MAIN);
+        particle_fx->draw(map->MapMulti->MAIN);
 
     // ==== Developer mode put player above all ====
-    if (map->MapPlayers->MAIN->getGodmode())
-        map->MapPlayers->MAIN->draw_prop.draw();
+    if (map->MapMulti->MAIN->getGodmode())
+        map->MapMulti->MAIN->draw_prop.draw();
 
     // Hud
-    map->MapPlayers->drawHuds();
+    map->MapMulti->drawHuds();
 
     // Black Screen
     if (map->MapWorld->map_transition)

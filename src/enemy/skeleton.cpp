@@ -110,7 +110,7 @@ void Skeleton::enemyAI(Map *map)
         };
     }
 
-    for (Player *player : map->MapPlayers->Players)
+    for (Player *player : map->MapMulti->Players)
     {
         if (!attack_delay && !attack_state &&
             abs(player->getX() - getX()) < 150 && (

@@ -95,7 +95,7 @@ public:
     Audio *MapAudio;
     Input *MapInput;
     Collision *MapCollision;
-    Multiplayer *MapPlayers;
+    Multiplayer *MapMulti;
 
     string0D MapName = "";
     string0D MapDirectory = "";

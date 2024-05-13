@@ -117,6 +117,8 @@ public:
 		slash = {SDL_SCANCODE_SLASH, 0},
 		backslash = {SDL_SCANCODE_BACKSLASH, 0},
 
+		escape = {SDL_SCANCODE_ESCAPE, 0},
+
 		// Function Key
 		f1 = {SDL_SCANCODE_F1, 0},
 		f2 = {SDL_SCANCODE_F2, 0},
