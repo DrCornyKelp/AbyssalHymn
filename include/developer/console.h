@@ -89,7 +89,7 @@ public:
     char delimiter = '|';
     char comment_syntax = '#';
     // The console file
-    string0D cmd_main = "COMMAND.a";
+    string0D cmd_main = "player_data/COMMAND.a";
     World *world;
     Player *player;
     Collision *collision;
