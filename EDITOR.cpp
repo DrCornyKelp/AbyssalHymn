@@ -135,7 +135,7 @@ void Editor::blockEditor()
         }
 
         // Click manipulation
-        if (player->INPUT.mouse.L.state)
+        if (player->INPUT.mouse.L.click())
         { 
             player->INPUT.mouse.L.hold = 1;
             DragLast = {};
