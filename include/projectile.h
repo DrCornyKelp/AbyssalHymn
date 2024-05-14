@@ -26,6 +26,7 @@ private:
     float vel_parry_x = 0, vel_parry_y = 0;
 
     string0D proj_path;
+    SDL_Rect desRect, srcRect;
     SDL_Texture *proj_texture;
 
     // Fun but unnecessary

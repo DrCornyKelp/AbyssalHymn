@@ -43,6 +43,10 @@ void ParticleEffect::draw(Player *player)
                         Camera::objectDrawY(player, this),
                         getWidth(), getHeight()};
 
+    if (Camera::outOfBound(desRect) ||
+        Camera::outOfCam(player, this))
+        return;
+
     SDL_Rect srcRect = {getSprIndex() * getSprWidth(),
                         getSprRow() * getSprHeight(),
                         getSprWidth(), getSprHeight()};

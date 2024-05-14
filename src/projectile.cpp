@@ -186,9 +186,25 @@ void Projectile::projectileAction(Map *map)
 
 void Projectile::updateProjectile(Map *map)
 {
+    // Update Logic
     projectileAction(map);
     projectileCollision(map);
 
+    // Drawing properties
+    desRect = {
+        Camera::objectDrawX(map->MapMulti->MAIN, this),
+        Camera::objectDrawY(map->MapMulti->MAIN, this),
+        getWidth(), getHeight()
+    };
+
+    if (getSprIndexMax() > 0)
+        srcRect = {getSprIndex() * getWidth(), 0, getWidth(), getHeight()};
+    else
+        srcRect = {0, 0, getWidth(), getHeight()};
+
+    objectSetSprite();
+
+    // Bullet Died :(
     if (bullet_dead)
         map->appendParticle(new ParticleEffect(
             loadTexture("res/ParticleSheet/Explode.png"),
@@ -198,17 +214,10 @@ void Projectile::updateProjectile(Map *map)
 }
 
 void Projectile::draw(Player *player)
-{   
-    // Set animation
-    objectSetSprite();
-
-    // Draw
-    SDL_Rect desRect = {Camera::objectDrawX(player, this),
-                        Camera::objectDrawY(player, this),
-                        getWidth(), getHeight()};
-    SDL_Rect srcRect;
-    if (getSprIndexMax() > 0) srcRect = {getSprIndex() * getWidth(), 0, getWidth(), getHeight()};
-    else srcRect = {0, 0, getWidth(), getHeight()};
+{
+    if (Camera::outOfBound(desRect) ||
+        Camera::outOfCam(player, this))
+        return;
 
     SDL_RenderCopy(CFG->RENDERER, proj_texture, &srcRect, &desRect);
 }

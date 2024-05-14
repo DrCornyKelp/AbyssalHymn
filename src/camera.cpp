@@ -9,22 +9,8 @@ bool Camera::outOfBound(SDL_Rect desRect)
         desRect.y - desRect.h > CFG->HEIGHT;
 }
 
-bool Camera::renderIgnore(Player *player, Object2D *obj, bool camIndependent)
+bool Camera::outOfCam(Player *player, Object2D *obj)
 {
-    if (obj->getIgnore()) return true;
-
-    // Object outside of playable/usuable view
-    int colli_x = abs(
-        Object2D::distX(player, obj) - player->camera.offset.x
-    );
-    int colli_y = abs(
-        Object2D::distY(player, obj) - player->camera.offset.y
-    );
-
-    bool outside_window = 
-        colli_x - obj->getWidth() / 2 > CFG->WIDTH ||
-        colli_y - obj->getHeight() / 2 > CFG->HEIGHT;
-
     // Object outside of player cam border
 
     ObjectBox oBox = obj->getBox();
@@ -37,7 +23,7 @@ bool Camera::renderIgnore(Player *player, Object2D *obj, bool camIndependent)
         // Player Can "NOT" Render Outside Of Map Cam
         !player->camera.outside_render &&
         // For Specific use Case
-        !camIndependent && (
+    (
         // Box "NOT" Inside Cam
         (oBox.up > bBox.up && dBox.up) ||
         (oBox.down < bBox.down && dBox.down) ||
@@ -45,7 +31,7 @@ bool Camera::renderIgnore(Player *player, Object2D *obj, bool camIndependent)
         (oBox.left < bBox.left && dBox.left)
     );
 
-    return outside_window || outside_cam;
+    return outside_cam;
 }
 
 int Camera::objectDrawX(Player *player, Object2D *obj)

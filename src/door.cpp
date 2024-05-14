@@ -68,6 +68,10 @@ void Door::update(Map *map, Player *player)
 // Draw Door
 void Door::draw(Player *player)
 {
+    if (Camera::outOfBound(lockRect) ||
+        Camera::outOfCam(player, this))
+        return;
+
     // Draw Door
     SDL_RenderCopy(CFG->RENDERER, door_texture, NULL, &doorRect);
     // Draw Lock

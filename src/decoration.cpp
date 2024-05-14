@@ -106,7 +106,9 @@ void Decoration::draw(Player *player)
         getWidth(), getHeight()
     };
 
-    if (Camera::outOfBound(desRect)) return;
+    if (Camera::outOfBound(desRect) ||
+        Camera::outOfCam(player, this))
+        return;
 
     if (!getSprIndexMax())
         SDL_RenderCopy(CFG->RENDERER, decor_texture, NULL, &desRect);

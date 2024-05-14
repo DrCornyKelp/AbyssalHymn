@@ -198,8 +198,7 @@ void PlayerDrawProp::drawProperty(Map *map)
 
     player->setWidth(player->combat.weapon_equip ? 64 : 32);
 
-    // Update Rect
-    player->objectSetSprite(end_lock);
+    // Update Draw Properties
     desRect = {
         Camera::objectDrawX(player->MULTI->MAIN, player) - player->getWidth()*3/2,
         Camera::objectDrawY(player->MULTI->MAIN, player) - player->getWidth()*2,
@@ -210,6 +209,8 @@ void PlayerDrawProp::drawProperty(Map *map)
         index * player->getWidth(),
         player->getWidth(), player->getWidth()
     };
+
+    player->objectSetSprite(end_lock);
 
     if (!player->combat.invulnerable)
         SDL_SetTextureAlphaMod(CurrentTexture, 255);

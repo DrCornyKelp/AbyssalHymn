@@ -298,6 +298,7 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
 
 void Block::draw(Player *player)
 {
+    // NOT THE FINAL PRODUCT, DO NOT USE YET
     if (getAccelX() || getAccelY() ||
         getVelX() || getVelY())
     {
@@ -309,6 +310,8 @@ void Block::draw(Player *player)
 
     int drawX = Camera::objectDrawX(player, this);
     int drawY = Camera::objectDrawY(player, this);
+
+    if (Camera::outOfCam(player, this)) goto highlight;
 
     // Draw
     for (int i = 0; i < block_textures.size(); i++)
@@ -328,6 +331,8 @@ void Block::draw(Player *player)
 
         SDL_RenderCopy(CFG->RENDERER, block_textures[i][j], NULL, &desRect);        
     }
+
+    highlight:
 
     // Highlighter
     if (highlight)
