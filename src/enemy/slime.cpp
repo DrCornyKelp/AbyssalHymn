@@ -23,9 +23,6 @@ void Slime::initEnemy()
 
 void Slime::draw(Player *player)
 {
-    // Outside seeable? unrender
-    if (Camera::renderIgnore(player, this))
-        return;
     // Frame index shitty bang bang stuff handler
     objectSetSprite();
 

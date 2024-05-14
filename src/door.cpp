@@ -53,28 +53,25 @@ void Door::update(Map *map, Player *player)
     }
 
     // Update Rect
-    desRect = {
+    doorRect = {
         Camera::objectDrawX(player, this),
         Camera::objectDrawY(player, this),
         64, 128
+    };
+    lockRect = {
+        Camera::objectDrawX(player, this) - 32,
+        Camera::objectDrawY(player, this),
+        128, 128
     };
 }
 
 // Draw Door
 void Door::draw(Player *player)
 {
-    // Outside seeable? unrender
-    if (Camera::renderIgnore(player, this) ||
-        style < 0) return;
-
-
-    SDL_RenderCopy(CFG->RENDERER, door_texture, NULL, &desRect);
-
+    // Draw Door
+    SDL_RenderCopy(CFG->RENDERER, door_texture, NULL, &doorRect);
     // Draw Lock
     if (!need_star) return;
-    SDL_Rect lockRect = {Camera::objectDrawX(player, this) - 32,
-                        Camera::objectDrawY(player, this),
-                        128, 128};
     SDL_RenderCopy(CFG->RENDERER, lock_texture, NULL, &lockRect);
 }
 

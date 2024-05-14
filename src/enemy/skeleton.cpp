@@ -33,9 +33,6 @@ void Skeleton::initEnemy()
 
 void Skeleton::draw(Player *player)
 {
-    // Outside seeable? unrender
-    if (Camera::renderIgnore(player, this))
-        return;
     // Frame index shitty bang bang stuff handler
     objectSetSprite( getInvinTime() > 80 && !attack_state );
 

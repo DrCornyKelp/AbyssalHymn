@@ -307,16 +307,6 @@ void Block::draw(Player *player)
     else
         isMoving = false;
 
-    if (Camera::renderIgnore(player, this))
-        return;
-
-    int center_off_x = distX(player, this) 
-                    - player->camera.offset.x
-                    + getWidth() / 2;
-    int center_off_y = distY(player, this)
-                    - player->camera.offset.y
-                    - getHeight() / 2;
-
     int drawX = Camera::objectDrawX(player, this);
     int drawY = Camera::objectDrawY(player, this);
 
@@ -324,19 +314,17 @@ void Block::draw(Player *player)
     for (int i = 0; i < block_textures.size(); i++)
     for (int j = 0; j < block_textures[i].size(); j++)
     {
-        // If a grid x grid texture is out of bound
-        // Ignore the rendering process
-        int colli_x = abs(center_off_x - j*grid);
-        int colli_y = abs(center_off_y + i*grid);
+        SDL_Rect desRect = {
+            drawX + j*grid, drawY + i*grid, grid, grid
+        };
+
+        // Empty block or outside => No render
         if (block_indexs[i][j] == -1 ||
-            colli_x - grid / 2 > CFG->WIDTH ||
-            colli_y - grid / 2 > CFG->HEIGHT)
+            Camera::outOfBound(desRect))
             continue;
 
         if (type == -1)
             SDL_SetTextureAlphaMod(block_textures[i][j], seeAlpha);
-
-        SDL_Rect desRect = {drawX + j*grid, drawY + i*grid, grid, grid};
 
         SDL_RenderCopy(CFG->RENDERER, block_textures[i][j], NULL, &desRect);        
     }

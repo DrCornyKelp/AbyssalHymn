@@ -90,9 +90,6 @@ void Decoration::setAlpha(int a)
 
 void Decoration::draw(Player *player)
 {
-    // Only render if box is in sight
-    if (!absolute && Camera::renderIgnore(player, this))
-        return;
     // Frame index shitty bang bang stuff handler
     objectSetSprite();
 
@@ -108,6 +105,8 @@ void Decoration::draw(Player *player)
         Camera::objectDrawY(player, this),
         getWidth(), getHeight()
     };
+
+    if (Camera::outOfBound(desRect)) return;
 
     if (!getSprIndexMax())
         SDL_RenderCopy(CFG->RENDERER, decor_texture, NULL, &desRect);

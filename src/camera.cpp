@@ -1,5 +1,14 @@
 #include <multiplayer.h>
 
+bool Camera::outOfBound(SDL_Rect desRect)
+{
+    return
+        desRect.x + desRect.w < 0 ||
+        desRect.x - desRect.w > CFG->WIDTH ||
+        desRect.y + desRect.h < 0 ||
+        desRect.y - desRect.h > CFG->HEIGHT;
+}
+
 bool Camera::renderIgnore(Player *player, Object2D *obj, bool camIndependent)
 {
     if (obj->getIgnore()) return true;

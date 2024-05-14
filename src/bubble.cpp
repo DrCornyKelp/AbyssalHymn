@@ -73,7 +73,7 @@ Bubble::Bubble( string0D bPath, ObjectHitbox bHitbox,
 
 void Bubble::update(Multiplayer *multi)
 {
-    // Missing Bubble
+    // Fill Missing Bubble
     if (bubble_objs.size() > multi->PlayerCount)
     {
         SDL_DestroyTexture(bubble_objs.back().texture);

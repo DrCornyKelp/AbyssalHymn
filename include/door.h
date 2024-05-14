@@ -39,7 +39,7 @@ private:
     int need_star = 0;
     int lock_alpha = 0;
 
-    SDL_Rect desRect;
+    SDL_Rect doorRect, lockRect;
     SDL_Texture *door_texture, *lock_texture;
 
 public:
