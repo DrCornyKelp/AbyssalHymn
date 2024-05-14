@@ -512,9 +512,7 @@ void Console::readFile(Map *map, string0D cmd_file)
         line.erase(std::remove(line.begin(), line.end(), ' '), line.end());
 
         // Empty or Comment => Skip
-        if (line.empty() ||
-            line.back() == comment_syntax ||
-            line[0] == comment_syntax) continue;
+        if (CFG->isComment(line)) continue;
         // End the Console Command
         if (line == "Break") break;
 
@@ -527,9 +525,9 @@ void Console::readFile(Map *map, string0D cmd_file)
 
 void Console::update()
 {
-    if (player->INPUT.slash.press())
+    if (player->INPUT.backslash.press())
     {
-        player->INPUT.slash.hold = 1;
+        player->INPUT.backslash.hold = 1;
         readFile(world->MapCurrent, cmd_main);
     };
 }
