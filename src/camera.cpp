@@ -4,6 +4,7 @@ bool Camera::renderIgnore(Player *player, Object2D *obj, bool camIndependent)
 {
     if (obj->getIgnore()) return true;
 
+    // Object outside of playable/usuable view
     int colli_x = abs(
         Object2D::distX(player, obj) - player->camera.offset.x
     );
@@ -11,16 +12,16 @@ bool Camera::renderIgnore(Player *player, Object2D *obj, bool camIndependent)
         Object2D::distY(player, obj) - player->camera.offset.y
     );
 
-    // Object outside of playable/usuable view
     bool outside_window = 
-        colli_x - obj->getWidth() / 2 > CFG->WIDTH / 1.5 ||
-        colli_y - obj->getHeight() / 2 > CFG->HEIGHT / 1.5;
+        colli_x - obj->getWidth() / 2 > CFG->WIDTH ||
+        colli_y - obj->getHeight() / 2 > CFG->HEIGHT;
+
+    // Object outside of player cam border
 
     ObjectBox oBox = obj->getBox();
     ObjectBox bBox = player->camera.focus_border;
     ObjectBox dBox = player->camera.focus_dir;
 
-    // Object outside of player cam border
     bool outside_cam = 
         // Object Must "NOT" Depend On Map Cam
         obj->getCamDepend() &&
@@ -55,18 +56,4 @@ int Camera::objectDrawY(Player *player, Object2D *obj)
     return (player->camera.unfocus.y ?
             CFG->HEIGHT/2 - obj->getY() + player->camera.unfocus_offset.y - obj->getHeight()/2 :
             CFG->HEIGHT/2 - dist_y - player->camera.offset.y - obj->getHeight()/2);
-}
-
-int Camera::playerDrawX(Player *player, int W)
-{
-    return  CFG->WIDTH/2
-            + player->camera.offset.x
-            - W/2;
-}
-
-int Camera::playerDrawY(Player *player, int H)
-{
-    return  CFG->HEIGHT/2
-            - player->camera.offset.y
-            - H/2;
 }

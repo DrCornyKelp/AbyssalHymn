@@ -14,9 +14,6 @@ public:
     // For drawing object relative to player
     static int objectDrawX(Player *player, Object2D *obj);
     static int objectDrawY(Player *player, Object2D *obj);
-    // For drawing object on top of player
-    static int playerDrawX(Player *player, int W);
-    static int playerDrawY(Player *player, int H);
 };
 
 #endif

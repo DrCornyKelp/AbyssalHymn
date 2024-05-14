@@ -52,7 +52,7 @@ void Renderer::renderGameplay(Map *map)
 
     // Bubble Dialouge
     for (Bubble *bubble : map->BubbleVec)
-        bubble->draw(map->MapMulti->MAIN);
+        bubble->draw(map->MapMulti);
 
     // Front Decor
     for (Decoration *decorFront : map->DecorFrontVec)

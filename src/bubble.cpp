@@ -1,75 +1,104 @@
 #include <map.h>
 
+// ================================ BUBBLE STYLE ================================ 
+
 float BubbleStyle::alphaRatio()
 { return 1 - curAlpha/maxAlpha; }
 
-Bubble::~Bubble() { SDL_DestroyTexture(bubble_texture); }
+// ================================ BUBBLE OBJECT ================================ 
+
+void BubbleObject::update(Bubble *bubble, Player *player)
+{
+    // Update Bubble Transparency
+    if (player->insideGridBox(bubble->active_box))
+    {
+        if (style.curAlpha < style.maxAlpha)
+            style.curAlpha += 5;
+
+        SDL_SetTextureAlphaMod(texture, style.curAlpha);
+    }
+    else if (style.curAlpha > 0)
+    {
+        style.curAlpha -= 5;
+        SDL_SetTextureAlphaMod(texture, style.curAlpha);
+    }
+
+    // Update Bubble Offset
+    style.curOffX = style.alphaRatio() * style.maxOffX;
+    style.curOffY = style.alphaRatio() * style.maxOffY;
+
+    int b_w = bubble->getWidth();
+    int b_h = bubble->getHeight();
+
+    // Update Rect
+    switch (bubble->type)
+    {
+    default:
+    case 0: desRect = {
+        Camera::objectDrawX(player->MULTI->MAIN, bubble) + style.curOffX,
+        Camera::objectDrawY(player, bubble) - style.curOffY,
+        b_w, b_h
+    }; break;
+
+    case 1: desRect = {
+        Camera::objectDrawX(player->MULTI->MAIN, player) - b_w/2 + style.maxOffX,
+        Camera::objectDrawY(player->MULTI->MAIN, player) - b_h/2 - style.maxOffY,
+        b_w, b_h
+    }; break;
+
+    case 2: desRect = {
+        int(bubble->getX() + style.curOffX),
+        int(bubble->getY() - style.curOffY),
+        b_w, b_h
+    }; break;
+    }
+}
+
+void BubbleObject::draw(Player *player)
+{ SDL_RenderCopy(CFG->RENDERER, texture, NULL, &desRect); }
+
+// ================================ BUBBLE ================================ 
+
+Bubble::~Bubble() { 
+    for (BubbleObject b_obj : bubble_objs)
+        SDL_DestroyTexture(b_obj.texture);
+}
 Bubble::Bubble( string0D bPath, ObjectHitbox bHitbox,
                 ObjectBox bActivebox, BubbleStyle bStyle,
                 short type, int grid ) :
     Object2D(bHitbox.hitboxGrid(grid)),
-    b_active_box(bActivebox), b_type(type),
-    bubble_path(bPath), b_style(bStyle)
+    active_box(bActivebox), type(type),
+    bubble_path(bPath), style(bStyle)
 {}
 
-void Bubble::initBubble()
+void Bubble::update(Multiplayer *multi)
 {
-    bubble_texture = loadTexture(bubble_path);
-    SDL_SetTextureAlphaMod(bubble_texture, 0);
+    // Missing Bubble
+    if (bubble_objs.size() > multi->PlayerCount)
+    {
+        SDL_DestroyTexture(bubble_objs.back().texture);
+        bubble_objs.pop_back();
+        return;
+    }
+    if (bubble_objs.size() < multi->PlayerCount)
+    {
+        SDL_Texture *texture = loadTexture(bubble_path);
+        SDL_SetTextureAlphaMod(texture, 0);
+        bubble_objs.push_back({texture, style});
+        return;
+    }
+
+    // Seperate Bubble for Seperate Player
+    for (int i = 0; i < multi->PlayerCount; i++)
+        bubble_objs[i].update(this, multi->Players[i]);
 }
 
-void Bubble::updateBubble(Map *map, Player *player)
+void Bubble::draw(Multiplayer *multi)
 {
-    // Update Bubble Transparency
-    if (map->MapActive &&
-        player->insideGridBox(b_active_box))
-    {
-        if (b_style.curAlpha < b_style.maxAlpha)
-            b_style.curAlpha += 5;
+    if (bubble_objs.size() != multi->PlayerCount) return;
 
-        SDL_SetTextureAlphaMod(bubble_texture, b_style.curAlpha);
-    }
-    else if (b_style.curAlpha > 0)
-    {
-        b_style.curAlpha -= 5;
-        SDL_SetTextureAlphaMod(bubble_texture, b_style.curAlpha);
-    }
-
-    // Update Bubble Offset
-    b_style.curOffX = b_style.alphaRatio() * b_style.maxOffX;
-    b_style.curOffY = b_style.alphaRatio() * b_style.maxOffY;
-}
-
-void Bubble::draw(Player *player)
-{
-    if (Camera::renderIgnore(player, this, 1) &&
-        !b_type == 2) return;
-
-    SDL_Rect desRect;
-
-    switch (b_type)
-    {
-    default:
-    case 0: desRect = {
-        Camera::objectDrawX(player, this) + b_style.curOffX,
-        Camera::objectDrawY(player, this) - b_style.curOffY,
-        getWidth(), getHeight()
-    }; break;
-
-    case 1: desRect = {
-        Camera::playerDrawX(player, getWidth()) + b_style.maxOffX,
-        Camera::playerDrawY(player, getHeight()) - b_style.maxOffY,
-        getWidth(), getHeight()
-    }; break;
-
-    case 2: desRect = {
-        int(getX() + b_style.curOffX),
-        int(getY() - b_style.curOffY),
-        getWidth(), getHeight()
-    }; break;
-    }
-
-    SDL_RenderCopy(CFG->RENDERER, bubble_texture, NULL, &desRect);
+    for (int i = 0; i < multi->PlayerCount; i++)
+        bubble_objs[i].draw(multi->Players[i]);
 }
 
 // ============================ FILE MANIPULATION ===================================
@@ -98,7 +127,6 @@ Bubble *Bubble::codeToBubbleInfo(string0D str)
     Bubble *bubble = new Bubble(
         bPath, bHitbox, bActivebox, bStyle, std::stoi(type)
     );
-    bubble->initBubble();
     return bubble;
 }
 

@@ -4,6 +4,9 @@
 #include <object2D.h>
 
 #define Bubble1D std::vector<Bubble*>
+#define BubbleObject1D std::vector<BubbleObject>
+
+class Bubble;
 
 struct BubbleStyle
 {
@@ -22,32 +25,38 @@ struct BubbleStyle
 // The reason for the existance of BubbleObject is because
 struct BubbleObject
 {
+    SDL_Texture *texture;
+    BubbleStyle style;
 
+    SDL_Rect desRect;
+
+    // ~BubbleObject();
+    // == Update ==
+    void update(Bubble *bubble, Player *player);
+    void draw(Player *player);
 };
 
 class Map;
 class Player;
+class Multiplayer;
 class Bubble : public Object2D
 {
 private:
     string0D bubble_path;
-    SDL_Texture *bubble_texture;
-
-    short b_type;
-    ObjectBox b_active_box;
-    BubbleStyle b_style;
+    BubbleObject1D bubble_objs;
 
 public:
+    short type;
+    BubbleStyle style;
+    ObjectBox active_box;
+
     ~Bubble();
     Bubble( string0D bPath, ObjectHitbox bHitbox,
             ObjectBox bActivebox, BubbleStyle bStyle,
             short type = 0, int grid = 64 );
-    // == Init ==
-    void initBubble();
-    // == Update ==
-    void updateBubble(Map *map, Player *player);
-    // == Draw ==
-    void draw(Player *player);
+
+    void update(Multiplayer *multi);
+    void draw(Multiplayer *multi);
 
     // File Manip
     static Bubble *codeToBubbleInfo(string0D str);

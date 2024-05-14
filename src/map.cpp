@@ -272,12 +272,6 @@ void Map::updateMapGlobal()
 
     // ====================== UPDATE SEETHOUGH BLOCK ===================
 
-    for (Player *player : MapMulti->Players)
-    {
-        for (Bubble *bubble : BubbleVec)
-            bubble->updateBubble(this, player);
-    }
-
     for (Block1D blockSection : BlockHiddenVec)
     {
         bool seethru = 0;
@@ -328,6 +322,11 @@ void Map::updateMapActive()
             break;
         }
     }
+
+    // Component has function distinct from other component
+    // (It has other player logic in mind)
+    for (Bubble *bubble : BubbleVec)
+        bubble->update(MapMulti);
 
     // ====================== UPDATE ENEMIES ===========================
     for (Enemy *enemy : EnemyVec) enemy->updateEnemy(this);
