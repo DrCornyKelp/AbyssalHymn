@@ -309,6 +309,7 @@ void Map::updateMapActive()
 
     // ================= Update Player ===================================
     MapMulti->update(this);
+
     // ================= Update Component logic for each Player ==========
     for (Player *player : MapMulti->Players)
     {
