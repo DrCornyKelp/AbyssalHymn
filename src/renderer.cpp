@@ -2,9 +2,7 @@
 
 void Renderer::renderGameplay(Map *map)
 {
-    // ===================== DRAW ============================
-
-    // Background Color
+    // Background Color / Clear Render for next drawing iteration
     SDL_SetRenderDrawColor(CFG->RENDERER,
         map->MapColor.R, map->MapColor.G, map->MapColor.B,
     255);

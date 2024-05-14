@@ -26,11 +26,9 @@ private:
     string0D decor_path;
     string0D decor_frame = "";
 
-    SDL_Rect desRect;
+    SDL_Rect desRect, src_rect;
     SDL_Texture *decor_texture;
     SDLTexture1D decor_textures;
-
-    SDL_Rect desRect, src_rect;
 
     float   w_h_ratio = 1;
     float   add_x = 0;

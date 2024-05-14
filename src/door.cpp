@@ -52,7 +52,7 @@ void Door::update(Map *map, Player *player)
         map->MapWorld->setTransit(location);
     }
 
-    drawProp(player);
+    if (player->MAIN) drawProp(player);
 }
 
 // Draw Door

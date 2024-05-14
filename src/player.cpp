@@ -936,6 +936,7 @@ void Player::setStatic()
 {   
     // Reset Sprite State
     setSprFrame(0); setSprIndex(0);
+    objectSetSprite(0);
     // Reset Movement
     setVelX(0); setVelY(0);
     move.crawl = 0;
