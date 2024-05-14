@@ -8,10 +8,9 @@
 #define ObjectBox2D std::vector<ObjectBox1D>
 #define ObjectBox3D std::vector<ObjectBox2D>
 
-struct ObjectXY
-{ int x = 0, y = 0; };
-struct ObjectXYf
-{ float x = 0, y = 0; };
+struct ObjectXY { int x = 0, y = 0; };
+struct ObjectXYb { bool x = 0, y = 0; };
+struct ObjectXYf { float x = 0, y = 0; };
 struct ObjectHitbox
 {
     float x = 0, y = 0;

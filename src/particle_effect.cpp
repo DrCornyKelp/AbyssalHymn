@@ -30,6 +30,9 @@ bool ParticleEffect::getIsGone() { return is_gone; }
 
 void ParticleEffect::drawProp(Player *player)
 {
+    if (objectSetSprite() && !can_repeat)
+    { is_gone = true; return; }
+
     desRect = {
         Camera::objectDrawX(player, this),
         Camera::objectDrawY(player, this),
@@ -40,9 +43,6 @@ void ParticleEffect::drawProp(Player *player)
         getSprRow() * getSprHeight(),
         getSprWidth(), getSprHeight()
     };
-
-    if (objectSetSprite() && !can_repeat)
-    { is_gone = true; return; }
 }
 
 void ParticleEffect::draw(Player *player)

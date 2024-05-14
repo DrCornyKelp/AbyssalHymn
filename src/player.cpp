@@ -199,6 +199,9 @@ void PlayerDrawProp::drawProperty(Map *map)
     player->setWidth(player->combat.weapon_equip ? 64 : 32);
 
     // Update Draw Properties
+    
+    player->objectSetSprite(end_lock);
+
     desRect = {
         Camera::objectDrawX(player->MULTI->MAIN, player) - player->getWidth()*3/2,
         Camera::objectDrawY(player->MULTI->MAIN, player) - player->getWidth()*2,
@@ -209,8 +212,6 @@ void PlayerDrawProp::drawProperty(Map *map)
         index * player->getWidth(),
         player->getWidth(), player->getWidth()
     };
-
-    player->objectSetSprite(end_lock);
 
     if (!player->combat.invulnerable)
         SDL_SetTextureAlphaMod(CurrentTexture, 255);
@@ -225,9 +226,11 @@ void PlayerDrawProp::draw()
 
 void PlayerCamera::resetCamera()
 {
-    ease_x = 0; ease_y = 0;
-    effect_x = 0; effect_y = 0;
     mid.x = 0; mid.y = 0;
+    ease.x = 0; ease.y = 0;
+    effect.x = 0; effect.y = 0;
+    offset.x = 0; offset.y = 0;
+    unfocus.x = 0; unfocus.y = 0;
 }
 
 void PlayerCamera::setCameraBorder(ObjectBox f_dir, ObjectBox f_val)
@@ -270,13 +273,6 @@ void PlayerCamera::setCameraBorder(ObjectBox f_dir, ObjectBox f_val)
 void PlayerCamera::setCameraFocus(ObjectBox f_dir, ObjectBox f_val, short gr)
 { focus_dir = f_dir; focus_point = f_val; focus_point.grid(gr); }
 
-// Camera Shift
-ObjectXY PlayerCamera::getShift() {
-    return {
-        int(ease_x + effect_x),
-        int(ease_y + effect_y)
-    };
-}
 // Center Offset
 ObjectXY PlayerCamera::getCenterOffset() {
     ObjectXY center_off = {0, 0};
@@ -299,6 +295,13 @@ ObjectXYf PlayerCamera::getFocusTrigger() {
     return {
         player->getX() - shift.x - center_off.x,
         player->getY() - shift.y - center_off.y
+    };
+}
+// Camera Shift
+ObjectXYf PlayerCamera::getShift() {
+    return {
+        ease.x + effect.x,
+        ease.y + effect.y
     };
 }
 
@@ -377,18 +380,10 @@ void PlayerCamera::playerCameraFocus()
 
 void PlayerCamera::playerCameraProperty()
 {
-    // Center The camera in the middle if godmode
-    if (player->getGodmode())
-    {
-        unfocus.x = 0;
-        unfocus.y = 0;
-        resetCamera();
-        return;
-    }
-    else playerCameraFocus();
+    playerCameraFocus();
 
     // Update the values
-    shift = getShift();
+    shift = getShift(); // Include effect + ease
     center_off = getCenterOffset();
     focus_trigger = getFocusTrigger();
     // Total offset from center
@@ -404,35 +399,35 @@ void PlayerCamera::playerCameraProperty()
                             (player->getVelX()>player->move.vel_max ?
                                 (player->getVelX() - player->move.vel_max)*64 : 0);
         // Damping / Easing effect X
-        if (player->draw_prop.right && ease_x > -ease_x_max)
-            ease_x -= abs(player->getVelX() / 5);
-        if (!player->draw_prop.right && ease_x < ease_x_max)
-            ease_x += abs(player->getVelX() / 5);
+        if (player->draw_prop.right && ease.x > -ease_x_max)
+            ease.x -= abs(player->getVelX() / 5);
+        if (!player->draw_prop.right && ease.x < ease_x_max)
+            ease.x += abs(player->getVelX() / 5);
         // Turn off easing effect
-        if (!player->getVelX() || abs(ease_x) > ease_x_max)
-            ease_x -= ease_x / 100;
+        if (!player->getVelX() || abs(ease.x) > ease_x_max)
+            ease.x -= ease.x / 100;
 
         // Dash Feel Faster
         if (player->g_dash.frame || player->a_dash.frame)
         {
-            if (abs(effect_x) < 64)
-                effect_x += player->getVelX() > 0 ? -2 : 2;
+            if (abs(effect.x) < 64)
+                effect.x += player->getVelX() > 0 ? -2 : 2;
         }
-        else if (effect_x)
-            effect_x -= effect_x / 40;
+        else if (effect.x)
+            effect.x -= effect.x / 40;
     }
 
     if (!unfocus.y)
     {
         float ease_y_max =  (player->combat.weapon_equip ? 32 : 64);
         // Damping / Easing effect Y
-        if (ease_y > -ease_y_max && player->getVelY() > 0)
-            ease_y -= abs(player->getVelY() / 5);
-        if (ease_y < ease_y_max && player->getVelY() < 0)
-            ease_y += abs(player->getVelY() / 5);
+        if (ease.y > -ease_y_max && player->getVelY() > 0)
+            ease.y -= abs(player->getVelY() / 5);
+        if (ease.y < ease_y_max && player->getVelY() < 0)
+            ease.y += abs(player->getVelY() / 5);
         // Turn off easing effect
-        if (!player->getVelY() || abs(ease_y) > ease_y_max)
-            ease_y -= ease_y / 100;
+        if (!player->getVelY() || abs(ease.y) > ease_y_max)
+            ease.y -= ease.y / 100;
     }
 }
 
@@ -1070,8 +1065,6 @@ void Player::playerDeveloper(Map *map)
         grid = !grid;
     };
 }
-
-bool Player::getGodmode() { return godmode; }
 
 // ==== Note ====
 // Reason for the absence of player sprite in update

@@ -106,12 +106,16 @@ struct PlayerCamera
     Player *player;
 
     ObjectXY mid;
-    ObjectXY unfocus;
+    ObjectXYb unfocus;
     ObjectXY unfocus_offset;
-    ObjectXY shift;
     ObjectXY offset;
     ObjectXY center_off; // For >1 players
     ObjectXYf focus_trigger;
+
+    // Camera Shift Effect
+    ObjectXYf shift;
+    ObjectXYf ease;
+    ObjectXYf effect;
 
     // Goal Value
     ObjectBox focus_dir;
@@ -123,13 +127,7 @@ struct PlayerCamera
     int focus_speed = 4;
     bool focus_snap = 0;
 
-    // Camera Effect
-    float ease_x = 0;
-    float ease_y = 0;
-    float effect_x = 0;
-    float effect_y = 0;
-
-    ObjectXY getShift();
+    ObjectXYf getShift();
     ObjectXY getCenterOffset();
     ObjectXYf getFocusTrigger();
 
@@ -201,7 +199,7 @@ struct PlayerCombat
 
 class Player : public Object2D
 {
-private:
+public:
     // Elden ring
     int hp = 100;
     int hp_max = 100;
@@ -211,12 +209,8 @@ private:
     // ====== DEVELOPER VALUES ======
 
     bool grid = 0;
-    int grid_save_x = 0;
-    int grid_save_y = 0;
+    bool godmode = 0;
 
-    bool godmode = false;
-
-public:
     // ================== META ===================
     bool MAIN;
     int INDEX;
@@ -254,9 +248,7 @@ public:
     void playerGetHit(Map *map, int dmg);
     void playerUpdate(Map *map);
     void playerEnableAllMoveset();
-
     // Developer
-    bool getGodmode(); // Only needed in collision checking
     void playerDeveloper(Map *map);
 };
 

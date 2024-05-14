@@ -36,6 +36,7 @@ void Multiplayer::update(Map *map)
 
     // Update the camera for only MAIN player
     MAIN->camera.playerCameraProperty();
+    if (MAIN->godmode) MAIN->camera.resetCamera();
 
     // ===================== TESTING =======================
     if (MAIN->INPUT.f1.press())

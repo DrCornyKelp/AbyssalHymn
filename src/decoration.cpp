@@ -90,6 +90,8 @@ void Decoration::setAlpha(int a)
 
 void Decoration::drawProp(Player *player)
 {
+    objectSetSprite();
+
     if (absolute) desRect = {
         int(getX() - getWidth() / 2),
         int(getY() - getHeight() / 2),
@@ -100,8 +102,6 @@ void Decoration::drawProp(Player *player)
         Camera::objectDrawY(player, this),
         getWidth(), getHeight()
     };
-
-    objectSetSprite();
 }
 
 void Decoration::draw(Player *player)
