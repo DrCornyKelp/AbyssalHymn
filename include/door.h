@@ -54,6 +54,7 @@ public:
     int getStar();
 
     void update(Map *map, Player *player);
+    void drawProp(Player *player);
     void draw(Player *player);
 
     static Door *codeToDoorInfo(string0D str);

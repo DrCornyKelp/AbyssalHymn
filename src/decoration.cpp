@@ -88,13 +88,8 @@ void Decoration::setAlpha(int a)
     SDL_SetTextureAlphaMod(decor_texture, a);
 }
 
-void Decoration::draw(Player *player)
+void Decoration::drawProp(Player *player)
 {
-    // Frame index shitty bang bang stuff handler
-    objectSetSprite();
-
-    // Draw
-    SDL_Rect desRect;
     if (absolute) desRect = {
         int(getX() - getWidth() / 2),
         int(getY() - getHeight() / 2),
@@ -106,6 +101,11 @@ void Decoration::draw(Player *player)
         getWidth(), getHeight()
     };
 
+    objectSetSprite();
+}
+
+void Decoration::draw(Player *player)
+{
     if (Camera::outOfBound(desRect) ||
         Camera::outOfCam(player, this))
         return;

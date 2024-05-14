@@ -148,14 +148,13 @@ struct PlayerDrawProp
     int alpha = 255;
     bool end_lock = false;
 
-    SDL_Texture *CurrentTexture;
-    SDL_Texture *LeftTexture;
-    SDL_Texture *RightTexture;
-    SDL_Texture *LeftWeaponTexture;
-    SDL_Texture *RightWeaponTexture;
+    SDL_Texture *CurrentTexture,
+                *LeftTexture,
+                *RightTexture,
+                *LeftWeaponTexture,
+                *RightWeaponTexture;
 
-    SDL_Rect desRect;
-    SDL_Rect src_rect;
+    SDL_Rect desRect, src_rect;
 
     void clearTexture();
     void setSpriteAlpha(int alp);

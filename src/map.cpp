@@ -307,7 +307,9 @@ void Map::updateMapActive()
         return;
     };
 
+    // ================= Update Player ===================================
     MapMulti->update(this);
+    // ================= Update Component logic for each Player ==========
     for (Player *player : MapMulti->Players)
     {
         // Collision
@@ -324,15 +326,15 @@ void Map::updateMapActive()
         }
     }
 
-    // Component has function distinct from other component
+    // ==== Component that has function distinct from other component ======
     // (It has other player logic in mind)
+
     for (Bubble *bubble : BubbleVec)
         bubble->update(MapMulti);
 
-    // ====================== UPDATE ENEMIES ===========================
-    for (Enemy *enemy : EnemyVec) enemy->updateEnemy(this);
+    for (Enemy *enemy : EnemyVec)
+        enemy->updateEnemy(this);
 
-    // ====================== UPDATE PARALLAX BG =======================
     for (int i = 0; i < BackgroundVec.size(); i += 2)
     {
         BackgroundVec[i]->updateBackground(MapMulti->MAIN, 1);
@@ -347,6 +349,27 @@ void Map::updateMapActive()
         MapMulti->MAIN->camera.setCameraBorder({1, 1, 1, 1}, f_cam_box.cam);
         break;
     }
+
+    // ============== UPDATE DRAW PROPERTIES =================
+
+    /*
+        == [Draw Prop] ==
+
+        To make the drawing process even smoother, SDL_Rects used for
+        render will now be updated seperate from draw functions
+
+        Some Components have logic functions aside from drawing
+        (E.X: Block need collision logic) so drawProp() will be included
+        inside of those function instead of explicitly called down here
+    */
+    for (Decoration *background : DecorBackVec)
+        background->drawProp(MapMulti->MAIN);
+    for (Decoration *background : DecorFrontVec)
+        background->drawProp(MapMulti->MAIN);
+    for (ParticleEffect *particle_fx : ParticleBackVec)
+        particle_fx->drawProp(MapMulti->MAIN);
+    for (ParticleEffect *particle_fx : ParticleFrontVec)
+        particle_fx->drawProp(MapMulti->MAIN);
 }
 
 // ================== MAP ... IDK WHAT ALGORITHM =====================

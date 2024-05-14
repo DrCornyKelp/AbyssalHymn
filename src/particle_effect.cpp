@@ -28,28 +28,28 @@ ParticleEffect::ParticleEffect(
 
 bool ParticleEffect::getIsGone() { return is_gone; }
 
+void ParticleEffect::drawProp(Player *player)
+{
+    desRect = {
+        Camera::objectDrawX(player, this),
+        Camera::objectDrawY(player, this),
+        getWidth(), getHeight()
+    };
+    srcRect = {
+        getSprIndex() * getSprWidth(),
+        getSprRow() * getSprHeight(),
+        getSprWidth(), getSprHeight()
+    };
+
+    if (objectSetSprite() && !can_repeat)
+    { is_gone = true; return; }
+}
+
 void ParticleEffect::draw(Player *player)
 {
-    // Frame index shitty bang bang stuff handler
-    // (more advanced than the other ig)
-    if (objectSetSprite() && !can_repeat)
-    { 
-        is_gone = true;
-        return;
-    }
-
-    // Draw
-    SDL_Rect desRect = {Camera::objectDrawX(player, this),
-                        Camera::objectDrawY(player, this),
-                        getWidth(), getHeight()};
-
     if (Camera::outOfBound(desRect) ||
         Camera::outOfCam(player, this))
         return;
-
-    SDL_Rect srcRect = {getSprIndex() * getSprWidth(),
-                        getSprRow() * getSprHeight(),
-                        getSprWidth(), getSprHeight()};
 
     SDL_RenderCopy(CFG->RENDERER, pe_texture, &srcRect, &desRect);
 }

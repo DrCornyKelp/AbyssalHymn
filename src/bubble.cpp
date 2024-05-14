@@ -27,6 +27,12 @@ void BubbleObject::update(Bubble *bubble, Player *player)
     style.curOffX = style.alphaRatio() * style.maxOffX;
     style.curOffY = style.alphaRatio() * style.maxOffY;
 
+    // Update bubble draw Properties
+    drawProp(bubble, player);
+}
+
+void BubbleObject::drawProp(Bubble *bubble, Player *player)
+{
     int b_w = bubble->getWidth();
     int b_h = bubble->getHeight();
 
@@ -53,9 +59,13 @@ void BubbleObject::update(Bubble *bubble, Player *player)
     }; break;
     }
 }
-
 void BubbleObject::draw(Player *player)
-{ SDL_RenderCopy(CFG->RENDERER, texture, NULL, &desRect); }
+{ 
+    if (Camera::outOfBound(desRect))
+        return;
+
+    SDL_RenderCopy(CFG->RENDERER, texture, NULL, &desRect);
+}
 
 // ================================ BUBBLE ================================ 
 

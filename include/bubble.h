@@ -33,6 +33,7 @@ struct BubbleObject
     // ~BubbleObject();
     // == Update ==
     void update(Bubble *bubble, Player *player);
+    void drawProp(Bubble *bubble, Player *player);
     void draw(Player *player);
 };
 

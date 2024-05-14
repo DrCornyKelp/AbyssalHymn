@@ -2,7 +2,7 @@
 
 void Renderer::renderGameplay(Map *map)
 {
-    // ============== Performance unintensive (kinda) =================
+    // ===================== DRAW ============================
 
     // Background Color
     SDL_SetRenderDrawColor(CFG->RENDERER,

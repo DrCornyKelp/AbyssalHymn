@@ -26,6 +26,7 @@ private:
     string0D decor_path;
     string0D decor_frame = "";
 
+    SDL_Rect desRect;
     SDL_Texture *decor_texture;
     SDLTexture1D decor_textures;
 
@@ -58,6 +59,7 @@ public:
     void initDecoration();
 
     // Decoration
+    void drawProp(Player *player);
     void draw(Player *player);
     // Background
     void updateBackground(Player *player, bool left_prlx = 0);

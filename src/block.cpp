@@ -317,9 +317,7 @@ void Block::draw(Player *player)
     for (int i = 0; i < block_textures.size(); i++)
     for (int j = 0; j < block_textures[i].size(); j++)
     {
-        SDL_Rect desRect = {
-            drawX + j*grid, drawY + i*grid, grid, grid
-        };
+        SDL_Rect desRect = {drawX + j*grid, drawY + i*grid, grid, grid};
 
         // Empty block or outside => No render
         if (block_indexs[i][j] == -1 ||

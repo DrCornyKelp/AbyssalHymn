@@ -12,6 +12,7 @@ private:
     bool is_gone = false;
     bool can_repeat = false;
 
+    SDL_Rect desRect, srcRect;
     SDL_Texture *pe_texture;
 
 public:
@@ -26,6 +27,7 @@ public:
                     bool repeat);
     bool getIsGone();
 
+    void drawProp(Player *player);
     void draw(Player *player);
 };
 

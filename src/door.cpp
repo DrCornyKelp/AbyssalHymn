@@ -52,6 +52,12 @@ void Door::update(Map *map, Player *player)
         map->MapWorld->setTransit(location);
     }
 
+    drawProp(player);
+}
+
+// Draw Door
+void Door::drawProp(Player *player)
+{
     // Update Rect
     doorRect = {
         Camera::objectDrawX(player, this),
@@ -64,8 +70,6 @@ void Door::update(Map *map, Player *player)
         128, 128
     };
 }
-
-// Draw Door
 void Door::draw(Player *player)
 {
     if (Camera::outOfBound(lockRect) ||
