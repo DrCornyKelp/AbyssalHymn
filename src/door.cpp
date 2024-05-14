@@ -38,7 +38,7 @@ void Door::setStar(int star) { need_star = star; }
 int Door::getStar() { return need_star; }
 
 // Enter the door
-void Door::enterDoor(Map *map, Player *player)
+void Door::update(Map *map, Player *player)
 {
     if (Collision::playerCollision(player, this) &&
         player->state.on_ground &&
@@ -51,6 +51,13 @@ void Door::enterDoor(Map *map, Player *player)
         player->INPUT.moveU.hold = 1;
         map->MapWorld->setTransit(location);
     }
+
+    // Update Rect
+    desRect = {
+        Camera::objectDrawX(player, this),
+        Camera::objectDrawY(player, this),
+        64, 128
+    };
 }
 
 // Draw Door
@@ -60,11 +67,8 @@ void Door::draw(Player *player)
     if (Camera::renderIgnore(player, this) ||
         style < 0) return;
 
-    // Draw Door
-    SDL_Rect doorRect = {Camera::objectDrawX(player, this),
-                        Camera::objectDrawY(player, this),
-                        64, 128};
-    SDL_RenderCopy(CFG->RENDERER, door_texture, NULL, &doorRect);
+
+    SDL_RenderCopy(CFG->RENDERER, door_texture, NULL, &desRect);
 
     // Draw Lock
     if (!need_star) return;

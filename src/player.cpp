@@ -200,7 +200,7 @@ void PlayerDrawProp::drawProperty(Map *map)
 
     // Update Rect
     player->objectSetSprite(end_lock);
-    des_rect = {
+    desRect = {
         Camera::objectDrawX(player->MULTI->MAIN, player) - player->getWidth()*3/2,
         Camera::objectDrawY(player->MULTI->MAIN, player) - player->getWidth()*2,
         player->getWidth()*4, player->getWidth()*4
@@ -217,7 +217,7 @@ void PlayerDrawProp::drawProperty(Map *map)
 
 void PlayerDrawProp::draw()
 {
-    SDL_RenderCopy(CFG->RENDERER, CurrentTexture, &src_rect, &des_rect);
+    SDL_RenderCopy(CFG->RENDERER, CurrentTexture, &src_rect, &desRect);
 }
 
 // ============================ PLAYER CAMERA ============================

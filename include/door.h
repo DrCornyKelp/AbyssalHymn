@@ -39,6 +39,7 @@ private:
     int need_star = 0;
     int lock_alpha = 0;
 
+    SDL_Rect desRect;
     SDL_Texture *door_texture, *lock_texture;
 
 public:
@@ -52,7 +53,7 @@ public:
     void setStar(int star);
     int getStar();
 
-    void enterDoor(Map *map, Player *player);
+    void update(Map *map, Player *player);
     void draw(Player *player);
 
     static Door *codeToDoorInfo(string0D str);

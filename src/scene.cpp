@@ -90,13 +90,13 @@ void Scene::renderMainMenu()
 
     // Play button
     src_rect = {(pressed && menu_counter == 0) * 222, 0, 222, 108};
-    des_rect = {275, 275, 222, 108};
-    SDL_RenderCopy(CFG->RENDERER, menu_counter == 0 ? button_high_sheet : button_sheet, &src_rect, &des_rect);
+    desRect = {275, 275, 222, 108};
+    SDL_RenderCopy(CFG->RENDERER, menu_counter == 0 ? button_high_sheet : button_sheet, &src_rect, &desRect);
 
     // Exit button
     src_rect = {(pressed && menu_counter == 1) * 222, 108, 222, 108};
-    des_rect = {275, 400, 222, 108};
-    SDL_RenderCopy(CFG->RENDERER, menu_counter == 1 ? button_high_sheet : button_sheet, &src_rect, &des_rect);
+    desRect = {275, 400, 222, 108};
+    SDL_RenderCopy(CFG->RENDERER, menu_counter == 1 ? button_high_sheet : button_sheet, &src_rect, &desRect);
 }
 
 void Scene::renderPauseMenu()
@@ -106,16 +106,16 @@ void Scene::renderPauseMenu()
 
     // Continue button
     src_rect = {(pressed && menu_counter == 0) * 222, 216, 222, 108};
-    des_rect = {529, 300, 222, 108};
-    SDL_RenderCopy(CFG->RENDERER, menu_counter == 0 ? button_high_sheet : button_sheet, &src_rect, &des_rect);
+    desRect = {529, 300, 222, 108};
+    SDL_RenderCopy(CFG->RENDERER, menu_counter == 0 ? button_high_sheet : button_sheet, &src_rect, &desRect);
 
     // Exit to main menu
     src_rect = {(pressed && menu_counter == 1) * 222, 324, 222, 108};
-    des_rect = {529, 425, 222, 108};
-    SDL_RenderCopy(CFG->RENDERER, menu_counter == 1 ? button_high_sheet : button_sheet, &src_rect, &des_rect);
+    desRect = {529, 425, 222, 108};
+    SDL_RenderCopy(CFG->RENDERER, menu_counter == 1 ? button_high_sheet : button_sheet, &src_rect, &desRect);
 
     // Exit game
     src_rect = {(pressed && menu_counter == 2) * 222, 108, 222, 108};
-    des_rect = {529, 550, 222, 108};
-    SDL_RenderCopy(CFG->RENDERER, menu_counter == 2 ? button_high_sheet : button_sheet, &src_rect, &des_rect);
+    desRect = {529, 550, 222, 108};
+    SDL_RenderCopy(CFG->RENDERER, menu_counter == 2 ? button_high_sheet : button_sheet, &src_rect, &desRect);
 }

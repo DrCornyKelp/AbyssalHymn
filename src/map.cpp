@@ -313,7 +313,8 @@ void Map::updateMapActive()
         // Collision
         MapCollision->playerUpdateCollision(this, player);
         // Door
-        for (Door *door : DoorVec) door->enterDoor(this, player);
+        for (Door *door : DoorVec)
+            door->update(this, player);
         // Map Transitor
         for (MapTransit m_trans : TransitMap)
         if (player->insideGridBox(m_trans.box))

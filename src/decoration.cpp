@@ -169,7 +169,7 @@ void Decoration::updateBackground(Player *player, bool left_prlx)
         ));
 
     // Update Rect
-    des_rect = {
+    desRect = {
         int(getX() - getWidth() / 2),
         int(getY() - getHeight() / 2),
         getWidth(), getHeight()
@@ -178,7 +178,7 @@ void Decoration::updateBackground(Player *player, bool left_prlx)
 
 void Decoration::drawBackground()
 {
-    SDL_RenderCopy(CFG->RENDERER, decor_texture, NULL, &des_rect);
+    SDL_RenderCopy(CFG->RENDERER, decor_texture, NULL, &desRect);
 }
 
 // ============================ FILE MANIPULATION ===================================

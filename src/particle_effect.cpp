@@ -3,6 +3,7 @@
 
 ParticleEffect::~ParticleEffect()
 { SDL_DestroyTexture(pe_texture); }
+
 ParticleEffect::ParticleEffect(
     SDL_Texture *peTxture,
     float X, float Y, int w, int h, // Box
@@ -13,6 +14,7 @@ ParticleEffect::ParticleEffect(
     pe_texture(peTxture),
     can_repeat(repeat)
 {}
+
 ParticleEffect::ParticleEffect(
     SDL_Texture *peTxture,
     float X, float Y, int w, int h, // Box
@@ -28,13 +30,13 @@ bool ParticleEffect::getIsGone() { return is_gone; }
 
 void ParticleEffect::draw(Player *player)
 {
-    // Outside seeable? unrender
-    if (Camera::renderIgnore(player, this, true)) return;
-
     // Frame index shitty bang bang stuff handler
     // (more advanced than the other ig)
     if (objectSetSprite() && !can_repeat)
-    { is_gone = true; return; }
+    { 
+        is_gone = true;
+        return;
+    }
 
     // Draw
     SDL_Rect desRect = {Camera::objectDrawX(player, this),
