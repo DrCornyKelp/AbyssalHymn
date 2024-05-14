@@ -935,10 +935,12 @@ void Player::playerCombat(Map *map)
 void Player::setStatic()
 {   
     // Reset Sprite State
-    setSprFrame(0); setSprIndex(0);
+    setSprFrame(0);
+    setSprIndex(0);
     objectSetSprite(0);
     // Reset Movement
-    setVelX(0); setVelY(0);
+    setVelX(0);
+    setVelY(0);
     move.crawl = 0;
     a_dash.frame = 0;
     g_dash.frame = 0;
@@ -959,12 +961,14 @@ void Player::playerHitBox()
     {
         setHitWidth(58);
         setHitHeight(80);
+        move.hit_offset_x = 0;
         move.hit_offset_y = 0;
     }
     else
     {
         setHitWidth(78);
         setHitHeight(40);
+        move.hit_offset_x = -10;
         move.hit_offset_y = -20;
     }
 }
