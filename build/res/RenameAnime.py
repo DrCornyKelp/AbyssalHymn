@@ -8,7 +8,7 @@ import os
 
 directory_path = 'Menu/Background/'
 old_part_1 = "frame_"
-old_part_2 = "_delay-0.08s";
+old_part_2 = "_delay-0.03s";
 old_type = ".gif"
 
 def convert(number, max_number):

@@ -202,7 +202,7 @@ void Projectile::updateProjectile(Map *map)
     else
         srcRect = {0, 0, getWidth(), getHeight()};
 
-    objectSetSprite();
+    setSprite();
 
     // Bullet Died :(
     if (bullet_dead)

@@ -1,6 +1,8 @@
 #include <renderer.h>
 #include <audio.h>
 
+#include <UI/menu.h>
+
 #include <developer/editor.h>
 #include <developer/console.h>
 
@@ -61,6 +63,16 @@ int main(int argc, char *argv[])
     // Map editor
     Editor *editor = new Editor(console, world, multi->MAIN, collision);
 
+    Menu *menu = new Menu();
+
+    while (!menu->INPUT.space.state)
+    {
+        menu->update();
+
+        SDL_RenderPresent(CFG->RENDERER);
+        CFG->frameHandler();
+    }
+
     bool pause = false;
     while (!multi->MAIN->INPUT.escape.state)
     {
@@ -71,8 +83,8 @@ int main(int argc, char *argv[])
         // Main
         // audio->updateTrack();
         world->updateWorld();
-        rend->renderGameplay(world->MapCurrent);
         multi->MAIN->playerDeveloper(world->MapCurrent);
+        rend->renderGameplay(world->MapCurrent);
 
         // Console + Editor
         editor->update();
@@ -80,7 +92,7 @@ int main(int argc, char *argv[])
 
         // SDL and shit
         SDL_RenderPresent(CFG->RENDERER);
-        CFG->frameHandler(CFG->DELAY_TIME);
+        CFG->frameHandler();
     }
 
     // Clean up (REMEMBER TO ADD PLAYER CLEAN UP AS WELL)

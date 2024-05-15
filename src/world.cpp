@@ -63,6 +63,8 @@ void World::updateTransition()
 
 void World::updateWorld()
 { 
+    CFG->WORLDTIME++;
+
     // This one is so out of place lmao
     updateTransition();
 

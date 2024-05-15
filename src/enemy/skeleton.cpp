@@ -34,7 +34,7 @@ void Skeleton::initEnemy()
 void Skeleton::draw(Player *player)
 {
     // Frame index shitty bang bang stuff handler
-    objectSetSprite( getInvinTime() > 80 && !attack_state );
+    setSprite( getInvinTime() > 80 && !attack_state );
 
     // Draw
     SDL_Rect desRect = {Camera::objectDrawX(player, this),

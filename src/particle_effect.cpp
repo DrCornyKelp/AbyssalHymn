@@ -30,7 +30,7 @@ bool ParticleEffect::getIsGone() { return is_gone; }
 
 void ParticleEffect::drawProp(Player *player)
 {
-    if (objectSetSprite() && !can_repeat)
+    if (setSprite() && !can_repeat)
     { is_gone = true; return; }
 
     desRect = {

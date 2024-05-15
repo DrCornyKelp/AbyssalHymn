@@ -275,38 +275,51 @@ void Object2D::objectStandardMovement(bool lock_vel)
 float1D Object2D::objectPredictMovement()
 { return {x + vel_x, y + vel_y}; }
 
-bool Object2D::objectSetSprite(bool end_lock)
+bool Object2D::setSprite(bool end_lock)
 {
-    if (sprite_index_max)
+    if (!sprite_index_max) return false;
+
+    if (sprite_frame < sprite_frame_max)
+        sprite_frame++;
+    else
     {
-        if (sprite_frame < sprite_frame_max)
-            sprite_frame++;
+        sprite_frame = 0;
+        sprite_index++;
+    }
+
+    if (sprite_index >= sprite_index_max)
+    {
+        if (end_lock)
+            sprite_index = sprite_index_max - 1;
         else
-        {
-            sprite_frame = 0;
-            sprite_index++;
-        }
+            sprite_index = 0;
 
-        if (sprite_index >= sprite_index_max)
+        if (sprite_row_max)
         {
-            if (end_lock)
-                sprite_index = sprite_index_max - 1;
-            else
-                sprite_index = 0;
-
-            if (sprite_row_max)
+            sprite_row++;
+            if (sprite_row >= sprite_row_max)
             {
-                sprite_row++;
-                if (sprite_row >= sprite_row_max)
-                {
-                    sprite_row = sprite_row_repeat - 1;
-                    return true;
-                }
-            }
-            else
+                sprite_row = sprite_row_repeat - 1;
                 return true;
+            }
         }
+        else
+            return true;
     }
 
     return false;
+}
+
+void Object2D::objectSetSprite(ObjectSprite &sprite)
+{
+    if (sprite.sf < sprite.sfm)
+        sprite.sf++;
+    else
+    {
+        sprite.sf = 0;
+        sprite.si++;
+    }
+
+    if (sprite.si >= sprite.sim)
+        sprite.si = 0;
 }

@@ -48,8 +48,9 @@ public:
     // TIME/FPS
     int FPS = 100;
     long RUNTIME = 0;
+    long WORLDTIME = 0;
     int DELAY_TIME = 10;
-    void frameHandler(int dlt);
+    void frameHandler();
 
     // WINDOW SIZE
     // int WIDTH = 1536, HEIGHT = 896;

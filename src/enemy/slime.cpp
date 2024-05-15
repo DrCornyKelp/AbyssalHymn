@@ -24,7 +24,7 @@ void Slime::initEnemy()
 void Slime::draw(Player *player)
 {
     // Frame index shitty bang bang stuff handler
-    objectSetSprite();
+    setSprite();
 
     // Draw
     SDL_Rect desRect = {Camera::objectDrawX(player, this),

@@ -11,10 +11,6 @@ public:
     int MapIndex = 0;
     Map *MapCurrent;
 
-    // ======================== TIME ========================
-    int WorldTime = 0;
-    int WorldDay = 0;
-
     // ======== Cool Stuff That are oddly specific ==========
     SDL_Texture *BlackScreen;
     WorldLocation transit_location;

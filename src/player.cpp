@@ -200,7 +200,7 @@ void PlayerDrawProp::drawProperty(Map *map)
 
     // Update Draw Properties
     
-    player->objectSetSprite(end_lock);
+    player->setSprite(end_lock);
 
     desRect = {
         Camera::objectDrawX(player->MULTI->MAIN, player) - player->getWidth()*3/2,
@@ -932,7 +932,7 @@ void Player::setStatic()
     // Reset Sprite State
     setSprFrame(0);
     setSprIndex(0);
-    objectSetSprite(0);
+    setSprite(0);
     // Reset Movement
     setVelX(0);
     setVelY(0);

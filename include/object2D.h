@@ -199,7 +199,8 @@ public:
     static SDLTexture1D loadTextures(string0D path, int max);
     static void deleteTextures(SDLTexture1D textures);
 
-    bool objectSetSprite(bool end_lock = 0);
+    bool setSprite(bool end_lock = 0);
+    static void objectSetSprite(ObjectSprite &sprite);
 
     void objectStandardMovement(bool lock_vel = 0);
     float1D objectPredictMovement();

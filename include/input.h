@@ -60,7 +60,7 @@ struct MouseState
 	bool state = 0;
 	bool hold = 0;
 	// Instant click
-	bool click(); 
+	bool click();
 	int threshold = 0,
 		threspeak = 0;
 	bool threspass(int max);
@@ -108,7 +108,13 @@ public:
 		jump, dash,
 
 		// Other
+		lalt = {SDL_SCANCODE_LALT, 0},
 		lctrl = {SDL_SCANCODE_LCTRL, 0},
+		lshift = {SDL_SCANCODE_LSHIFT, 0},
+
+		space = {SDL_SCANCODE_SPACE, 0},
+		backspace = {SDL_SCANCODE_BACKSPACE, 0},
+
 		arrowU = {SDL_SCANCODE_UP, 0},
 		arrowD = {SDL_SCANCODE_DOWN, 0},
 		arrowL = {SDL_SCANCODE_LEFT, 0},

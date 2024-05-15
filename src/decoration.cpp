@@ -71,7 +71,7 @@ void Decoration::setAlpha(int a)
 
 void Decoration::drawProp(Player *player)
 {
-    objectSetSprite();
+    setSprite();
 
     if (absolute) desRect = {
         int(getX() - getWidth() / 2),

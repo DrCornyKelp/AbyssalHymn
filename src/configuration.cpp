@@ -34,12 +34,12 @@ bool Configuration::isComment(string0D str)
             str[0] ==  '#';
 }
 
-void Configuration::frameHandler(int dlt)
+void Configuration::frameHandler()
 {
     Uint32 frame_start = SDL_GetTicks();
     Uint32 frame_duration = SDL_GetTicks() - frame_start;
-    if (frame_duration < dlt)
-        SDL_Delay(dlt - frame_duration);
+    if (frame_duration < DELAY_TIME)
+        SDL_Delay(DELAY_TIME - frame_duration);
 
     RUNTIME++;
 }

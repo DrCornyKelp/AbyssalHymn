@@ -6,7 +6,16 @@
 class Menu
 {
 public:
-    Decoration *menuBG = new Decoration("res/Menu/Background/", 0, 0, CFG->WIDTH, CFG->HEIGHT, 1);
+    Menu();
+
+    Input INPUT;
+
+    ObjectSprite sprite = {0, 0, 64, 10};
+    SDLTexture1D menuBGframe = Object2D::loadTextures(
+        "res/Menu/Background/", 64
+    );
+
+    void update();
 };
 
 #endif
