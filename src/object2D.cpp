@@ -244,6 +244,21 @@ SDL_Texture *Object2D::loadTexture(string0D path)
 
     return texture;
 }
+SDLTexture1D Object2D::loadTextures(string0D path, int max)
+{
+    if (path == "") return {};
+
+    SDLTexture1D textures;
+    for (int i = 0; i < max; i++)
+    {
+        string0D frame_path = 
+            path + "frame_" + CFG->convertDigit(i, max) + ".png";
+        textures.push_back(loadTexture(frame_path));
+    }
+
+    return textures;
+}
+
 void Object2D::deleteTextures(SDLTexture1D textures)
 { for (SDL_Texture *tex : textures) SDL_DestroyTexture(tex); }
 

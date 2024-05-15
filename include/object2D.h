@@ -196,6 +196,7 @@ public:
     static bool objectIgnore(Object2D *objMain, Object2D *objSub);
 
     static SDL_Texture *loadTexture(string0D path);
+    static SDLTexture1D loadTextures(string0D path, int max);
     static void deleteTextures(SDLTexture1D textures);
 
     bool objectSetSprite(bool end_lock = 0);

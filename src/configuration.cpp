@@ -9,9 +9,16 @@ Configuration::Configuration()
 };
 
 // METHOD
+void Configuration::resizeWindow(int W, int H)
+{
+    WIDTH = W; HEIGHT = H;
+    SDL_SetWindowSize(WINDOW, W, H);
+}
 
 void Configuration::addDevlog(string0D text, int colorCode)
-{ DEVLOG += "| \033[" + std::to_string(colorCode) + "m" + text + "\033[0m "; }
+{ 
+    DEVLOG += "| \033[" + std::to_string(colorCode) + "m" + text + "\033[0m ";
+}
 
 void Configuration::printDevlog()
 {
@@ -20,10 +27,11 @@ void Configuration::printDevlog()
     std::cout << DEVLOG << "\n";
 }
 
-void Configuration::resizeWindow(int W, int H)
-{
-    WIDTH = W; HEIGHT = H;
-    SDL_SetWindowSize(WINDOW, W, H);
+bool Configuration::isComment(string0D str)
+{ 
+    return  str == "" ||
+            str.back() == '#' ||
+            str[0] ==  '#';
 }
 
 void Configuration::frameHandler(int dlt)
@@ -35,9 +43,6 @@ void Configuration::frameHandler(int dlt)
 
     RUNTIME++;
 }
-
-bool Configuration::isComment(string0D str)
-{ return str == "" || str.back() == '#' ||str[0] ==  '#'; }
 
 //-------Covert each line of file into vector--------
 string1D Configuration::convertStrVec(string0D file_dir)
@@ -52,6 +57,19 @@ string1D Configuration::convertStrVec(string0D file_dir)
             values.push_back((line));
 
     return values;
+}
+
+string0D Configuration::convertDigit(int number, int maxNumber)
+{
+    // Calculate the number of digits in the maximum number
+    int numDigits = 1;
+    int temp = maxNumber;
+    while (temp /= 10) numDigits++;
+
+    // Format the number with leading zeros based on the number of digits
+    std::ostringstream oss;
+    oss << std::setw(numDigits) << std::setfill('0') << number;
+    return oss.str();
 }
 
 // ------Vector Resizer------

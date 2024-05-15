@@ -51,34 +51,10 @@ float Decoration::getAddX() { return add_x; }
 float Decoration::getSclVelX() { return scale_vel_x; }
 float Decoration::getSclVelY() { return scale_vel_y; }
 
-// Helpful
-string0D convertDigit(int number, int maxNumber)
-{
-    // Calculate the number of digits in the maximum number
-    int numDigits = 1;
-    int temp = maxNumber;
-    while (temp /= 10) numDigits++;
-
-    // Format the number with leading zeros based on the number of digits
-    std::ostringstream oss;
-    oss << std::setw(numDigits) << std::setfill('0') << number;
-    return oss.str();
-}
-
 void Decoration::initDecoration()
 {
     if (type == 2)
-        for (int i = 0; i < getSprIndexMax(); i++)
-        {
-            string0D frame_path = 
-                decor_path + "frame_" +
-                convertDigit(i, getSprIndexMax()) +
-                ".png";
-
-            decor_textures.push_back(loadTexture(frame_path));
-            
-            std::cout << frame_path << "\n";
-        }
+        decor_textures = loadTextures(decor_path, getSprIndexMax());
     else
     {
         decor_texture = loadTexture(decor_path);

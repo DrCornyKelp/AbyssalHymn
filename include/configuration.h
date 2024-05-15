@@ -67,11 +67,12 @@ public:
     string0D DEVLOG = "";
     void addDevlog(string0D text, int colorCode);
     void printDevlog();
-
-    // ====== Some manipulation with string and vector ======
     bool isComment(string0D str);
 
+    // ====== Some manipulation with string and vector ======
+
     string1D convertStrVec(string0D file_dir);
+    string0D convertDigit(int number, int maxNumber);
 
     int2D resizeInt2D(int1D vec, int r, int c);
     long2D resizeLong2D(long1D vec, int r, int c);
@@ -83,6 +84,7 @@ public:
 
     int1D convertFloat1DInt(float1D vec);
     int2D convertFloat2DInt(float2D vec);
+
 };
 
 extern Configuration *CFG;
