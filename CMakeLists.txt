@@ -41,6 +41,7 @@ add_executable(AbyssalHymn
     src/enemy/skeleton.cpp
     src/UI/menu.cpp
     src/UI/intro.cpp
+    src/UI/pause.cpp
     src/UI/button.cpp
     src/UI/section.cpp
     src/map.cpp

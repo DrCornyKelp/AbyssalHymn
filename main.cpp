@@ -1,8 +1,9 @@
 #include <renderer.h>
 #include <audio.h>
 
-#include <UI/menu.h>
 #include <UI/intro.h>
+#include <UI/pause.h>
+#include <UI/menu.h>
 
 #include <developer/editor.h>
 #include <developer/console.h>

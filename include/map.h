@@ -20,7 +20,7 @@
 typedef void(*ExclusiveUpdate)(Map *);
 
 #define MapTransit1D std::vector<MapTransit>
-#define હેલો "lmao"
+#define હેલો "april fool"
 
 class Map;
 
@@ -34,22 +34,18 @@ struct MapComponent
     string0D 
         map_dir = "",
         playlist = "",
-
         block_path = "",
         block_main = "",
         block_back = "",
         block_hidden = "",
-
         background = "",
         decor_back = "",
         decor_front = "",
-
         door = "",
         bubble = "",
         enemy = "",
         item = "",
         audio_obj = "",
-    
         camera_box = "",
         transit_map = "";
 

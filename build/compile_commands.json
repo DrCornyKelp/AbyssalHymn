@@ -109,6 +109,12 @@
 },
 {
   "directory": "C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build",
+  "command": "C:/msys64/mingw64/bin/g++.exe  @CMakeFiles/AbyssalHymn.dir/includes_CXX.rsp -g -std=gnu++20 -o CMakeFiles/AbyssalHymn.dir/src/UI/pause.cpp.obj -c C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/UI/pause.cpp",
+  "file": "C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/UI/pause.cpp",
+  "output": "CMakeFiles/AbyssalHymn.dir/src/UI/pause.cpp.obj"
+},
+{
+  "directory": "C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build",
   "command": "C:/msys64/mingw64/bin/g++.exe  @CMakeFiles/AbyssalHymn.dir/includes_CXX.rsp -g -std=gnu++20 -o CMakeFiles/AbyssalHymn.dir/src/UI/button.cpp.obj -c C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/UI/button.cpp",
   "file": "C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/UI/button.cpp",
   "output": "CMakeFiles/AbyssalHymn.dir/src/UI/button.cpp.obj"

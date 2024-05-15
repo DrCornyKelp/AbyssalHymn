@@ -14,6 +14,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/AbyssalHymn.dir/src/UI/intro.cpp.obj.d"
   "CMakeFiles/AbyssalHymn.dir/src/UI/menu.cpp.obj"
   "CMakeFiles/AbyssalHymn.dir/src/UI/menu.cpp.obj.d"
+  "CMakeFiles/AbyssalHymn.dir/src/UI/pause.cpp.obj"
+  "CMakeFiles/AbyssalHymn.dir/src/UI/pause.cpp.obj.d"
   "CMakeFiles/AbyssalHymn.dir/src/UI/section.cpp.obj"
   "CMakeFiles/AbyssalHymn.dir/src/UI/section.cpp.obj.d"
   "CMakeFiles/AbyssalHymn.dir/src/audio.cpp.obj"

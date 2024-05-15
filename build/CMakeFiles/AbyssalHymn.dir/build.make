@@ -339,11 +339,26 @@ CMakeFiles/AbyssalHymn.dir/src/UI/intro.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/AbyssalHymn.dir/src/UI/intro.cpp.s"
 	C:/msys64/mingw64/bin/g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/UI/intro.cpp -o CMakeFiles/AbyssalHymn.dir/src/UI/intro.cpp.s
 
+CMakeFiles/AbyssalHymn.dir/src/UI/pause.cpp.obj: CMakeFiles/AbyssalHymn.dir/flags.make
+CMakeFiles/AbyssalHymn.dir/src/UI/pause.cpp.obj: CMakeFiles/AbyssalHymn.dir/includes_CXX.rsp
+CMakeFiles/AbyssalHymn.dir/src/UI/pause.cpp.obj: C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/UI/pause.cpp
+CMakeFiles/AbyssalHymn.dir/src/UI/pause.cpp.obj: CMakeFiles/AbyssalHymn.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/AbyssalHymn.dir/src/UI/pause.cpp.obj"
+	C:/msys64/mingw64/bin/g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/AbyssalHymn.dir/src/UI/pause.cpp.obj -MF CMakeFiles/AbyssalHymn.dir/src/UI/pause.cpp.obj.d -o CMakeFiles/AbyssalHymn.dir/src/UI/pause.cpp.obj -c C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/UI/pause.cpp
+
+CMakeFiles/AbyssalHymn.dir/src/UI/pause.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/AbyssalHymn.dir/src/UI/pause.cpp.i"
+	C:/msys64/mingw64/bin/g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/UI/pause.cpp > CMakeFiles/AbyssalHymn.dir/src/UI/pause.cpp.i
+
+CMakeFiles/AbyssalHymn.dir/src/UI/pause.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/AbyssalHymn.dir/src/UI/pause.cpp.s"
+	C:/msys64/mingw64/bin/g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/UI/pause.cpp -o CMakeFiles/AbyssalHymn.dir/src/UI/pause.cpp.s
+
 CMakeFiles/AbyssalHymn.dir/src/UI/button.cpp.obj: CMakeFiles/AbyssalHymn.dir/flags.make
 CMakeFiles/AbyssalHymn.dir/src/UI/button.cpp.obj: CMakeFiles/AbyssalHymn.dir/includes_CXX.rsp
 CMakeFiles/AbyssalHymn.dir/src/UI/button.cpp.obj: C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/UI/button.cpp
 CMakeFiles/AbyssalHymn.dir/src/UI/button.cpp.obj: CMakeFiles/AbyssalHymn.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/AbyssalHymn.dir/src/UI/button.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/AbyssalHymn.dir/src/UI/button.cpp.obj"
 	C:/msys64/mingw64/bin/g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/AbyssalHymn.dir/src/UI/button.cpp.obj -MF CMakeFiles/AbyssalHymn.dir/src/UI/button.cpp.obj.d -o CMakeFiles/AbyssalHymn.dir/src/UI/button.cpp.obj -c C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/UI/button.cpp
 
 CMakeFiles/AbyssalHymn.dir/src/UI/button.cpp.i: cmake_force
@@ -358,7 +373,7 @@ CMakeFiles/AbyssalHymn.dir/src/UI/section.cpp.obj: CMakeFiles/AbyssalHymn.dir/fl
 CMakeFiles/AbyssalHymn.dir/src/UI/section.cpp.obj: CMakeFiles/AbyssalHymn.dir/includes_CXX.rsp
 CMakeFiles/AbyssalHymn.dir/src/UI/section.cpp.obj: C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/UI/section.cpp
 CMakeFiles/AbyssalHymn.dir/src/UI/section.cpp.obj: CMakeFiles/AbyssalHymn.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/AbyssalHymn.dir/src/UI/section.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/AbyssalHymn.dir/src/UI/section.cpp.obj"
 	C:/msys64/mingw64/bin/g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/AbyssalHymn.dir/src/UI/section.cpp.obj -MF CMakeFiles/AbyssalHymn.dir/src/UI/section.cpp.obj.d -o CMakeFiles/AbyssalHymn.dir/src/UI/section.cpp.obj -c C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/UI/section.cpp
 
 CMakeFiles/AbyssalHymn.dir/src/UI/section.cpp.i: cmake_force
@@ -373,7 +388,7 @@ CMakeFiles/AbyssalHymn.dir/src/map.cpp.obj: CMakeFiles/AbyssalHymn.dir/flags.mak
 CMakeFiles/AbyssalHymn.dir/src/map.cpp.obj: CMakeFiles/AbyssalHymn.dir/includes_CXX.rsp
 CMakeFiles/AbyssalHymn.dir/src/map.cpp.obj: C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/map.cpp
 CMakeFiles/AbyssalHymn.dir/src/map.cpp.obj: CMakeFiles/AbyssalHymn.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/AbyssalHymn.dir/src/map.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/AbyssalHymn.dir/src/map.cpp.obj"
 	C:/msys64/mingw64/bin/g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/AbyssalHymn.dir/src/map.cpp.obj -MF CMakeFiles/AbyssalHymn.dir/src/map.cpp.obj.d -o CMakeFiles/AbyssalHymn.dir/src/map.cpp.obj -c C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/map.cpp
 
 CMakeFiles/AbyssalHymn.dir/src/map.cpp.i: cmake_force
@@ -388,7 +403,7 @@ CMakeFiles/AbyssalHymn.dir/src/world.cpp.obj: CMakeFiles/AbyssalHymn.dir/flags.m
 CMakeFiles/AbyssalHymn.dir/src/world.cpp.obj: CMakeFiles/AbyssalHymn.dir/includes_CXX.rsp
 CMakeFiles/AbyssalHymn.dir/src/world.cpp.obj: C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/world.cpp
 CMakeFiles/AbyssalHymn.dir/src/world.cpp.obj: CMakeFiles/AbyssalHymn.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/AbyssalHymn.dir/src/world.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object CMakeFiles/AbyssalHymn.dir/src/world.cpp.obj"
 	C:/msys64/mingw64/bin/g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/AbyssalHymn.dir/src/world.cpp.obj -MF CMakeFiles/AbyssalHymn.dir/src/world.cpp.obj.d -o CMakeFiles/AbyssalHymn.dir/src/world.cpp.obj -c C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/world.cpp
 
 CMakeFiles/AbyssalHymn.dir/src/world.cpp.i: cmake_force
@@ -403,7 +418,7 @@ CMakeFiles/AbyssalHymn.dir/src/scene.cpp.obj: CMakeFiles/AbyssalHymn.dir/flags.m
 CMakeFiles/AbyssalHymn.dir/src/scene.cpp.obj: CMakeFiles/AbyssalHymn.dir/includes_CXX.rsp
 CMakeFiles/AbyssalHymn.dir/src/scene.cpp.obj: C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/scene.cpp
 CMakeFiles/AbyssalHymn.dir/src/scene.cpp.obj: CMakeFiles/AbyssalHymn.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object CMakeFiles/AbyssalHymn.dir/src/scene.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/AbyssalHymn.dir/src/scene.cpp.obj"
 	C:/msys64/mingw64/bin/g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/AbyssalHymn.dir/src/scene.cpp.obj -MF CMakeFiles/AbyssalHymn.dir/src/scene.cpp.obj.d -o CMakeFiles/AbyssalHymn.dir/src/scene.cpp.obj -c C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/scene.cpp
 
 CMakeFiles/AbyssalHymn.dir/src/scene.cpp.i: cmake_force
@@ -418,7 +433,7 @@ CMakeFiles/AbyssalHymn.dir/src/input.cpp.obj: CMakeFiles/AbyssalHymn.dir/flags.m
 CMakeFiles/AbyssalHymn.dir/src/input.cpp.obj: CMakeFiles/AbyssalHymn.dir/includes_CXX.rsp
 CMakeFiles/AbyssalHymn.dir/src/input.cpp.obj: C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/input.cpp
 CMakeFiles/AbyssalHymn.dir/src/input.cpp.obj: CMakeFiles/AbyssalHymn.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/AbyssalHymn.dir/src/input.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object CMakeFiles/AbyssalHymn.dir/src/input.cpp.obj"
 	C:/msys64/mingw64/bin/g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/AbyssalHymn.dir/src/input.cpp.obj -MF CMakeFiles/AbyssalHymn.dir/src/input.cpp.obj.d -o CMakeFiles/AbyssalHymn.dir/src/input.cpp.obj -c C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/input.cpp
 
 CMakeFiles/AbyssalHymn.dir/src/input.cpp.i: cmake_force
@@ -433,7 +448,7 @@ CMakeFiles/AbyssalHymn.dir/src/audio.cpp.obj: CMakeFiles/AbyssalHymn.dir/flags.m
 CMakeFiles/AbyssalHymn.dir/src/audio.cpp.obj: CMakeFiles/AbyssalHymn.dir/includes_CXX.rsp
 CMakeFiles/AbyssalHymn.dir/src/audio.cpp.obj: C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/audio.cpp
 CMakeFiles/AbyssalHymn.dir/src/audio.cpp.obj: CMakeFiles/AbyssalHymn.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object CMakeFiles/AbyssalHymn.dir/src/audio.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/AbyssalHymn.dir/src/audio.cpp.obj"
 	C:/msys64/mingw64/bin/g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/AbyssalHymn.dir/src/audio.cpp.obj -MF CMakeFiles/AbyssalHymn.dir/src/audio.cpp.obj.d -o CMakeFiles/AbyssalHymn.dir/src/audio.cpp.obj -c C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/audio.cpp
 
 CMakeFiles/AbyssalHymn.dir/src/audio.cpp.i: cmake_force
@@ -448,7 +463,7 @@ CMakeFiles/AbyssalHymn.dir/src/camera.cpp.obj: CMakeFiles/AbyssalHymn.dir/flags.
 CMakeFiles/AbyssalHymn.dir/src/camera.cpp.obj: CMakeFiles/AbyssalHymn.dir/includes_CXX.rsp
 CMakeFiles/AbyssalHymn.dir/src/camera.cpp.obj: C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/camera.cpp
 CMakeFiles/AbyssalHymn.dir/src/camera.cpp.obj: CMakeFiles/AbyssalHymn.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/AbyssalHymn.dir/src/camera.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object CMakeFiles/AbyssalHymn.dir/src/camera.cpp.obj"
 	C:/msys64/mingw64/bin/g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/AbyssalHymn.dir/src/camera.cpp.obj -MF CMakeFiles/AbyssalHymn.dir/src/camera.cpp.obj.d -o CMakeFiles/AbyssalHymn.dir/src/camera.cpp.obj -c C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/camera.cpp
 
 CMakeFiles/AbyssalHymn.dir/src/camera.cpp.i: cmake_force
@@ -463,7 +478,7 @@ CMakeFiles/AbyssalHymn.dir/src/renderer.cpp.obj: CMakeFiles/AbyssalHymn.dir/flag
 CMakeFiles/AbyssalHymn.dir/src/renderer.cpp.obj: CMakeFiles/AbyssalHymn.dir/includes_CXX.rsp
 CMakeFiles/AbyssalHymn.dir/src/renderer.cpp.obj: C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/renderer.cpp
 CMakeFiles/AbyssalHymn.dir/src/renderer.cpp.obj: CMakeFiles/AbyssalHymn.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object CMakeFiles/AbyssalHymn.dir/src/renderer.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object CMakeFiles/AbyssalHymn.dir/src/renderer.cpp.obj"
 	C:/msys64/mingw64/bin/g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/AbyssalHymn.dir/src/renderer.cpp.obj -MF CMakeFiles/AbyssalHymn.dir/src/renderer.cpp.obj.d -o CMakeFiles/AbyssalHymn.dir/src/renderer.cpp.obj -c C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/renderer.cpp
 
 CMakeFiles/AbyssalHymn.dir/src/renderer.cpp.i: cmake_force
@@ -478,7 +493,7 @@ CMakeFiles/AbyssalHymn.dir/src/collision.cpp.obj: CMakeFiles/AbyssalHymn.dir/fla
 CMakeFiles/AbyssalHymn.dir/src/collision.cpp.obj: CMakeFiles/AbyssalHymn.dir/includes_CXX.rsp
 CMakeFiles/AbyssalHymn.dir/src/collision.cpp.obj: C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/collision.cpp
 CMakeFiles/AbyssalHymn.dir/src/collision.cpp.obj: CMakeFiles/AbyssalHymn.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object CMakeFiles/AbyssalHymn.dir/src/collision.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object CMakeFiles/AbyssalHymn.dir/src/collision.cpp.obj"
 	C:/msys64/mingw64/bin/g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/AbyssalHymn.dir/src/collision.cpp.obj -MF CMakeFiles/AbyssalHymn.dir/src/collision.cpp.obj.d -o CMakeFiles/AbyssalHymn.dir/src/collision.cpp.obj -c C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/collision.cpp
 
 CMakeFiles/AbyssalHymn.dir/src/collision.cpp.i: cmake_force
@@ -493,7 +508,7 @@ CMakeFiles/AbyssalHymn.dir/src/block_template.cpp.obj: CMakeFiles/AbyssalHymn.di
 CMakeFiles/AbyssalHymn.dir/src/block_template.cpp.obj: CMakeFiles/AbyssalHymn.dir/includes_CXX.rsp
 CMakeFiles/AbyssalHymn.dir/src/block_template.cpp.obj: C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/block_template.cpp
 CMakeFiles/AbyssalHymn.dir/src/block_template.cpp.obj: CMakeFiles/AbyssalHymn.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object CMakeFiles/AbyssalHymn.dir/src/block_template.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object CMakeFiles/AbyssalHymn.dir/src/block_template.cpp.obj"
 	C:/msys64/mingw64/bin/g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/AbyssalHymn.dir/src/block_template.cpp.obj -MF CMakeFiles/AbyssalHymn.dir/src/block_template.cpp.obj.d -o CMakeFiles/AbyssalHymn.dir/src/block_template.cpp.obj -c C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/block_template.cpp
 
 CMakeFiles/AbyssalHymn.dir/src/block_template.cpp.i: cmake_force
@@ -508,7 +523,7 @@ CMakeFiles/AbyssalHymn.dir/main.cpp.obj: CMakeFiles/AbyssalHymn.dir/flags.make
 CMakeFiles/AbyssalHymn.dir/main.cpp.obj: CMakeFiles/AbyssalHymn.dir/includes_CXX.rsp
 CMakeFiles/AbyssalHymn.dir/main.cpp.obj: C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/main.cpp
 CMakeFiles/AbyssalHymn.dir/main.cpp.obj: CMakeFiles/AbyssalHymn.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object CMakeFiles/AbyssalHymn.dir/main.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object CMakeFiles/AbyssalHymn.dir/main.cpp.obj"
 	C:/msys64/mingw64/bin/g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/AbyssalHymn.dir/main.cpp.obj -MF CMakeFiles/AbyssalHymn.dir/main.cpp.obj.d -o CMakeFiles/AbyssalHymn.dir/main.cpp.obj -c C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/main.cpp
 
 CMakeFiles/AbyssalHymn.dir/main.cpp.i: cmake_force
@@ -523,7 +538,7 @@ CMakeFiles/AbyssalHymn.dir/CONSOLE.cpp.obj: CMakeFiles/AbyssalHymn.dir/flags.mak
 CMakeFiles/AbyssalHymn.dir/CONSOLE.cpp.obj: CMakeFiles/AbyssalHymn.dir/includes_CXX.rsp
 CMakeFiles/AbyssalHymn.dir/CONSOLE.cpp.obj: C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/CONSOLE.cpp
 CMakeFiles/AbyssalHymn.dir/CONSOLE.cpp.obj: CMakeFiles/AbyssalHymn.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object CMakeFiles/AbyssalHymn.dir/CONSOLE.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building CXX object CMakeFiles/AbyssalHymn.dir/CONSOLE.cpp.obj"
 	C:/msys64/mingw64/bin/g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/AbyssalHymn.dir/CONSOLE.cpp.obj -MF CMakeFiles/AbyssalHymn.dir/CONSOLE.cpp.obj.d -o CMakeFiles/AbyssalHymn.dir/CONSOLE.cpp.obj -c C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/CONSOLE.cpp
 
 CMakeFiles/AbyssalHymn.dir/CONSOLE.cpp.i: cmake_force
@@ -538,7 +553,7 @@ CMakeFiles/AbyssalHymn.dir/EDITOR.cpp.obj: CMakeFiles/AbyssalHymn.dir/flags.make
 CMakeFiles/AbyssalHymn.dir/EDITOR.cpp.obj: CMakeFiles/AbyssalHymn.dir/includes_CXX.rsp
 CMakeFiles/AbyssalHymn.dir/EDITOR.cpp.obj: C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/EDITOR.cpp
 CMakeFiles/AbyssalHymn.dir/EDITOR.cpp.obj: CMakeFiles/AbyssalHymn.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building CXX object CMakeFiles/AbyssalHymn.dir/EDITOR.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building CXX object CMakeFiles/AbyssalHymn.dir/EDITOR.cpp.obj"
 	C:/msys64/mingw64/bin/g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/AbyssalHymn.dir/EDITOR.cpp.obj -MF CMakeFiles/AbyssalHymn.dir/EDITOR.cpp.obj.d -o CMakeFiles/AbyssalHymn.dir/EDITOR.cpp.obj -c C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/EDITOR.cpp
 
 CMakeFiles/AbyssalHymn.dir/EDITOR.cpp.i: cmake_force
@@ -569,6 +584,7 @@ AbyssalHymn_OBJECTS = \
 "CMakeFiles/AbyssalHymn.dir/src/enemy/skeleton.cpp.obj" \
 "CMakeFiles/AbyssalHymn.dir/src/UI/menu.cpp.obj" \
 "CMakeFiles/AbyssalHymn.dir/src/UI/intro.cpp.obj" \
+"CMakeFiles/AbyssalHymn.dir/src/UI/pause.cpp.obj" \
 "CMakeFiles/AbyssalHymn.dir/src/UI/button.cpp.obj" \
 "CMakeFiles/AbyssalHymn.dir/src/UI/section.cpp.obj" \
 "CMakeFiles/AbyssalHymn.dir/src/map.cpp.obj" \
@@ -605,6 +621,7 @@ AbyssalHymn.exe: CMakeFiles/AbyssalHymn.dir/src/enemy/slime.cpp.obj
 AbyssalHymn.exe: CMakeFiles/AbyssalHymn.dir/src/enemy/skeleton.cpp.obj
 AbyssalHymn.exe: CMakeFiles/AbyssalHymn.dir/src/UI/menu.cpp.obj
 AbyssalHymn.exe: CMakeFiles/AbyssalHymn.dir/src/UI/intro.cpp.obj
+AbyssalHymn.exe: CMakeFiles/AbyssalHymn.dir/src/UI/pause.cpp.obj
 AbyssalHymn.exe: CMakeFiles/AbyssalHymn.dir/src/UI/button.cpp.obj
 AbyssalHymn.exe: CMakeFiles/AbyssalHymn.dir/src/UI/section.cpp.obj
 AbyssalHymn.exe: CMakeFiles/AbyssalHymn.dir/src/map.cpp.obj
@@ -622,7 +639,7 @@ AbyssalHymn.exe: CMakeFiles/AbyssalHymn.dir/EDITOR.cpp.obj
 AbyssalHymn.exe: CMakeFiles/AbyssalHymn.dir/build.make
 AbyssalHymn.exe: CMakeFiles/AbyssalHymn.dir/linkLibs.rsp
 AbyssalHymn.exe: CMakeFiles/AbyssalHymn.dir/objects1.rsp
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Linking CXX executable AbyssalHymn.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Linking CXX executable AbyssalHymn.exe"
 	C:/CMake/bin/cmake.exe -E rm -f CMakeFiles/AbyssalHymn.dir/objects.a
 	C:/msys64/mingw64/bin/ar.exe qc CMakeFiles/AbyssalHymn.dir/objects.a @CMakeFiles/AbyssalHymn.dir/objects1.rsp
 	C:/msys64/mingw64/bin/g++.exe -g -Wl,--whole-archive CMakeFiles/AbyssalHymn.dir/objects.a -Wl,--no-whole-archive -o AbyssalHymn.exe -Wl,--out-implib,libAbyssalHymn.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles/AbyssalHymn.dir/linkLibs.rsp

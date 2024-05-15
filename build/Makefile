@@ -273,6 +273,30 @@ src/UI/menu.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/AbyssalHymn.dir/build.make CMakeFiles/AbyssalHymn.dir/src/UI/menu.cpp.s
 .PHONY : src/UI/menu.cpp.s
 
+src/UI/pause.obj: src/UI/pause.cpp.obj
+.PHONY : src/UI/pause.obj
+
+# target to build an object file
+src/UI/pause.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/AbyssalHymn.dir/build.make CMakeFiles/AbyssalHymn.dir/src/UI/pause.cpp.obj
+.PHONY : src/UI/pause.cpp.obj
+
+src/UI/pause.i: src/UI/pause.cpp.i
+.PHONY : src/UI/pause.i
+
+# target to preprocess a source file
+src/UI/pause.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/AbyssalHymn.dir/build.make CMakeFiles/AbyssalHymn.dir/src/UI/pause.cpp.i
+.PHONY : src/UI/pause.cpp.i
+
+src/UI/pause.s: src/UI/pause.cpp.s
+.PHONY : src/UI/pause.s
+
+# target to generate assembly for a file
+src/UI/pause.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/AbyssalHymn.dir/build.make CMakeFiles/AbyssalHymn.dir/src/UI/pause.cpp.s
+.PHONY : src/UI/pause.cpp.s
+
 src/UI/section.obj: src/UI/section.cpp.obj
 .PHONY : src/UI/section.obj
 
@@ -924,6 +948,9 @@ help:
 	@echo "... src/UI/menu.obj"
 	@echo "... src/UI/menu.i"
 	@echo "... src/UI/menu.s"
+	@echo "... src/UI/pause.obj"
+	@echo "... src/UI/pause.i"
+	@echo "... src/UI/pause.s"
 	@echo "... src/UI/section.obj"
 	@echo "... src/UI/section.i"
 	@echo "... src/UI/section.s"

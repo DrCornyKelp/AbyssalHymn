@@ -14,6 +14,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/UI/button.cpp" "CMakeFiles/AbyssalHymn.dir/src/UI/button.cpp.obj" "gcc" "CMakeFiles/AbyssalHymn.dir/src/UI/button.cpp.obj.d"
   "C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/UI/intro.cpp" "CMakeFiles/AbyssalHymn.dir/src/UI/intro.cpp.obj" "gcc" "CMakeFiles/AbyssalHymn.dir/src/UI/intro.cpp.obj.d"
   "C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/UI/menu.cpp" "CMakeFiles/AbyssalHymn.dir/src/UI/menu.cpp.obj" "gcc" "CMakeFiles/AbyssalHymn.dir/src/UI/menu.cpp.obj.d"
+  "C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/UI/pause.cpp" "CMakeFiles/AbyssalHymn.dir/src/UI/pause.cpp.obj" "gcc" "CMakeFiles/AbyssalHymn.dir/src/UI/pause.cpp.obj.d"
   "C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/UI/section.cpp" "CMakeFiles/AbyssalHymn.dir/src/UI/section.cpp.obj" "gcc" "CMakeFiles/AbyssalHymn.dir/src/UI/section.cpp.obj.d"
   "C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/audio.cpp" "CMakeFiles/AbyssalHymn.dir/src/audio.cpp.obj" "gcc" "CMakeFiles/AbyssalHymn.dir/src/audio.cpp.obj.d"
   "C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/audio_object.cpp" "CMakeFiles/AbyssalHymn.dir/src/audio_object.cpp.obj" "gcc" "CMakeFiles/AbyssalHymn.dir/src/audio_object.cpp.obj.d"
