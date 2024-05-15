@@ -61,8 +61,7 @@ int main(int argc, char *argv[])
     // {
     //     SDL_RenderClear(CFG->RENDERER);
     //     intro->update();
-    //     CFG->frameHandler();
-    //     SDL_RenderPresent(CFG->RENDERER);
+    //     CFG->postupdate();
     // }
     delete intro;
 
@@ -72,11 +71,13 @@ int main(int argc, char *argv[])
         SDL_RenderClear(CFG->RENDERER);
 
         menu->update();
-        if (menu->multi) MULTI->addPlayer();
+        if (menu->multi) 
+        {
+            menu->multi = 0;
+            MULTI->addPlayer();
+        };
 
-        CFG->TRANSIT_EFFECT.update();
-        CFG->frameHandler();
-        SDL_RenderPresent(CFG->RENDERER);
+        CFG->postupdate();
     }
 
     WORLD->switchMap({1, 7, 2, 1});
@@ -98,9 +99,7 @@ int main(int argc, char *argv[])
         CONSOLE->update();
 
         // Config
-        CFG->TRANSIT_EFFECT.update();
-        CFG->frameHandler();
-        SDL_RenderPresent(CFG->RENDERER);
+        CFG->postupdate();
     }
 
     // Clean up

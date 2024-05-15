@@ -64,6 +64,7 @@ class Configuration
 public:
     ~Configuration();
     Configuration();
+    void postupdate();
 
     // GAMESTATE
     bool QUIT = 0;

@@ -54,12 +54,18 @@ Configuration::~Configuration()
     SDL_DestroyRenderer(RENDERER);
     SDL_DestroyWindow(WINDOW);
 }
-
 // CONSTRUCTOR
 Configuration::Configuration()
 {
     SDL_SetWindowIcon(WINDOW, ICON);
 };
+// UPDATE
+void Configuration::postupdate()
+{
+    TRANSIT_EFFECT.update();
+    frameHandler();
+    SDL_RenderPresent(RENDERER);
+}
 
 // METHOD
 void Configuration::resizeWindow(int W, int H)

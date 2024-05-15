@@ -26,7 +26,7 @@ void Menu::update()
 
     // Draw 1P BUTTONS
     ObjectBox box1P = {
-        CFG->HEIGHT/2, CFG->HEIGHT/2 - 80,
+        CFG->HEIGHT/2 - 20, CFG->HEIGHT/2 - 100,
         CFG->WIDTH/2 - 180, CFG->WIDTH/2 + 180
     };
     bool hover1P = INPUT.mouse.inbox(box1P);
@@ -34,7 +34,7 @@ void Menu::update()
 
     // Draw 2P Button
     ObjectBox box2P = {
-        CFG->HEIGHT/2 + 80, CFG->HEIGHT/2,
+        CFG->HEIGHT/2 + 100, CFG->HEIGHT/2 + 20,
         CFG->WIDTH/2 - 180, CFG->WIDTH/2 + 180
     };
     bool hover2P = INPUT.mouse.inbox(box2P);
