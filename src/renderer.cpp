@@ -66,8 +66,4 @@ void Renderer::renderGameplay(Map *map)
 
     // Hud
     map->MapMulti->drawHuds();
-
-    // Black Screen
-    if (map->MapWorld->map_transition)
-        SDL_RenderCopy(CFG->RENDERER, map->MapWorld->BlackScreen, NULL, NULL);
 }

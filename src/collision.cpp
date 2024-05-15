@@ -114,7 +114,7 @@ void Collision::playerEnemyCollision(Map *map, Player *player)
                 enemy->enemyGetHit(player->getCombatDamage());
 
                 map->appendParticle(new ParticleEffect(
-                    Object2D::loadTexture(
+                    CFG->loadTexture(
                         "res/ParticleSheet/NakuEffect/Attack.png"),
                     enemy->getX(), enemy->getY(), 100, 100,
                     64, 64, 8, 4, 0

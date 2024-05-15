@@ -5350,7 +5350,9 @@ CMakeFiles/AbyssalHymn.dir/src/collision.cpp.obj: C:/Users/DPC/Downloads/VSCLMAO
   C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include/xtestintrin.h
 
 CMakeFiles/AbyssalHymn.dir/src/configuration.cpp.obj: C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/configuration.cpp \
+  C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/include/camera.h \
   C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/include/configuration.h \
+  C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/include/object2D.h \
   C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/libraries/SDL2/include/SDL2/SDL.h \
   C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/libraries/SDL2/include/SDL2/SDL_assert.h \
   C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/libraries/SDL2/include/SDL2/SDL_atomic.h \

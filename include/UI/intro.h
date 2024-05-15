@@ -13,7 +13,7 @@ struct IntroLogo
     float fade_max = 100;
     int still = 100;
     // Custom Value
-    bool finish = 0;
+    bool active = 1;
     bool appear = 1;
     float fade_cur = 0;
 
@@ -24,13 +24,12 @@ class Intro
 {
 public:
     IntroLogo1D logos = {
-        {Object2D::loadTexture("res/IntroLogo/Valve.png"), 339, 100},
-        {Object2D::loadTexture("res/IntroLogo/Riot.png"), 328, 200}
+        {CFG->loadTexture("res/IntroLogo/Valve.png"), 235, 70},
+        {CFG->loadTexture("res/IntroLogo/Riot.png"), 328, 200}
     };
 
     bool finish = 0;
     int BlackAlpha = 255;
-    SDL_Texture *BlackScreen = Object2D::loadTexture("res/BlackScreen.png");
 
     void update();
 };

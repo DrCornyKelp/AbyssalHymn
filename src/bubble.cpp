@@ -92,7 +92,7 @@ void Bubble::update(Multiplayer *multi)
     }
     if (bubble_objs.size() < multi->PlayerCount)
     {
-        SDL_Texture *texture = loadTexture(bubble_path);
+        SDL_Texture *texture = CFG->loadTexture(bubble_path);
         SDL_SetTextureAlphaMod(texture, 0);
         bubble_objs.push_back({texture, style});
         return;

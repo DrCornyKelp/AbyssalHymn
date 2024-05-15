@@ -26,27 +26,27 @@ Editor::Editor(Console *consl, World *w, Player *p, Collision *c) :
 {
     map_cur = world->MapCurrent;
 
-    EditBack = Object2D::loadTexture("res/Editor/EditorBack.png");
+    EditBack = CFG->loadTexture("res/Editor/EditorBack.png");
 
     EditArrow = {
-        Object2D::loadTexture("res/Editor/ArrowUp.png"),
-        Object2D::loadTexture("res/Editor/ArrowDown.png"),
-        Object2D::loadTexture("res/Editor/ArrowLeft.png"),
-        Object2D::loadTexture("res/Editor/ArrowRight.png")
+        CFG->loadTexture("res/Editor/ArrowUp.png"),
+        CFG->loadTexture("res/Editor/ArrowDown.png"),
+        CFG->loadTexture("res/Editor/ArrowLeft.png"),
+        CFG->loadTexture("res/Editor/ArrowRight.png")
     };
 
     for (int i = 0; i < 10; i++)
         EditNumber.push_back(
-            Object2D::loadTexture("res/Editor/Num" + std::to_string(i) + ".png")
+            CFG->loadTexture("res/Editor/Num" + std::to_string(i) + ".png")
         );
 
-    EditLetterType = Object2D::loadTexture("res/Editor/LetterType.png");
-    EditLetterFront = Object2D::loadTexture("res/Editor/LetterFront.png");
-    EditLetterBack = Object2D::loadTexture("res/Editor/LetterBack.png");
-    EditLetterDel = Object2D::loadTexture("res/Editor/LetterDel.png");
-    EditLetterGlob = Object2D::loadTexture("res/Editor/LetterGlobal.png");
-    EditLetterSave = Object2D::loadTexture("res/Editor/LetterSave.png");
-    EditLetterLoad = Object2D::loadTexture("res/Editor/LetterLoad.png");
+    EditLetterType = CFG->loadTexture("res/Editor/LetterType.png");
+    EditLetterFront = CFG->loadTexture("res/Editor/LetterFront.png");
+    EditLetterBack = CFG->loadTexture("res/Editor/LetterBack.png");
+    EditLetterDel = CFG->loadTexture("res/Editor/LetterDel.png");
+    EditLetterGlob = CFG->loadTexture("res/Editor/LetterGlobal.png");
+    EditLetterSave = CFG->loadTexture("res/Editor/LetterSave.png");
+    EditLetterLoad = CFG->loadTexture("res/Editor/LetterLoad.png");
 }
 
 void Editor::blockEditor()

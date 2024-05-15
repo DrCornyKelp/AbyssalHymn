@@ -1,5 +1,6 @@
 CMakeFiles/AbyssalHymn.dir/src/configuration.cpp.obj: \
  C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/configuration.cpp \
+ C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/include/object2D.h \
  C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/include/configuration.h \
  C:/msys64/mingw64/include/c++/13.2.0/iostream \
  C:/msys64/mingw64/include/c++/13.2.0/bits/requires_hosted.h \
@@ -416,4 +417,5 @@ CMakeFiles/AbyssalHymn.dir/src/configuration.cpp.obj: \
  C:/msys64/mingw64/include/c++/13.2.0/math.h \
  C:/msys64/mingw64/include/c++/13.2.0/map \
  C:/msys64/mingw64/include/c++/13.2.0/bits/stl_map.h \
- C:/msys64/mingw64/include/c++/13.2.0/bits/stl_multimap.h
+ C:/msys64/mingw64/include/c++/13.2.0/bits/stl_multimap.h \
+ C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/include/camera.h

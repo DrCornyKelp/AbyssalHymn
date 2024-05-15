@@ -12,10 +12,7 @@ public:
     Map *MapCurrent;
 
     // ======== Cool Stuff That are oddly specific ==========
-    SDL_Texture *BlackScreen;
     WorldLocation transit_location;
-    float map_transition = 0;
-    float map_transition_mid = 0;
 
     // ======== Standard Stuff (you know the drill) =========
     ~World();
@@ -24,8 +21,7 @@ public:
     void initWorld( Multiplayer *multi, Audio *audio,
                     Collision *collision, WorldLocation location);
 
-    void setTransit(WorldLocation location, int trans_time = 30);
-    void updateTransition();
+    void setTransit(WorldLocation location);
     void updateWorld();
 
     void switchMap(WorldLocation location);

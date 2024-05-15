@@ -20,7 +20,7 @@ Projectile::Projectile( string0D pPath,
     // Harm who?
     harm_player(harm != -1), harm_enemy(harm != 1)
 {
-    proj_texture = loadTexture(proj_path);
+    proj_texture = CFG->loadTexture(proj_path);
     setVelX(velX); setVelY(velY);
     setAccelX(accelX); setAccelY(accelY);
 }
@@ -38,7 +38,7 @@ Projectile::Projectile( string0D pPath,
     // Cool mechanic
     can_parry(parry), can_pierce(pierece), can_wall(thruWall)
 {
-    proj_texture = loadTexture(proj_path);
+    proj_texture = CFG->loadTexture(proj_path);
     setVelX(velX); setVelY(velY);
     setAccelX(accelX); setAccelY(accelY);
 }
@@ -57,7 +57,7 @@ Projectile::Projectile( string0D pPath,
     // Cool mechanic
     can_parry(parry), can_pierce(pierece), can_wall(thruWall)
 {
-    proj_texture = loadTexture(proj_path);
+    proj_texture = CFG->loadTexture(proj_path);
     setVelX(velX); setVelY(velY);
     setAccelX(accelX); setAccelY(accelY);
 }
@@ -170,7 +170,7 @@ void Projectile::projectileAction(Map *map)
         if (!parry_effect)
         {
             map->appendParticle(new ParticleEffect(
-                loadTexture(
+                CFG->loadTexture(
                     "res/ParticleSheet/BulletParry.png"
                 ),
                 getX(), getY(), 150, 150,
@@ -207,7 +207,7 @@ void Projectile::updateProjectile(Map *map)
     // Bullet Died :(
     if (bullet_dead)
         map->appendParticle(new ParticleEffect(
-            loadTexture("res/ParticleSheet/Explode.png"),
+            CFG->loadTexture("res/ParticleSheet/Explode.png"),
             getX(), getY(), 200, 200,
             100, 100, 10, 7, 3, 0
         ), 1);

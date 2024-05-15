@@ -7,10 +7,10 @@ void Scene::initScenes(Input *in)
 {
     input = in;
 
-    main_bg = Object2D::loadTexture("res/Menu/main.png");
-    pause_bg = Object2D::loadTexture("res/Menu/pause.png");
-    button_sheet = Object2D::loadTexture("res/Menu/button_silver.png");
-    button_high_sheet = Object2D::loadTexture("res/Menu/button_gold.png");
+    main_bg = CFG->loadTexture("res/Menu/main.png");
+    pause_bg = CFG->loadTexture("res/Menu/pause.png");
+    button_sheet = CFG->loadTexture("res/Menu/button_silver.png");
+    button_high_sheet = CFG->loadTexture("res/Menu/button_gold.png");
 }
 
 void Scene::naviMainMenu()

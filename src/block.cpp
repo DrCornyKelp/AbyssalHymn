@@ -34,7 +34,7 @@ Block::Block(float X, float Y, short t, int2D b_index) :
 void Block::blockEngine(string1D sPath, int2D bIndex)
 {
     // Just for block editor and stuff
-    highlight_texture = loadTexture("res/BoxTile.png");
+    highlight_texture = CFG->loadTexture("res/BoxTile.png");
 
     // Type 6 block (Texturing and Decoration)
     // can be render outside of camera border
@@ -189,7 +189,7 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
             if (player->a_dash.frame || player->g_dash.frame)
             {
                 map->appendParticle(new ParticleEffect(
-                    Object2D::loadTexture(
+                    CFG->loadTexture(
                         "res/ParticleSheet/NakuEffect/WallBangRight.png"),
                     player->getX(), player->getY(), 128, 128,
                     64, 64, 8, 4, 0
@@ -229,7 +229,7 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
             if (player->a_dash.frame || player->g_dash.frame)
             {
                 map->appendParticle(new ParticleEffect(
-                    Object2D::loadTexture(
+                    CFG->loadTexture(
                         "res/ParticleSheet/NakuEffect/WallBangLeft.png"),
                     player->getX(), player->getY(), 128, 128,
                     64, 64, 8, 4, 0
@@ -254,7 +254,7 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
             colli_y < hit_dist_y)
         {
             map->appendParticle(new ParticleEffect(
-                Object2D::loadTexture(
+                CFG->loadTexture(
                     "res/ParticleSheet/NakuEffect/WallBangDown.png"),
                 player->getX(), player->getY(), 70, 70,
                 64, 64, 8, 4, 0
@@ -368,14 +368,14 @@ void Block::refreshTexture(string1D sPath)
             // Delete old texture memory
             SDL_DestroyTexture(block_textures[i][j]);
             // Add new texture
-            block_textures[i][j] = loadTexture(bPath[block_indexs[i][j]]);
+            block_textures[i][j] = CFG->loadTexture(bPath[block_indexs[i][j]]);
         }
     }
 }
 
 void Block::tileEdit(string1D sPath, int1D tIndex, int bIndex)
 {
-    block_textures[tIndex[1]][tIndex[0]] = loadTexture( sPath[bIndex]);
+    block_textures[tIndex[1]][tIndex[0]] = CFG->loadTexture( sPath[bIndex]);
     block_indexs[tIndex[1]][tIndex[0]] = bIndex;
 }
 

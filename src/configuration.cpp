@@ -1,6 +1,44 @@
-#include <configuration.h>
+#include <object2D.h>
 
 Configuration *CFG = new Configuration();
+
+// ========================= TRANSITION EFFECT =========================
+
+void TransitionEffect::update()
+{
+    if (!active)                      return;
+    if (!fade)                        side_cur ++;
+    if (side_cur >= side_max)         fade = 1;
+    if (fade && mid_cur)              mid_cur --;
+    if (!mid_cur && side_cur)         side_cur --;
+    if (!side_cur && !mid_cur)        active = 0;
+
+    // Set Alpha Texture
+    int alpha = (side_cur / side_max) * 255;
+    if (alpha > 255) alpha = 255;
+    if (alpha < 0) alpha = 0;
+    SDL_SetTextureAlphaMod(BLACKSCREEN, alpha);
+    SDL_RenderCopy(CFG->RENDERER, BLACKSCREEN, NULL, NULL);
+}
+
+void TransitionEffect::set(float s, float m, bool skipStart)
+{
+    active = 1;
+    fade = 0;
+
+    side_max = s;
+    mid_max = m;
+    side_cur = skipStart ? side_max : 0;
+    if (skipStart) SDL_SetTextureAlphaMod(BLACKSCREEN, 255);
+    mid_cur = m;
+}
+
+bool TransitionEffect::midpoint()
+{ 
+    return active && mid_cur == mid_max && fade;
+}
+
+// ========================= CONFIGURATION STUFF =========================
 
 // CONSTRUCTOR
 Configuration::Configuration()
@@ -15,18 +53,42 @@ void Configuration::resizeWindow(int W, int H)
     SDL_SetWindowSize(WINDOW, W, H);
 }
 
+SDL_Texture *Configuration::loadTexture(string0D path)
+{
+    if (path == "") return NULL;
+
+    SDL_Surface *surface = IMG_Load(path.c_str());
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(CFG->RENDERER, surface);
+    SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+    SDL_FreeSurface(surface);
+
+    return texture;
+}
+SDLTexture1D Configuration::loadTextures(string0D path, int max)
+{
+    if (path == "") return {};
+
+    SDLTexture1D textures;
+    for (int i = 0; i < max; i++)
+    {
+        string0D frame_path = 
+            path + "frame_" + CFG->convertDigit(i, max) + ".png";
+        textures.push_back(loadTexture(frame_path));
+    }
+
+    return textures;
+}
+
 void Configuration::addDevlog(string0D text, int colorCode)
 { 
     DEVLOG += "| \033[" + std::to_string(colorCode) + "m" + text + "\033[0m ";
 }
-
 void Configuration::printDevlog()
 {
     if (DEVLOG == "" || DEVLOG == PRELOG) return;
     PRELOG = DEVLOG;
     std::cout << DEVLOG << "\n";
 }
-
 bool Configuration::isComment(string0D str)
 { 
     return  str == "" ||
@@ -42,6 +104,11 @@ void Configuration::frameHandler()
         SDL_Delay(DELAY_TIME - frame_duration);
 
     RUNTIME++;
+
+    std::cout<< TRANSIT_EFFECT.active << " " <<
+                TRANSIT_EFFECT.fade << " " <<
+                TRANSIT_EFFECT.side_cur << " " <<
+                TRANSIT_EFFECT.mid_cur << "\n";
 }
 
 //-------Covert each line of file into vector--------

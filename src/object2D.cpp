@@ -246,34 +246,6 @@ bool Object2D::objectIgnore(Object2D *objMain, Object2D *objSub)
             dist_y - objSub->getHeight() > CFG->HEIGHT);
 };
 
-// Texture
-
-SDL_Texture *Object2D::loadTexture(string0D path)
-{
-    if (path == "") return NULL;
-
-    SDL_Surface *surface = IMG_Load(path.c_str());
-    SDL_Texture *texture = SDL_CreateTextureFromSurface(CFG->RENDERER, surface);
-    SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
-    SDL_FreeSurface(surface);
-
-    return texture;
-}
-SDLTexture1D Object2D::loadTextures(string0D path, int max)
-{
-    if (path == "") return {};
-
-    SDLTexture1D textures;
-    for (int i = 0; i < max; i++)
-    {
-        string0D frame_path = 
-            path + "frame_" + CFG->convertDigit(i, max) + ".png";
-        textures.push_back(loadTexture(frame_path));
-    }
-
-    return textures;
-}
-
 void Object2D::deleteTextures(SDLTexture1D textures)
 { for (SDL_Texture *tex : textures) SDL_DestroyTexture(tex); }
 

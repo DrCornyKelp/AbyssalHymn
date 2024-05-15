@@ -20,14 +20,14 @@ public:
     Input INPUT;
 
     ObjectSprite menuBGsprite = {0, 0, 20, 5};
-    SDLTexture1D menuBGframe = Object2D::loadTextures(
+    SDLTexture1D menuBGframe = CFG->loadTextures(
         "res/Menu/Background/", 64
     );
 
     bool end = 0;
 
     MenuButton buttonStart = {
-        Object2D::loadTexture("res/Menu/Button/Start.png")
+        CFG->loadTexture("res/Menu/Button/Start.png")
     };
 
     void update();

@@ -11,6 +11,8 @@ int main(int argc, char *argv[])
 {
     SDL_Init(SDL_INIT_GAMECONTROLLER);
 
+    CFG->TRANSIT_EFFECT.BLACKSCREEN = CFG->loadTexture("res/BlackScreen.png");
+
     // Audio Handler
     Audio *audio = new Audio();
 
@@ -63,7 +65,15 @@ int main(int argc, char *argv[])
     // Map editor
     Editor *editor = new Editor(console, world, multi->MAIN, collision);
 
+    // Play Intro Sequence
     Intro *intro = new Intro();
+    while (!intro->finish)
+    {
+        SDL_RenderClear(CFG->RENDERER);
+        intro->update();
+        CFG->frameHandler();
+        SDL_RenderPresent(CFG->RENDERER);
+    }
 
     Menu *menu = new Menu();
     while (!menu->end)
@@ -71,10 +81,10 @@ int main(int argc, char *argv[])
         SDL_RenderClear(CFG->RENDERER);
 
         menu->update();
-        intro->update();
 
-        SDL_RenderPresent(CFG->RENDERER);
+        CFG->TRANSIT_EFFECT.update();
         CFG->frameHandler();
+        SDL_RenderPresent(CFG->RENDERER);
     }
 
     while (!multi->MAIN->INPUT.escape.state)
@@ -93,9 +103,10 @@ int main(int argc, char *argv[])
         editor->update();
         console->update();
 
-        // SDL and shit
-        SDL_RenderPresent(CFG->RENDERER);
+        // Config
+        CFG->TRANSIT_EFFECT.update();
         CFG->frameHandler();
+        SDL_RenderPresent(CFG->RENDERER);
     }
 
     // Clean up (REMEMBER TO ADD PLAYER CLEAN UP AS WELL)

@@ -7,12 +7,12 @@ Player::~Player()
 Player::Player(bool mc) : Object2D(), MAIN(mc)
 {
     // Nakuru normal mvoement
-    draw_prop.RightTexture = loadTexture("res/NakuSheet/NakuRight.png");
-    draw_prop.LeftTexture = loadTexture("res/NakuSheet/NakuLeft.png");
+    draw_prop.RightTexture = CFG->loadTexture("res/NakuSheet/NakuRight.png");
+    draw_prop.LeftTexture = CFG->loadTexture("res/NakuSheet/NakuLeft.png");
 
     // Nakuru holding weapon
-    draw_prop.RightWeaponTexture = loadTexture("res/NakuSheet/NakuRightWeapon.png");
-    draw_prop.LeftWeaponTexture = loadTexture("res/NakuSheet/NakuLeftWeapon.png");
+    draw_prop.RightWeaponTexture = CFG->loadTexture("res/NakuSheet/NakuRightWeapon.png");
+    draw_prop.LeftWeaponTexture = CFG->loadTexture("res/NakuSheet/NakuLeftWeapon.png");
 }
 
 // ============================ PLAYER MOVESET ============================
@@ -522,7 +522,7 @@ void Player::playerMovement(Map *map)
         INPUT.dash.hold = 1;
 
         map->appendParticle(new ParticleEffect(
-            loadTexture(draw_prop.right ?
+            CFG->loadTexture(draw_prop.right ?
                 "res/ParticleSheet/NakuEffect/GDashSmokeRight.png" :
                 "res/ParticleSheet/NakuEffect/GDashSmokeLeft.png"
             ),
@@ -546,7 +546,7 @@ void Player::playerMovement(Map *map)
         INPUT.dash.hold = 1;
 
         map->appendParticle(new ParticleEffect(
-            loadTexture(draw_prop.right ?
+            CFG->loadTexture(draw_prop.right ?
                 "res/ParticleSheet/NakuEffect/ADashSmokeRight.png" :
                 "res/ParticleSheet/NakuEffect/ADashSmokeLeft.png"
             ),
@@ -579,7 +579,7 @@ void Player::playerMovement(Map *map)
         if (jump.super == jump.super_max)
         {
             map->appendParticle(new ParticleEffect(
-                loadTexture(
+                CFG->loadTexture(
                     "res/ParticleSheet/NakuEffect/SuperJumpSmoke.png"),
                 move.hitX(), move.hitY(), 150, 36,
                 118, 29, 8, 5, 0
@@ -588,7 +588,7 @@ void Player::playerMovement(Map *map)
             setVelY(7.3);
         } else if (state.on_ground)
             map->appendParticle(new ParticleEffect(
-                loadTexture(
+                CFG->loadTexture(
                     "res/ParticleSheet/NakuEffect/JumpSmoke.png"),
                 getX(), getY() - 24, 50, 50,
                 14, 12, 8, 5, 0
@@ -599,7 +599,7 @@ void Player::playerMovement(Map *map)
         if (state.hug_wall)
         {
             map->appendParticle(new ParticleEffect(
-                loadTexture(
+                CFG->loadTexture(
                     state.hug_wall > 0 ?
                     "res/ParticleSheet/NakuEffect/JumpWallRight.png" :
                     "res/ParticleSheet/NakuEffect/JumpWallLeft.png"),
@@ -996,14 +996,14 @@ void Player::playerGetHit(Map *map, int dmg)
     if (combat.invulnerable || combat.invincible) return;
 
     // map->appendParticle(new ParticleEffect(
-    //     loadTexture(CFG->RENDERER,
+    //     CFG->loadTexture(CFG->RENDERER,
     //         "res/ParticleSheet/NakuEffect/BloodSplatter.png"),
     //     getX(), getY(), 300, 300,
     //     100, 100, 6, 3, 4, 0
     // ));
 
     // map->appendParticle(new ParticleEffect(
-    //     loadTexture(CFG->RENDERER,
+    //     CFG->loadTexture(CFG->RENDERER,
     //         "res/ParticleSheet/Explode.png"),
     //     getX(), getY(), 300, 300,
     //     100, 100, 10, 7, 3, 0

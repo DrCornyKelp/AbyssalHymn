@@ -26,10 +26,10 @@ void Door::initDoor()
     if (style < 0) return;
 
     string0D h_dir = handle_left ? "L" : "R";
-    door_texture = loadTexture(
+    door_texture = CFG->loadTexture(
         "res/Door/Door" + std::to_string(style) + h_dir + ".png"
     );
-    lock_texture = loadTexture(
+    lock_texture = CFG->loadTexture(
         "res/Door/DoorLock.png"
     );
 }

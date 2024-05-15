@@ -54,10 +54,10 @@ float Decoration::getSclVelY() { return scale_vel_y; }
 void Decoration::initDecoration()
 {
     if (type == 2)
-        decor_textures = loadTextures(decor_path, getSprIndexMax());
+        decor_textures = CFG->loadTextures(decor_path, getSprIndexMax());
     else
     {
-        decor_texture = loadTexture(decor_path);
+        decor_texture = CFG->loadTexture(decor_path);
         setAlpha(alpha);
     }
 }

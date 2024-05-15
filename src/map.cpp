@@ -48,10 +48,10 @@ void MapComponent::appendComponent()
     // PREVIEWER
     for (string0D path : map->BlockPath)
         map->BlockPreview.push_back(
-            Object2D::loadTexture(path)
+            CFG->loadTexture(path)
         );
     map->BlockPreview.push_back(
-        Object2D::loadTexture("res/BlockTile/Null.png")
+        CFG->loadTexture("res/BlockTile/Null.png")
     );
 }
 
@@ -296,16 +296,9 @@ void Map::updateMapGlobal()
 void Map::updateMapActive()
 {
     // ================= In the middle of a transition =================
-    if (MapWorld->map_transition)
-        for (Player *player : MapMulti->Players)
-            player->setStatic();
-
-    if (MapWorld->map_transition > MapWorld->map_transition_mid)
-    {
-        for (Player *player : MapMulti->Players)
-            player->INPUT.delay = MapWorld->map_transition_mid + 10;
-        return;
-    };
+    // if (CFG->TRANSIT_EFFECT.active)
+    //     for (Player *player : MapMulti->Players)
+    //         player->setStatic();
 
     // ================= Update Player ===================================
     MapMulti->update(this);

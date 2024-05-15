@@ -3,8 +3,8 @@
 void IntroLogo::update()
 {   
     // Draw in the dead center
-    if (!fade_cur && !still) finish = 1;
-    if (finish) return;
+    if (!fade_cur && !still) active = 0;
+    if (!active) return;
 
     SDL_Rect desRect = {
         (CFG->WIDTH - w) / 2,
@@ -28,28 +28,17 @@ void Intro::update()
     // INTRO SEQUENCE IS OVER, NO MORE
     if (finish) return;
 
-    // DRAWING A BLACK SCREEN
-    SDL_RenderCopy(CFG->RENDERER, BlackScreen, NULL, NULL);
-    // UPDATING THE BLACK SCREEN
     if (!logos.size())
     {
-        BlackAlpha -= 5;
-
-        if (BlackAlpha < 0)
-        {
-            SDL_DestroyTexture(BlackScreen);
-            finish = 1;
-            return;
-        }
-
-        SDL_SetTextureAlphaMod(BlackScreen, BlackAlpha);
+        CFG->TRANSIT_EFFECT.set(40, 100, 1);
+        finish = 1;
         return;
-    };
+    }
 
     // DRAWING THE LOGOS
     logos[0].update();
 
-    if (logos[0].finish)
+    if (!logos[0].active)
     {
         SDL_DestroyTexture(logos[0].logo);
         logos.erase(logos.begin());

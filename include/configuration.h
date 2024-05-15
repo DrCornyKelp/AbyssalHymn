@@ -37,6 +37,23 @@
 #define SDLTexture1D std::vector<SDL_Texture*>
 #define SDLTexture2D std::vector<SDLTexture1D>
 
+class Configuration;
+
+struct TransitionEffect
+{
+    SDL_Texture *BLACKSCREEN;
+    float side_max = 100;
+    float mid_max = 100;
+    float side_cur = 0;
+    float mid_cur = 0;
+    bool active = 0;
+    bool fade = 0;
+
+    void update();
+    void set(float s, float m, bool skipStart = 0);
+    bool midpoint();
+};
+
 class Configuration
 {
 public:
@@ -70,29 +87,35 @@ public:
                                             SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_ALLOW_HIGHDPI);
     SDL_Renderer *RENDERER = SDL_CreateRenderer(WINDOW, -1, 0);
     SDL_Surface *ICON = SDL_LoadBMP("res/icon.bmp");
+    // TEXTURE FUNCTIONS
+    static SDL_Texture *loadTexture(string0D path);
+    static SDLTexture1D loadTextures(string0D path, int max);
+
+    // TRANSITION
+    TransitionEffect TRANSIT_EFFECT;
 
     // DEBUG LOGGING
     string0D PRELOG = "";
     string0D DEVLOG = "";
     void addDevlog(string0D text, int colorCode);
     void printDevlog();
-    bool isComment(string0D str);
+    static bool isComment(string0D str);
 
     // ====== Some manipulation with string and vector ======
 
-    string1D convertStrVec(string0D file_dir);
-    string0D convertDigit(int number, int maxNumber);
+    static string1D convertStrVec(string0D file_dir);
+    static string0D convertDigit(int number, int maxNumber);
 
-    int2D resizeInt2D(int1D vec, int r, int c);
-    long2D resizeLong2D(long1D vec, int r, int c);
-    float2D resizeFloat2D(float1D vec, int r, int c);
+    static int2D resizeInt2D(int1D vec, int r, int c);
+    static long2D resizeLong2D(long1D vec, int r, int c);
+    static float2D resizeFloat2D(float1D vec, int r, int c);
 
-    int1D convertStrInt1D(string0D str, char delimiter = ',');
-    long1D convertStrLong1D(string0D str, char delimiter = ',');
-    float1D convertStrFloat1D(string0D str, char delimiter = ',');
+    static int1D convertStrInt1D(string0D str, char delimiter = ',');
+    static long1D convertStrLong1D(string0D str, char delimiter = ',');
+    static float1D convertStrFloat1D(string0D str, char delimiter = ',');
 
-    int1D convertFloat1DInt(float1D vec);
-    int2D convertFloat2DInt(float2D vec);
+    static int1D convertFloat1DInt(float1D vec);
+    static int2D convertFloat2DInt(float2D vec);
 
 };
 

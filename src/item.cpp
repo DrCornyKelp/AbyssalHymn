@@ -21,7 +21,7 @@ void Item::initItemSprite()
         break;
     }
 
-    item_texture = loadTexture(path);
+    item_texture = CFG->loadTexture(path);
 }
 
 // void Item::initEffect()
