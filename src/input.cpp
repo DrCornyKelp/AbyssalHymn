@@ -8,7 +8,7 @@ void KeyState::update(const Uint8* keystate, Input *input)
     // Key Script
     if (!(script_history.size() % 2) && state ||
         script_history.size() % 2 && !state)
-        script_history.push_back(CFG->TIME);
+        script_history.push_back(CFG->RUNTIME);
 
     if (moveset) input->script_history_full += scriptHistoryToStr() + "\n";
 
@@ -17,9 +17,9 @@ void KeyState::update(const Uint8* keystate, Input *input)
     // // KEY SCRIPT
     if (script_size)
     {
-        if (CFG->TIME >= script[0])
+        if (CFG->RUNTIME >= script[0])
         {
-            if (CFG->TIME == script[0])
+            if (CFG->RUNTIME == script[0])
             {
                 if (script_size % 2) {
                     state = 0; hold = 0;
@@ -184,7 +184,7 @@ void Input::executeScript(string0D script_dir, bool from_cur)
         if (CFG->isComment(line)) continue;
 
         long1D script = CFG->convertStrLong1D(line);
-        if (from_cur) for (long &s : script) s += CFG->TIME;
+        if (from_cur) for (long &s : script) s += CFG->RUNTIME;
 
         // A .1 ms input, needed to ensure correct hold/release cycle
         if (script.size() % 2) script.push_back(script.back() + 1);

@@ -45,16 +45,16 @@ public:
     // GAMESTATE
     bool QUIT = 0;
 
-    // FPS
+    // TIME/FPS
     int FPS = 100;
+    long RUNTIME = 0;
     int DELAY_TIME = 10;
+    void frameHandler(int dlt);
 
     // WINDOW SIZE
     // int WIDTH = 1536, HEIGHT = 896;
     int WIDTH = 1280, HEIGHT = 768;
-
-    // TIMER
-    long TIME = 0;
+    void resizeWindow(int W, int H);
 
     // WINDOW/RENDERER
     SDL_Window *WINDOW = SDL_CreateWindow("Abyssal Hymn", SDL_WINDOWPOS_UNDEFINED,
@@ -65,25 +65,21 @@ public:
     // DEBUG LOGGING
     string0D PRELOG = "";
     string0D DEVLOG = "";
-
-    // Method
     void addDevlog(string0D text, int colorCode);
     void printDevlog();
 
-    void resizeWindow(int W, int H);
-    void frameHandler(int dlt);
-
-    // Some manipulation with string and vector
+    // ====== Some manipulation with string and vector ======
     bool isComment(string0D str);
 
     string1D convertStrVec(string0D file_dir);
 
     int2D resizeInt2D(int1D vec, int r, int c);
+    long2D resizeLong2D(long1D vec, int r, int c);
     float2D resizeFloat2D(float1D vec, int r, int c);
 
     int1D convertStrInt1D(string0D str, char delimiter = ',');
-    float1D convertStrFloat1D(string0D str, char delimiter = ',');
     long1D convertStrLong1D(string0D str, char delimiter = ',');
+    float1D convertStrFloat1D(string0D str, char delimiter = ',');
 
     int1D convertFloat1DInt(float1D vec);
     int2D convertFloat2DInt(float2D vec);

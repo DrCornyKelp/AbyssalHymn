@@ -33,7 +33,7 @@ void Configuration::frameHandler(int dlt)
     if (frame_duration < dlt)
         SDL_Delay(dlt - frame_duration);
 
-    TIME++;
+    RUNTIME++;
 }
 
 bool Configuration::isComment(string0D str)
@@ -62,6 +62,18 @@ int2D Configuration::resizeInt2D(int1D vec, int r, int c)
     for (int i = 0; i < r; ++i)
     {
         result.push_back(int1D(it, it + c));
+        it += c;
+    }
+
+    return result;
+}
+long2D Configuration::resizeLong2D(long1D vec, int r, int c)
+{
+    long2D result;
+    auto it = vec.begin();
+    for (int i = 0; i < r; ++i)
+    {
+        result.push_back(long1D(it, it + c));
         it += c;
     }
 
