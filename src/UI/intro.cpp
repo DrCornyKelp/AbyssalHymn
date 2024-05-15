@@ -19,14 +19,38 @@ void IntroLogo::update()
 
     if (!still && fade_cur) fade_cur --;
 
-    std::cout << fade_cur << "\n";
+    int alpha = (fade_cur / fade_max) * 255;
+
+    std::cout << alpha << "\n";
+    SDL_SetTextureAlphaMod(logo, alpha);
+    SDL_RenderCopy(CFG->RENDERER, logo, NULL, &desRect);
 }
 
 
 void Intro::update()
 {
-    if (!logos.size()) return;
+    // INTRO SEQUENCE IS OVER, NO MORE
+    if (finish) return;
 
+    // DRAWING A BLACK SCREEN
+    SDL_RenderCopy(CFG->RENDERER, BlackScreen, NULL, NULL);
+    // UPDATING THE BLACK SCREEN
+    if (!logos.size())
+    {
+        BlackAlpha -= 5;
+
+        if (BlackAlpha < 0)
+        {
+            SDL_DestroyTexture(BlackScreen);
+            finish = 1;
+            return;
+        }
+
+        SDL_SetTextureAlphaMod(BlackScreen, BlackAlpha);
+        return;
+    };
+
+    // DRAWING THE LOGOS
     logos[0].update();
 
     if (logos[0].finish)

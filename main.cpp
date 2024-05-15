@@ -20,11 +20,11 @@ int main(int argc, char *argv[])
     // Player + Hud
     Player1D PlayerVec;
 
-    int playercount;
+    int playercount = 1;
 
-    std::cout << "SET PLAYER COUNT: ";
-    std::cin >> playercount;
-    std::cout << "Welcome \n";
+    // std::cout << "SET PLAYER COUNT: ";
+    // std::cin >> playercount;
+    // std::cout << "Welcome \n";
 
     for (int i = 0; i < playercount; i++)
         PlayerVec.push_back(new Player());
@@ -66,22 +66,13 @@ int main(int argc, char *argv[])
 
     Intro *intro = new Intro();
 
-    while (intro->logos.size())
-    {
-        SDL_RenderClear(CFG->RENDERER);
-
-        intro->update();
-
-        SDL_RenderPresent(CFG->RENDERER);
-        CFG->frameHandler();
-    }
-
     Menu *menu = new Menu();
     while (!menu->INPUT.lctrl.state)
     {
         SDL_RenderClear(CFG->RENDERER);
-
+        
         menu->update();
+        intro->update();
 
         SDL_RenderPresent(CFG->RENDERER);
         CFG->frameHandler();
