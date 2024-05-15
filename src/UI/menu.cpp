@@ -21,7 +21,5 @@ void Menu::update()
     INPUT.update();
 
     Object2D::objectSetSprite(sprite);
-
-    SDL_RenderClear(CFG->RENDERER);
     SDL_RenderCopy(CFG->RENDERER, menuBGframe[sprite.si], NULL, NULL);
 }

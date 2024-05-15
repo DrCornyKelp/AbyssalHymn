@@ -45,6 +45,14 @@ public:
     // GAMESTATE
     bool QUIT = 0;
 
+    /*  STATE LIST
+        -1: Intro
+        0: Menu
+        1: Playing
+        2: Pause
+    */
+    short STATE = -1;
+
     // TIME/FPS
     int FPS = 100;
     long RUNTIME = 0;

@@ -2,6 +2,7 @@
 #include <audio.h>
 
 #include <UI/menu.h>
+#include <UI/intro.h>
 
 #include <developer/editor.h>
 #include <developer/console.h>
@@ -23,7 +24,7 @@ int main(int argc, char *argv[])
 
     std::cout << "SET PLAYER COUNT: ";
     std::cin >> playercount;
-    std::cout << "હેલો \n";
+    std::cout << "Welcome \n";
 
     for (int i = 0; i < playercount; i++)
         PlayerVec.push_back(new Player());
@@ -63,9 +64,23 @@ int main(int argc, char *argv[])
     // Map editor
     Editor *editor = new Editor(console, world, multi->MAIN, collision);
 
+    Intro *intro = new Intro();
+
+    while (intro->logos.size())
+    {
+        SDL_RenderClear(CFG->RENDERER);
+
+        intro->update();
+
+        SDL_RenderPresent(CFG->RENDERER);
+        CFG->frameHandler();
+    }
+
     Menu *menu = new Menu();
     while (!menu->INPUT.lctrl.state)
     {
+        SDL_RenderClear(CFG->RENDERER);
+
         menu->update();
 
         SDL_RenderPresent(CFG->RENDERER);

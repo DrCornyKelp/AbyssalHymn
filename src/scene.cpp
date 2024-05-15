@@ -1,4 +1,4 @@
-#include "scene.h"
+#include <scene.h>
 
 // SDL_Texture *Scene::getMainBg() { return main_bg; }
 // SDL_Texture *Scene::getPauseBg() { return pause_bg; }

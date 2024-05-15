@@ -10,6 +10,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/AbyssalHymn.dir/main.cpp.obj.d"
   "CMakeFiles/AbyssalHymn.dir/src/UI/button.cpp.obj"
   "CMakeFiles/AbyssalHymn.dir/src/UI/button.cpp.obj.d"
+  "CMakeFiles/AbyssalHymn.dir/src/UI/intro.cpp.obj"
+  "CMakeFiles/AbyssalHymn.dir/src/UI/intro.cpp.obj.d"
   "CMakeFiles/AbyssalHymn.dir/src/UI/menu.cpp.obj"
   "CMakeFiles/AbyssalHymn.dir/src/UI/menu.cpp.obj.d"
   "CMakeFiles/AbyssalHymn.dir/src/UI/section.cpp.obj"

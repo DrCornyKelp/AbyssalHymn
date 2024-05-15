@@ -25,6 +25,9 @@ struct PlayerMoveset
     bool g_dash = 1;
     bool a_dash = 1;
     bool hug_wall = 1;
+
+    void enableAll();
+    void disableAll();
 };
 
 struct PlayerState
@@ -247,7 +250,6 @@ public:
     void playerHitBox();
     void playerGetHit(Map *map, int dmg);
     void playerUpdate(Map *map);
-    void playerEnableAllMoveset();
     // Developer
     void playerDeveloper(Map *map);
 };

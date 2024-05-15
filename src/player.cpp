@@ -15,6 +15,27 @@ Player::Player(bool mc) : Object2D(), MAIN(mc)
     draw_prop.LeftWeaponTexture = loadTexture("res/NakuSheet/NakuLeftWeapon.png");
 }
 
+// ============================ PLAYER MOVESET ============================
+
+void PlayerMoveset::enableAll()
+{
+    move = 0;
+    jump = 0;
+    crawl = 0;
+    g_dash = 0;
+    a_dash = 0;
+    hug_wall = 0;
+}
+void PlayerMoveset::disableAll()
+{
+    move = 0;
+    jump = 0;
+    crawl = 0;
+    g_dash = 0;
+    a_dash = 0;
+    hug_wall = 0;
+}
+
 // ============================ PLAYER STATE ============================
 
 void PlayerState::resetState()
@@ -1080,14 +1101,4 @@ void Player::playerUpdate(Map *map)
     playerCombat(map);
     playerHitBox();
     draw_prop.drawProperty(map);
-}
-
-void Player::playerEnableAllMoveset()
-{
-    moveset.move = true;
-    moveset.jump = true;
-    moveset.crawl = true;
-    moveset.g_dash = true;
-    moveset.a_dash = true;
-    moveset.hug_wall = true;
 }

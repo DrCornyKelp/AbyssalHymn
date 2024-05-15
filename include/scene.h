@@ -1,7 +1,7 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include "input.h"
+#include <input.h>
 
 class Object2D;
 class Scene

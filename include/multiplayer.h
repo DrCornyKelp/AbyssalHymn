@@ -1,7 +1,7 @@
 #ifndef MULTIPLAYER_H
 #define MULTIPLAYER_H
 
-#include "player.h"
+#include <player.h>
 
 class Map;
 class Multiplayer
