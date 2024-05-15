@@ -63,9 +63,9 @@ int main(int argc, char *argv[])
     // Map editor
     Editor *editor = new Editor(console, world, multi->MAIN, collision);
 
-    Menu *menu = new Menu();
 
-    while (!menu->INPUT.space.state)
+    Menu *menu = new Menu();
+    while (!menu->INPUT.lctrl.state)
     {
         menu->update();
 

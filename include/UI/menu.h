@@ -10,7 +10,7 @@ public:
 
     Input INPUT;
 
-    ObjectSprite sprite = {0, 0, 64, 10};
+    ObjectSprite sprite = {0, 0, 20, 5};
     SDLTexture1D menuBGframe = Object2D::loadTextures(
         "res/Menu/Background/", 64
     );
