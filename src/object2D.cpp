@@ -40,11 +40,13 @@ bool ObjectBox::contain(int x, int y)
             y >= down && y <= up);
 }
 ObjectHitbox ObjectBox::hitbox()
-{ return {
-    float(right + left) / 2, float(up + down) / 2,
-    float(right - left) / 2, float(up - down) / 2,
-    (right - left) / 2, (up - down) / 2
-}; }
+{ 
+    return {
+        float(right + left) / 2, float(up + down) / 2,
+        float(right - left) / 2, float(up - down) / 2,
+        (right - left) / 2, (up - down) / 2
+    };
+}
 
 // ========================== OBJECT ==============================
 
@@ -220,6 +222,19 @@ int Object2D::distR(Object2D *obj1, Object2D *obj2)
     int sqrX = pow(distX(obj1, obj2), 2);
     int sqrY = pow(distY(obj1, obj2), 2);
     return sqrt(sqrX + sqrY);
+}
+
+ObjectBox Object2D::SDLRectToBox(SDL_Rect rect)
+{
+    return {
+        rect.y + rect.h, rect.y, rect.x, rect.x + rect.w
+    };
+}
+SDL_Rect Object2D::BoxToSDLRect(ObjectBox box)
+{
+    return {
+        box.left, box.down, box.right - box.left, box.up - box.down
+    };
 }
 
 bool Object2D::objectIgnore(Object2D *objMain, Object2D *objSub)

@@ -14,14 +14,10 @@ void IntroLogo::update()
 
     if (appear) fade_cur ++;
     if (fade_cur >= fade_max) appear = 0;
-
     if (!appear && still) still --;
-
     if (!still && fade_cur) fade_cur --;
 
     int alpha = (fade_cur / fade_max) * 255;
-
-    std::cout << alpha << "\n";
     SDL_SetTextureAlphaMod(logo, alpha);
     SDL_RenderCopy(CFG->RENDERER, logo, NULL, &desRect);
 }

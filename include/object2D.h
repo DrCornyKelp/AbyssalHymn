@@ -11,6 +11,7 @@
 struct ObjectXY { int x = 0, y = 0; };
 struct ObjectXYb { bool x = 0, y = 0; };
 struct ObjectXYf { float x = 0, y = 0; };
+struct ObjectXYWH { int x = 0, y = 0, w = 0, h = 0; };
 struct ObjectHitbox
 {
     float x = 0, y = 0;
@@ -192,6 +193,9 @@ public:
     static int distBorderX(Object2D *obj1, Object2D *obj2);
     static int distBorderY(Object2D *obj1, Object2D *obj2);
     static int distR(Object2D *obj1, Object2D *obj2);
+
+    static ObjectBox SDLRectToBox(SDL_Rect rect);
+    static SDL_Rect BoxToSDLRect(ObjectBox box);
 
     static bool objectIgnore(Object2D *objMain, Object2D *objSub);
 

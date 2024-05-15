@@ -21,7 +21,6 @@ int main(int argc, char *argv[])
     Player1D PlayerVec;
 
     int playercount = 1;
-
     // std::cout << "SET PLAYER COUNT: ";
     // std::cin >> playercount;
     // std::cout << "Welcome \n";
@@ -36,7 +35,7 @@ int main(int argc, char *argv[])
     // ZA WARUDO
     World *world = new World({
         // Void
-        new Map("Tutorial1"), // 0 (this is going to be a default map)
+        new Map("Tutorial1"), // 0 (Default)
         // Tutorial
         new Map("Tutorial1"), // 1
         new Map("Tutorial2"), // 2
@@ -67,10 +66,10 @@ int main(int argc, char *argv[])
     Intro *intro = new Intro();
 
     Menu *menu = new Menu();
-    while (!menu->INPUT.lctrl.state)
+    while (!menu->end)
     {
         SDL_RenderClear(CFG->RENDERER);
-        
+
         menu->update();
         intro->update();
 

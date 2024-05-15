@@ -3,16 +3,13 @@
 
 #include <world.h>
 
-struct ButtonUI
+struct MenuButton
 {
-    ObjectBox box;
-    bool hold = 0, press = 0;
+    SDL_Texture *texture;
+    int hover_min = 180;
 
-    SDL_Texture *bnormal,
-                *bhover,
-                *bpress;
-
-    void update(Input *INPUT);
+    int hover_alpha = 0;
+    void update(bool hover, SDL_Rect rect);
 };
 
 class Menu
@@ -22,10 +19,16 @@ public:
 
     Input INPUT;
 
-    ObjectSprite sprite = {0, 0, 20, 5};
+    ObjectSprite menuBGsprite = {0, 0, 20, 5};
     SDLTexture1D menuBGframe = Object2D::loadTextures(
         "res/Menu/Background/", 64
     );
+
+    bool end = 0;
+
+    MenuButton buttonStart = {
+        Object2D::loadTexture("res/Menu/Button/Start.png")
+    };
 
     void update();
 };

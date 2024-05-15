@@ -1,15 +1,15 @@
 #include <UI/menu.h>
 
-void ButtonUI::update(Input *INPUT)
+void MenuButton::update(bool hover, SDL_Rect rect)
 {
-    if (INPUT->mouse.L.state) hold = 1;
+    if ((hover && hover_alpha < 255) ||
+        hover_alpha < hover_min)
+        hover_alpha += 5;
+    else if (hover_alpha > hover_min)
+        hover_alpha -= 5;
 
-    if (INPUT->mouse.L.state && hold &&
-        INPUT->mouse.inbox(box))
-    {
-        press = 1;
-        hold = 0;
-    }
+    SDL_SetTextureAlphaMod(texture, hover_alpha);
+    SDL_RenderCopy(CFG->RENDERER, texture, NULL, &rect);
 }
 
 Menu::Menu() {
@@ -20,6 +20,16 @@ void Menu::update()
 {
     INPUT.update();
 
-    Object2D::objectSetSprite(sprite);
-    SDL_RenderCopy(CFG->RENDERER, menuBGframe[sprite.si], NULL, NULL);
+    // Draw Background
+    Object2D::objectSetSprite(menuBGsprite);
+    SDL_RenderCopy(CFG->RENDERER, menuBGframe[menuBGsprite.si], NULL, NULL);
+
+    // Draw UI BUTTONS
+    ObjectBox boxStart = {
+        CFG->HEIGHT/2 + 48, CFG->HEIGHT/2 - 48,
+        CFG->WIDTH/2 - 128, CFG->WIDTH/2 + 128
+    };
+    bool hoverStart = INPUT.mouse.inbox(boxStart);
+    buttonStart.update(hoverStart, Object2D::BoxToSDLRect(boxStart));
+    if (hoverStart && INPUT.mouse.L.state) end = 1;
 }
