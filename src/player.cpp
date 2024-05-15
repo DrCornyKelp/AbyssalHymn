@@ -207,7 +207,7 @@ void PlayerDrawProp::drawProperty(Map *map)
         Camera::objectDrawY(player->MULTI->MAIN, player) - player->getWidth()*2,
         player->getWidth()*4, player->getWidth()*4
     };
-    src_rect = {
+    srcRect = {
         player->getSprIndex() * player->getWidth(),
         index * player->getWidth(),
         player->getWidth(), player->getWidth()
@@ -219,7 +219,7 @@ void PlayerDrawProp::drawProperty(Map *map)
 
 void PlayerDrawProp::draw()
 {
-    SDL_RenderCopy(CFG->RENDERER, CurrentTexture, &src_rect, &desRect);
+    SDL_RenderCopy(CFG->RENDERER, CurrentTexture, &srcRect, &desRect);
 }
 
 // ============================ PLAYER CAMERA ============================

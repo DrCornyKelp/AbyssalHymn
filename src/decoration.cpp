@@ -1,21 +1,23 @@
 #include <map.h>
 
 Decoration::~Decoration() {
+    // Single Texture
+    SDL_DestroyTexture(decor_texture);
+    // Folder Textures
     for (SDL_Texture *txt : decor_textures)
         SDL_DestroyTexture(txt);
-    SDL_DestroyTexture(decor_texture);
 }
 
 Decoration::Decoration(DecorObject decor_obj) :
     Object2D(decor_obj.box, decor_obj.sprite),
-    decor_path(decor_obj.path), decor_frame(decor_obj.isFolder ? "Yes" : ""),
+    type(decor_obj.type), decor_path(decor_obj.path),
     absolute(decor_obj.absolute), alpha(decor_obj.alpha)
 {}
 
 // Background
 Decoration::Decoration( string0D dPath, float whRatio,
                         float scaleVelX, float scaleVelY, float velX) :
-    decor_path(dPath), w_h_ratio(whRatio),
+    type(0), decor_path(dPath), w_h_ratio(whRatio),
     scale_vel_x(scaleVelX), scale_vel_y(scaleVelY)
 { setVelX(velX); }
 
@@ -23,7 +25,7 @@ Decoration::Decoration( string0D dPath, float whRatio,
 Decoration::Decoration(string0D dPath, float X, float Y, float w, float h, bool abs) :
     Object2D((X + w/2)*64, (Y + h/2)*64, w*64, h*64,
             0, 0, w, h, 0, 0, 0, 0),
-    decor_path(dPath), absolute(abs)
+    type(0), decor_path(dPath), absolute(abs)
 {}
 
 // Standard Animated Decoration
@@ -32,7 +34,7 @@ Decoration::Decoration(string0D dPath,
                         int sw, int sh, int sim, int sfm) :
     Object2D((X + w/2)*64, (Y + h/2)*64, w*64, h*64,
             0, 0, sw, sh, sim, sfm, 0, 0),
-    decor_path(dPath)
+    type(1), decor_path(dPath)
 {}
 
 // Advanced Animated Decoration
@@ -41,7 +43,7 @@ Decoration::Decoration(string0D dPath, string0D fPath,
                         int sim, int sfm) :
     Object2D((X + w/2)*64, (Y + h/2)*64, w*64, h*64,
             0, 0, 0, 0, sim, sfm, 0, 0),
-    decor_path(dPath), decor_frame("Yes")
+    type(2), decor_path(dPath)
 {}
 
 // Getter/setter
@@ -65,18 +67,21 @@ string0D convertDigit(int number, int maxNumber)
 
 void Decoration::initDecoration()
 {
-    if (decor_frame != "")
+    if (type == 2)
         for (int i = 0; i < getSprIndexMax(); i++)
         {
-            string0D frame_path = decor_path + "frame_" +
-                                    convertDigit(i, getSprIndexMax()) +
-                                    ".png";
-            decor_textures.push_back(loadTexture(frame_path.c_str()));
+            string0D frame_path = 
+                decor_path + "frame_" +
+                convertDigit(i, getSprIndexMax()) +
+                ".png";
+
+            decor_textures.push_back(loadTexture(frame_path));
+            
+            std::cout << frame_path << "\n";
         }
     else
     {
         decor_texture = loadTexture(decor_path);
-        SDL_SetTextureBlendMode(decor_texture, SDL_BLENDMODE_BLEND);
         setAlpha(alpha);
     }
 }
@@ -102,23 +107,34 @@ void Decoration::drawProp(Player *player)
         Camera::objectDrawY(player, this),
         getWidth(), getHeight()
     };
+
+    srcRect = {
+        getSprIndex() * getSprWidth(), 0,
+        getSprWidth(), getSprHeight()
+    };
 }
 
 void Decoration::draw(Player *player)
 {
-    if (Camera::outOfBound(desRect) ||
-        Camera::outOfCam(player, this))
-        return;
+    if (!absolute && (
+        Camera::outOfBound(desRect) ||
+        Camera::outOfCam(player, this)
+        )) return;
 
-    if (!getSprIndexMax())
-        SDL_RenderCopy(CFG->RENDERER, decor_texture, NULL, &desRect);
-    else if (decor_frame == "")
+    switch (type)
     {
-        SDL_Rect srcRect = {getSprIndex() * getSprWidth(), 0, getSprWidth(), getSprHeight()};
-        SDL_RenderCopy(CFG->RENDERER, decor_texture, &srcRect, &desRect);
+        case 0:
+            SDL_RenderCopy(CFG->RENDERER, decor_texture, NULL, &desRect);
+            break;
+
+        case 1:
+            SDL_RenderCopy(CFG->RENDERER, decor_texture, &srcRect, &desRect);
+            break;
+
+        case 2:
+            SDL_RenderCopy(CFG->RENDERER, decor_textures[getSprIndex()], NULL, &desRect);
+            break;
     }
-    else
-        SDL_RenderCopy(CFG->RENDERER, decor_textures[getSprIndex()], NULL, &desRect);
 }
 
 void Decoration::updateBackground(Player *player, bool left_prlx)
@@ -192,25 +208,30 @@ Decoration *Decoration::codeToDecorInfo(string0D str)
     string0D decor_type; // 0: static, 1: sprite sheet, 2: sprite folder
     string0D path;
     float x, y, w, h;
-    int sw = 0, sh = 0, sim = 0, sfm = 0;
+    int sw = 0, sh = 0,
+        sim = 0, sfm = 0;
     bool abs = 0;
     int alpha = 255;
 
     std::getline(ss, decor_type, ',');
+    short dtype = std::stoi(decor_type);
+
     std::getline(ss, path, ',');
     ss  >>  x >> cm >> y >> cm >>
             w >> cm >> h >> cm;
 
-    if (decor_type == "1")
+    if (dtype == 1)
         ss >> sw >> cm >> sh >> cm >> sim >> cm >> sfm >> cm;
-    if (decor_type == "2")
+    if (dtype == 2)
         ss >> sim >> cm >> sfm >> cm;
 
     ss >> abs >> cm >> alpha;
 
     DecorObject decor_obj = {
-        path, {(x+w/2)*64 , (y+h/2)*64, w*64, h*64}, {sw, sh, sim, sfm},
-        decor_type == "2", abs, alpha
+        dtype, path,
+        {(x+w/2)*64 , (y+h/2)*64, w*64, h*64},
+        {sw, sh, sim, sfm},
+        abs, alpha
     };
 
     return new Decoration(decor_obj);

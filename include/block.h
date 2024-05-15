@@ -2,7 +2,6 @@
 #define BLOCK_H
 
 #include <player.h>
-#include <object2D.h>
 #include <collision.h>
 
 #define Block1D std::vector<Block*>

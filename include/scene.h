@@ -20,7 +20,7 @@ private:
     SDL_Texture *button_sheet;
     SDL_Texture *button_high_sheet;
 
-    SDL_Rect src_rect;
+    SDL_Rect srcRect;
     SDL_Rect desRect;
 public:
     short game_state = 0;   // 0: Main Menu

@@ -7,10 +7,10 @@
 
 struct DecorObject
 {
+    short type;
     string0D path;
     ObjectHitbox box;
     ObjectSprite sprite;
-    bool isFolder = 0;
     bool absolute = 0;
     int alpha = 255;
 };
@@ -22,11 +22,12 @@ class Decoration : public Object2D
 private:
     bool absolute = 0;
     int alpha = 255;
+    short type = 0;
 
     string0D decor_path;
     string0D decor_frame = "";
 
-    SDL_Rect desRect, src_rect;
+    SDL_Rect desRect, srcRect;
     SDL_Texture *decor_texture;
     SDLTexture1D decor_textures;
 

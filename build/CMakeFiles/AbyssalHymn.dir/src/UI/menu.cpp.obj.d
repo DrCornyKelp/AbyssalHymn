@@ -1,6 +1,10 @@
 CMakeFiles/AbyssalHymn.dir/src/UI/menu.cpp.obj: \
  C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/UI/menu.cpp \
  C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/include/UI/menu.h \
+ C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/include/world.h \
+ C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/include/map.h \
+ C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/include/audio.h \
+ C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/include/object2D.h \
  C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/include/configuration.h \
  C:/msys64/mingw64/include/c++/13.2.0/iostream \
  C:/msys64/mingw64/include/c++/13.2.0/bits/requires_hosted.h \
@@ -417,4 +421,24 @@ CMakeFiles/AbyssalHymn.dir/src/UI/menu.cpp.obj: \
  C:/msys64/mingw64/include/c++/13.2.0/math.h \
  C:/msys64/mingw64/include/c++/13.2.0/map \
  C:/msys64/mingw64/include/c++/13.2.0/bits/stl_map.h \
- C:/msys64/mingw64/include/c++/13.2.0/bits/stl_multimap.h
+ C:/msys64/mingw64/include/c++/13.2.0/bits/stl_multimap.h \
+ C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/include/camera.h \
+ C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/include/collision.h \
+ C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/include/block_template.h \
+ C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/include/block.h \
+ C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/include/player.h \
+ C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/include/hud.h \
+ C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/include/input.h \
+ C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/include/particle_effect.h \
+ C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/include/multiplayer.h \
+ C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/include/player.h \
+ C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/include/door.h \
+ C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/include/item.h \
+ C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/include/bubble.h \
+ C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/include/decoration.h \
+ C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/include/projectile.h \
+ C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/include/audio_object.h \
+ C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/include/enemy/all_enemies.h \
+ C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/include/enemy/slime.h \
+ C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/include/enemy.h \
+ C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/include/enemy/skeleton.h

@@ -89,14 +89,14 @@ void Scene::renderMainMenu()
     SDL_RenderCopy(CFG->RENDERER, main_bg, NULL, NULL);
 
     // Play button
-    src_rect = {(pressed && menu_counter == 0) * 222, 0, 222, 108};
+    srcRect = {(pressed && menu_counter == 0) * 222, 0, 222, 108};
     desRect = {275, 275, 222, 108};
-    SDL_RenderCopy(CFG->RENDERER, menu_counter == 0 ? button_high_sheet : button_sheet, &src_rect, &desRect);
+    SDL_RenderCopy(CFG->RENDERER, menu_counter == 0 ? button_high_sheet : button_sheet, &srcRect, &desRect);
 
     // Exit button
-    src_rect = {(pressed && menu_counter == 1) * 222, 108, 222, 108};
+    srcRect = {(pressed && menu_counter == 1) * 222, 108, 222, 108};
     desRect = {275, 400, 222, 108};
-    SDL_RenderCopy(CFG->RENDERER, menu_counter == 1 ? button_high_sheet : button_sheet, &src_rect, &desRect);
+    SDL_RenderCopy(CFG->RENDERER, menu_counter == 1 ? button_high_sheet : button_sheet, &srcRect, &desRect);
 }
 
 void Scene::renderPauseMenu()
@@ -105,17 +105,17 @@ void Scene::renderPauseMenu()
     SDL_RenderCopy(CFG->RENDERER, pause_bg, NULL, NULL);
 
     // Continue button
-    src_rect = {(pressed && menu_counter == 0) * 222, 216, 222, 108};
+    srcRect = {(pressed && menu_counter == 0) * 222, 216, 222, 108};
     desRect = {529, 300, 222, 108};
-    SDL_RenderCopy(CFG->RENDERER, menu_counter == 0 ? button_high_sheet : button_sheet, &src_rect, &desRect);
+    SDL_RenderCopy(CFG->RENDERER, menu_counter == 0 ? button_high_sheet : button_sheet, &srcRect, &desRect);
 
     // Exit to main menu
-    src_rect = {(pressed && menu_counter == 1) * 222, 324, 222, 108};
+    srcRect = {(pressed && menu_counter == 1) * 222, 324, 222, 108};
     desRect = {529, 425, 222, 108};
-    SDL_RenderCopy(CFG->RENDERER, menu_counter == 1 ? button_high_sheet : button_sheet, &src_rect, &desRect);
+    SDL_RenderCopy(CFG->RENDERER, menu_counter == 1 ? button_high_sheet : button_sheet, &srcRect, &desRect);
 
     // Exit game
-    src_rect = {(pressed && menu_counter == 2) * 222, 108, 222, 108};
+    srcRect = {(pressed && menu_counter == 2) * 222, 108, 222, 108};
     desRect = {529, 550, 222, 108};
-    SDL_RenderCopy(CFG->RENDERER, menu_counter == 2 ? button_high_sheet : button_sheet, &src_rect, &desRect);
+    SDL_RenderCopy(CFG->RENDERER, menu_counter == 2 ? button_high_sheet : button_sheet, &srcRect, &desRect);
 }

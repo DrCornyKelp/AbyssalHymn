@@ -6,9 +6,9 @@ to suit the cpp decoration animation directory
 
 import os
 
-directory_path = 'Decoration/City/'
-old_part_1 = "ezgif-frame-"
-old_part_2 = "";
+directory_path = '../res/Menu/Background'
+old_part_1 = "frame_"
+old_part_2 = "_delay-0.08s";
 
 def convert(number, max_number):
     num_digits = len(str(max_number))

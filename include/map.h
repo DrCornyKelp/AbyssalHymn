@@ -2,7 +2,6 @@
 #define MAP_H
 
 #include <audio.h>
-#include <input.h>
 #include <collision.h>
 #include <block_template.h>
 #include <multiplayer.h>
