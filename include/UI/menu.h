@@ -3,6 +3,18 @@
 
 #include <world.h>
 
+struct ButtonUI
+{
+    ObjectBox box;
+    bool hold = 0, press = 0;
+
+    SDL_Texture *bnormal,
+                *bhover,
+                *bpress;
+
+    void update(Input *INPUT);
+};
+
 class Menu
 {
 public:
