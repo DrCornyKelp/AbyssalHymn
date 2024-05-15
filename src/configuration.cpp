@@ -48,6 +48,9 @@ bool TransitionEffect::midpoint()
 // DESTRUCTOR
 Configuration::~Configuration()
 {
+    // Destroy The Black Screen
+    SDL_DestroyTexture(TRANSIT_EFFECT.BLACKSCREEN);
+    // Destroy The Renderer/Window
     SDL_DestroyRenderer(RENDERER);
     SDL_DestroyWindow(WINDOW);
 }
