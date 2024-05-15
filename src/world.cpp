@@ -1,7 +1,13 @@
 #include <world.h>
 
 World::~World()
-{ for (Map *map : MapVec) delete map; }
+{ 
+    // Delete Every Map
+    // (And their component ofc cant forget pointer management)
+    for (Map *map : MapVec) delete map;
+    // Delete Other Component
+    delete MULTI, AUDIO, COLLI;
+}
 
 World::World(std::vector<Map*> mapvec, int startmap) :
     MapVec(mapvec), MapCurrent(mapvec[startmap]), MapIndex(startmap)
@@ -9,6 +15,11 @@ World::World(std::vector<Map*> mapvec, int startmap) :
 
 void World::initWorld(Multiplayer *multi, Audio *audio, Collision *collision)
 {
+    // Init Some Component
+    MULTI = multi;
+    AUDIO = audio;
+    COLLI = collision;
+
     // Init Map
     for (int id = 0; id < MapVec.size(); id++)
         MapVec[id]->initMap(

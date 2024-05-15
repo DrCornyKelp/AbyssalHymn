@@ -15,28 +15,19 @@ int main(int argc, char *argv[])
     CFG->TRANSIT_EFFECT.BLACKSCREEN = CFG->loadTexture("res/BlackScreen.png");
 
     // Audio Handler
-    Audio *audio = new Audio();
+    Audio *AUDIO = new Audio();
 
     // Renderer
-    Renderer *rend = new Renderer();
+    Renderer *REND = new Renderer();
 
-    // Player + Hud
-    Player1D PlayerVec;
-
-    int playercount = 1;
-    // std::cout << "SET PLAYER COUNT: ";
-    // std::cin >> playercount;
-    // std::cout << "Welcome \n";
-
-    for (int i = 0; i < playercount; i++)
-        PlayerVec.push_back(new Player());
-    Multiplayer *multi = new Multiplayer(PlayerVec);
+    // Multiplayer (can support single player dont worry)
+    Multiplayer *MULTI = new Multiplayer({new Player()});
 
     // Collision
-    Collision *collision = new Collision();
+    Collision *COLLI = new Collision();
 
     // ZA WARUDO
-    World *world = new World({
+    World *WORLD = new World({
         // Void
         new Map("Tutorial1"), // 0 (Default)
         // Tutorial
@@ -57,22 +48,23 @@ int main(int argc, char *argv[])
         new Map("SeaHorizon"), // 13
         new Map("CloudHighway") // 14
     });
-    world->initWorld(multi, audio, collision);
+    WORLD->initWorld(MULTI, AUDIO, COLLI);
 
     // Console Command
-    Console *console = new Console(world, multi->MAIN, collision);
+    Console *CONSOLE = new Console(WORLD, MULTI->MAIN, COLLI);
     // Map editor
-    Editor *editor = new Editor(console, world, multi->MAIN, collision);
+    Editor *EDITOR = new Editor(CONSOLE, WORLD, MULTI->MAIN, COLLI);
 
     // Play Intro Sequence
     Intro *intro = new Intro();
-    while (!intro->finish)
-    {
-        SDL_RenderClear(CFG->RENDERER);
-        intro->update();
-        CFG->frameHandler();
-        SDL_RenderPresent(CFG->RENDERER);
-    }
+    // while (!intro->finish)
+    // {
+    //     SDL_RenderClear(CFG->RENDERER);
+    //     intro->update();
+    //     CFG->frameHandler();
+    //     SDL_RenderPresent(CFG->RENDERER);
+    // }
+    delete intro;
 
     Menu *menu = new Menu();
     while (!menu->end)
@@ -80,15 +72,16 @@ int main(int argc, char *argv[])
         SDL_RenderClear(CFG->RENDERER);
 
         menu->update();
+        if (menu->multi) MULTI->addPlayer();
 
         CFG->TRANSIT_EFFECT.update();
         CFG->frameHandler();
         SDL_RenderPresent(CFG->RENDERER);
     }
 
-    world->switchMap({1, 7, 2, 1});
+    WORLD->switchMap({1, 7, 2, 1});
 
-    while (!multi->MAIN->INPUT.escape.state)
+    while (!MULTI->MAIN->INPUT.escape.state)
     {
         // Devlog
         CFG->printDevlog();
@@ -96,13 +89,13 @@ int main(int argc, char *argv[])
 
         // Main
         // audio->updateTrack();
-        world->updateWorld();
-        multi->MAIN->playerDeveloper(world->MapCurrent);
-        rend->renderGameplay(world->MapCurrent);
+        WORLD->updateWorld();
+        MULTI->MAIN->playerDeveloper(WORLD->MapCurrent);
+        REND->renderGameplay(WORLD->MapCurrent);
 
         // Console + Editor
-        editor->update();
-        console->update();
+        EDITOR->update();
+        CONSOLE->update();
 
         // Config
         CFG->TRANSIT_EFFECT.update();
@@ -110,9 +103,8 @@ int main(int argc, char *argv[])
         SDL_RenderPresent(CFG->RENDERER);
     }
 
-    // Clean up (REMEMBER TO ADD PLAYER CLEAN UP AS WELL)
-    delete  world, audio, CFG,
-            collision, rend, multi;
+    // Clean up
+    delete WORLD, CFG, REND, EDITOR, CONSOLE;
 
     SDL_Quit();
 

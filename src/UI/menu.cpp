@@ -24,17 +24,37 @@ void Menu::update()
     Object2D::objectSetSprite(menuBGsprite);
     SDL_RenderCopy(CFG->RENDERER, menuBGframe[menuBGsprite.si], NULL, NULL);
 
-    // Draw UI BUTTONS
-    ObjectBox boxStart = {
-        CFG->HEIGHT/2 + 48, CFG->HEIGHT/2 - 48,
-        CFG->WIDTH/2 - 128, CFG->WIDTH/2 + 128
+    // Draw 1P BUTTONS
+    ObjectBox box1P = {
+        CFG->HEIGHT/2, CFG->HEIGHT/2 - 80,
+        CFG->WIDTH/2 - 180, CFG->WIDTH/2 + 180
     };
-    bool hoverStart = INPUT.mouse.inbox(boxStart);
-    buttonStart.update(hoverStart, Object2D::BoxToSDLRect(boxStart));
-    if (hoverStart && INPUT.mouse.L.state && !CFG->TRANSIT_EFFECT.active)
+    bool hover1P = INPUT.mouse.inbox(box1P);
+    button1P.update(hover1P, Object2D::BoxToSDLRect(box1P));
+
+    // Draw 2P Button
+    ObjectBox box2P = {
+        CFG->HEIGHT/2 + 80, CFG->HEIGHT/2,
+        CFG->WIDTH/2 - 180, CFG->WIDTH/2 + 180
+    };
+    bool hover2P = INPUT.mouse.inbox(box2P);
+    button2P.update(hover2P, Object2D::BoxToSDLRect(box2P));
+
+    if (hover1P &&
+        INPUT.mouse.L.state && 
+        !CFG->TRANSIT_EFFECT.active)
     {
         CFG->TRANSIT_EFFECT.set(100, 30);
         finish = 1;
+    };
+
+    if (hover2P &&
+        INPUT.mouse.L.state && 
+        !CFG->TRANSIT_EFFECT.active)
+    {
+        CFG->TRANSIT_EFFECT.set(100, 30);
+        finish = 1;
+        multi = 1;
     };
 
     if (CFG->TRANSIT_EFFECT.midpoint() && finish)

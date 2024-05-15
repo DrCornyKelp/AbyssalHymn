@@ -3,7 +3,6 @@
 Multiplayer::~Multiplayer()
 {
     for (Player *player : Players) delete player;
-    Players = {};
 };
 Multiplayer::Multiplayer(Player1D players) :
     Players(players), MAIN(Players[0])
@@ -21,6 +20,14 @@ Multiplayer::Multiplayer(Player1D players) :
     MAIN->MAIN = 1;
 }
 
+void Multiplayer::addPlayer()
+{
+    Players.push_back(new Player());
+    Players.back()->INDEX = PlayerCount;
+    Players.back()->MULTI = this;
+    Players.back()->INPUT.setTemplate(PlayerCount);
+    PlayerCount++;
+}
 void Multiplayer::changeMain(int index)
 {
     for (Player *player : Players)

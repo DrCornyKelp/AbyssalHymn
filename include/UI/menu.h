@@ -12,6 +12,13 @@ struct MenuButton
     void update(bool hover, SDL_Rect rect);
 };
 
+/*
+# WARNING:
+
+EVERYTHING ABOUT MENU IS CURRENTLY A WIP WITH SPAGHETTI VARIABLE
+COMPLETE MAKEOVER ARE VERY COMMON AT THIS STAGE OF DEVELOPMENT
+BE AWARE
+*/
 class Menu
 {
 public:
@@ -24,10 +31,14 @@ public:
         "res/Menu/Background/", 64
     );
 
-    bool finish = 0,end = 0;
+    bool finish = 0, end = 0;
+    bool multi = 0;
 
-    MenuButton buttonStart = {
-        CFG->loadTexture("res/Menu/Button/Start.png")
+    MenuButton button1P = {
+        CFG->loadTexture("res/Menu/Button/P1.png")
+    };
+    MenuButton button2P = {
+        CFG->loadTexture("res/Menu/Button/P2.png")
     };
 
     void update();

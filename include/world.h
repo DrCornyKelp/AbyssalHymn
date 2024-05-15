@@ -6,6 +6,11 @@
 class World
 {
 public:
+    // =============== SOME GLOBAL COMPONENT ================
+    Multiplayer *MULTI;
+    Audio *AUDIO;
+    Collision *COLLI;
+
     // ======================== MAP =========================
     std::vector<Map*> MapVec;
     int MapIndex = 0;
