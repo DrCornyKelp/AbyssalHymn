@@ -24,7 +24,7 @@ public:
         "res/Menu/Background/", 64
     );
 
-    bool end = 0;
+    bool finish = 0,end = 0;
 
     MenuButton buttonStart = {
         CFG->loadTexture("res/Menu/Button/Start.png")

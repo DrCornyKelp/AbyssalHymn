@@ -64,14 +64,14 @@ int main(int argc, char *argv[])
     Editor *editor = new Editor(console, world, multi->MAIN, collision);
 
     // Play Intro Sequence
-    // Intro *intro = new Intro();
-    // while (!intro->finish)
-    // {
-    //     SDL_RenderClear(CFG->RENDERER);
-    //     intro->update();
-    //     CFG->frameHandler();
-    //     SDL_RenderPresent(CFG->RENDERER);
-    // }
+    Intro *intro = new Intro();
+    while (!intro->finish)
+    {
+        SDL_RenderClear(CFG->RENDERER);
+        intro->update();
+        CFG->frameHandler();
+        SDL_RenderPresent(CFG->RENDERER);
+    }
 
     Menu *menu = new Menu();
     while (!menu->end)
@@ -114,8 +114,6 @@ int main(int argc, char *argv[])
     delete  world, audio, CFG,
             collision, rend, multi;
 
-    SDL_DestroyRenderer(CFG->RENDERER);
-    SDL_DestroyWindow(CFG->WINDOW);
     SDL_Quit();
 
     return EXIT_SUCCESS;

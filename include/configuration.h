@@ -62,6 +62,7 @@ struct TransitionEffect
 class Configuration
 {
 public:
+    ~Configuration();
     Configuration();
 
     // GAMESTATE

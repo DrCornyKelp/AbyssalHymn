@@ -34,7 +34,9 @@ void Menu::update()
     if (hoverStart && INPUT.mouse.L.state && !CFG->TRANSIT_EFFECT.active)
     {
         CFG->TRANSIT_EFFECT.set(100, 30);
+        finish = 1;
     };
 
-    if (CFG->TRANSIT_EFFECT.midpoint()) end = 1;
+    if (CFG->TRANSIT_EFFECT.midpoint() && finish)
+        end = 1;
 }

@@ -33,13 +33,9 @@ void TransitionEffect::set(float s, float m, bool skipStart)
     mid_cur = m;
 }
 bool TransitionEffect::leftactive()
-{
-    return side_cur <= side_max && mid_cur == mid_max;
-}
+{ return side_cur <= side_max && mid_cur == mid_max; }
 bool TransitionEffect::rightactive()
-{
-    return side_cur > 0 && !mid_cur;
-}
+{ return side_cur > 0 && !mid_cur; }
 bool TransitionEffect::midpoint()
 { 
     return  active &&
@@ -48,6 +44,13 @@ bool TransitionEffect::midpoint()
 }
 
 // ========================= CONFIGURATION STUFF =========================
+
+// DESTRUCTOR
+Configuration::~Configuration()
+{
+    SDL_DestroyRenderer(RENDERER);
+    SDL_DestroyWindow(WINDOW);
+}
 
 // CONSTRUCTOR
 Configuration::Configuration()

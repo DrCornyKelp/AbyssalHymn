@@ -1,9 +1,7 @@
 #include <world.h>
 
 World::~World()
-{
-    for (Map *map : MapVec) delete map;
-}
+{ for (Map *map : MapVec) delete map; }
 
 World::World(std::vector<Map*> mapvec, int startmap) :
     MapVec(mapvec), MapCurrent(mapvec[startmap]), MapIndex(startmap)
@@ -32,13 +30,14 @@ void World::setTransit(WorldLocation location)
         MapCurrent->MapAudio->setPlistStop(1);
 
     transit_location = location;
-    CFG->TRANSIT_EFFECT.set(30, 10);
+    CFG->TRANSIT_EFFECT.set(20, 10);
 }
 
 void World::updateWorld()
 { 
     CFG->WORLDTIME++;
 
+    // Update Transition Transit
     if (CFG->TRANSIT_EFFECT.midpoint() &&
         !transit_location.invalid)
     {
