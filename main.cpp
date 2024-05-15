@@ -72,7 +72,6 @@ int main(int argc, char *argv[])
         CFG->frameHandler();
     }
 
-    bool pause = false;
     while (!multi->MAIN->INPUT.escape.state)
     {
         // Devlog

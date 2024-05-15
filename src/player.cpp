@@ -362,6 +362,7 @@ void PlayerCamera::playerCameraFocus()
         unfocus.y = 1;
         unfocus_offset.y = focus_true.down;
         mid.y = player->getY() - focus_true.down;
+        ease.y = 0;
     }
     // Boundary Up
     else if (focus_dir.up &&
@@ -370,6 +371,7 @@ void PlayerCamera::playerCameraFocus()
         unfocus.y = 1;
         unfocus_offset.y = focus_true.up;
         mid.y = player->getY() - focus_true.up;
+        ease.y = 0;
     }
     else
     {

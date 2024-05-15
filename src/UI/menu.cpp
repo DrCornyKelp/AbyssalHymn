@@ -2,7 +2,6 @@
 
 void ButtonUI::update(Input *INPUT)
 {
-
     if (INPUT->mouse.L.state) hold = 1;
 
     if (INPUT->mouse.L.state && hold &&
