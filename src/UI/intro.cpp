@@ -28,9 +28,10 @@ void Intro::update()
     // INTRO SEQUENCE IS OVER, NO MORE
     if (finish) return;
 
+    // Advance sequential logic
     if (!logos.size())
     {
-        CFG->TRANSIT_EFFECT.set(40, 100, 1);
+        CFG->TRANSIT_EFFECT.set(100, 1, 1);
         finish = 1;
         return;
     }

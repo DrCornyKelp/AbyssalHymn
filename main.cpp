@@ -56,9 +56,7 @@ int main(int argc, char *argv[])
         new Map("SeaHorizon"), // 13
         new Map("CloudHighway") // 14
     });
-    world->initWorld(multi, audio, collision,
-        {1, 7, 2, 1}
-    );
+    world->initWorld(multi, audio, collision);
 
     // Console Command
     Console *console = new Console(world, multi->MAIN, collision);
@@ -66,14 +64,14 @@ int main(int argc, char *argv[])
     Editor *editor = new Editor(console, world, multi->MAIN, collision);
 
     // Play Intro Sequence
-    Intro *intro = new Intro();
-    while (!intro->finish)
-    {
-        SDL_RenderClear(CFG->RENDERER);
-        intro->update();
-        CFG->frameHandler();
-        SDL_RenderPresent(CFG->RENDERER);
-    }
+    // Intro *intro = new Intro();
+    // while (!intro->finish)
+    // {
+    //     SDL_RenderClear(CFG->RENDERER);
+    //     intro->update();
+    //     CFG->frameHandler();
+    //     SDL_RenderPresent(CFG->RENDERER);
+    // }
 
     Menu *menu = new Menu();
     while (!menu->end)
@@ -86,6 +84,9 @@ int main(int argc, char *argv[])
         CFG->frameHandler();
         SDL_RenderPresent(CFG->RENDERER);
     }
+
+    if (CFG->TRANSIT_EFFECT.midpoint())
+        world->setTransit({1, 7, 2, 1});
 
     while (!multi->MAIN->INPUT.escape.state)
     {

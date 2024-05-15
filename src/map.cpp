@@ -296,9 +296,9 @@ void Map::updateMapGlobal()
 void Map::updateMapActive()
 {
     // ================= In the middle of a transition =================
-    // if (CFG->TRANSIT_EFFECT.active)
-    //     for (Player *player : MapMulti->Players)
-    //         player->setStatic();
+    if (CFG->TRANSIT_EFFECT.leftactive())
+        for (Player *player : MapMulti->Players)
+            player->setStatic();
 
     // ================= Update Player ===================================
     MapMulti->update(this);

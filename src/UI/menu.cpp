@@ -31,5 +31,10 @@ void Menu::update()
     };
     bool hoverStart = INPUT.mouse.inbox(boxStart);
     buttonStart.update(hoverStart, Object2D::BoxToSDLRect(boxStart));
-    if (hoverStart && INPUT.mouse.L.state) end = 1;
+    if (hoverStart && INPUT.mouse.L.state && !CFG->TRANSIT_EFFECT.active)
+    {
+        CFG->TRANSIT_EFFECT.set(100, 30);
+    };
+
+    if (CFG->TRANSIT_EFFECT.midpoint()) end = 1;
 }

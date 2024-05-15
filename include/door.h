@@ -7,8 +7,10 @@
 
 struct WorldLocation
 { 
-    int index, sX, sY;
+    int index = -1, sX, sY;
     bool snap = 0;
+
+    bool invalid = 0;
 };
 
 struct MapTransit

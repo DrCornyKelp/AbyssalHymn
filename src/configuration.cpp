@@ -8,7 +8,7 @@ void TransitionEffect::update()
 {
     if (!active)                      return;
     if (!fade)                        side_cur ++;
-    if (side_cur >= side_max)         fade = 1;
+    if (side_cur > side_max)          fade = 1;
     if (fade && mid_cur)              mid_cur --;
     if (!mid_cur && side_cur)         side_cur --;
     if (!side_cur && !mid_cur)        active = 0;
@@ -29,13 +29,22 @@ void TransitionEffect::set(float s, float m, bool skipStart)
     side_max = s;
     mid_max = m;
     side_cur = skipStart ? side_max : 0;
-    if (skipStart) SDL_SetTextureAlphaMod(BLACKSCREEN, 255);
+    SDL_SetTextureAlphaMod(BLACKSCREEN, skipStart ? 255 : 0);
     mid_cur = m;
 }
-
+bool TransitionEffect::leftactive()
+{
+    return side_cur <= side_max && mid_cur == mid_max;
+}
+bool TransitionEffect::rightactive()
+{
+    return side_cur > 0 && !mid_cur;
+}
 bool TransitionEffect::midpoint()
 { 
-    return active && mid_cur == mid_max && fade;
+    return  active &&
+            side_cur == side_max &&
+            mid_cur == mid_max;
 }
 
 // ========================= CONFIGURATION STUFF =========================
@@ -104,11 +113,6 @@ void Configuration::frameHandler()
         SDL_Delay(DELAY_TIME - frame_duration);
 
     RUNTIME++;
-
-    std::cout<< TRANSIT_EFFECT.active << " " <<
-                TRANSIT_EFFECT.fade << " " <<
-                TRANSIT_EFFECT.side_cur << " " <<
-                TRANSIT_EFFECT.mid_cur << "\n";
 }
 
 //-------Covert each line of file into vector--------

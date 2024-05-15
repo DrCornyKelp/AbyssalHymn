@@ -51,6 +51,11 @@ struct TransitionEffect
 
     void update();
     void set(float s, float m, bool skipStart = 0);
+    // Brighten Black Screen
+    bool leftactive();
+    // Fading Black Screen
+    bool rightactive();
+    // Middle
     bool midpoint();
 };
 
