@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
         SDL_RenderPresent(CFG->RENDERER);
     }
 
-    if (CFG->TRANSIT_EFFECT.leftactive())
+    if (CFG->TRANSIT_EFFECT.rightactive())
         world->setTransit({1, 7, 2, 1});
 
     while (!multi->MAIN->INPUT.escape.state)
