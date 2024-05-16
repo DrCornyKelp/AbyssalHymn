@@ -13,7 +13,7 @@ public:
 
     // ======================== MAP =========================
     Map1D MapVec;
-    Map *MapCurrent;
+    Map *MapCur;
     int MapIndex = 0;
 
     // ======== Cool Stuff That are oddly specific ==========

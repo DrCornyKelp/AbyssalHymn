@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
             // Main
             // audio->updateTrack();
             WORLD->updateWorld();
-            REND->renderGameplay(WORLD->MapCurrent);
+            REND->renderGameplay(WORLD->MapCur);
 
             // Console + Editor
             EDITOR->update();
@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
 
         case 2:
             // Render what currently onscreen
-            REND->renderGameplay(WORLD->MapCurrent);
+            REND->renderGameplay(WORLD->MapCur);
             MULTI->MAIN->INPUT.update();
 
             break;

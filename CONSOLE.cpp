@@ -493,8 +493,8 @@ void Console::execute(Map *map, string1D cmd)
     if (syntaxComp(cmd, 0, "read")) readFile(map, cmd[1]);
     if (syntaxComp(cmd, 0, "block")) 
     {
-        if (world->MapCurrent->MapEmpty) return;
-        blocksyntax = {world->MapCurrent, player, collision};
+        if (world->MapCur->MapEmpty) return;
+        blocksyntax = {world->MapCur, player, collision};
         blockCommand(map, cmd);
     }
     if (syntaxComp(cmd, 0, "player")) playerCommand(map, cmd);
@@ -528,7 +528,7 @@ void Console::update()
     if (player->INPUT.backslash.press())
     {
         player->INPUT.backslash.hold = 1;
-        readFile(world->MapCurrent, cmd_main);
+        readFile(world->MapCur, cmd_main);
     };
 }
 

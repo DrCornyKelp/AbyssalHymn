@@ -24,7 +24,7 @@ Editor::~Editor()
 Editor::Editor(Console *consl, World *w, Player *p, Collision *c) :
     console(consl), world(w), player(p), collision(c)
 {
-    map_cur = world->MapCurrent;
+    map_cur = world->MapCur;
 
     EditBack = CFG->loadTexture("res/Editor/EditorBack.png");
 
@@ -436,7 +436,7 @@ void Editor::update()
 
     if (!open) return;
     // Update current map (incase of a map change)
-    map_cur = world->MapCurrent;
+    map_cur = world->MapCur;
 
     blockEditor();
 }

@@ -10,8 +10,8 @@ World::~World()
 }
 
 World::World(Map1D mapvec, int startmap) :
-    MapVec(mapvec), MapCurrent(mapvec[startmap]), MapIndex(startmap)
-{ MapCurrent->MapActive = 1; }
+    MapVec(mapvec), MapCur(mapvec[startmap]), MapIndex(startmap)
+{ MapCur->MapActive = 1; }
 
 void World::initWorld(Multiplayer *multi, Audio *audio, Collision *collision)
 {
@@ -26,7 +26,7 @@ void World::initWorld(Multiplayer *multi, Audio *audio, Collision *collision)
             this, multi, audio, collision, id
         );
     // Init Music Track
-    audio->createPlaylist(MapCurrent->MapPlaylist);
+    audio->createPlaylist(MapCur->MapPlaylist);
 }
 
 void World::setTransit(WorldLocation location)
@@ -36,9 +36,9 @@ void World::setTransit(WorldLocation location)
     // Stop Current Map Track if different
     if (location.index != -1 &&
         location.index != MapIndex &&
-        !MapCurrent->MapPlaylist.comparePlaylist(
+        !MapCur->MapPlaylist.comparePlaylist(
         MapVec[location.index]->MapPlaylist))
-        MapCurrent->MapAudio->setPlistStop(1);
+        MapCur->MapAudio->setPlistStop(1);
 
     transit_location = location;
     CFG->TRANSIT_EFFECT.set(20, 10);
@@ -57,7 +57,7 @@ void World::updateWorld()
     }
 
     // Update Current Map
-    MapCurrent->updateMapActive();
+    MapCur->updateMapActive();
     // Update Every Map
     for (Map *map : MapVec)
         map->updateMapGlobal();
@@ -68,7 +68,7 @@ void World::switchMap(WorldLocation location)
     // Create new audio track for new map
     if (location.index != -1 &&
         location.index != MapIndex)
-        MapCurrent->MapAudio->createPlaylist(
+        MapCur->MapAudio->createPlaylist(
             MapVec[location.index]->MapPlaylist
         );
 
@@ -82,9 +82,9 @@ void World::switchMap(WorldLocation location)
             map->MapActive = 0;
 
         // Set Current Map
-        MapCurrent = MapVec[MapIndex];
-        MapCurrent->MapActive = 1;
+        MapCur = MapVec[MapIndex];
+        MapCur->MapActive = 1;
     }
 
-    MapCurrent->loadCheckpoint(location);
+    MapCur->loadCheckpoint(location);
 }

@@ -9,6 +9,8 @@ public:
     World *WORLD;
 
     Pause(World *world);
+
+    void update();
 };
 
 #endif
