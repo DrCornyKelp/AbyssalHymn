@@ -66,38 +66,50 @@ int main(int argc, char *argv[])
     delete intro;
 
     Menu *menu = new Menu();
-    while (!menu->end)
-    {
-        SDL_RenderClear(CFG->RENDERER);
-
-        menu->update();
-        if (menu->multi) 
-        {
-            menu->multi = 0;
-            MULTI->addPlayer();
-            MULTI->MAIN->INPUT.setTemplate(0);
-        };
-
-        CFG->postupdate();
-    }
-
-    WORLD->switchMap({1, 7, 2, 1});
 
     while (!CFG->QUIT)
     {
-        // Devlog
-        CFG->printDevlog();
-        CFG->DEVLOG = "";
+        switch (CFG->STATE)
+        {
+        case 0:
+            SDL_RenderClear(CFG->RENDERER);
 
-        // Main
-        // audio->updateTrack();
-        WORLD->updateWorld();
-        MULTI->MAIN->playerDeveloper(WORLD->MapCurrent);
-        REND->renderGameplay(WORLD->MapCurrent);
+            menu->update();
+            if (menu->multi) 
+            {
+                menu->multi = 0;
+                MULTI->addPlayer();
+                MULTI->MAIN->INPUT.setTemplate(0);
+            };
 
-        // Console + Editor
-        EDITOR->update();
-        CONSOLE->update();
+            if (CFG->TRANSIT_EFFECT.leftactive())
+                WORLD->switchMap({1, 7, 2, 1});
+            break;
+
+        case 1:
+            // Devlog
+            CFG->printDevlog();
+            CFG->DEVLOG = "";
+
+            // Main
+            // audio->updateTrack();
+            WORLD->updateWorld();
+            MULTI->MAIN->playerDeveloper(WORLD->MapCurrent);
+            REND->renderGameplay(WORLD->MapCurrent);
+
+            // Console + Editor
+            EDITOR->update();
+            CONSOLE->update();
+
+            break;
+
+        case 2:
+            // Render what currently onscreen
+            REND->renderGameplay(WORLD->MapCurrent);
+            MULTI->MAIN->INPUT;
+
+            break;
+        }
 
         // Config
         CFG->postupdate();

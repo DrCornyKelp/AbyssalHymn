@@ -58,5 +58,5 @@ void Menu::update()
     };
 
     if (CFG->TRANSIT_EFFECT.midpoint() && finish)
-        end = 1;
+        CFG->STATE = 1;
 }

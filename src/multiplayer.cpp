@@ -29,11 +29,16 @@ void Multiplayer::addPlayer()
     Players.back()->INDEX = PlayerCount;
     Players.back()->MULTI = this;
     Players.back()->INPUT.setTemplate(PlayerCount);
+    // Set Player Initial Postion
+    Players.back()->setX(MAIN->getX());
+    Players.back()->setY(MAIN->getY());
+    
+    // Increment player count
+    PlayerCount++;
 
     // ================== TESTING ==================
     MAIN->INPUT.setTemplate(0);
 
-    PlayerCount++;
 }
 void Multiplayer::changeMain(int index)
 {
@@ -60,8 +65,6 @@ void Multiplayer::update(Map *map)
         MAIN->INPUT.f1.hold = 1;
 
         addPlayer();
-        Players.back()->setX(MAIN->getX());
-        Players.back()->setY(MAIN->getY());
     }
 
     if (MAIN->INPUT.f4.press())
