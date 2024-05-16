@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
 
     WORLD->switchMap({1, 7, 2, 1});
 
-    while (!MULTI->MAIN->INPUT.escape.state)
+    while (!CFG->QUIT)
     {
         // Devlog
         CFG->printDevlog();
