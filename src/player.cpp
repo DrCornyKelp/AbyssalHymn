@@ -466,8 +466,7 @@ void Player::playerMovement(Map *map)
         if (INPUT.moveL.state && state.hug_wall < 1)
         {
             // Release from wall
-            if (state.hug_wall)
-                setX(getX() - 4);
+            if (state.hug_wall) setX(getX() - 4);
             state.hug_wall = 0;
 
             move.decel = getVelX() > 1;
@@ -477,11 +476,10 @@ void Player::playerMovement(Map *map)
 
         if (INPUT.moveR.state && state.hug_wall > -1)
         {
-            if (state.hug_wall)
-                setX(getX() + 4);
+            if (state.hug_wall) setX(getX() + 4);
             state.hug_wall = 0;
 
-            move.decel = getVelX() < -1;
+            move.decel = -(getVelX() < -1);
             if (getVelX() + getAccelX() < move.vel_max)
                 setVelX(getVelX() + getAccelX() * (move.decel ? 2.5 : 1));
         }

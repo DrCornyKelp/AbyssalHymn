@@ -182,7 +182,7 @@ struct PlayerCombat
     Player *player;
     // Invincibility (is when you are god)
     int invincible = 0;
-    // invulnerable time (is when you get hurt)
+    // Invulnerability (is when you get hurt)
     int invulnerable = 0;
     int invulnerable_max = 150;
 
