@@ -57,12 +57,12 @@ int main(int argc, char *argv[])
 
     // Play Intro Sequence
     Intro *intro = new Intro();
-    // while (!intro->finish)
-    // {
-    //     SDL_RenderClear(CFG->RENDERER);
-    //     intro->update();
-    //     CFG->postupdate();
-    // }
+    while (!intro->finish)
+    {
+        SDL_RenderClear(CFG->RENDERER);
+        intro->update();
+        CFG->postupdate();
+    }
     delete intro;
 
     Menu *menu = new Menu();
@@ -75,6 +75,7 @@ int main(int argc, char *argv[])
         {
             menu->multi = 0;
             MULTI->addPlayer();
+            MULTI->MAIN->INPUT.setTemplate(0);
         };
 
         CFG->postupdate();

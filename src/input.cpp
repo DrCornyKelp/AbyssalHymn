@@ -221,31 +221,48 @@ Input::Input()
 }
 
 void Input::setTemplate(int keytemplate)
-{
-    if (!keytemplate)
+{   
+    KeyTemplateN1 kN1;
+    KeyTemplate0 k0;
+    KeyTemplate1 k1;
+
+    switch (keytemplate)
     {
-        KeyTemplate0 keytemplate;
-            moveU = keytemplate.moveU;
-            moveD = keytemplate.moveD;
-            moveL = keytemplate.moveL;
-            moveR = keytemplate.moveR;
-            proj = keytemplate.proj;
-            equip = keytemplate.equip;
-            attack = keytemplate.attack;
-            jump = keytemplate.jump;
-            dash = keytemplate.dash;
-    }
-    if (keytemplate >= 1)
-    {
-        KeyTemplate1 keytemplate;
-            moveU = keytemplate.moveU;
-            moveD = keytemplate.moveD;
-            moveL = keytemplate.moveL;
-            moveR = keytemplate.moveR;
-            proj = keytemplate.proj;
-            equip = keytemplate.equip;
-            attack = keytemplate.attack;
-            jump = keytemplate.jump;
-            dash = keytemplate.dash;
+    case -1:
+        moveU = kN1.moveU;
+        moveD = kN1.moveD;
+        moveL = kN1.moveL;
+        moveR = kN1.moveR;
+        proj = kN1.proj;
+        equip = kN1.equip;
+        attack = kN1.attack;
+        jump = kN1.jump;
+        dash = kN1.dash;
+        break;
+    
+    default:
+    case 0:
+        moveU = k0.moveU;
+        moveD = k0.moveD;
+        moveL = k0.moveL;
+        moveR = k0.moveR;
+        proj = k0.proj;
+        equip = k0.equip;
+        attack = k0.attack;
+        jump = k0.jump;
+        dash = k0.dash;
+        break;
+
+    case 1:
+        moveU = k1.moveU;
+        moveD = k1.moveD;
+        moveL = k1.moveL;
+        moveR = k1.moveR;
+        proj = k1.proj;
+        equip = k1.equip;
+        attack = k1.attack;
+        jump = k1.jump;
+        dash = k1.dash;
+        break;
     }
 }

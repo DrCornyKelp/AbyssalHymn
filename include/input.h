@@ -26,6 +26,20 @@ struct KeyState
 	string0D scriptHistoryToStr();
 };
 
+struct KeyTemplateN1
+{
+	KeyState
+		moveU = {SDL_SCANCODE_W},
+		moveD = {SDL_SCANCODE_S},
+		moveL = {SDL_SCANCODE_A},
+		moveR = {SDL_SCANCODE_D},
+		proj = {SDL_SCANCODE_E},
+		equip = {SDL_SCANCODE_Q},
+		attack = {SDL_SCANCODE_F},
+		jump = {SDL_SCANCODE_SPACE}, // FOR TESTING
+		dash = {SDL_SCANCODE_LSHIFT};
+};
+
 struct KeyTemplate0
 {
 	KeyState

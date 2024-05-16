@@ -18,6 +18,9 @@ Multiplayer::Multiplayer(Player1D players) :
     }
     // Set Main Player
     MAIN->MAIN = 1;
+
+    // ================== TESTING ==================
+    if (PlayerCount < 2) MAIN->INPUT.setTemplate(-1);
 }
 
 void Multiplayer::addPlayer()
@@ -26,6 +29,10 @@ void Multiplayer::addPlayer()
     Players.back()->INDEX = PlayerCount;
     Players.back()->MULTI = this;
     Players.back()->INPUT.setTemplate(PlayerCount);
+
+    // ================== TESTING ==================
+    MAIN->INPUT.setTemplate(0);
+
     PlayerCount++;
 }
 void Multiplayer::changeMain(int index)
@@ -51,14 +58,10 @@ void Multiplayer::update(Map *map)
     if (MAIN->INPUT.f1.press())
     {
         MAIN->INPUT.f1.hold = 1;
-        Players.push_back(new Player());
+
+        addPlayer();
         Players.back()->setX(MAIN->getX());
         Players.back()->setY(MAIN->getY());
-
-        Players.back()->MULTI = this;
-        Players.back()->INPUT.setTemplate(PlayerCount);
-        Players.back()->INDEX = PlayerCount;
-        PlayerCount++;
     }
 
     if (MAIN->INPUT.f4.press())
