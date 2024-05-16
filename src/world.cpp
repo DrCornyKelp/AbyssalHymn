@@ -9,7 +9,7 @@ World::~World()
     delete MULTI, AUDIO, COLLI;
 }
 
-World::World(std::vector<Map*> mapvec, int startmap) :
+World::World(Map1D mapvec, int startmap) :
     MapVec(mapvec), MapCurrent(mapvec[startmap]), MapIndex(startmap)
 { MapCurrent->MapActive = 1; }
 

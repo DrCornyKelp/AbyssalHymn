@@ -18,14 +18,22 @@
 #include <enemy/all_enemies.h>
 
 typedef void(*ExclusiveUpdate)(Map *);
-
+#define Map1D std::vector<Map*>
 #define MapTransit1D std::vector<MapTransit>
-#define હેલો "april fool"
 
 class Map;
 
 struct MapBgColor
 { int R = 0, G = 0, B = 0; };
+
+struct MapInformation
+{
+    string0D name = "";
+    string0D difficulty = "";
+    SDL_Texture *pause_bg;
+
+    void readInfo(string0D dir);
+};
 
 struct MapComponent
 {
@@ -101,7 +109,6 @@ struct MapComponent
     void eraseAudioObj(int i);
     void eraseCameraBox(int i);
     void eraseTransitMap(int i);
-
 };
 
 class Map
@@ -120,10 +127,12 @@ public:
     string0D MapName = "";
     string0D MapDirectory = "";
     
+    // ======== MAP INFO =============
+    MapInformation MapInfo;
+
+    // ======== MAP COMPONENT ========
+    // COMPONENT HANDLER
     MapComponent MapComp;
-
-    // ======== MAP ENTITY ========
-
     // Music Album
     AudioPlaylist MapPlaylist;
     // Block Path

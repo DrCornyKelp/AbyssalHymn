@@ -12,16 +12,16 @@ public:
     Collision *COLLI;
 
     // ======================== MAP =========================
-    std::vector<Map*> MapVec;
-    int MapIndex = 0;
+    Map1D MapVec;
     Map *MapCurrent;
+    int MapIndex = 0;
 
     // ======== Cool Stuff That are oddly specific ==========
     WorldLocation transit_location;
 
     // ======== Standard Stuff (you know the drill) =========
     ~World();
-    World(std::vector<Map*> mapvec, int startmap = 0);
+    World(Map1D mapvec, int startmap = 0);
 
     void initWorld(Multiplayer *multi, Audio *audio, Collision *collision);
 

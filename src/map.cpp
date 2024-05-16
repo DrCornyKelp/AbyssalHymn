@@ -1,6 +1,12 @@
 #include <world.h>
 #include <exclusive_all.h>
 
+// ========================= MAP INFO ===============================
+void MapInformation::readInfo(string0D dir)
+{
+
+}
+
 // ========================= MAP COMPONENT ==========================
 
 void MapComponent::appendDirectory()
