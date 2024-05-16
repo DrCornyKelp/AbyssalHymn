@@ -117,6 +117,9 @@ bool Configuration::isComment(string0D str)
             str[0] ==  '#';
 }
 
+void Configuration::changeState()
+{ if (STATE) STATE = (STATE == 1) ? 2 : 1; }
+
 void Configuration::frameHandler()
 {
     Uint32 frame_start = SDL_GetTicks();

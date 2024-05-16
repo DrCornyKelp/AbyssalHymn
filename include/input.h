@@ -4,6 +4,7 @@
 #include <object2D.h>
 
 class Input;
+class Player;
 
 struct KeyState
 {
@@ -108,7 +109,6 @@ struct MouseMain
 	bool inbox(ObjectBox mbox);
 };
 
-class Player;
 class Input 
 {
 public:

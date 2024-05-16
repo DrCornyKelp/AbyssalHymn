@@ -106,12 +106,17 @@ int main(int argc, char *argv[])
         case 2:
             // Render what currently onscreen
             REND->renderGameplay(WORLD->MapCurrent);
-            MULTI->MAIN->INPUT;
+            MULTI->MAIN->INPUT.update();
 
             break;
         }
 
         // Config
+        if (MULTI->MAIN->INPUT.escape.press())
+        {
+            MULTI->MAIN->INPUT.escape.hold = 1;
+            CFG->changeState();
+        }
         CFG->postupdate();
     }
 

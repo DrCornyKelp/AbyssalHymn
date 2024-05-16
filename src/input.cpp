@@ -160,7 +160,6 @@ void Input::update()
     backslash.update(keystate, this);
 
     escape.update(keystate, this);
-    if (escape.state) CFG->QUIT = 1;
 
     f1.update(keystate, this);
     f2.update(keystate, this);

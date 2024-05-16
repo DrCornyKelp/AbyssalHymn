@@ -75,6 +75,7 @@ public:
         2: Pause
     */
     short STATE = 0;
+    void changeState();
 
     // TIME/FPS
     int FPS = 100;
