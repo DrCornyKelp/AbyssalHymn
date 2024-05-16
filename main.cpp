@@ -14,18 +14,15 @@ int main(int argc, char *argv[])
 
     CFG->TRANSIT_EFFECT.BLACKSCREEN = CFG->loadTexture("res/BlackScreen.png");
 
-    // Audio Handler
-    Audio *AUDIO = new Audio();
-
     // Renderer
     Renderer *REND = new Renderer();
 
+    // Audio Handler
+    Audio *AUDIO = new Audio();
     // Multiplayer (can support single player dont worry)
     Multiplayer *MULTI = new Multiplayer({new Player()});
-
     // Collision
     Collision *COLLI = new Collision();
-
     // ZA WARUDO
     World *WORLD = new World({
         // Void
@@ -94,7 +91,6 @@ int main(int argc, char *argv[])
             // Main
             // audio->updateTrack();
             WORLD->updateWorld();
-            MULTI->MAIN->playerDeveloper(WORLD->MapCurrent);
             REND->renderGameplay(WORLD->MapCurrent);
 
             // Console + Editor

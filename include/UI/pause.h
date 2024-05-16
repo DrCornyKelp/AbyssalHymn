@@ -3,6 +3,12 @@
 
 #include <world.h>
 
+class Pause
+{
+public:
+    World *WORLD;
 
+    Pause(World *world);
+};
 
 #endif

@@ -49,7 +49,8 @@ void Multiplayer::changeMain(int index)
 }
 
 void Multiplayer::update(Map *map)
-{
+{   
+    // Update all player
     for (Player *player : Players)
         player->playerUpdate(map);
 
@@ -58,6 +59,9 @@ void Multiplayer::update(Map *map)
         MAIN->camera.resetCamera();
     else 
         MAIN->camera.playerCameraProperty();
+
+    // Update player developer mode
+    MAIN->playerDeveloper(map);
 
     // ===================== TESTING =======================
     if (MAIN->INPUT.f1.press())
