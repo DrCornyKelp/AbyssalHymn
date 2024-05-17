@@ -62,7 +62,8 @@ int main(int argc, char *argv[])
     }
     delete intro;
 
-    Menu *menu = new Menu();
+    Menu *MENU = new Menu();
+    Pause *PAUSE = new Pause(WORLD);
 
     while (!CFG->QUIT)
     {
@@ -71,10 +72,10 @@ int main(int argc, char *argv[])
         case 0:
             SDL_RenderClear(CFG->RENDERER);
 
-            menu->update();
-            if (menu->multi) 
+            MENU->update();
+            if (MENU->multi) 
             {
-                menu->multi = 0;
+                MENU->multi = 0;
                 MULTI->addPlayer();
                 MULTI->MAIN->INPUT.setTemplate(0);
             };
@@ -89,7 +90,6 @@ int main(int argc, char *argv[])
             CFG->DEVLOG = "";
 
             // Main
-            // audio->updateTrack();
             WORLD->updateWorld();
             REND->renderGameplay(WORLD->MapCur);
 
@@ -103,6 +103,8 @@ int main(int argc, char *argv[])
             // Render what currently onscreen
             REND->renderGameplay(WORLD->MapCur);
             MULTI->MAIN->INPUT.update();
+
+            PAUSE->update();
 
             break;
         }

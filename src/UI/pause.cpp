@@ -7,5 +7,6 @@ Pause::Pause(World *world) :
 
 void Pause::update()
 {
-    WORLD->MapCur;
+    WORLD->AUDIO->setPlistVolMax(0);
+    WORLD->AUDIO->updateTrack();
 }

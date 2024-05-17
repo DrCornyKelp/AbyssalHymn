@@ -2,19 +2,20 @@
 #define CONFIGURATION_H
 
 #include <iostream>
+#include <iomanip>
+#include <sstream>
+#include <fstream>
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SFML/Audio.hpp>
 
 #include <algorithm>
 #include <random>
-#include <string>
-#include <iomanip>
-#include <sstream>
-#include <fstream>
 #include <math.h>
 #include <cmath>
 #include <vector>
+#include <string>
 #include <tuple>
 #include <map>
 

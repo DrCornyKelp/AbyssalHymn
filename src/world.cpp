@@ -46,7 +46,11 @@ void World::setTransit(WorldLocation location)
 
 void World::updateWorld()
 { 
+    // Update World Time (seperate from run time)
     CFG->WORLDTIME++;
+
+    // Update Audio Track
+    AUDIO->updateTrack();
 
     // Update Transition Transit
     if (CFG->TRANSIT_EFFECT.midpoint() &&
