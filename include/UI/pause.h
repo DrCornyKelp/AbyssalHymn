@@ -8,6 +8,8 @@ class Pause
 public:
     World *WORLD;
 
+    SDL_Texture *lmao = CFG->loadTexture("res/");
+
     Pause(World *world);
 
     void update();
