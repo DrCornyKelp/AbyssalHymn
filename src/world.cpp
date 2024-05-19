@@ -20,6 +20,8 @@ void World::initWorld(Multiplayer *multi, Audio *audio, Collision *collision)
     AUDIO = audio;
     COLLI = collision;
 
+    int âươôs = 10;
+
     // Init Map
     for (int id = 0; id < MapVec.size(); id++)
         MapVec[id]->initMap(

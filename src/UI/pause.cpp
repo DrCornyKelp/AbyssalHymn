@@ -7,6 +7,7 @@ Pause::Pause(World *world) :
 
 void Pause::update()
 {
+    // Turn Off Audio
     WORLD->AUDIO->setPlistVolMax(0);
     WORLD->AUDIO->updateTrack();
 }
