@@ -30,7 +30,9 @@ struct MapInformation
 {
     string0D name = "";
     string0D difficulty = "";
-    SDL_Texture *pause_bg;
+    SDL_Texture *pause_bg = CFG->loadTexture(
+        "res/PauseScreen/BlackScreen.png"
+    );
 
     void readInfo(string0D dir);
 };
