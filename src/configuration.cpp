@@ -73,13 +73,23 @@ void Configuration::resizeWindow(int W, int H)
     WIDTH = W; HEIGHT = H;
     SDL_SetWindowSize(WINDOW, W, H);
 }
+void Configuration::drawFullscreen(SDL_Texture *texture, float whr)
+{
+    SDL_Rect desRect;
+    if (WIDTH > HEIGHT * whr)
+        desRect = {0, 0, WIDTH, int(WIDTH / whr)};
+    else
+        desRect = {0, 0, int(HEIGHT * whr), HEIGHT};
+
+    SDL_RenderCopy(RENDERER, texture, NULL, &desRect);
+}
 
 SDL_Texture *Configuration::loadTexture(string0D path)
 {
     if (path == "") return NULL;
 
     SDL_Surface *surface = IMG_Load(path.c_str());
-    SDL_Texture *texture = SDL_CreateTextureFromSurface(CFG->RENDERER, surface);
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(RENDERER, surface);
     SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
     SDL_FreeSurface(surface);
 
@@ -93,7 +103,7 @@ SDLTexture1D Configuration::loadTextures(string0D path, int max)
     for (int i = 0; i < max; i++)
     {
         string0D frame_path = 
-            path + "frame_" + CFG->convertDigit(i, max) + ".png";
+            path + "frame_" + convertDigit(i, max) + ".png";
         textures.push_back(loadTexture(frame_path));
     }
 

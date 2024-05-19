@@ -89,6 +89,7 @@ public:
     // int WIDTH = 1536, HEIGHT = 896;
     int WIDTH = 1280, HEIGHT = 768;
     void resizeWindow(int W, int H);
+    void drawFullscreen(SDL_Texture *texture, float whr);
 
     // WINDOW/RENDERER
     SDL_Window *WINDOW = SDL_CreateWindow("Abyssal Hymn", SDL_WINDOWPOS_UNDEFINED,
@@ -96,8 +97,8 @@ public:
     SDL_Renderer *RENDERER = SDL_CreateRenderer(WINDOW, -1, 0);
     SDL_Surface *ICON = SDL_LoadBMP("res/icon.bmp");
     // TEXTURE FUNCTIONS
-    static SDL_Texture *loadTexture(string0D path);
-    static SDLTexture1D loadTextures(string0D path, int max);
+    SDL_Texture *loadTexture(string0D path);
+    SDLTexture1D loadTextures(string0D path, int max);
 
     // TRANSITION
     TransitionEffect TRANSIT_EFFECT;
