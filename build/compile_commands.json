@@ -139,12 +139,6 @@
 },
 {
   "directory": "C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build",
-  "command": "C:/msys64/mingw64/bin/g++.exe  @CMakeFiles/AbyssalHymn.dir/includes_CXX.rsp -g -std=gnu++20 -o CMakeFiles/AbyssalHymn.dir/src/scene.cpp.obj -c C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/scene.cpp",
-  "file": "C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/scene.cpp",
-  "output": "CMakeFiles/AbyssalHymn.dir/src/scene.cpp.obj"
-},
-{
-  "directory": "C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/build",
   "command": "C:/msys64/mingw64/bin/g++.exe  @CMakeFiles/AbyssalHymn.dir/includes_CXX.rsp -g -std=gnu++20 -o CMakeFiles/AbyssalHymn.dir/src/input.cpp.obj -c C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/input.cpp",
   "file": "C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/input.cpp",
   "output": "CMakeFiles/AbyssalHymn.dir/src/input.cpp.obj"

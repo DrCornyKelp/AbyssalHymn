@@ -22,7 +22,7 @@ void Menu::update()
 
     // Draw Background
     Object2D::objectSetSprite(menuBGsprite);
-    SDL_RenderCopy(CFG->RENDERER, menuBGframe[menuBGsprite.si], NULL, NULL);
+    CFG->drawFullscreen(menuBGframe[menuBGsprite.si], 1.5);
 
     // Draw 1P BUTTONS
     ObjectBox box1P = {

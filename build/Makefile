@@ -873,30 +873,6 @@ src/renderer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/AbyssalHymn.dir/build.make CMakeFiles/AbyssalHymn.dir/src/renderer.cpp.s
 .PHONY : src/renderer.cpp.s
 
-src/scene.obj: src/scene.cpp.obj
-.PHONY : src/scene.obj
-
-# target to build an object file
-src/scene.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/AbyssalHymn.dir/build.make CMakeFiles/AbyssalHymn.dir/src/scene.cpp.obj
-.PHONY : src/scene.cpp.obj
-
-src/scene.i: src/scene.cpp.i
-.PHONY : src/scene.i
-
-# target to preprocess a source file
-src/scene.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/AbyssalHymn.dir/build.make CMakeFiles/AbyssalHymn.dir/src/scene.cpp.i
-.PHONY : src/scene.cpp.i
-
-src/scene.s: src/scene.cpp.s
-.PHONY : src/scene.s
-
-# target to generate assembly for a file
-src/scene.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/AbyssalHymn.dir/build.make CMakeFiles/AbyssalHymn.dir/src/scene.cpp.s
-.PHONY : src/scene.cpp.s
-
 src/world.obj: src/world.cpp.obj
 .PHONY : src/world.obj
 
@@ -1023,9 +999,6 @@ help:
 	@echo "... src/renderer.obj"
 	@echo "... src/renderer.i"
 	@echo "... src/renderer.s"
-	@echo "... src/scene.obj"
-	@echo "... src/scene.i"
-	@echo "... src/scene.s"
 	@echo "... src/world.obj"
 	@echo "... src/world.i"
 	@echo "... src/world.s"

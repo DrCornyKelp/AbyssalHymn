@@ -103,7 +103,7 @@ SDLTexture1D Configuration::loadTextures(string0D path, int max)
     for (int i = 0; i < max; i++)
     {
         string0D frame_path = 
-            path + "frame_" + convertDigit(i, max) + ".png";
+            path + "frame_" + convertZPad(i, max) + ".png";
         textures.push_back(loadTexture(frame_path));
     }
 
@@ -155,7 +155,7 @@ string1D Configuration::convertStrVec(string0D file_dir)
     return values;
 }
 
-string0D Configuration::convertDigit(int number, int maxNumber)
+string0D Configuration::convertZPad(int number, int maxNumber)
 {
     // Calculate the number of digits in the maximum number
     int numDigits = 1;

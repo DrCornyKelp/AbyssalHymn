@@ -64,8 +64,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/AbyssalHymn.dir/src/projectile.cpp.obj.d"
   "CMakeFiles/AbyssalHymn.dir/src/renderer.cpp.obj"
   "CMakeFiles/AbyssalHymn.dir/src/renderer.cpp.obj.d"
-  "CMakeFiles/AbyssalHymn.dir/src/scene.cpp.obj"
-  "CMakeFiles/AbyssalHymn.dir/src/scene.cpp.obj.d"
   "CMakeFiles/AbyssalHymn.dir/src/world.cpp.obj"
   "CMakeFiles/AbyssalHymn.dir/src/world.cpp.obj.d"
   "libAbyssalHymn.dll.a"

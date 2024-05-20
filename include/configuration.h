@@ -113,7 +113,8 @@ public:
     // ====== Some manipulation with string and vector ======
 
     static string1D convertStrVec(string0D file_dir);
-    static string0D convertDigit(int number, int maxNumber);
+    // Zero-Padding: 1 into 001 or 21 into 021 for example
+    static string0D convertZPad(int number, int maxNumber);
 
     static int2D resizeInt2D(int1D vec, int r, int c);
     static long2D resizeLong2D(long1D vec, int r, int c);

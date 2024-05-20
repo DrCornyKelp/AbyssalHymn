@@ -39,7 +39,6 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/player.cpp" "CMakeFiles/AbyssalHymn.dir/src/player.cpp.obj" "gcc" "CMakeFiles/AbyssalHymn.dir/src/player.cpp.obj.d"
   "C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/projectile.cpp" "CMakeFiles/AbyssalHymn.dir/src/projectile.cpp.obj" "gcc" "CMakeFiles/AbyssalHymn.dir/src/projectile.cpp.obj.d"
   "C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/renderer.cpp" "CMakeFiles/AbyssalHymn.dir/src/renderer.cpp.obj" "gcc" "CMakeFiles/AbyssalHymn.dir/src/renderer.cpp.obj.d"
-  "C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/scene.cpp" "CMakeFiles/AbyssalHymn.dir/src/scene.cpp.obj" "gcc" "CMakeFiles/AbyssalHymn.dir/src/scene.cpp.obj.d"
   "C:/Users/DPC/Downloads/VSCLMAO/AbyssalHymn/src/world.cpp" "CMakeFiles/AbyssalHymn.dir/src/world.cpp.obj" "gcc" "CMakeFiles/AbyssalHymn.dir/src/world.cpp.obj.d"
   )
 

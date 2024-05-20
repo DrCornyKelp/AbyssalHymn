@@ -46,7 +46,6 @@ add_executable(AbyssalHymn
     src/UI/section.cpp
     src/map.cpp
     src/world.cpp
-    src/scene.cpp
     src/input.cpp
     src/audio.cpp
     src/camera.cpp
