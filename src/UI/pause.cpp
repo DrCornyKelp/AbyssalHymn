@@ -4,14 +4,30 @@ Pause::Pause(World *world) :
     WORLD(world)
 {}
 
-
-void Pause::update()
+void Pause::update(Input *input)
 {
     // Turn Off Audio
     WORLD->AUDIO->setPlistVolMax(0);
     WORLD->AUDIO->updateTrack();
 
-    CFG->drawFullscreen(WORLD->MapCur->MapInfo.pause_bg, 1);
+    if (!end_pause && transit_time < transit_max)
+        transit_time ++;
+    if (end_pause && transit_time > 0)
+        transit_time --;
+    if (end_pause && !transit_time)
+        CFG->STATE = 1;
 
-    SDL_RenderCopy(CFG->RENDERER, WORLD->MapCur->MapInfo.pause_bg, NULL, NULL);
+    std::cout << transit_time << "\n";
+
+    SDL_SetTextureAlphaMod(
+        WORLD->MapCur->MapInfo.pause_bg, 255 * transit_ratio()
+    );
+
+    CFG->drawFullscreen(WORLD->MapCur->MapInfo.pause_bg, 1);
+}
+
+float Pause::transit_ratio(bool reverse)
+{ 
+    float rat = transit_time / transit_max;
+    return reverse ? 1 - rat : rat;
 }

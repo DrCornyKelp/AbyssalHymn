@@ -97,6 +97,14 @@ int main(int argc, char *argv[])
             EDITOR->update();
             CONSOLE->update();
 
+            if (MULTI->MAIN->INPUT.escape.press())
+            {
+                MULTI->MAIN->INPUT.escape.hold = 1;
+                CFG->STATE = 2;
+                PAUSE->transit_time = 0;
+                PAUSE->end_pause = 0;
+            }
+
             break;
 
         case 2:
@@ -104,17 +112,18 @@ int main(int argc, char *argv[])
             REND->renderGameplay(WORLD->MapCur);
             MULTI->MAIN->INPUT.update();
 
-            PAUSE->update();
+            PAUSE->update(&MULTI->MAIN->INPUT);
+
+            if (MULTI->MAIN->INPUT.escape.press())
+            {
+                MULTI->MAIN->INPUT.escape.hold = 1;
+                PAUSE->end_pause = 1;
+            }
 
             break;
         }
 
         // Config
-        if (MULTI->MAIN->INPUT.escape.press())
-        {
-            MULTI->MAIN->INPUT.escape.hold = 1;
-            CFG->changeState();
-        }
         CFG->postupdate();
     }
 
