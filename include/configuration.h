@@ -31,6 +31,9 @@
 #define bool1D std::vector<bool>
 #define bool2D std::vector<bool1D>
 
+#define short1D std::vector<short>
+#define short2D std::vector<short1D>
+
 #define string0D std::string
 #define string1D std::vector<string0D>
 #define string2D std::vector<string1D>
@@ -86,10 +89,10 @@ public:
     void frameHandler();
 
     // WINDOW SIZE
-    // int WIDTH = 1536, HEIGHT = 896;
-    int WIDTH = 1280, HEIGHT = 768;
+    int WIDTH = 1536, HEIGHT = 896;
+    // int WIDTH = 1280, HEIGHT = 768;
     void resizeWindow(int W, int H);
-    void drawFullscreen(SDL_Texture *texture, float whr);
+    void drawFullscreen(SDL_Texture *texture, float whr, short1D position = {0, 0});
 
     // WINDOW/RENDERER
     SDL_Window *WINDOW = SDL_CreateWindow("Abyssal Hymn", SDL_WINDOWPOS_UNDEFINED,

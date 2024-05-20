@@ -22,7 +22,7 @@ void Menu::update()
 
     // Draw Background
     Object2D::objectSetSprite(menuBGsprite);
-    CFG->drawFullscreen(menuBGframe[menuBGsprite.si], 1.5);
+    CFG->drawFullscreen(menuBGframe[menuBGsprite.si], 1.5, {-1, -1});
 
     // Draw 1P BUTTONS
     ObjectBox box1P = {

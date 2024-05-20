@@ -73,14 +73,35 @@ void Configuration::resizeWindow(int W, int H)
     WIDTH = W; HEIGHT = H;
     SDL_SetWindowSize(WINDOW, W, H);
 }
-void Configuration::drawFullscreen(SDL_Texture *texture, float whr)
+void Configuration::drawFullscreen(SDL_Texture *texture, float whr, short1D position)
 {
     SDL_Rect desRect;
-    float whrN = 1 - whr;
     if (WIDTH > HEIGHT * whr)
-        desRect = {0, 0, WIDTH, int(WIDTH / whr)};
+    {
+        int real_h = int(WIDTH / whr);
+        int offset_h;
+        switch (position[1])
+        {
+        case -1: offset_h = 0; break;
+        case 0: offset_h = - (real_h - HEIGHT) / 2; break;
+        case 1: offset_h = - (real_h - HEIGHT); break;
+        }
+
+        desRect = {0, offset_h, WIDTH, real_h};
+    }
     else
-        desRect = {0, 0, int(HEIGHT * whr), HEIGHT};
+    {
+        int real_w = int(HEIGHT * whr);
+        int offset_w;
+        switch (position[0])
+        {
+        case -1: offset_w = 0; break;
+        case 0: offset_w = - (real_w - WIDTH) / 2; break;
+        case 1: offset_w = - (real_w - WIDTH); break;
+        }
+
+        desRect = {offset_w, 0, int(HEIGHT * whr), HEIGHT};
+    }
 
     SDL_RenderCopy(RENDERER, texture, NULL, &desRect);
 }

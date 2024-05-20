@@ -10,6 +10,7 @@
 
 struct ObjectXY { int x = 0, y = 0; };
 struct ObjectXYb { bool x = 0, y = 0; };
+struct ObjectXYs { short x = 0, y = 0; };
 struct ObjectXYf { float x = 0, y = 0; };
 struct ObjectXYWH { int x = 0, y = 0, w = 0, h = 0; };
 struct ObjectHitbox
