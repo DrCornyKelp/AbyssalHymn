@@ -76,10 +76,11 @@ void Configuration::resizeWindow(int W, int H)
 void Configuration::drawFullscreen(SDL_Texture *texture, float whr)
 {
     SDL_Rect desRect;
+    float whrN = 1 - whr;
     if (WIDTH > HEIGHT * whr)
-        desRect = {0, 0, WIDTH, int(WIDTH / whr)};
+        desRect = {int(WIDTH / whrN), 0, WIDTH, int(WIDTH / whr)};
     else
-        desRect = {0, 0, int(HEIGHT * whr), HEIGHT};
+        desRect = {0, int(HEIGHT * whrN), int(HEIGHT * whr), HEIGHT};
 
     SDL_RenderCopy(RENDERER, texture, NULL, &desRect);
 }
