@@ -7,6 +7,12 @@ void MapInformation::readInfo(string0D dir)
 
 }
 
+void MapInformation::clearInfo()
+{
+    // Anything pointer related, clear
+    
+}
+
 // ========================= MAP COMPONENT ==========================
 
 void MapComponent::appendDirectory()

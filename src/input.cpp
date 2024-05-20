@@ -30,8 +30,13 @@ void KeyState::update(const Uint8* keystate, Input *input)
     }
     // // KEY INPUT
     else {
-        if (keystate[code] && !input->delay) state = 1;
-        else { state = 0; hold = 0; }
+        if (keystate[code] && !input->delay)
+            state = 1;
+        else 
+        { 
+            state = 0;
+            hold = 0;
+        }
     }
 
     // Threshold
@@ -49,7 +54,10 @@ void KeyState::update(const Uint8* keystate, Input *input)
     // Key Delay
     if (keydelay) keydelay--;
 }
-bool KeyState::press() { return state && !hold && !keydelay; }
+bool KeyState::press() { 
+    return state && !hold && !keydelay;
+}
+
 bool KeyState::threspass(int max) { return threshold >= max; }
 string0D KeyState::scriptHistoryToStr()
 {

@@ -24,12 +24,19 @@ void Pause::update(Input *input)
     }
 
     // Draw And Stuff
-
     SDL_SetTextureAlphaMod(
         WORLD->MapCur->MapInfo.pause_bg, 255 * transit_ratio()
     );
+    SDL_SetTextureAlphaMod(
+        BlackScreen, 180 * transit_ratio()
+    );
 
-    CFG->drawFullscreen(WORLD->MapCur->MapInfo.pause_bg, 1);
+    SDL_RenderCopy(CFG->RENDERER, BlackScreen, NULL, NULL);
+
+    CFG->drawFullscreen(
+        WORLD->MapCur->MapInfo.pause_bg,
+        WORLD->MapCur->MapInfo.pause_ratio
+    );
 }
 
 float Pause::transit_ratio(bool reverse)

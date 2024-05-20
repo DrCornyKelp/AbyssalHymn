@@ -9,14 +9,18 @@ class Player;
 struct KeyState
 {
 	SDL_Scancode code;
+	// Standard
 	bool moveset = 1; // If these are gameplay key or not
 	bool state = 0;
 	bool hold = 0;
 	// Instant press
+	int prepress;
 	bool press();
+	// Threshold
 	int threshold = 0,
 		threspeak = 0;
 	bool threspass(int max);
+	// Delay
 	int keydelay = 0;
 
 	long1D script;

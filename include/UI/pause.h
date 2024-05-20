@@ -12,7 +12,7 @@ public:
     float transit_time = 0;
     float transit_max = 20;
 
-    SDL_Texture *lmao = CFG->loadTexture("res/");
+    SDL_Texture *BlackScreen = CFG->loadTexture("res/BlackScreen.png");
 
     Pause(World *world);
 
