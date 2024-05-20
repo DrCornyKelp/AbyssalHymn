@@ -17,7 +17,13 @@ void Pause::update(Input *input)
     if (end_pause && !transit_time)
         CFG->STATE = 1;
 
-    std::cout << transit_time << "\n";
+    if (input->escape.press())
+    {
+        input->escape.hold = 1;
+        end_pause = 1;
+    }
+
+    // Draw And Stuff
 
     SDL_SetTextureAlphaMod(
         WORLD->MapCur->MapInfo.pause_bg, 255 * transit_ratio()

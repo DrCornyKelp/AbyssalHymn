@@ -114,12 +114,6 @@ int main(int argc, char *argv[])
 
             PAUSE->update(&MULTI->MAIN->INPUT);
 
-            if (MULTI->MAIN->INPUT.escape.press())
-            {
-                MULTI->MAIN->INPUT.escape.hold = 1;
-                PAUSE->end_pause = 1;
-            }
-
             break;
         }
 
