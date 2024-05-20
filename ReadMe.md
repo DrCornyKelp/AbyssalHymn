@@ -232,7 +232,7 @@ Movement and game design planning:
 - Combat finished (range attack, parry, charged attack) 
 - Separating `input` from movement calculation, allowing for player control outside of just player character (for menu navigation) 
 - `Map1` finished (not really)
-- Menu concept and demo
+- `Menu` concept and demo
 - Added `Item` 
 - Added `Collision`
 
@@ -325,6 +325,11 @@ $\Rightarrow$ Player can move between location using `Transition` (from Object2D
     - Accurate `offset` from `main player`
   - Apply the `hold/threshold/threspeak` paradigm from `key input` to `mouse input`
   - Added `wheel` value for scroll direction
+
+### [`24/4`] USER FRIENDLY INTERFACE
+
+- Working opening `Intro` sequence
+- Complete `Menu` and `Pause` rework (still under development)
 
 ---
 
