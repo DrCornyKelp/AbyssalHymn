@@ -1,5 +1,10 @@
+# Development folder
 build/
 PyScript/
 LevelDesign/
+
+# Placeholder Content
 XXX_IGNORE_XXX.cpp
+
+# CMake
 CMakeLists.txt
