@@ -17,6 +17,8 @@ and
                          \/     \/     \/     \/     \/     \/    \/   
 ```
 
+##### *REQUIREMENT: `g++ version 13.2.0 or above`
+
 ---
 
 ## Introduction
@@ -29,10 +31,6 @@ With each music note collected, unlock fragments of an ancient melody, weaving t
 
 Dive deep into the depths of imagination and embark on an unforgettable odyssey through the symphonic wonders of "Abyssal Hymn," where the power of music serves as a beacon of hope amidst the darkness, guiding Nakuru towards her destiny.
 
-Read Aloud Copy Regenerate Bad Repsonse Message ChatGPT…
-Upgrade plan
-Get GPT-4, DALL·E, and more @openai... wait oh crap
-
 Yea gonna be honest I am too focus on functionality of the game I completely neglect the story :sob:
 
 ---
@@ -40,7 +38,7 @@ Yea gonna be honest I am too focus on functionality of the game I completely neg
 ## SOME OUTSIDE INSTALLATION
 
 - Download **Msys2** on the officical website
-- Once done install, open the Mingw64.exe
+- Once done installing, open the **Mingw64.exe**
 
 - Do these things in order
   - `$ pacman -Syu`
@@ -50,7 +48,7 @@ Yea gonna be honest I am too focus on functionality of the game I completely neg
   - `$ pacman -S git`
   - `$ pacman -S git mingw-w64-x86_64-gcc base-devel`
   - `$ pacman -S mingw-w64-x86_64-clang base-devel`
-  - *Note:* Just press Enter whenever they asked you to confirm stuff.
+  - *Note:* Just press Enter whenever they asked you to confirm stuff
 
 - Include in the PATH user environment variables
   - `%your_msys_folder%/mingw64/bin`
@@ -111,7 +109,8 @@ Yea gonna be honest I am too focus on functionality of the game I completely neg
 - Yes
 
 #### Player stats:
-- health (max 3), mp (for ranged attacks, later stage of dev) 
+- health (max 3), mp (for ranged attacks, later stage of dev)
+- Update `21/5`
 
 #### Gameplay:
 - Getting from the start to the end of the stage, beating enemies along the way, collecting items for power up, exploring for secrets 
@@ -120,7 +119,7 @@ Yea gonna be honest I am too focus on functionality of the game I completely neg
 - Walk, crouch, crawl, ground dash, crouch dash, air dash, jump, charged jump, double jump, melee attack, ranged attack 
 
 #### Enemies:
-- Small slime, big skeleton,… (later stage of development) 
+- Small slime, big skeleton, … (later stage of development) 
 
 #### Maps:
 - Sunlight Valley - Standard Green Zone (2 section: outside field, inside valley)
