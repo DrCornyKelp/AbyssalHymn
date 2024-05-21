@@ -52,16 +52,17 @@ int main(int argc, char *argv[])
     // Map editor
     Editor *EDITOR = new Editor(CONSOLE, WORLD, MULTI->MAIN, COLLI);
 
-    // // Play Intro Sequence
-    // Intro *intro = new Intro();
-    // while (!intro->finish)
-    // {
-    //     SDL_RenderClear(CFG->RENDERER);
-    //     intro->update();
-    //     CFG->postupdate();
-    // }
-    // delete intro;
+    // Play Intro Sequence
+    Intro *intro = new Intro();
+    while (!intro->finish)
+    {
+        SDL_RenderClear(CFG->RENDERER);
+        intro->update();
+        CFG->postupdate();
+    }
+    delete intro;
 
+    // Menu
     Menu *MENU = new Menu();
     Pause *PAUSE = new Pause(WORLD);
 
