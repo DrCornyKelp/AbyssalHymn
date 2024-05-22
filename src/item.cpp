@@ -12,10 +12,10 @@ void Item::initItemSprite()
     switch(effect)
     {
     case 1:
-        path = "res/nakuru_bake.png";
+        path = "assets/nakuru_bake.png";
         break;
     case 2:
-        path = "res/hamster.png";
+        path = "assets/hamster.png";
         break;
     default:
         break;

@@ -171,7 +171,7 @@ void Projectile::projectileAction(Map *map)
         {
             map->appendParticle(new ParticleEffect(
                 CFG->loadTexture(
-                    "res/ParticleSheet/BulletParry.png"
+                    "assets/ParticleSheet/BulletParry.png"
                 ),
                 getX(), getY(), 150, 150,
                 64, 64, 7, 3, 0
@@ -207,7 +207,7 @@ void Projectile::updateProjectile(Map *map)
     // Bullet Died :(
     if (bullet_dead)
         map->appendParticle(new ParticleEffect(
-            CFG->loadTexture("res/ParticleSheet/Explode.png"),
+            CFG->loadTexture("assets/ParticleSheet/Explode.png"),
             getX(), getY(), 200, 200,
             100, 100, 10, 7, 3, 0
         ), 1);

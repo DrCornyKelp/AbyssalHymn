@@ -66,7 +66,7 @@
   - `1`, `path`, `x`, `y`, `w`, `h`, `sw`, `sh`, `sim`, `sfm`, `abs`, `alpha`
 #### - Type 2: Animation Folder (for long animation with large sheets)
   - `2`, `folder path`, `x`, `y`, `w`, `h`, `sim`, `sfm`, `abs`
-  - **NOTE:** folder path must include a "/" at the end (E.X: res/Decoration/City/).
+  - **NOTE:** folder path must include a "/" at the end (E.X: assets/Decoration/City/).
 
 ### [`background`]`.csv`
 
@@ -109,7 +109,7 @@
 
 ### [`door`]`.csv`
 - `style`, `handle left`, `door x`, `door y`, `map index`, `spawn x`, `spawn y`, `star count`
-  - **`style`**: the door path index, refer to res/Door and see which one looks best
+  - **`style`**: the door path index, refer to assets/Door and see which one looks best
   - **`handle left`**: the direction of the door's handle, **`0`** if on the **right** and **`1`** if on the **left**.
   - **`star count`**: the number of star needed to unlock door.
 

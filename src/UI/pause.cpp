@@ -28,7 +28,7 @@ void Pause::update(Input *input)
         WORLD->MapCur->MapInfo.pause_bg, 255 * transit_ratio()
     );
     SDL_SetTextureAlphaMod(
-        BlackScreen, 180 * transit_ratio()
+        BlackScreen, 220 * transit_ratio()
     );
 
     SDL_RenderCopy(CFG->RENDERER, BlackScreen, NULL, NULL);

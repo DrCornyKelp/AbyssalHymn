@@ -24,8 +24,8 @@ class Intro
 {
 public:
     IntroLogo1D logos = {
-        {CFG->loadTexture("res/IntroLogo/Valve.png"), 235, 70},
-        {CFG->loadTexture("res/IntroLogo/Riot.png"), 328, 200}
+        {CFG->loadTexture("assets/IntroLogo/Valve.png"), 235, 70},
+        {CFG->loadTexture("assets/IntroLogo/Riot.png"), 328, 200}
     };
 
     bool finish = 0;

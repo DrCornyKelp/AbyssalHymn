@@ -1,17 +1,11 @@
 #include <map.h>
 
-int1D generateVector(int n, bool random = 0) {
-    int1D result(n);
-    for (int i = 0; i < n; ++i)
-        result[i] = i;
-
-    if (!random) return result;
-
-    std::random_device rd;
-    std::mt19937 g(rd());
-    std::shuffle(result.begin(), result.end(), g);
-    return result;
+AudioSFX::AudioSFX(const std::string& filePath)
+{
+    buffer.loadFromFile(filePath);
+    sound.setBuffer(buffer);
 }
+void AudioSFX::play() { sound.play(); }
 
 void AudioPlaylist::updatePlaylist(bool fresh)
 {
@@ -28,8 +22,8 @@ void AudioPlaylist::updatePlaylist(bool fresh)
 
     // Reupdate playlist
     m_cur = 0;
-    if (random) m_list = generateVector(paths.size(), 1);
-    else        m_list = generateVector(paths.size());
+    if (random) m_list = CFG->randomInt1D(paths.size());
+    else        m_list = CFG->randomInt1D(paths.size(), 0, 0);
 }
 
 bool AudioPlaylist::comparePlaylist(AudioPlaylist other)

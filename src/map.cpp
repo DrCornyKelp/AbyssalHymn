@@ -63,7 +63,7 @@ void MapComponent::appendComponent()
             CFG->loadTexture(path)
         );
     map->BlockPreview.push_back(
-        CFG->loadTexture("res/BlockTile/Null.png")
+        CFG->loadTexture("assets/BlockTile/Null.png")
     );
 }
 

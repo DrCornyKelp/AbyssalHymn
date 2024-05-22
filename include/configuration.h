@@ -89,8 +89,8 @@ public:
     void frameHandler();
 
     // WINDOW SIZE
-    int WIDTH = 1536, HEIGHT = 896;
-    // int WIDTH = 1280, HEIGHT = 768;
+    // int WIDTH = 1536, HEIGHT = 896;
+    int WIDTH = 1280, HEIGHT = 768;
     void resizeWindow(int W, int H);
     void drawFullscreen(SDL_Texture *texture, float whr, short1D position = {0, 0});
 
@@ -98,7 +98,7 @@ public:
     SDL_Window *WINDOW = SDL_CreateWindow("Abyssal Hymn", SDL_WINDOWPOS_UNDEFINED,
                                             SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_ALLOW_HIGHDPI);
     SDL_Renderer *RENDERER = SDL_CreateRenderer(WINDOW, -1, 0);
-    SDL_Surface *ICON = SDL_LoadBMP("res/icon.bmp");
+    SDL_Surface *ICON = SDL_LoadBMP("assets/icon.bmp");
     // TEXTURE FUNCTIONS
     SDL_Texture *loadTexture(string0D path);
     SDLTexture1D loadTextures(string0D path, int max);
@@ -115,20 +115,25 @@ public:
 
     // ====== Some manipulation with string and vector ======
 
+    // String Manip
     static string1D convertStrVec(string0D file_dir);
-    // Zero-Padding: 1 into 001 or 21 into 021 for example
+    // // Zero-Padding: 1 into 001 or 21 into 021 for example
     static string0D convertZPad(int number, int maxNumber);
 
+    // Resize
     static int2D resizeInt2D(int1D vec, int r, int c);
     static long2D resizeLong2D(long1D vec, int r, int c);
     static float2D resizeFloat2D(float1D vec, int r, int c);
-
+    // Convert Str to Num
     static int1D convertStrInt1D(string0D str, char delimiter = ',');
     static long1D convertStrLong1D(string0D str, char delimiter = ',');
     static float1D convertStrFloat1D(string0D str, char delimiter = ',');
-
+    // Convert Type1 to Type2
     static int1D convertFloat1DInt(float1D vec);
     static int2D convertFloat2DInt(float2D vec);
+
+    // Randomizer
+    static int1D randomInt1D(int max, int min = 0, bool shuffle = 1);
 
 };
 

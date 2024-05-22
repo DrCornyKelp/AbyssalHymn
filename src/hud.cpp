@@ -10,15 +10,15 @@ Hud::~Hud()
 }
 Hud::Hud(Player *p) : player(p)
 {
-    combatReadyTexture = CFG->loadTexture("res/HudElement/HeadUp/CombatReady.png");
-    combatDelayTexture = CFG->loadTexture("res/HudElement/HeadUp/CombatDelay.png");
-    combatChargeTexture = CFG->loadTexture("res/HudElement/HeadUp/CombatCharge.png");
+    combatReadyTexture = CFG->loadTexture("assets/HudElement/HeadUp/CombatReady.png");
+    combatDelayTexture = CFG->loadTexture("assets/HudElement/HeadUp/CombatDelay.png");
+    combatChargeTexture = CFG->loadTexture("assets/HudElement/HeadUp/CombatCharge.png");
 
-    jumpTexture = CFG->loadTexture("res/HudElement/HeadUp/Jump.png");
-    jumpDoubleTexture = CFG->loadTexture("res/HudElement/HeadUp/JumpDouble.png");
-    jumpSuperTexture = CFG->loadTexture("res/HudElement/HeadUp/JumpSuper.png");
+    jumpTexture = CFG->loadTexture("assets/HudElement/HeadUp/Jump.png");
+    jumpDoubleTexture = CFG->loadTexture("assets/HudElement/HeadUp/JumpDouble.png");
+    jumpSuperTexture = CFG->loadTexture("assets/HudElement/HeadUp/JumpSuper.png");
 
-    invincibleTexture = CFG->loadTexture("res/HudElement/HeadUp/Invincible.png");
+    invincibleTexture = CFG->loadTexture("assets/HudElement/HeadUp/Invincible.png");
 }
 
 void Hud::setAlpha(int a)

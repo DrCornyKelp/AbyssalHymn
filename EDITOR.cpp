@@ -26,27 +26,27 @@ Editor::Editor(Console *consl, World *w, Player *p, Collision *c) :
 {
     map_cur = world->MapCur;
 
-    EditBack = CFG->loadTexture("res/Editor/EditorBack.png");
+    EditBack = CFG->loadTexture("assets/Editor/EditorBack.png");
 
     EditArrow = {
-        CFG->loadTexture("res/Editor/ArrowUp.png"),
-        CFG->loadTexture("res/Editor/ArrowDown.png"),
-        CFG->loadTexture("res/Editor/ArrowLeft.png"),
-        CFG->loadTexture("res/Editor/ArrowRight.png")
+        CFG->loadTexture("assets/Editor/ArrowUp.png"),
+        CFG->loadTexture("assets/Editor/ArrowDown.png"),
+        CFG->loadTexture("assets/Editor/ArrowLeft.png"),
+        CFG->loadTexture("assets/Editor/ArrowRight.png")
     };
 
     for (int i = 0; i < 10; i++)
         EditNumber.push_back(
-            CFG->loadTexture("res/Editor/Num" + std::to_string(i) + ".png")
+            CFG->loadTexture("assets/Editor/Num" + std::to_string(i) + ".png")
         );
 
-    EditLetterType = CFG->loadTexture("res/Editor/LetterType.png");
-    EditLetterFront = CFG->loadTexture("res/Editor/LetterFront.png");
-    EditLetterBack = CFG->loadTexture("res/Editor/LetterBack.png");
-    EditLetterDel = CFG->loadTexture("res/Editor/LetterDel.png");
-    EditLetterGlob = CFG->loadTexture("res/Editor/LetterGlobal.png");
-    EditLetterSave = CFG->loadTexture("res/Editor/LetterSave.png");
-    EditLetterLoad = CFG->loadTexture("res/Editor/LetterLoad.png");
+    EditLetterType = CFG->loadTexture("assets/Editor/LetterType.png");
+    EditLetterFront = CFG->loadTexture("assets/Editor/LetterFront.png");
+    EditLetterBack = CFG->loadTexture("assets/Editor/LetterBack.png");
+    EditLetterDel = CFG->loadTexture("assets/Editor/LetterDel.png");
+    EditLetterGlob = CFG->loadTexture("assets/Editor/LetterGlobal.png");
+    EditLetterSave = CFG->loadTexture("assets/Editor/LetterSave.png");
+    EditLetterLoad = CFG->loadTexture("assets/Editor/LetterLoad.png");
 }
 
 void Editor::blockEditor()

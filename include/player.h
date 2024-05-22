@@ -3,6 +3,7 @@
 
 #include <hud.h>
 #include <input.h>
+#include <audio.h>
 #include <particle_effect.h>
 
 #define Player1D std::vector<Player*>
@@ -169,14 +170,6 @@ struct PlayerDrawProp
     void drawProperty(Map *map);
 };
 
-struct PlayerSFX
-{
-    sf::SoundBuffer
-        jumpB, moveB;
-    sf::Sound
-        jumpS, moveS;
-};
-
 struct PlayerCombat
 {
     Player *player;
@@ -198,6 +191,14 @@ struct PlayerCombat
     int charge_time = 0;
     float delay = 0; 
     float parry_error = 0;
+};
+
+struct PlayerSFX
+{
+    AudioSFX hit = AudioSFX("assets/Audio/sfx/hit.mp3");
+    AudioSFX jump = AudioSFX("assets/Audio/sfx/jump.mp3");
+    AudioSFX dash = AudioSFX("assets/Audio/sfx/dash.mp3");
+    AudioSFX parry = AudioSFX("assets/Audio/sfx/parry.mp3");
 };
 
 class Player : public Object2D

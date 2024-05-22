@@ -27,10 +27,10 @@ void Door::initDoor()
 
     string0D h_dir = handle_left ? "L" : "R";
     door_texture = CFG->loadTexture(
-        "res/Door/Door" + std::to_string(style) + h_dir + ".png"
+        "assets/Door/Door" + std::to_string(style) + h_dir + ".png"
     );
     lock_texture = CFG->loadTexture(
-        "res/Door/DoorLock.png"
+        "assets/Door/DoorLock.png"
     );
 }
 

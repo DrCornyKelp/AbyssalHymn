@@ -7,12 +7,12 @@ Player::~Player()
 Player::Player(bool mc) : Object2D(), MAIN(mc)
 {
     // Nakuru normal mvoement
-    draw_prop.RightTexture = CFG->loadTexture("res/NakuSheet/NakuRight.png");
-    draw_prop.LeftTexture = CFG->loadTexture("res/NakuSheet/NakuLeft.png");
+    draw_prop.RightTexture = CFG->loadTexture("assets/NakuSheet/NakuRight.png");
+    draw_prop.LeftTexture = CFG->loadTexture("assets/NakuSheet/NakuLeft.png");
 
     // Nakuru holding weapon
-    draw_prop.RightWeaponTexture = CFG->loadTexture("res/NakuSheet/NakuRightWeapon.png");
-    draw_prop.LeftWeaponTexture = CFG->loadTexture("res/NakuSheet/NakuLeftWeapon.png");
+    draw_prop.RightWeaponTexture = CFG->loadTexture("assets/NakuSheet/NakuRightWeapon.png");
+    draw_prop.LeftWeaponTexture = CFG->loadTexture("assets/NakuSheet/NakuLeftWeapon.png");
 }
 
 // ============================ PLAYER MOVESET ============================
@@ -521,8 +521,8 @@ void Player::playerMovement(Map *map)
 
         map->appendParticle(new ParticleEffect(
             CFG->loadTexture(draw_prop.right ?
-                "res/ParticleSheet/NakuEffect/GDashSmokeRight.png" :
-                "res/ParticleSheet/NakuEffect/GDashSmokeLeft.png"
+                "assets/ParticleSheet/NakuEffect/GDashSmokeRight.png" :
+                "assets/ParticleSheet/NakuEffect/GDashSmokeLeft.png"
             ),
             getX(), getY(), 100, 71,
             59, 42, 7, 5, 0
@@ -545,8 +545,8 @@ void Player::playerMovement(Map *map)
 
         map->appendParticle(new ParticleEffect(
             CFG->loadTexture(draw_prop.right ?
-                "res/ParticleSheet/NakuEffect/ADashSmokeRight.png" :
-                "res/ParticleSheet/NakuEffect/ADashSmokeLeft.png"
+                "assets/ParticleSheet/NakuEffect/ADashSmokeRight.png" :
+                "assets/ParticleSheet/NakuEffect/ADashSmokeLeft.png"
             ),
             getX(), getY(), 150, 150,
             64, 64, 8, 3, 0
@@ -578,7 +578,7 @@ void Player::playerMovement(Map *map)
         {
             map->appendParticle(new ParticleEffect(
                 CFG->loadTexture(
-                    "res/ParticleSheet/NakuEffect/SuperJumpSmoke.png"),
+                    "assets/ParticleSheet/NakuEffect/SuperJumpSmoke.png"),
                 move.hitX(), move.hitY(), 150, 36,
                 118, 29, 8, 5, 0
             ));
@@ -587,7 +587,7 @@ void Player::playerMovement(Map *map)
         } else if (state.on_ground)
             map->appendParticle(new ParticleEffect(
                 CFG->loadTexture(
-                    "res/ParticleSheet/NakuEffect/JumpSmoke.png"),
+                    "assets/ParticleSheet/NakuEffect/JumpSmoke.png"),
                 getX(), getY() - 24, 50, 50,
                 14, 12, 8, 5, 0
             ));
@@ -599,8 +599,8 @@ void Player::playerMovement(Map *map)
             map->appendParticle(new ParticleEffect(
                 CFG->loadTexture(
                     state.hug_wall > 0 ?
-                    "res/ParticleSheet/NakuEffect/JumpWallRight.png" :
-                    "res/ParticleSheet/NakuEffect/JumpWallLeft.png"),
+                    "assets/ParticleSheet/NakuEffect/JumpWallRight.png" :
+                    "assets/ParticleSheet/NakuEffect/JumpWallLeft.png"),
                 getX(), getY(), 50, 50,
                 25, 25, 7, 3, 0
             ));
@@ -735,7 +735,7 @@ void Player::playerCombat(Map *map)
         INPUT.proj.hold = 1;
 
         map->ProjectileVec.push_back(new Projectile(
-            "res/NakuSheet/NakuSquid.png",
+            "assets/NakuSheet/NakuSquid.png",
             getX(), getY() + 50, 16, 16,
             32, 32,
             getVelX()*.8 + draw_prop.right*2 - 1,
@@ -995,14 +995,14 @@ void Player::playerGetHit(Map *map, int dmg)
 
     // map->appendParticle(new ParticleEffect(
     //     CFG->loadTexture(CFG->RENDERER,
-    //         "res/ParticleSheet/NakuEffect/BloodSplatter.png"),
+    //         "assets/ParticleSheet/NakuEffect/BloodSplatter.png"),
     //     getX(), getY(), 300, 300,
     //     100, 100, 6, 3, 4, 0
     // ));
 
     // map->appendParticle(new ParticleEffect(
     //     CFG->loadTexture(CFG->RENDERER,
-    //         "res/ParticleSheet/Explode.png"),
+    //         "assets/ParticleSheet/Explode.png"),
     //     getX(), getY(), 300, 300,
     //     100, 100, 10, 7, 3, 0
     // ));

@@ -37,7 +37,7 @@ bool TransitionEffect::leftactive()
 bool TransitionEffect::rightactive()
 { return side_cur > 0 && !mid_cur; }
 bool TransitionEffect::midpoint()
-{ 
+{
     return  active &&
             side_cur == side_max &&
             mid_cur == mid_max;
@@ -290,4 +290,16 @@ int2D Configuration::convertFloat2DInt(float2D floatVec)
     }
 
     return intVec;
+}
+
+int1D Configuration::randomInt1D(int max, int min, bool shuffle)
+{
+    int1D randomVec;
+    for (int i = min; i < max; i++)
+        randomVec.push_back(i);
+
+    if (shuffle)
+        std::random_shuffle(randomVec.begin(), randomVec.end());
+
+    return randomVec;
 }

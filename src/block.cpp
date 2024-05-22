@@ -34,7 +34,7 @@ Block::Block(float X, float Y, short t, int2D b_index) :
 void Block::blockEngine(string1D sPath, int2D bIndex)
 {
     // Just for block editor and stuff
-    highlight_texture = CFG->loadTexture("res/BoxTile.png");
+    highlight_texture = CFG->loadTexture("assets/BoxTile.png");
 
     // Type 6 block (Texturing and Decoration)
     // can be render outside of camera border
@@ -190,7 +190,7 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
             {
                 map->appendParticle(new ParticleEffect(
                     CFG->loadTexture(
-                        "res/ParticleSheet/NakuEffect/WallBangRight.png"),
+                        "assets/ParticleSheet/NakuEffect/WallBangRight.png"),
                     player->getX(), player->getY(), 128, 128,
                     64, 64, 8, 4, 0
                 ));
@@ -230,7 +230,7 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
             {
                 map->appendParticle(new ParticleEffect(
                     CFG->loadTexture(
-                        "res/ParticleSheet/NakuEffect/WallBangLeft.png"),
+                        "assets/ParticleSheet/NakuEffect/WallBangLeft.png"),
                     player->getX(), player->getY(), 128, 128,
                     64, 64, 8, 4, 0
                 ));
@@ -255,7 +255,7 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
         {
             map->appendParticle(new ParticleEffect(
                 CFG->loadTexture(
-                    "res/ParticleSheet/NakuEffect/WallBangDown.png"),
+                    "assets/ParticleSheet/NakuEffect/WallBangDown.png"),
                 player->getX(), player->getY(), 70, 70,
                 64, 64, 8, 4, 0
             ));

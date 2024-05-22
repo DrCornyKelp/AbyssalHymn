@@ -32,7 +32,7 @@ struct MapInformation
     string0D difficulty = "";
 
     SDL_Texture *pause_bg = CFG->loadTexture(
-        "res/PauseScreen/Default.png"
+        "assets/PauseScreen/Default.png"
     );
     float pause_ratio = 1.77;
 

@@ -3,6 +3,14 @@
 
 #include <object2D.h>
 
+struct AudioSFX {
+    sf::SoundBuffer buffer;
+    sf::Sound sound;
+
+    AudioSFX(const std::string& filePath);
+    void play();
+};
+
 struct AudioPlaylist
 {
     string1D paths;

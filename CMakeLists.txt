@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.29)
 project(AbyssalHymn)
 
+# Cpp 20
 set(CMAKE_CXX_STANDARD 20)
 
 include_directories(
@@ -10,15 +11,19 @@ include_directories(
     map_data
 )
 
+# Libraries
 link_directories(
     libraries/SDL2/lib
     libraries/SFML/lib
 )
 
-set(ASSETS ${PROJECT_SOURCE_DIR}/res)
+# Assets
+set(ASSETS ${PROJECT_SOURCE_DIR}/assets)
 file(COPY ${ASSETS} DESTINATION ${CMAKE_BINARY_DIR})
+# Map data
 set(MAP_DATA ${PROJECT_SOURCE_DIR}/map_data)
 file(COPY ${MAP_DATA} DESTINATION ${CMAKE_BINARY_DIR})
+# Player data
 set(PLAYER_DATA ${PROJECT_SOURCE_DIR}/player_data)
 file(COPY ${PLAYER_DATA} DESTINATION ${CMAKE_BINARY_DIR})
 

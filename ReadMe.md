@@ -164,7 +164,7 @@ Movement and game design planning:
 ##### Moveset:
 - Wall jump (press jump while grabbing wall to jump to an adjacent wall) 
 - Dash, Air dash (upgrade, Ultrakill like, starts at 1, upgrade to 3 bars)
-- Slide: affected by speed, low speed: crawl, high speed: slide (B button/down) 
+- Slide: affected by speed, low speed: crawl, high speed: slide (B button/down)
 
 ##### Combat:  
 - **Melee**: smack, 2 hit swing, 1 charge attack, air swing, wall swing, parry flying objects

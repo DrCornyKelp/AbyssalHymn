@@ -11,20 +11,20 @@ Skeleton::Skeleton(float X, float Y, float limX1, float limX2) :
 void Skeleton::initEnemy()
 {
     // Skeleton move
-    moveLeftTexture = CFG->loadTexture("res/EnemySheet/Skeleton/MoveLeft.png");
-    moveRightTexture = CFG->loadTexture("res/EnemySheet/Skeleton/MoveRight.png");
+    moveLeftTexture = CFG->loadTexture("assets/EnemySheet/Skeleton/MoveLeft.png");
+    moveRightTexture = CFG->loadTexture("assets/EnemySheet/Skeleton/MoveRight.png");
     
-    idleLeftTexture = CFG->loadTexture("res/EnemySheet/Skeleton/IdleLeft.png");
-    idleRightTexture = CFG->loadTexture("res/EnemySheet/Skeleton/IdleRight.png");
+    idleLeftTexture = CFG->loadTexture("assets/EnemySheet/Skeleton/IdleLeft.png");
+    idleRightTexture = CFG->loadTexture("assets/EnemySheet/Skeleton/IdleRight.png");
 
-    attackLeftTexture = CFG->loadTexture("res/EnemySheet/Skeleton/Attack1Left.png");
-    attackRightTexture = CFG->loadTexture("res/EnemySheet/Skeleton/Attack1Right.png");
+    attackLeftTexture = CFG->loadTexture("assets/EnemySheet/Skeleton/Attack1Left.png");
+    attackRightTexture = CFG->loadTexture("assets/EnemySheet/Skeleton/Attack1Right.png");
 
-    hurtLeftTexture = CFG->loadTexture("res/EnemySheet/Skeleton/HurtLeft.png");
-    hurtRightTexture = CFG->loadTexture("res/EnemySheet/Skeleton/HurtRight.png");
+    hurtLeftTexture = CFG->loadTexture("assets/EnemySheet/Skeleton/HurtLeft.png");
+    hurtRightTexture = CFG->loadTexture("assets/EnemySheet/Skeleton/HurtRight.png");
 
-    deathLeftTexture = CFG->loadTexture("res/EnemySheet/Skeleton/DieLeft.png");
-    deathRightTexture = CFG->loadTexture("res/EnemySheet/Skeleton/DieRight.png");
+    deathLeftTexture = CFG->loadTexture("assets/EnemySheet/Skeleton/DieLeft.png");
+    deathRightTexture = CFG->loadTexture("assets/EnemySheet/Skeleton/DieRight.png");
 
     // Skeleton Stat
     setHp(100);
@@ -68,7 +68,7 @@ void Skeleton::enemyAI(Map *map)
         if (getSprIndex() == getSprIndexMax() - 1)
             map->appendParticle(new ParticleEffect(
                 CFG->loadTexture(
-                    "res/ParticleSheet/Explode.png"),
+                    "assets/ParticleSheet/Explode.png"),
                 getX(), getY(), 120, 120,
                 100, 100, 10, 7, 3, 0
             ));
@@ -125,7 +125,7 @@ void Skeleton::enemyAI(Map *map)
             {
                 map->appendParticle(new ParticleEffect(
                     CFG->loadTexture(
-                        "res/ParticleSheet/NakuEffect/Attack.png"),
+                        "assets/ParticleSheet/NakuEffect/Attack.png"),
                     player->move.hitX(), player->move.hitY(), 100, 100,
                     64, 64, 8, 4, 0
                 ));

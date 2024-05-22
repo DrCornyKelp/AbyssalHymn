@@ -9,9 +9,9 @@ Slime::Slime(float X, float Y, float limX1, float limX2, short startDir, float s
 
 void Slime::initEnemy()
 {
-    moveLeftTexture = CFG->loadTexture("res/EnemySheet/Slime/MoveLeft.png");
-    moveRightTexture = CFG->loadTexture("res/EnemySheet/Slime/MoveRight.png");
-    deathTexture = CFG->loadTexture("res/EnemySheet/Slime/Death.png");
+    moveLeftTexture = CFG->loadTexture("assets/EnemySheet/Slime/MoveLeft.png");
+    moveRightTexture = CFG->loadTexture("assets/EnemySheet/Slime/MoveRight.png");
+    deathTexture = CFG->loadTexture("assets/EnemySheet/Slime/Death.png");
 
     setHp(20);
     setCollideDamage(20);

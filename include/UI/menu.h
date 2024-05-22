@@ -28,17 +28,17 @@ public:
 
     ObjectSprite menuBGsprite = {0, 0, 20, 5};
     SDLTexture1D menuBGframe = CFG->loadTextures(
-        "res/Menu/Background/", 64
+        "assets/Menu/Background/", 64
     );
 
     bool finish = 0, end = 0;
     bool multi = 0;
 
     MenuButton button1P = {
-        CFG->loadTexture("res/Menu/Button/P1.png")
+        CFG->loadTexture("assets/Menu/Button/P1.png")
     };
     MenuButton button2P = {
-        CFG->loadTexture("res/Menu/Button/P2.png")
+        CFG->loadTexture("assets/Menu/Button/P2.png")
     };
 
     void update();

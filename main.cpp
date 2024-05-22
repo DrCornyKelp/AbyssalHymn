@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 {
     SDL_Init(SDL_INIT_GAMECONTROLLER);
 
-    CFG->TRANSIT_EFFECT.BLACKSCREEN = CFG->loadTexture("res/BlackScreen.png");
+    CFG->TRANSIT_EFFECT.BLACKSCREEN = CFG->loadTexture("assets/BlackScreen.png");
 
     // Renderer
     Renderer *REND = new Renderer();
