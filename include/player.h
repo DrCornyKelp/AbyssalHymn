@@ -195,10 +195,24 @@ struct PlayerCombat
 
 struct PlayerSFX
 {
-    AudioSFX hit = AudioSFX("assets/Audio/sfx/hit.mp3");
-    AudioSFX jump = AudioSFX("assets/Audio/sfx/jump.mp3");
-    AudioSFX dash = AudioSFX("assets/Audio/sfx/dash.mp3");
-    AudioSFX parry = AudioSFX("assets/Audio/sfx/parry.mp3");
+    Player *player;
+
+    AudioSFX hit = AudioSFX("assets/Audio/PlayerSFX/hit.mp3");
+    AudioSFX jump = AudioSFX("assets/Audio/PlayerSFX/jump.mp3");
+    AudioSFX dash = AudioSFX("assets/Audio/PlayerSFX/dash.mp3");
+    AudioSFX parry = AudioSFX("assets/Audio/PlayerSFX/parry.mp3");
+
+    // Walking
+    int walk_index = 0;
+    float walk_delay = 80;
+    AudioSFX1D walk_sfx = {
+        AudioSFX("assets/Audio/PlayerSFX/walk1.mp3"),
+        AudioSFX("assets/Audio/PlayerSFX/walk2.mp3"),
+        AudioSFX("assets/Audio/PlayerSFX/walk3.mp3")
+    };
+    void updateWalkSFX();
+
+    void updateSFX();
 };
 
 class Player : public Object2D
@@ -222,7 +236,10 @@ public:
     Hud HUD = Hud(this);
     Multiplayer *MULTI;
 
-    // ================== STATE ==================
+    // ============== SOUND EFFECT ===============
+    PlayerSFX sfx = {this};
+
+    // ================ STATE ====================
     PlayerState state;
     PlayerCondition condition;
 

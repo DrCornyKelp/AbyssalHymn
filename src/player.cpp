@@ -19,12 +19,12 @@ Player::Player(bool mc) : Object2D(), MAIN(mc)
 
 void PlayerMoveset::enableAll()
 {
-    move = 0;
-    jump = 0;
-    crawl = 0;
-    g_dash = 0;
-    a_dash = 0;
-    hug_wall = 0;
+    move = 1;
+    jump = 1;
+    crawl = 1;
+    g_dash = 1;
+    a_dash = 1;
+    hug_wall = 1;
 }
 void PlayerMoveset::disableAll()
 {
@@ -112,8 +112,8 @@ void PlayerDrawProp::drawProperty(Map *map)
             player->getVelX() < -.2 ? 0 : right;
 
     // Ow< ouch
-    // if (combat.invulnerable > combat.invulnerable_tim * .8)
-    // { setActSprElock({8, right}, {1, 0}); return; }
+    if (player->combat.invulnerable > player->combat.invulnerable_max * .8)
+    { setActSprElock({8, right}, {1, 0}); return; }
 
     // Movement
     if (!player->combat.index)
@@ -241,6 +241,36 @@ void PlayerDrawProp::drawProperty(Map *map)
 void PlayerDrawProp::draw()
 {
     SDL_RenderCopy(CFG->RENDERER, CurrentTexture, &srcRect, &desRect);
+}
+
+// ============================ SOUND EFFECT =============================
+
+void PlayerSFX::updateWalkSFX()
+{
+    // Check player state
+    if (player->state.on_ground && player->getVelX())
+    {
+        // Update Delay
+        walk_delay -= abs(player->getVelX());
+        if (walk_delay > 0) return;
+
+        // Update values
+        walk_delay = 80;
+        walk_index ++;
+        if (walk_index > walk_sfx.size() - 1)
+        {
+            walk_index = 0;
+            AudioSFX::shuffle(walk_sfx);
+        }
+
+        // Play walk sound
+        walk_sfx[walk_index].play();
+    }
+}
+
+void PlayerSFX::updateSFX()
+{
+    updateWalkSFX();
 }
 
 // ============================ PLAYER CAMERA ============================
@@ -1098,5 +1128,7 @@ void Player::playerUpdate(Map *map)
     playerMovement(map);
     playerCombat(map);
     playerHitBox();
+
     draw_prop.drawProperty(map);
+    sfx.updateSFX();
 }

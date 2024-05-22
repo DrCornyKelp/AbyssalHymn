@@ -3,12 +3,16 @@
 
 #include <object2D.h>
 
+#define AudioSFX1D std::vector<AudioSFX>
+
 struct AudioSFX {
     sf::SoundBuffer buffer;
     sf::Sound sound;
 
     AudioSFX(const std::string& filePath);
     void play();
+    bool isPlaying();
+    static void shuffle(AudioSFX1D &sfx);
 };
 
 struct AudioPlaylist
@@ -57,6 +61,9 @@ public:
 
     void updateTrack();
     static void appendMapPlaylist(Map *map, string0D t_dir);
+
+    static bool isMusicPlaying(sf::Music &music);
+    static bool isSoundPlaying(sf::Sound &sound);
 };
 
 #endif

@@ -1,11 +1,26 @@
 #include <map.h>
 
+// ============== AUDIO SFX ==================
+
 AudioSFX::AudioSFX(const std::string& filePath)
 {
     buffer.loadFromFile(filePath);
     sound.setBuffer(buffer);
 }
-void AudioSFX::play() { sound.play(); }
+void AudioSFX::play()
+{
+    sound.play();
+}
+bool AudioSFX::isPlaying()
+{
+    return sound.getStatus() == sf::Sound::Playing;
+}
+void AudioSFX::shuffle(AudioSFX1D &sfx)
+{
+    std::random_shuffle(sfx.begin(), sfx.end());
+}
+
+// ============== AUDIO PLAYLIST ==============
 
 void AudioPlaylist::updatePlaylist(bool fresh)
 {
@@ -85,8 +100,7 @@ void Audio::updateTrack()
     { playlist.delay--; return; }
 
     // Music is playing => No update yet
-    if (music_cur.getStatus() == sf::Music::Playing)
-        return;
+    if (isMusicPlaying(music_cur)) return;
 
     // Open New Music Once Done
     music_cur.openFromFile(
@@ -127,4 +141,13 @@ void Audio::appendMapPlaylist(Map *map, string0D t_dir)
     }
 
     map->MapPlaylist = newAlbum;
+}
+
+bool Audio::isMusicPlaying(sf::Music &music)
+{
+    return music.getStatus() == sf::Music::Playing;
+}
+bool Audio::isSoundPlaying(sf::Sound &sound)
+{
+    return sound.getStatus() == sf::Sound::Playing;
 }

@@ -37,6 +37,8 @@ Yea gonna be honest I am too focus on functionality of the game I completely neg
 
 ## SOME OUTSIDE INSTALLATION
 
+### g++ version 13.2.0
+
 - Download **Msys2** on the officical website
 - Once done installing, open the **Mingw64.exe**
 
@@ -53,6 +55,9 @@ Yea gonna be honest I am too focus on functionality of the game I completely neg
 - Include in the PATH user environment variables
   - `%your_msys_folder%/mingw64/bin`
   - `%your_msys_folder%/usr/bin`
+
+### Cmake 3.2
+
 
 ## Block Editor Guide
 
