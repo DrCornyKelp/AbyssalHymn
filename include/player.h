@@ -197,19 +197,18 @@ struct PlayerSFX
 {
     Player *player;
 
-    AudioSFX hit = AudioSFX("assets/Audio/PlayerSFX/hit.mp3");
-    AudioSFX jump = AudioSFX("assets/Audio/PlayerSFX/jump.mp3");
-    AudioSFX dash = AudioSFX("assets/Audio/PlayerSFX/dash.mp3");
-    AudioSFX parry = AudioSFX("assets/Audio/PlayerSFX/parry.mp3");
+    // AudioSFX hit = AudioSFX("assets/Audio/PlayerSFX/hit.mp3");
+    AudioSFX jump = AudioSFX("assets/Audio/PlayerSFX/metalpipe.mp3");
+    // AudioSFX dash = AudioSFX("assets/Audio/PlayerSFX/dash.mp3");
+    // AudioSFX parry = AudioSFX("assets/Audio/PlayerSFX/parry.mp3");
 
     // Walking
     int walk_index = 0;
-    float walk_delay = 80;
-    AudioSFX1D walk_sfx = {
-        AudioSFX("assets/Audio/PlayerSFX/walk1.mp3"),
-        AudioSFX("assets/Audio/PlayerSFX/walk2.mp3"),
-        AudioSFX("assets/Audio/PlayerSFX/walk3.mp3")
-    };
+    int walk_sprite = 0;
+    int walk_count = 0;
+    AudioSFX walk0 = AudioSFX("assets/Audio/PlayerSFX/walk0.mp3");
+    AudioSFX walk1 = AudioSFX("assets/Audio/PlayerSFX/walk1.mp3");
+    AudioSFX walk2 = AudioSFX("assets/Audio/PlayerSFX/walk2.mp3");
     void updateWalkSFX();
 
     void updateSFX();

@@ -248,23 +248,31 @@ void PlayerDrawProp::draw()
 void PlayerSFX::updateWalkSFX()
 {
     // Check player state
-    if (player->state.on_ground && player->getVelX())
+    if (player->state.on_ground && player->getVelX() &&
+        !player->move.crawl && !player->g_dash.frame)
     {
-        // Update Delay
-        walk_delay -= abs(player->getVelX());
-        if (walk_delay > 0) return;
-
-        // Update values
-        walk_delay = 80;
-        walk_index ++;
-        if (walk_index > walk_sfx.size() - 1)
+        // Counting steps based on sprite index
+        if (player->getSprIndex() != walk_sprite)
         {
-            walk_index = 0;
-            AudioSFX::shuffle(walk_sfx);
+            walk_count ++;
+            walk_sprite = player->getSprIndex();
         }
 
-        // Play walk sound
-        walk_sfx[walk_index].play();
+        // Play sound effect after enough steps
+        if (walk_count > 1)
+        {
+            walk_count = 0;
+
+            walk_index ++;
+            if (walk_index > 2) walk_index = 0;
+
+            switch (walk_index)
+            {
+                case 0: walk0.play(); break;
+                case 1: walk1.play(); break;
+                case 2: walk2.play(); break;
+            }
+        }
     }
 }
 
