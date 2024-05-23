@@ -4,12 +4,12 @@
 // ========================= MAP INFO ===============================
 void MapInformation::readInfo(string0D dir)
 {
-
+    
 }
 
 void MapInformation::clearInfo()
 {
-    // Anything pointer related, clear
+    // Delete Anything Pointer Related
     
 }
 

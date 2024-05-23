@@ -98,6 +98,7 @@ int main(int argc, char *argv[])
             EDITOR->update();
             CONSOLE->update();
 
+            // Testing
             if (MULTI->MAIN->INPUT.escape.press())
             {
                 MULTI->MAIN->INPUT.escape.hold = 1;

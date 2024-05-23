@@ -3,7 +3,6 @@
 World::~World()
 { 
     // Delete Every Map
-    // (And their component ofc cant forget pointer management)
     for (Map *map : MapVec) delete map;
     // Delete Other Component
     delete MULTI, AUDIO, COLLI;

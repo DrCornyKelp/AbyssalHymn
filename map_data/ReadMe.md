@@ -61,11 +61,11 @@
 ### [`decoration_back`-`decoration_front`]`.csv`
   - Starts with **`type`**: `0` / `1` / `2`
 #### - Type 0: Static
-  - `0`, `path`, `x`, `y`, `w`, `h`, `abs`, `alpha`
+  - `0`, `path`, `x`, `y`, `w`, `h`, `alpha`
 #### - Type 1: Animation Sheet (for short animation with small sprite sheet)
-  - `1`, `path`, `x`, `y`, `w`, `h`, `sw`, `sh`, `sim`, `sfm`, `abs`, `alpha`
+  - `1`, `path`, `x`, `y`, `w`, `h`, `sw`, `sh`, `sim`, `sfm`, `alpha`
 #### - Type 2: Animation Folder (for long animation with large sheets)
-  - `2`, `folder path`, `x`, `y`, `w`, `h`, `sim`, `sfm`, `abs`
+  - `2`, `folder path`, `x`, `y`, `w`, `h`, `sim`, `sfm`
   - **NOTE:** folder path must include a "/" at the end (E.X: assets/Decoration/City/).
 
 ### [`background`]`.csv`

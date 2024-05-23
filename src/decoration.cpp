@@ -11,21 +11,22 @@ Decoration::~Decoration() {
 Decoration::Decoration(DecorObject decor_obj) :
     Object2D(decor_obj.box, decor_obj.sprite),
     type(decor_obj.type), decor_path(decor_obj.path),
-    absolute(decor_obj.absolute), alpha(decor_obj.alpha)
+    alpha(decor_obj.alpha)
 {}
 
 // Background
-Decoration::Decoration( string0D dPath, float whRatio,
-                        float scaleVelX, float scaleVelY, float velX) :
+Decoration::Decoration( string0D dPath,
+                        float whRatio, float scaleVelX,
+                        float scaleVelY, float velX, bool bg) :
     type(0), decor_path(dPath), w_h_ratio(whRatio),
     scale_vel_x(scaleVelX), scale_vel_y(scaleVelY)
 { setVelX(velX); }
 
 // Static Decoration
-Decoration::Decoration(string0D dPath, float X, float Y, float w, float h, bool abs) :
+Decoration::Decoration(string0D dPath, float X, float Y, float w, float h) :
     Object2D((X + w/2)*64, (Y + h/2)*64, w*64, h*64,
             0, 0, w, h, 0, 0, 0, 0),
-    type(0), decor_path(dPath), absolute(abs)
+    type(0), decor_path(dPath)
 {}
 
 // Standard Animated Decoration
@@ -62,7 +63,6 @@ void Decoration::initDecoration()
     }
 }
 
-void Decoration::setAbs(bool ab) { absolute = ab; }
 void Decoration::setAlpha(int a)
 {
     alpha = a;
@@ -73,12 +73,7 @@ void Decoration::drawProp(Player *player)
 {
     setSprite();
 
-    if (absolute) desRect = {
-        int(getX() - getWidth() / 2),
-        int(getY() - getHeight() / 2),
-        getWidth(), getHeight()
-    };
-    else desRect = {
+    desRect = {
         Camera::objectDrawX(player, this),
         Camera::objectDrawY(player, this),
         getWidth(), getHeight()
@@ -92,10 +87,9 @@ void Decoration::drawProp(Player *player)
 
 void Decoration::draw(Player *player)
 {
-    if (!absolute && (
-        Camera::outOfBound(desRect) ||
-        Camera::outOfCam(player, this)
-        )) return;
+    if (Camera::outOfBound(desRect) ||
+        Camera::outOfCam(player, this))
+        return;
 
     switch (type)
     {
@@ -186,7 +180,6 @@ Decoration *Decoration::codeToDecorInfo(string0D str)
     float x, y, w, h;
     int sw = 0, sh = 0,
         sim = 0, sfm = 0;
-    bool abs = 0;
     int alpha = 255;
 
     std::getline(ss, decor_type, ',');
@@ -201,13 +194,13 @@ Decoration *Decoration::codeToDecorInfo(string0D str)
     if (dtype == 2)
         ss >> sim >> cm >> sfm >> cm;
 
-    ss >> abs >> cm >> alpha;
+    ss >> alpha;
 
     DecorObject decor_obj = {
         dtype, path,
         {(x+w/2)*64 , (y+h/2)*64, w*64, h*64},
         {sw, sh, sim, sfm},
-        abs, alpha
+        alpha
     };
 
     return new Decoration(decor_obj);
@@ -269,9 +262,9 @@ void Decoration::appendBackground(Map *map, string0D bg_dir)
         std::getline(ss, bg_path, ',');
         ss >> w_h_ratio >> cm >> scale_vel_x >> cm >> scale_vel_y >> cm >> vel_x;
 
-        map->BackgroundVec.push_back(new Decoration(bg_path, w_h_ratio, scale_vel_x, scale_vel_y, vel_x));
+        map->BackgroundVec.push_back(new Decoration(bg_path, w_h_ratio, scale_vel_x, scale_vel_y, vel_x, 1));
         map->BackgroundVec.back()->initDecoration();
-        map->BackgroundVec.push_back(new Decoration(bg_path, w_h_ratio, scale_vel_x, scale_vel_y, vel_x));
+        map->BackgroundVec.push_back(new Decoration(bg_path, w_h_ratio, scale_vel_x, scale_vel_y, vel_x, 1));
         map->BackgroundVec.back()->initDecoration();
     }
 }
