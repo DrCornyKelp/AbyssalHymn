@@ -15,8 +15,10 @@ public:
     ~Multiplayer();
     Multiplayer(Player1D players);
     
+    // Player Count Control
     void addPlayer();
     void changeMain(int index);
+    void singlePlayer();
 
     void update(Map *map);
     void drawPlayers();

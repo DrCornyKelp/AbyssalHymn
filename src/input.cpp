@@ -236,6 +236,7 @@ void Input::setTemplate(int keytemplate)
 
     switch (keytemplate)
     {
+    default:
     case -1:
         moveU = kN1.moveU;
         moveD = kN1.moveD;
@@ -248,7 +249,6 @@ void Input::setTemplate(int keytemplate)
         dash = kN1.dash;
         break;
     
-    default:
     case 0:
         moveU = k0.moveU;
         moveD = k0.moveD;

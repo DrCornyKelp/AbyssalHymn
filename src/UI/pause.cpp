@@ -25,7 +25,7 @@ void Pause::update(Input *input)
 
     // Draw And Stuff
     SDL_SetTextureAlphaMod(
-        WORLD->MapCur->MapInfo.pause_bg, 255 * transit_ratio()
+        WORLD->MapCur->MapInfo.pause_bg, 220 * transit_ratio()
     );
     SDL_SetTextureAlphaMod(
         BlackScreen, 220 * transit_ratio()

@@ -485,6 +485,11 @@ void Console::playerCommand(Map *map, string1D cmd)
         map->MapComp.clearComponent();
         map->MapComp.appendComponent();
     }
+
+    if (syntaxComp(cmd, 1, "remove"))
+    {
+        map->MapMulti->singlePlayer();
+    }
 }
 
 void Console::execute(Map *map, string1D cmd)

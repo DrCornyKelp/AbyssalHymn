@@ -33,19 +33,35 @@ void Multiplayer::addPlayer()
     Players.back()->setX(MAIN->getX());
     Players.back()->setY(MAIN->getY());
     
-    // Increment player count
-    PlayerCount++;
-
     // ================== TESTING ==================
     MAIN->INPUT.setTemplate(0);
+    Players.back()->INPUT.setTemplate(1);
+
+    // Increment player count
+    PlayerCount++;
 
 }
 void Multiplayer::changeMain(int index)
 {
     for (Player *player : Players)
         player->MAIN = 0;
-
     Players[index]->MAIN = 1;
+    MAIN = Players[index];
+}
+
+void Multiplayer::singlePlayer()
+{
+    // Remove all player except MAIN
+    Players.erase(std::remove_if(Players.begin(), Players.end(),
+    [](Player* player) {
+        if (!player->MAIN)
+        { delete player; return true; }
+        return false;
+    }), Players.end());
+    // Set Player Count
+    PlayerCount = 1;
+    // Set MAIN Input Template
+    MAIN->INPUT.setTemplate(-1);
 }
 
 void Multiplayer::update(Map *map)

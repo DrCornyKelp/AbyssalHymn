@@ -111,10 +111,6 @@ void PlayerDrawProp::drawProperty(Map *map)
     right = player->getVelX() > .2 ? 1 :
             player->getVelX() < -.2 ? 0 : right;
 
-    // Ow< ouch
-    if (player->combat.invulnerable > player->combat.invulnerable_max * .8)
-    { setActSprElock({8, right}, {1, 0}); return; }
-
     // Movement
     if (!player->combat.index)
     {
@@ -249,7 +245,8 @@ void PlayerSFX::updateWalkSFX()
 {
     // Check player state
     if (player->state.on_ground && player->getVelX() &&
-        !player->move.crawl && !player->g_dash.frame)
+        !player->move.crawl && !player->g_dash.frame &&
+        !player->move.decel)
     {
         // Counting steps based on sprite index
         if (player->getSprIndex() != walk_sprite)
@@ -420,7 +417,6 @@ void PlayerCamera::playerCameraFocus()
         unfocus.y = 1;
         unfocus_offset.y = focus_true.down;
         mid.y = player->getY() - focus_true.down;
-        ease.y = 0;
     }
     // Boundary Up
     else if (focus_dir.up &&
@@ -429,7 +425,6 @@ void PlayerCamera::playerCameraFocus()
         unfocus.y = 1;
         unfocus_offset.y = focus_true.up;
         mid.y = player->getY() - focus_true.up;
-        ease.y = 0;
     }
     else
     {
