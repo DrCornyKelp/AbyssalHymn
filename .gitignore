@@ -3,5 +3,8 @@ build/
 PyScript/
 LevelDesign/
 
+# VSCODE
+.vscode/
+
 # Placeholder Content
 XXX_IGNORE_XXX.cpp
