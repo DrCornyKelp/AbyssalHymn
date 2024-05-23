@@ -203,9 +203,9 @@ struct PlayerSFX
     // AudioSFX parry = AudioSFX("assets/Audio/PlayerSFX/parry.mp3");
 
     // Walking
-    int walk_index = 0;
+    int walk_step = 0;
     int walk_sprite = 0;
-    int walk_count = 0;
+    int walk_index = 0;
     AudioSFX walk0 = AudioSFX("assets/Audio/PlayerSFX/walk0.mp3");
     AudioSFX walk1 = AudioSFX("assets/Audio/PlayerSFX/walk1.mp3");
     AudioSFX walk2 = AudioSFX("assets/Audio/PlayerSFX/walk2.mp3");

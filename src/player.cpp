@@ -254,18 +254,17 @@ void PlayerSFX::updateWalkSFX()
         // Counting steps based on sprite index
         if (player->getSprIndex() != walk_sprite)
         {
-            walk_count ++;
+            walk_step ++;
             walk_sprite = player->getSprIndex();
         }
 
         // Play sound effect after enough steps
-        if (walk_count > 1)
+        if (walk_step > 1)
         {
-            walk_count = 0;
+            walk_step = 0;
 
-            walk_index ++;
-            if (walk_index > 2) walk_index = 0;
-
+            // Play random walk sound
+            walk_index = CFG->randomInt(3);
             switch (walk_index)
             {
                 case 0: walk0.play(); break;

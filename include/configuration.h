@@ -133,6 +133,7 @@ public:
     static int2D convertFloat2DInt(float2D vec);
 
     // Randomizer
+    static int randomInt(int max);
     static int1D randomInt1D(int max, int min = 0, bool shuffle = 1);
 
 };

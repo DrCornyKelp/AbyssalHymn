@@ -292,6 +292,15 @@ int2D Configuration::convertFloat2DInt(float2D floatVec)
     return intVec;
 }
 
+int Configuration::randomInt(int max)
+{
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> distrib(0, max - 1);
+
+    return distrib(gen);
+}
+
 int1D Configuration::randomInt1D(int max, int min, bool shuffle)
 {
     int1D randomVec;
