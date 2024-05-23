@@ -114,6 +114,8 @@ void PlayerDrawProp::drawProperty(Map *map)
     // Movement
     if (!player->combat.index)
     {
+        // ============= MOVEMENT SPRITE =============
+
         // Idling
         if (abs(player->getVelX()) <= .2)
             setActSprElock({0, right}, {2, 64});
@@ -138,7 +140,7 @@ void PlayerDrawProp::drawProperty(Map *map)
         // Air Dashing
         if (player->a_dash.frame)
             setActSprElock({5, right}, {4, 10}, 1);
-        // Crawl
+        // Crawling
         if (player->move.crawl &&
             !(player->g_dash.frame && player->state.crawl_lock))
             setActSprElock({6, right}, {
@@ -158,7 +160,7 @@ void PlayerDrawProp::drawProperty(Map *map)
             if (!player->combat.time) break;
             setActSprElock({10, right}, {8, 2}, 1);
             break;
-        
+
         case 2:
             if (!player->combat.time) break;
             setActSprElock({11, right}, {8, 2}, 1);
