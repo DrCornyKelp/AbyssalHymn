@@ -71,3 +71,7 @@ target_link_libraries(AbyssalHymn
     sfml-audio
     openal32
 )
+
+add_custom_command( TARGET AbyssalHymn POST_BUILD
+                    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:AbyssalHymn>
+                    ${PROJECT_SOURCE_DIR}/AbyssalHymn.exe)

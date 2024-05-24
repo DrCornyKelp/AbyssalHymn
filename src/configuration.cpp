@@ -228,7 +228,7 @@ float2D Configuration::resizeFloat2D(float1D vec, int r, int c)
     return result;
 }
 
-string1D Configuration::convertStr1D(string0D str, char delimiter = ',')
+string1D Configuration::convertStr1D(string0D str, char delimiter)
 {
     string1D values;
     string0D token;
