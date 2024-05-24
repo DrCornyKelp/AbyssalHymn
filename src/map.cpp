@@ -4,7 +4,23 @@
 // ========================= MAP INFO ===============================
 void MapInformation::readInfo(string0D dir)
 {
-    
+    std::ifstream inputFile(dir);
+    string0D line;
+
+    while (std::getline(inputFile, line))
+    {
+        // Empty or Comment => Skip
+        if (CFG->isComment(line)) continue;
+
+        string1D info = CFG->convertStr1D(line, ':');
+        if (info[0] == "name") name = info[1];
+        else if (info[0] == "difficulty")
+            difficulty = info[1];
+        else if (info[0] == "pause_bg")
+            pause_bg = CFG->loadTexture(info[1]);
+        else if (info[0] == "pause_ratio")
+            pause_ratio = std::stof(info[1]);
+    }
 }
 
 void MapInformation::clearInfo()
@@ -70,7 +86,7 @@ void MapComponent::appendComponent()
 void MapComponent::appendPlaylist()
 { Audio::appendMapPlaylist(map, playlist); }
 void MapComponent::appendBlockPath()
-{ map->BlockPath = CFG->convertStrVec(block_path); }
+{ map->BlockPath = CFG->splitStrVec(block_path); }
 void MapComponent::appendBlockMain()
 { BlockTemplate::appendBlock(map, block_main); }
 void MapComponent::appendBlockBack()

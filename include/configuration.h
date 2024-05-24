@@ -116,7 +116,7 @@ public:
     // ====== Some manipulation with string and vector ======
 
     // String Manip
-    static string1D convertStrVec(string0D file_dir);
+    static string1D splitStrVec(string0D file_dir);
     // // Zero-Padding: 1 into 001 or 21 into 021 for example
     static string0D convertZPad(int number, int maxNumber);
 
@@ -124,6 +124,8 @@ public:
     static int2D resizeInt2D(int1D vec, int r, int c);
     static long2D resizeLong2D(long1D vec, int r, int c);
     static float2D resizeFloat2D(float1D vec, int r, int c);
+    // Convert Str to Str1D
+    static string1D convertStr1D(string0D str, char delimiter = ',');
     // Convert Str to Num
     static int1D convertStrInt1D(string0D str, char delimiter = ',');
     static long1D convertStrLong1D(string0D str, char delimiter = ',');

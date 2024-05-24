@@ -163,7 +163,7 @@ void Configuration::frameHandler()
 }
 
 //-------Covert each line of file into vector--------
-string1D Configuration::convertStrVec(string0D file_dir)
+string1D Configuration::splitStrVec(string0D file_dir)
 {
     std::ifstream inputFile(file_dir);
     string0D line;
@@ -226,6 +226,18 @@ float2D Configuration::resizeFloat2D(float1D vec, int r, int c)
     }
 
     return result;
+}
+
+string1D Configuration::convertStr1D(string0D str, char delimiter = ',')
+{
+    string1D values;
+    string0D token;
+    std::istringstream tokenStream(str);
+
+    while (std::getline(tokenStream, token, delimiter))
+        values.push_back(token);
+
+    return values;
 }
 
 // -------Convert String to Vector 1D-------
