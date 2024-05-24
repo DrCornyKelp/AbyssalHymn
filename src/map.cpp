@@ -242,6 +242,8 @@ void Map::initMapStandard()
     MapComp.map = this;
     MapComp.appendDirectory();
     MapComp.appendComponent();
+
+    MapInfo = MapInformation();
 }
 
 void Map::initMap(World *world, Multiplayer *multi, Audio *audio,
