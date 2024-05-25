@@ -103,10 +103,10 @@ void MouseMain::update()
     R.update(mousestate);
 
     // Update MOUSE WHEEL
-    while (SDL_PollEvent(&event))
+    while (SDL_PollEvent(&CFG->EVENT))
     {
-        if (event.type == SDL_MOUSEWHEEL)
-            W = event.wheel.y;
+        if (CFG->EVENT.type == SDL_MOUSEWHEEL)
+            W = CFG->EVENT.wheel.y;
     }
 }
 

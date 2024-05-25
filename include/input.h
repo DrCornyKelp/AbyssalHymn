@@ -89,7 +89,6 @@ struct MouseState
 
 struct MouseMain
 {
-	SDL_Event event;
 	MouseState
 		// LEFT MOUSE
 		L = {SDL_BUTTON_LEFT},

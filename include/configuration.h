@@ -91,6 +91,9 @@ public:
     int DELAY_TIME = 10;
     void frameHandler();
 
+    // EVENT HANDLER
+    SDL_Event EVENT;
+
     // WINDOW SIZE
     // int WIDTH = 1536, HEIGHT = 896;
     int WIDTH = 1280, HEIGHT = 768;
