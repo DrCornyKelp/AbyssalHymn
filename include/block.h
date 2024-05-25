@@ -89,6 +89,8 @@ public:
     void drawProp(Player *player);
     void draw(Player *player);
 
+    void drawHighlight(Player *player);
+
     // ============================ BLOCK MANIPULATION =============================
 
     void refreshTexture(string1D sPath = {});

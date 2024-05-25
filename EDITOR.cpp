@@ -112,10 +112,8 @@ void Editor::blockEditor()
                     "Tpe: " + std::to_string(BlockEdit.type) +
                     " | Id: " + std::to_string(i)
                 ,36);
-                map_cur->BlockMainVec[i]->setHighlight(1);
+                map_cur->BlockMainVec[i]->drawHighlight(player);
             }
-            else
-                map_cur->BlockMainVec[i]->setHighlight(0);
         }
         // Highlight Back
         else for (int i = 0; i < map_cur->BlockBackVec.size(); i++)
@@ -128,10 +126,8 @@ void Editor::blockEditor()
                     "Tpe: " + std::to_string(BlockEdit.type) +
                     " | Id: " + std::to_string(i)
                 ,34);
-                map_cur->BlockBackVec[i]->setHighlight(1);
+                map_cur->BlockBackVec[i]->drawHighlight(player);
             }
-            else
-                map_cur->BlockBackVec[i]->setHighlight(0);
         }
 
         // Click manipulation

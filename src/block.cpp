@@ -79,10 +79,12 @@ void Block::blockEngine(string1D sPath, int2D bIndex)
 
 BlockGrid Block::getGrid()
 {
-    return {getGridLX(), getGridBY(),
-            int(indexs[0].size()),
-            int(indexs.size()),
-            indexs };
+    return {
+        getGridLX(), getGridBY(),
+        int(indexs[0].size()),
+        int(indexs.size()),
+        indexs 
+    };
 }
 
 void Block::setHighlight(short hl)
@@ -295,8 +297,8 @@ void Block::drawProp(Player *player)
     int drawY = Camera::objectDrawY(player, this);
 
     // Draw
-    for (int i = 0; i < textures.size(); i++)
-    for (int j = 0; j < textures[i].size(); j++)
+    for (int i = 0; i < indexs.size(); i++)
+    for (int j = 0; j < indexs[i].size(); j++)
     {
         rects[i][j] = {drawX + j*grid, drawY + i*grid, grid, grid};
 
@@ -311,21 +313,20 @@ void Block::drawProp(Player *player)
 
 void Block::draw(Player *player)
 {
-    for (int i = 0; i < textures.size(); i++)
-    for (int j = 0; j < textures[i].size(); j++)
+    for (int i = 0; i < indexs.size(); i++)
+    for (int j = 0; j < indexs[i].size(); j++)
         if (!noRenders[i][j]) SDL_RenderCopy(
             CFG->RENDERER, textures[i][j], NULL, &rects[i][j]
         );
+}
 
-    // Highlighter
-    if (highlight)
-    {
-        int drawX = Camera::objectDrawX(player, this);
-        int drawY = Camera::objectDrawY(player, this);
-        SDL_SetRenderDrawColor(CFG->RENDERER, 0, 255, 0, 150);
-        SDL_Rect highlightRect = {drawX, drawY, getWidth(), getHeight()};
-        SDL_RenderCopy(CFG->RENDERER, highlight_texture, NULL, &highlightRect);
-    }
+void Block::drawHighlight(Player *player)
+{
+    int drawX = Camera::objectDrawX(player, this);
+    int drawY = Camera::objectDrawY(player, this);
+    SDL_SetRenderDrawColor(CFG->RENDERER, 0, 255, 0, 150);
+    SDL_Rect highlightRect = {drawX, drawY, getWidth(), getHeight()};
+    SDL_RenderCopy(CFG->RENDERER, highlight_texture, NULL, &highlightRect);
 }
 
 // ============================ BLOCK MANIPULATION =============================

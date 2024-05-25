@@ -37,8 +37,6 @@ struct BlockSyntax
     void Copy(string1D cmd, int &start, BlockSyntaxTemplate &b_syn_temp);
     // Delete Block
     void Delete(string1D cmd);
-    // Highligh Block
-    void Highlight(string1D cmd, int &start);
     // Insert Block
     void InsertOffset(string1D cmd, int &start, BlockSyntaxTemplate &b_syn_temp);
     void InsertAbsolute(string1D cmd, int &start, BlockSyntaxTemplate &b_syn_temp);

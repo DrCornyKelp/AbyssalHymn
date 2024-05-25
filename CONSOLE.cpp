@@ -43,54 +43,6 @@ void BlockSyntax::Delete(string1D cmd)
     else       map->MapComp.eraseBlockBack(del_index);
 }
 
-// ------------------ Highlight -------------------
-void BlockSyntax::Highlight(string1D cmd, int &start)
-{
-    if (start > cmd.size() - 1) { start = -1; return; }
-
-    int hl_state =  Console::syntaxComp(cmd, start + 1, "1") ? 1 :
-                    Console::syntaxComp(cmd, start + 1, "0") ? 0 : 2;
-
-    if (Console::syntaxComps(cmd, start, {"a", "all"}))
-    {
-        if (front) for (Block *block : map->BlockMainVec)
-            block->setHighlight(hl_state);
-        else for (Block *block : map->BlockBackVec)
-            block->setHighlight(hl_state);
-    }
-    // Hihglight Odd
-    else if (Console::syntaxComps(cmd, start, {"o", "odd"}))
-    {
-        if (front) for (int i = 1; i < map->BlockMainVec.size() - 1; i += 2)
-            map->BlockMainVec[i]->setHighlight(hl_state);
-        else for (int i = 1; i < map->BlockBackVec.size() - 1; i += 2)
-            map->BlockBackVec[i]->setHighlight(hl_state);
-    }
-    // Highlight Even
-    else if (Console::syntaxComps(cmd, start, {"e", "even"}))
-    {
-        if (front) for (int i = 0; i < map->BlockMainVec.size(); i += 2)
-            map->BlockMainVec[i]->setHighlight(hl_state);
-        else for (int i = 0; i < map->BlockBackVec.size(); i += 2)
-            map->BlockBackVec[i]->setHighlight(hl_state);
-    }
-    // Highlight Chosen Block"s", yes, can be many
-    else
-    {
-        int1D b_indexs_line = CFG->convertStrInt1D(cmd[start]);
-        for (int b : b_indexs_line)
-        {
-            int b_index = Console::normalizeIndex(b, ini_size);
-            if (b_index == -1) continue;
-
-            if (front) map->BlockMainVec[b_index]->setHighlight(hl_state);
-            else       map->BlockBackVec[b_index]->setHighlight(hl_state);
-        }
-    }
-
-    start += (1 + Console::syntaxComps(cmd, start + 1, {"1", "0"}));
-}
-
 // ------------------ Insert -------------------
 void BlockSyntax::InsertOffset(string1D cmd, int &start,
                                 BlockSyntaxTemplate &b_syn_temp)
@@ -403,13 +355,6 @@ void Console::blockCommand(Map *map,string1D cmd)
     // Delete Block
     if (syntaxComp(cmd, 2, "delete") && blocksyntax.ini_size)
         blocksyntax.Delete(cmd);
-
-    // Highlight block
-    if (syntaxComp(cmd, 2, "highlight") && blocksyntax.ini_size)
-    {
-        int step = 3;
-        while (step != -1) blocksyntax.Highlight(cmd, step);
-    }
 
     // Extending Block
     if (syntaxComp(cmd, 2, "expand") && blocksyntax.ini_size)
