@@ -13,14 +13,31 @@ struct BlockGrid
     int2D index = {};
 };
 
+struct BlockRect
+{
+    SDL_Texture *texture;
+    SDL_Rect *rect;
+    int index;
+    string0D path;
+};
+
+struct BlockState
+{
+    // Condition
+    bool moving = 0;
+    bool stepOn = 0;
+    short hugged = 0; // -1: left, 1: right
+};
+
 class Map;
 class Block : public Object2D
 {
-private:
+public:
     // Sprite handler
-    SDLTexture2D block_textures;
-    int2D block_indexs;
-    string1D block_paths;
+    SDLTexture2D textures;
+    SDLRect2D rects;
+    int2D indexs;
+    string1D paths;
 
     // Default
     short grid = 64;
@@ -34,12 +51,12 @@ private:
     // 5:SeeThrough
     // 6:TEXTURE
     short type = 0;
-    bool can_hug = false;
+
+    // State
+    BlockState state;
 
     // Condition
-    bool isMoving = 0;
-    bool isStepOn = 0;
-    short isHugged = 0;
+    bool can_hug = false;
 
     // Movement
     float vel_x = 0, vel_y = 0;
@@ -47,14 +64,10 @@ private:
     // Developer
     bool highlight = 0;
     SDL_Texture *highlight_texture;
-
-public:
     bool isValid = 1;
     bool needReset = 0;
 
-    // Destructor
     ~Block();
-    // Default
     Block();
     // Read From File
     Block(float1D main_val);
@@ -62,30 +75,15 @@ public:
     Block(float X, float Y, float w, float h, short type = 0, short gr = 64);
     // Simple (with predefined index)
     Block(float X, float Y, short t, int2D b_index);
+    // Block Engine
     void blockEngine(string1D sPath, int2D bIndex = {});
-
-    void setType(short t);
-    void setSeeAlpha(int alpha);
-    void setStepOn(bool step);
-    void setHugged(short hug);
-
-    short getType();
-    bool isType(short t);
-    int getSeeAlpha();
-    bool getStepOn();
-    short getHugged();
 
     BlockGrid getGrid();
 
-    bool getCanHug();
-
-    bool getHighlight();
     // 0: off, 1: on, everthing else: toggle on/off
     //                            (like a light switch)
     void setHighlight(short hl = 2);
-
-    SDLTexture2D getBlockTextures();
-    int2D getBlockIndexs();
+    void setBlockIndexs(int2D newIndex);
 
     void blockSeethrough(Map *map, bool yes = 0);
     void blockCollision(Map *map, Player *player, PlayerState &pState);
@@ -93,7 +91,6 @@ public:
 
     // ============================ BLOCK MANIPULATION =============================
 
-    void setBlockIndexs(int2D newIndex);
     void refreshTexture(string1D sPath = {});
     void tileEdit(string1D sPath, int1D tIndex, int bIndex);
     void overlap(int2D overlap, int offX, int offY);

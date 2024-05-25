@@ -105,7 +105,7 @@ void Editor::blockEditor()
         if (BlockEdit.front) for (int i = 0; i < map_cur->BlockMainVec.size(); i++)
         {
             if (map_cur->BlockMainVec[i]->getBox().contain(mx1, my1) &&
-                map_cur->BlockMainVec[i]->isType(BlockEdit.type))
+                map_cur->BlockMainVec[i]->type == BlockEdit.type)
             {
                 CFG->addDevlog("B_FRONT", 46);
                 CFG->addDevlog(
@@ -121,7 +121,7 @@ void Editor::blockEditor()
         else for (int i = 0; i < map_cur->BlockBackVec.size(); i++)
         {
             if (map_cur->BlockBackVec[i]->getBox().contain(mx1, my1) &&
-                map_cur->BlockBackVec[i]->isType(BlockEdit.type))
+                map_cur->BlockBackVec[i]->type == BlockEdit.type)
             {
                 CFG->addDevlog("B_BACK", 44);
                 CFG->addDevlog(
@@ -155,7 +155,7 @@ void Editor::blockEditor()
                 for (int i = 0; i < map_cur->BlockMainVec.size(); i++)
                 {
                     if (map_cur->BlockMainVec[i]->getBox().contain(mx1, my1) &&
-                    map_cur->BlockMainVec[i]->isType(BlockEdit.type))
+                    map_cur->BlockMainVec[i]->type == BlockEdit.type)
                     {
                         // Split into singular block
                         Block1D splitted = BlockTemplate::split(
@@ -176,7 +176,7 @@ void Editor::blockEditor()
                 for (int i = 0; i < map_cur->BlockBackVec.size(); i++)
                 {
                     if (map_cur->BlockBackVec[i]->getBox().contain(mx1, my1) &&
-                        map_cur->BlockBackVec[i]->isType(BlockEdit.type))
+                        map_cur->BlockBackVec[i]->type == BlockEdit.type)
                     {
                         // Split into singular block
                         Block1D splitted = BlockTemplate::split(
@@ -231,7 +231,7 @@ void Editor::blockEditor()
             for (int i = 0; i < map_cur->BlockMainVec.size(); i++)
             {
                 if (map_cur->BlockMainVec[i]->getBox().contain(mx1, my1) &&
-                    map_cur->BlockMainVec[i]->isType(BlockEdit.type))
+                    map_cur->BlockMainVec[i]->type == BlockEdit.type)
                 {
                     map_cur->MapComp.eraseBlockMain(i);
                     break;
@@ -241,7 +241,7 @@ void Editor::blockEditor()
             for (int i = 0; i < map_cur->BlockBackVec.size(); i++)
             {
                 if (map_cur->BlockBackVec[i]->getBox().contain(mx1, my1) &&
-                    map_cur->BlockBackVec[i]->isType(BlockEdit.type))
+                    map_cur->BlockBackVec[i]->type == BlockEdit.type)
                 {
                     map_cur->MapComp.eraseBlockBack(i);
                     break;

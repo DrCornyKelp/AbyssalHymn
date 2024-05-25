@@ -101,13 +101,13 @@ void Projectile::playerCollision(Map *map, Player *player)
 void Projectile::blockCollision(Block *block)
 {
     // Transparent/Go Through block
-    if (block->isType(2) || block->isType(-1)) return;
+    if (block->type == 2 || block->type == -1) return;
 
     int hit_dist_y = (getHitHeight() + block->getHeight()) / 2;
 
     if (Collision::objectCollision(this, block) &&
         // Different logic for bridge block
-        (!block->isType(3) || (
+        (!block->type == 3 || (
             getVelY() <= 0 &&
             getY() > block->getY() + hit_dist_y + getVelY() - 2
         )))

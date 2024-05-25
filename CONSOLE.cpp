@@ -20,8 +20,8 @@ void BlockSyntax::Copy(string1D cmd, int &start, BlockSyntaxTemplate &b_syn_temp
 
     b_syn_temp.newX = cur_block->getGridLX();
     b_syn_temp.newY = cur_block->getGridBY();
-    b_syn_temp.newIndex = cur_block->getBlockIndexs();
-    b_syn_temp.type = cur_block->getType();
+    b_syn_temp.newIndex = cur_block->indexs;
+    b_syn_temp.type = cur_block->type;
 
     start++;
 }

@@ -3,7 +3,7 @@
 // Destructor
 Block::~Block()
 {
-    for (SDLTexture1D btx1D : block_textures)
+    for (SDLTexture1D btx1D : textures)
     for (SDL_Texture *btx : btx1D)
         SDL_DestroyTexture(btx);
 }
@@ -26,7 +26,7 @@ Block::Block(float X, float Y, float w, float h, short t, short gr) :
 // Simple Block (but with predefined index)
 Block::Block(float X, float Y, short t, int2D b_index) :
     Object2D(X * 64, Y * 64, 0, 0), // PLACEHOLDER VALUE
-    block_indexs(b_index), type(t)
+    indexs(b_index), type(t)
 {}
 
 // ====================== PRETTY FUCKING ADVANCED ===========================
@@ -40,62 +40,45 @@ void Block::blockEngine(string1D sPath, int2D bIndex)
     // can be render outside of camera border
     setCamDepend(type != 6);
 
-    block_paths = sPath;
+    paths = sPath;
     // Already Predefined Block Index
-    if (block_indexs.size())
+    if (indexs.size())
     {
-        setWidth(block_indexs[0].size() * grid);
-        setHeight(block_indexs.size() * grid);
+        setWidth(indexs[0].size() * grid);
+        setHeight(indexs.size() * grid);
         setX((getX() + getWidth() / 2));
         setY((getY() + getHeight() / 2));
     }
     else
     {
-        block_indexs.resize(getGridHeight(1));
+        indexs.resize(getGridHeight(1));
 
         for (int i = 0; i < getGridHeight(1); i++)
         for (int j = 0; j < getGridWidth(1); j++)
-            block_indexs[i].push_back(bIndex[i][j]);
+            indexs[i].push_back(bIndex[i][j]);
     }
 
-    // Some how this mf is still important lmao
     setHitWidth(getWidth());
     setHitHeight(getHeight());
 
-    // Init Texture
-    block_textures.resize(getGridHeight(1));
+    // Init Texture and Rect
+    rects.resize(getGridHeight(1));
+    textures.resize(getGridHeight(1));
     for (int i = 0; i < getGridHeight(1); i++)
             for (int j = 0; j < getGridWidth(1); j++)
-                block_textures[i].push_back(NULL);
+                textures[i].push_back(NULL);
 
     refreshTexture();
 }
 
-void Block::setType(short t) { type = t; }
-void Block::setSeeAlpha(int alpha) { seeAlpha = alpha; }
-void Block::setStepOn(bool step) { isStepOn = step; }
-void Block::setHugged(short hug) { isHugged = hug; }
-
-short Block::getType() { return type; }
-bool Block::isType(short t) { return type == t; }
-int Block::getSeeAlpha() { return seeAlpha; }
-bool Block::getStepOn() { return isStepOn; }
-short Block::getHugged() { return isHugged; }
-bool Block::getCanHug() { return can_hug; }
-
 BlockGrid Block::getGrid()
-{   
+{
     return {getGridLX(), getGridBY(),
-            int(getBlockIndexs()[0].size()),
-            int(getBlockIndexs().size()),
-            getBlockIndexs() };
+            int(indexs[0].size()),
+            int(indexs.size()),
+            indexs };
 }
 
-SDLTexture2D Block::getBlockTextures() { return block_textures; }
-int2D Block::getBlockIndexs() { return block_indexs; }
-
-// Block Highlighter
-bool Block::getHighlight() { return highlight; }
 void Block::setHighlight(short hl)
 { highlight = (!hl) ? false : (hl == 1) ? true : (!highlight); }
 
@@ -128,8 +111,8 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
     int hit_dist_x_crawl = (78 + getWidth()) / 2;
     int hit_dist_y_stand = (80 + getHeight()) / 2;
 
-    isHugged = false;
-    isStepOn = false;
+    state.hugged = false;
+    state.stepOn = false;
 
     // Bridge block has different hitbox detection
     if (type == 3 && !pState.on_ground &&
@@ -147,7 +130,7 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
         if (!player->move.crawl && !player->g_dash.frame)
             player->setY(getY() + (getHeight() + p_hit_h) / 2 - 1);
 
-        setStepOn(true);
+        state.stepOn = 1;
 
         pState.on_ground = 1;
         pState.hug_wall = 0;
@@ -179,7 +162,7 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
 
             player->setVelX(0);
             player->setX(getX() - hit_dist_x + 3);
-            isHugged = -1;
+            state.hugged = -1;
         }
         else
         {
@@ -219,7 +202,7 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
 
             player->setVelX(0);
             player->setX(getX() + hit_dist_x - 3);
-            isHugged = 1;
+            state.hugged = 1;
         }
         else
         {
@@ -287,7 +270,7 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
         if (!player->move.crawl && !player->g_dash.frame)
             player->setY(getY() + (getHeight() + p_hit_h) / 2 - 1);
 
-        isStepOn = true;
+        state.stepOn = 1;
 
         pState.on_ground = true;
         if (type == 1) pState.on_ice = true;
@@ -298,36 +281,26 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
 
 void Block::draw(Player *player)
 {
-    // NOT THE FINAL PRODUCT, DO NOT USE YET
-    if (getAccelX() || getAccelY() ||
-        getVelX() || getVelY())
-    {
-        isMoving = true;
-        objectStandardMovement();
-    }
-    else
-        isMoving = false;
-
     int drawX = Camera::objectDrawX(player, this);
     int drawY = Camera::objectDrawY(player, this);
 
     if (Camera::outOfCam(player, this)) goto highlight;
 
     // Draw
-    for (int i = 0; i < block_textures.size(); i++)
-    for (int j = 0; j < block_textures[i].size(); j++)
+    for (int i = 0; i < textures.size(); i++)
+    for (int j = 0; j < textures[i].size(); j++)
     {
         SDL_Rect desRect = {drawX + j*grid, drawY + i*grid, grid, grid};
 
         // Empty block or outside => No render
-        if (block_indexs[i][j] == -1 ||
+        if (indexs[i][j] == -1 ||
             Camera::outOfBound(desRect))
             continue;
 
         if (type == -1)
-            SDL_SetTextureAlphaMod(block_textures[i][j], seeAlpha);
+            SDL_SetTextureAlphaMod(textures[i][j], seeAlpha);
 
-        SDL_RenderCopy(CFG->RENDERER, block_textures[i][j], NULL, &desRect);        
+        SDL_RenderCopy(CFG->RENDERER, textures[i][j], NULL, &desRect);        
     }
 
     highlight:
@@ -345,38 +318,39 @@ void Block::draw(Player *player)
 
 void Block::setBlockIndexs(int2D newIndex)
 {
-    block_indexs = newIndex;
+    indexs = newIndex;
     refreshTexture();
 }
 
 void Block::refreshTexture(string1D sPath)
 {
-    string1D bPath = sPath.size() ? sPath : block_paths;
+    string1D bPath = sPath.size() ? sPath : paths;
 
-    block_textures.resize(getGridHeight(1));
+    rects.resize(getGridHeight(1));
+    textures.resize(getGridHeight(1));
     for (int i = 0; i < getGridHeight(1); i++)
     for (int j = 0; j < getGridWidth(1); j++)
     { 
-        if (block_indexs[i][j] >= bPath.size() ||
-            block_indexs[i][j] < 0)
+        if (indexs[i][j] >= bPath.size() ||
+            indexs[i][j] < 0)
         {
-            block_indexs[i][j] = -1;
-            block_textures[i][j] = NULL;
+            indexs[i][j] = -1;
+            textures[i][j] = NULL;
         }
         else
         {
             // Delete old texture memory
-            SDL_DestroyTexture(block_textures[i][j]);
+            SDL_DestroyTexture(textures[i][j]);
             // Add new texture
-            block_textures[i][j] = CFG->loadTexture(bPath[block_indexs[i][j]]);
+            textures[i][j] = CFG->loadTexture(bPath[indexs[i][j]]);
         }
     }
 }
 
 void Block::tileEdit(string1D sPath, int1D tIndex, int bIndex)
 {
-    block_textures[tIndex[1]][tIndex[0]] = CFG->loadTexture( sPath[bIndex]);
-    block_indexs[tIndex[1]][tIndex[0]] = bIndex;
+    textures[tIndex[1]][tIndex[0]] = CFG->loadTexture( sPath[bIndex]);
+    indexs[tIndex[1]][tIndex[0]] = bIndex;
 }
 
 void Block::overlap(int2D overlap, int offX, int offY)
@@ -391,7 +365,7 @@ void Block::overlap(int2D overlap, int offX, int offY)
 
     for (int r = 0; r < olapHeight; r++)
         for (int c = 0; c < olapWidth; c++)
-            block_indexs[offY + r][offX + c] = overlap[r][c];
+            indexs[offY + r][offX + c] = overlap[r][c];
 
     refreshTexture();
 }

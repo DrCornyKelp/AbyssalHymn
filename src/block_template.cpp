@@ -17,14 +17,14 @@ Block1D BlockTemplate::splitX(Block *block)
     int oldHeight = block->getGridHeight();
     int oldGridX = block->getGridLX();
     int oldGridY = block->getGridBY();
-    short oldType = block->getType();
+    short oldType = block->type;
 
     Block1D block1d;
     for (int row = 0; row < oldHeight; row++)
     {
         block1d.push_back(new Block(
             oldGridX, oldGridY + row, oldType,
-            {block->getBlockIndexs()[oldHeight - row - 1]}
+            {block->indexs[oldHeight - row - 1]}
         ));
     }
 
@@ -35,17 +35,17 @@ Block1D BlockTemplate::splitY(Block *block)
     int oldWidth = block->getGridWidth();
     int oldGridX = block->getGridLX();
     int oldGridY = block->getGridBY();
-    short oldType = block->getType();
+    short oldType = block->type;
 
     Block1D block1d;
     for (int col = 0;
-        col < block->getBlockIndexs()[0].size();
+        col < block->indexs[0].size();
         col++)
     {
         block1d.push_back(new Block(
             oldGridX + col, oldGridY, oldType,
             BlockTemplate::getColumn(
-                block->getBlockIndexs(), col
+                block->indexs, col
             )
         ));
     }
@@ -78,8 +78,8 @@ bool BlockTemplate::compareX(Block *block1, Block *block2, bool descend)
     int lx2 = block2->getGridLX();
     int by2 = block2->getGridBY();
     // Blocks Prop (with priority)
-    int pr1 = block1->getType();
-    int pr2 = block2->getType();
+    int pr1 = block1->type;
+    int pr2 = block2->type;
 
     // Some block type must 100% be in front no matter what
     if (pr1 != pr2) return pr1 < pr2;
@@ -102,8 +102,8 @@ bool BlockTemplate::compareY(Block *block1, Block *block2, bool descend)
     int lx2 = block2->getGridLX();
     int by2 = block2->getGridBY();
     // Blocks Prop (with priority)
-    int pr1 = block1->getType();
-    int pr2 = block2->getType();
+    int pr1 = block1->type;
+    int pr2 = block2->type;
 
     // Some block type must 100% be in front no matter what
     if (pr1 != pr2) return pr1 < pr2;
@@ -121,7 +121,7 @@ bool BlockTemplate::compareY(Block *block1, Block *block2, bool descend)
 // ================= REPLACING INDEX ==================
 void BlockTemplate::replaceIndex(Block *block, int pre, int post)
 {
-    int2D oldIndex = block->getBlockIndexs();
+    int2D oldIndex = block->indexs;
 
     for (int r = 0; r < oldIndex.size(); r++)
     for (int c = 0; c < oldIndex[r].size(); c++)
@@ -186,7 +186,7 @@ int2D BlockTemplate::mergeY(int2D vec1, int2D vec2)
 Block *BlockTemplate::mergeBlockX(Block *block1, Block *block2)
 {
     // Must be the same type of block
-    if (block1->getType() != block2->getType()) return new Block();
+    if (block1->type != block2->type) return new Block();
 
     BlockGrid gridLeft, gridRight;
 
@@ -212,12 +212,12 @@ Block *BlockTemplate::mergeBlockX(Block *block1, Block *block2)
     int newBY = gridLeft.by;
     int2D newIndex = mergeX(gridLeft.index, gridRight.index);
 
-    return new Block(newLX, newBY, block1->getType(), newIndex);
+    return new Block(newLX, newBY, block1->type, newIndex);
 }
 Block *BlockTemplate::mergeBlockY(Block *block1, Block *block2)
 {
     // Must be the same type of block
-    if (block1->getType() != block2->getType()) return new Block();
+    if (block1->type != block2->type) return new Block();
 
     BlockGrid gridUp, gridDown;
 
@@ -244,7 +244,7 @@ Block *BlockTemplate::mergeBlockY(Block *block1, Block *block2)
     int newBY = gridDown.by;
     int2D newIndex = mergeY(gridUp.index, gridDown.index);
 
-    return new Block(newLX, newBY, block1->getType(), newIndex);
+    return new Block(newLX, newBY, block1->type, newIndex);
 }
 
 // Merge 3 Blocks
@@ -345,14 +345,14 @@ int2D BlockTemplate::rect(int2D vecSqr, int row, int col)
 string0D BlockTemplate::blockToCode(Block *block)
 {
     string0D block_main =
-        std::to_string(block->getType()) + "," +
+        std::to_string(block->type) + "," +
         std::to_string(block->getGridLX()) + "," +
         std::to_string(block->getGridBY()) + "," +
         std::to_string(block->getGridWidth()) + "," +
         std::to_string(block->getGridHeight());
 
     string0D block_engine = "";
-    for (int1D r : block->getBlockIndexs())
+    for (int1D r : block->indexs)
         for (int v : r)
             block_engine += "," + std::to_string(v);
 

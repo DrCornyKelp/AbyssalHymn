@@ -41,6 +41,9 @@
 #define SDLTexture1D std::vector<SDL_Texture*>
 #define SDLTexture2D std::vector<SDLTexture1D>
 
+#define SDLRect1D std::vector<SDL_Rect>
+#define SDLRect2D std::vector<SDLRect1D>
+
 class Configuration;
 
 struct TransitionEffect
