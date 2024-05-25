@@ -312,11 +312,11 @@ $\Rightarrow$ Player can move between location using `Transition` (from Object2D
 
 - Created a dynamic `audio object`: audio get louder as player get closer, as well as the ability to override the background music
 
-### [`6/4`] MULTIPLAYER: CONCEPT
+### [`6/5`] MULTIPLAYER: CONCEPT
 
 - ADDED MULTIPLAYER (concept): Multiple `Player` entities can exist in game, opening up opportunities for functioning multiplayer
 
-### [`12/4`] MULTIPLAYER: FUNCTIONALITY
+### [`12/5`] MULTIPLAYER: FUNCTIONALITY
 
 - `Muliplayer` is now functioning (in demo stages, bugs and missing interactions to be expected)
 - `Map Components` now have more interactions with each seperate `player`
@@ -330,7 +330,7 @@ $\Rightarrow$ Player can move between location using `Transition` (from Object2D
   - Apply the `hold/threshold/threspeak` paradigm from `key input` to `mouse input`
   - Added `wheel` value for scroll direction
 
-### [`24/4`] USER FRIENDLY INTERFACE
+### [`24/5`] USER FRIENDLY INTERFACE
 
 - Working opening `Intro` sequence
 - Complete `Menu` and `Pause` rework (still under development)
