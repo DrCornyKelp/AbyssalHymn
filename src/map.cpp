@@ -330,7 +330,7 @@ void Map::updateMapActive()
         for (Player *player : MapMulti->Players)
             player->setStatic();
 
-    // ================= Update Player ===================================
+    // ================= Update Players ==================================
     MapMulti->update(this);
 
     // ================= Update Component logic for each Player ==========
