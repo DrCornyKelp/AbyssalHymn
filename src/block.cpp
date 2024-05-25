@@ -196,7 +196,7 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
                 ));
 
                 if (player->g_dash.frame)
-                    player->draw_prop.right = 0;
+                    player->sprite.right = 0;
                 if (player->a_dash.frame)
                     player->a_dash.frame = 0;
             }
@@ -236,7 +236,7 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
                 ));
 
                 if (player->g_dash.frame)
-                    player->draw_prop.right = 1;
+                    player->sprite.right = 1;
                 if (player->a_dash.frame)
                     player->a_dash.frame = 0;
             }

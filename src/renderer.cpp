@@ -62,7 +62,7 @@ void Renderer::renderGameplay(Map *map)
 
     // ==== Developer mode put player above all ====
     if (map->MapMulti->MAIN->dev.godmode)
-        map->MapMulti->MAIN->draw_prop.draw();
+        map->MapMulti->MAIN->sprite.draw();
 
     // Hud
     map->MapMulti->drawHuds();

@@ -2,17 +2,17 @@
 
 // Destructor
 Player::~Player()
-{ draw_prop.clearTexture(); }
+{ sprite.clearTexture(); }
 // Constructor
 Player::Player(bool mc) : Object2D(), MAIN(mc)
 {
     // Nakuru normal mvoement
-    draw_prop.RightTexture = CFG->loadTexture("assets/NakuSheet/NakuRight.png");
-    draw_prop.LeftTexture = CFG->loadTexture("assets/NakuSheet/NakuLeft.png");
+    sprite.RightTexture = CFG->loadTexture("assets/NakuSheet/NakuRight.png");
+    sprite.LeftTexture = CFG->loadTexture("assets/NakuSheet/NakuLeft.png");
 
     // Nakuru holding weapon
-    draw_prop.RightWeaponTexture = CFG->loadTexture("assets/NakuSheet/NakuRightWeapon.png");
-    draw_prop.LeftWeaponTexture = CFG->loadTexture("assets/NakuSheet/NakuLeftWeapon.png");
+    sprite.RightWeaponTexture = CFG->loadTexture("assets/NakuSheet/NakuRightWeapon.png");
+    sprite.LeftWeaponTexture = CFG->loadTexture("assets/NakuSheet/NakuLeftWeapon.png");
 }
 
 // ============================ PLAYER MOVESET ============================
@@ -56,7 +56,7 @@ int PlayerMoving::hitY()
 
 // ============================ PLAYER DRAW PROP ============================
 
-void PlayerDrawProp::clearTexture()
+void PlayerSprite::clearTexture()
 {
     Object2D::deleteTextures({
         CurrentTexture,
@@ -65,19 +65,19 @@ void PlayerDrawProp::clearTexture()
     });
 }
 
-void PlayerDrawProp::setAct(int idx, bool r)
+void PlayerSprite::setAct(int idx, bool r)
 {
     if (index != idx || right != r)
     { index = idx; right = r; }
 }
 
-void PlayerDrawProp::setSprite(int m_index, int m_frame)
+void PlayerSprite::setSprite(int m_index, int m_frame)
 {
     player->setSprFrameMax(m_frame);
     player->setSprIndexMax(m_index);
 }
 
-void PlayerDrawProp::setSpriteAlpha(int alp)
+void PlayerSprite::setSpriteAlpha(int alp)
 {
     if (alpha != alp)
     {
@@ -86,7 +86,7 @@ void PlayerDrawProp::setSpriteAlpha(int alp)
     }
 }
 
-void PlayerDrawProp::setEndLock(bool lock)
+void PlayerSprite::setEndLock(bool lock)
 {
     if (lock && !end_lock)
     {
@@ -96,7 +96,7 @@ void PlayerDrawProp::setEndLock(bool lock)
     end_lock = lock;
 }
 
-void PlayerDrawProp::setActSprElock(int1D act, int1D spr, short lock)
+void PlayerSprite::setActSprElock(int1D act, int1D spr, short lock)
 {
     setAct(act[0], act[1]);
     setSprite(spr[0], spr[1]);
@@ -104,7 +104,7 @@ void PlayerDrawProp::setActSprElock(int1D act, int1D spr, short lock)
     if (lock) setEndLock(lock > 0);
 }
 
-void PlayerDrawProp::drawProperty(Map *map)
+void PlayerSprite::drawProp()
 {
     // ======================== SRPITES ===========================
     // Set index and stuff
@@ -236,7 +236,7 @@ void PlayerDrawProp::drawProperty(Map *map)
         SDL_SetTextureAlphaMod(CurrentTexture, 255);
 }
 
-void PlayerDrawProp::draw()
+void PlayerSprite::draw()
 {
     SDL_RenderCopy(CFG->RENDERER, CurrentTexture, &srcRect, &desRect);
 }
@@ -456,9 +456,9 @@ void PlayerCamera::updateDynamic()
                             (player->getVelX()>player->move.vel_max ?
                                 (player->getVelX() - player->move.vel_max)*64 : 0);
         // Damping / Easing effect X
-        if (player->draw_prop.right && ease.x > -ease_x_max)
+        if (player->sprite.right && ease.x > -ease_x_max)
             ease.x -= abs(player->getVelX() / 5);
-        if (!player->draw_prop.right && ease.x < ease_x_max)
+        if (!player->sprite.right && ease.x < ease_x_max)
             ease.x += abs(player->getVelX() / 5);
         // Turn off easing effect
         if (!player->getVelX() || abs(ease.x) > ease_x_max)
@@ -491,7 +491,7 @@ void PlayerCamera::updateDynamic()
 void Player::playerMovement(Map *map)
 {
 // ======================== Helpful values ==============================
-    short dir = draw_prop.right ? 1 : -1;
+    short dir = sprite.right ? 1 : -1;
 
 // ======================== MOVEMENT INPUT ==============================
     // Moving L/R
@@ -554,7 +554,7 @@ void Player::playerMovement(Map *map)
         INPUT.dash.hold = 1;
 
         map->appendParticle(new ParticleEffect(
-            CFG->loadTexture(draw_prop.right ?
+            CFG->loadTexture(sprite.right ?
                 "assets/ParticleSheet/NakuEffect/GDashSmokeRight.png" :
                 "assets/ParticleSheet/NakuEffect/GDashSmokeLeft.png"
             ),
@@ -578,7 +578,7 @@ void Player::playerMovement(Map *map)
         INPUT.dash.hold = 1;
 
         map->appendParticle(new ParticleEffect(
-            CFG->loadTexture(draw_prop.right ?
+            CFG->loadTexture(sprite.right ?
                 "assets/ParticleSheet/NakuEffect/ADashSmokeRight.png" :
                 "assets/ParticleSheet/NakuEffect/ADashSmokeLeft.png"
             ),
@@ -772,7 +772,7 @@ void Player::playerCombat(Map *map)
             "assets/NakuSheet/NakuSquid.png",
             getX(), getY() + 50, 16, 16,
             32, 32,
-            getVelX()*.8 + draw_prop.right*2 - 1,
+            getVelX()*.8 + sprite.right*2 - 1,
             getVelY() + 10, 0, -.2,
             10, 1000, 0,
             1, 0, 0,
@@ -804,7 +804,7 @@ void Player::playerCombat(Map *map)
             combat.time = 0;
             combat.index = 0;
         }
-        SDL_SetTextureAlphaMod(draw_prop.CurrentTexture, (combat.invulnerable % 15 > 0) ? 200 : 160);
+        SDL_SetTextureAlphaMod(sprite.CurrentTexture, (combat.invulnerable % 15 > 0) ? 200 : 160);
     }
 
     if (combat.time > 0)
@@ -837,16 +837,16 @@ void Player::playerCombat(Map *map)
     if (a_dash.frame)
         setCombatHit({
             30, 30, 
-            draw_prop.right ? 0 : 80,
-            draw_prop.right ? 80 : 0,
+            sprite.right ? 0 : 80,
+            sprite.right ? 80 : 0,
             10
         });
 
     if (g_dash.frame)
         setCombatHit({
             20, 20,
-            draw_prop.right ? 0 : 100,
-            draw_prop.right ? 100 : 0,
+            sprite.right ? 0 : 100,
+            sprite.right ? 100 : 0,
             move.crawl ? 20 : 12
         });
 
@@ -854,8 +854,8 @@ void Player::playerCombat(Map *map)
     {
         setCombatHit({
             40, 40,
-            draw_prop.right? 0 : 100,
-            draw_prop.right? 100 : 0,
+            sprite.right? 0 : 100,
+            sprite.right? 100 : 0,
             10
         });
         combat.parry_error = 3;
@@ -865,8 +865,8 @@ void Player::playerCombat(Map *map)
     {
         setCombatHit({
             15, 15,
-            draw_prop.right ? 0 : 120,
-            draw_prop.right ? 120 : 0,
+            sprite.right ? 0 : 120,
+            sprite.right ? 120 : 0,
             20
         });
         combat.parry_error = 1;
@@ -876,8 +876,8 @@ void Player::playerCombat(Map *map)
     {
         setCombatHit({
             80, 60,
-            draw_prop.right ? 0 : 130,
-            draw_prop.right ? 130 : 0,
+            sprite.right ? 0 : 130,
+            sprite.right ? 130 : 0,
             30
         });
         combat.parry_error = 0;
@@ -892,7 +892,7 @@ void Player::playerCombat(Map *map)
     if (combat.index == 5)
     {
         setCombatHit({
-            64, 64, draw_prop.right?0:93, draw_prop.right?93:0, 15
+            64, 64, sprite.right?0:93, sprite.right?93:0, 15
         });
         combat.parry_error = 20;
     }
@@ -913,7 +913,7 @@ void Player::playerCombat(Map *map)
                 combat.index = 1;
                 combat.time = 15;
                 combat.combo_time = 40;
-                draw_prop.end_lock = 0;
+                sprite.end_lock = 0;
 
                 setVelX(getVelX() * .8);
                 setVelY(state.on_ground ? 0 : 1);
@@ -924,7 +924,7 @@ void Player::playerCombat(Map *map)
                 combat.time = 15;
                 combat.combo_time = 15;
                 combat.delay = 35;
-                draw_prop.end_lock = 0;
+                sprite.end_lock = 0;
 
                 setVelX(getVelX() * .4);
                 setVelY(state.on_ground ? 0 : 1);
@@ -938,7 +938,7 @@ void Player::playerCombat(Map *map)
                 combat.time = 15;
                 combat.combo_time = 15;
                 combat.delay = state.on_ground ? 40 : 70;
-                draw_prop.end_lock = 0;
+                sprite.end_lock = 0;
 
                 setVelY(3);
             }
@@ -950,7 +950,7 @@ void Player::playerCombat(Map *map)
                 combat.index = 5;
                 combat.time = 12;
                 combat.combo_time = 40;
-                draw_prop.end_lock = 0;
+                sprite.end_lock = 0;
             }
         }
     }
@@ -967,13 +967,13 @@ void Player::playerCombat(Map *map)
             combat.combo_time = 10;
             combat.delay = 150;
 
-            draw_prop.end_lock = 0;
+            sprite.end_lock = 0;
         }
     }
 
     if (!combat.delay && !combat.time &&
         INPUT.attack.threspass(100) &&
-        !draw_prop.end_lock && !move.crawl &&
+        !sprite.end_lock && !move.crawl &&
         !state.hug_wall &&
         !a_dash.frame && !g_dash.frame)
         combat.charge_time ++;
@@ -1141,6 +1141,6 @@ void Player::playerUpdate(Map *map)
     playerCombat(map);
     playerHitBox();
 
-    draw_prop.drawProperty(map);
+    sprite.drawProp();
     sfx.updateSFX();
 }

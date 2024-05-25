@@ -159,7 +159,7 @@ struct PlayerCamera
     void updateDynamic();
 };
 
-struct PlayerDrawProp
+struct PlayerSprite
 {
     Player *player;
     int index = 0;
@@ -184,7 +184,7 @@ struct PlayerDrawProp
     void setActSprElock(int1D act, int1D spr, short lock = 0);
 
     void draw();
-    void drawProperty(Map *map);
+    void drawProp();
 };
 
 struct PlayerCombat
@@ -276,7 +276,7 @@ public:
     PlayerCombat combat = {this};
 
     // ============== CAMERA/DRAW ================
-    PlayerDrawProp draw_prop = {this};
+    PlayerSprite sprite = {this};
     PlayerCamera camera = {this};
 
     // Constructor
