@@ -121,12 +121,12 @@ int MouseMain::offPlayerY(Player *player)
 int MouseMain::mapX(Player *player, short grid)
 {
     int mx = player->getX() + offPlayerX(player);
-    return (mx > 0) ? (mx/grid) : (mx/grid - 1);
+    return mx / grid;
 }
 int MouseMain::mapY(Player *player, short grid)
 {
     int my = player->getY() + offPlayerY(player);
-    return (my > 0) ? (my/grid) : (my/grid - 1);
+    return my / grid;
 }
 bool MouseMain::inbox(ObjectBox mbox)
 { return !(

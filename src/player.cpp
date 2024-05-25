@@ -1101,7 +1101,7 @@ void PlayerDeveloper::developer(Map *map)
         ,32);
     }
 
-    // ===============DEVELOPER input===============
+    // =============== DEVELOPER input ===============
     // GODMODE
     if (player->INPUT.f2.press())
     {
@@ -1121,6 +1121,7 @@ void PlayerDeveloper::developer(Map *map)
         if (player->INPUT.moveR.state)
             player->setX(player->getX() + vel_developer);
     }
+
     // DISPLAY GRID
     if (player->INPUT.f3.press())
     {
