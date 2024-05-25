@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
     // Map editor
     Editor *EDITOR = new Editor(CONSOLE, WORLD, MULTI->MAIN, COLLI);
 
-    // // Play Intro Sequence
+    // Play Intro Sequence
     // Intro *intro = new Intro();
     // while (!intro->finish)
     // {
@@ -93,6 +93,8 @@ int main(int argc, char *argv[])
             // Main
             WORLD->updateWorld();
             REND->renderGameplay(WORLD->MapCur);
+            // Update player developer mode
+            MULTI->MAIN->dev.developer(WORLD->MapCur);
 
             // Console + Editor
             EDITOR->update();

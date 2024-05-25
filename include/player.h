@@ -109,17 +109,33 @@ struct PlayerCamera
 {
     Player *player;
 
+    /*
+    Mid: Position Based Camera Offset
+    - Based on the player's position
+    Shift: The Camera Shift (include Effect and Ease)
+    - Based on the player's movement
+    Center_Off: The Average Position of the Players
+    - Based on the number of players
+
+    Offset: The True Camera Offset (include Mid, Shift and Center_Off)
+    */
+
     ObjectXY mid;
+    ObjectXY center_off; 
+    ObjectXYf focus_trigger;
     ObjectXYb unfocus;
     ObjectXY unfocus_offset;
     ObjectXY offset;
-    ObjectXY center_off; // For >1 players
-    ObjectXYf focus_trigger;
 
     // Camera Shift Effect
     ObjectXYf shift;
     ObjectXYf ease;
     ObjectXYf effect;
+
+    /*
+    Most of the time camera will not snap to the player
+    but ease to the player when encounter changes
+    */
 
     // Goal Value
     ObjectBox focus_dir;
@@ -135,11 +151,12 @@ struct PlayerCamera
     ObjectXY getCenterOffset();
     ObjectXYf getFocusTrigger();
 
-    void resetCamera();
     void setCameraBorder(ObjectBox f_dir, ObjectBox f_val);
     void setCameraFocus(ObjectBox f_dir, ObjectBox f_val, short gr);
     void playerCameraFocus();
-    void playerCameraProperty();
+
+    void updateStatic();
+    void updateDynamic();
 };
 
 struct PlayerDrawProp
@@ -214,6 +231,16 @@ struct PlayerSFX
     void updateSFX();
 };
 
+struct PlayerDeveloper
+{
+    Player *player;
+    // Developer
+    bool grid = 0;
+    bool godmode = 0;
+
+    void developer(Map *map);
+};
+
 class Player : public Object2D
 {
 public:
@@ -222,11 +249,6 @@ public:
     int hp_max = 100;
     int mp = 100;
     int mp_max = 100;
-
-    // ====== DEVELOPER VALUES ======
-
-    bool grid = 0;
-    bool godmode = 0;
 
     // ================== META ===================
     bool MAIN;
@@ -237,6 +259,9 @@ public:
 
     // ============== SOUND EFFECT ===============
     PlayerSFX sfx = {this};
+
+    // ============== DEVELOPER ==================
+    PlayerDeveloper dev = {this};
 
     // ================ STATE ====================
     PlayerState state;
@@ -267,8 +292,6 @@ public:
     void playerHitBox();
     void playerGetHit(Map *map, int dmg);
     void playerUpdate(Map *map);
-    // Developer
-    void playerDeveloper(Map *map);
 };
 
 #endif

@@ -61,7 +61,7 @@ void Renderer::renderGameplay(Map *map)
         particle_fx->draw(map->MapMulti->MAIN);
 
     // ==== Developer mode put player above all ====
-    if (map->MapMulti->MAIN->godmode)
+    if (map->MapMulti->MAIN->dev.godmode)
         map->MapMulti->MAIN->draw_prop.draw();
 
     // Hud

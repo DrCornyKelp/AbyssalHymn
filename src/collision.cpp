@@ -137,7 +137,7 @@ void Collision::playerItemCollision(Map *map, Player *player)
 
 void Collision::playerUpdateCollision(Map *map, Player *player)
 {
-    if (player->godmode) return;
+    if (player->dev.godmode) return;
 
     player->jump.ceiling_min = 20;
     playerBlockCollision(map, player);

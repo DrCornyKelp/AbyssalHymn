@@ -281,7 +281,7 @@ void PlayerSFX::updateSFX()
 
 // ============================ PLAYER CAMERA ============================
 
-void PlayerCamera::resetCamera()
+void PlayerCamera::updateStatic()
 {
     mid.x = 0; mid.y = 0;
     ease.x = 0; ease.y = 0;
@@ -435,7 +435,7 @@ void PlayerCamera::playerCameraFocus()
     }
 }
 
-void PlayerCamera::playerCameraProperty()
+void PlayerCamera::updateDynamic()
 {
     playerCameraFocus();
 
@@ -740,7 +740,7 @@ void Player::playerMovement(Map *map)
     }
 
     // Setting Position
-    if (godmode) return;
+    if (dev.godmode) return;
     objectStandardMovement(1);
 }
 
@@ -1048,7 +1048,7 @@ void Player::playerGetHit(Map *map, int dmg)
 // ======================= DEVELOPER MODE (STAFF ONLY) ==========================
 // ==============================================================================
 
-void Player::playerDeveloper(Map *map)
+void PlayerDeveloper::developer(Map *map)
 {
     // Really sorry but grid straight up dont work in other scale mode
     // Im not doing the math bruh
@@ -1058,10 +1058,14 @@ void Player::playerDeveloper(Map *map)
         // Draw grid line
         SDL_SetRenderDrawColor(CFG->RENDERER, 0, 255, 0, 255);
 
-        int gridLineX = camera.unfocus.x ? 0 :
-            int(getX()) % 64 - camera.shift.x - camera.center_off.x;
-        int gridLineY = camera.unfocus.y ? 0 :
-            int(getY()) % 64 + camera.shift.y - camera.center_off.y;
+        int gridLineX = player->camera.unfocus.x ? 0 :
+            int(player->getX()) % 64 -
+            player->camera.shift.x -
+            player->camera.center_off.x;
+        int gridLineY = player->camera.unfocus.y ? 0 :
+            int(player->getY()) % 64 -
+            player->camera.shift.y -
+            player->camera.center_off.y;
 
         for (int i = 0; i < int(CFG->WIDTH / 60); i++)
         {
@@ -1086,37 +1090,41 @@ void Player::playerDeveloper(Map *map)
 
         CFG->addDevlog("MOUSE", 41);
         CFG->addDevlog(
-            "X: " + std::to_string(INPUT.mouse.mapX(this)) +
-            " - Y: " + std::to_string(INPUT.mouse.mapY(this))
+            "X: " + std::to_string(player->INPUT.mouse.mapX(player)) +
+            " - Y: " + std::to_string(player->INPUT.mouse.mapY(player))
         ,31);
 
         CFG->addDevlog("Player", 42);
         CFG->addDevlog(
-            "X: " + std::to_string(getGridX()) +
-            " - Y: " + std::to_string(getGridY())
+            "X: " + std::to_string(player->getGridX()) +
+            " - Y: " + std::to_string(player->getGridY())
         ,32);
     }
 
     // ===============DEVELOPER input===============
     // GODMODE
-    if (INPUT.f2.press())
+    if (player->INPUT.f2.press())
     {
-        INPUT.f2.hold = 1;
+        player->INPUT.f2.hold = 1;
         godmode = !godmode;
     }
 
     if (godmode)
     {
-        int vel_developer = INPUT.lctrl.state ? 20 : 4;
-        if (INPUT.moveU.state) setY(getY() + vel_developer);
-        if (INPUT.moveD.state) setY(getY() - vel_developer);
-        if (INPUT.moveL.state) setX(getX() - vel_developer);
-        if (INPUT.moveR.state) setX(getX() + vel_developer);
+        int vel_developer = player->INPUT.lctrl.state ? 20 : 4;
+        if (player->INPUT.moveU.state)
+            player->setY(player->getY() + vel_developer);
+        if (player->INPUT.moveD.state)
+            player->setY(player->getY() - vel_developer);
+        if (player->INPUT.moveL.state)
+            player->setX(player->getX() - vel_developer);
+        if (player->INPUT.moveR.state)
+            player->setX(player->getX() + vel_developer);
     }
     // DISPLAY GRID
-    if (INPUT.f3.press())
+    if (player->INPUT.f3.press())
     {
-        INPUT.f3.hold = 1;
+        player->INPUT.f3.hold = 1;
         grid = !grid;
     };
 }

@@ -29,8 +29,8 @@ void TransitionEffect::set(float s, float m, bool skipStart)
     side_max = s;
     mid_max = m;
     side_cur = skipStart ? side_max : 0;
-    SDL_SetTextureAlphaMod(BLACKSCREEN, skipStart ? 255 : 0);
     mid_cur = m;
+    SDL_SetTextureAlphaMod(BLACKSCREEN, skipStart ? 255 : 0);
 }
 bool TransitionEffect::leftactive()
 { return side_cur <= side_max && mid_cur == mid_max; }

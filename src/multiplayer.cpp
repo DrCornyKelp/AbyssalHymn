@@ -71,13 +71,10 @@ void Multiplayer::update(Map *map)
         player->playerUpdate(map);
 
     // Update the camera for only MAIN player
-    if (MAIN->godmode)
-        MAIN->camera.resetCamera();
+    if (MAIN->dev.godmode)
+        MAIN->camera.updateStatic();
     else 
-        MAIN->camera.playerCameraProperty();
-
-    // Update player developer mode
-    MAIN->playerDeveloper(map);
+        MAIN->camera.updateDynamic();
 
     // ===================== TESTING =======================
     if (MAIN->INPUT.f1.press())

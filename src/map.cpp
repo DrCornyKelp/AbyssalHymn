@@ -405,7 +405,7 @@ void Map::loadCheckpoint(WorldLocation location)
         player->setStatic();
         player->setX(location.sX*64 + 35);
         player->setY(location.sY*64 + 51);
-        player->camera.resetCamera();
+        player->camera.updateStatic();
         player->camera.focus_snap = location.snap;
     }
 }
