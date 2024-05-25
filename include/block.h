@@ -36,6 +36,7 @@ public:
     // Sprite handler
     SDLTexture2D textures;
     SDLRect2D rects;
+    bool2D noRenders;
     int2D indexs;
     string1D paths;
 
@@ -80,13 +81,12 @@ public:
 
     BlockGrid getGrid();
 
-    // 0: off, 1: on, everthing else: toggle on/off
-    //                            (like a light switch)
     void setHighlight(short hl = 2);
     void setBlockIndexs(int2D newIndex);
 
-    void blockSeethrough(Map *map, bool yes = 0);
+    void blockSeethrough(Player *player, bool yes = 0);
     void blockCollision(Map *map, Player *player, PlayerState &pState);
+    void drawProp(Player *player);
     void draw(Player *player);
 
     // ============================ BLOCK MANIPULATION =============================

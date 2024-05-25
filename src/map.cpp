@@ -311,7 +311,7 @@ void Map::updateMapGlobal()
         seethru = seethru && MapActive;
 
         for (Block *block : blockSection)
-            block->blockSeethrough(this, seethru);
+            block->blockSeethrough(MapMulti->MAIN, seethru);
     }
 
     // ====================== UPDATE EXCLUSIVE =========================
@@ -386,6 +386,10 @@ void Map::updateMapActive()
         (E.X: Block need collision logic) so drawProp() will be included
         inside of those function instead of explicitly called down here
     */
+    for (Block *block : BlockMainVec)
+        block->drawProp(MapMulti->MAIN);
+    for (Block *block : BlockBackVec)
+        block->drawProp(MapMulti->MAIN);
     for (Decoration *background : DecorBackVec)
         background->drawProp(MapMulti->MAIN);
     for (Decoration *background : DecorFrontVec)

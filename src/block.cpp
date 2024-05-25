@@ -63,10 +63,16 @@ void Block::blockEngine(string1D sPath, int2D bIndex)
 
     // Init Texture and Rect
     rects.resize(getGridHeight(1));
+    noRenders.resize(getGridHeight(1));
     textures.resize(getGridHeight(1));
+
     for (int i = 0; i < getGridHeight(1); i++)
-            for (int j = 0; j < getGridWidth(1); j++)
-                textures[i].push_back(NULL);
+    for (int j = 0; j < getGridWidth(1); j++)
+    {
+        textures[i].push_back(NULL);
+        rects[i].push_back({0, 0, 0, 0});
+        noRenders[i].push_back(0);
+    }
 
     refreshTexture();
 }
@@ -82,10 +88,12 @@ BlockGrid Block::getGrid()
 void Block::setHighlight(short hl)
 { highlight = (!hl) ? false : (hl == 1) ? true : (!highlight); }
 
-void Block::blockSeethrough(Map *map, bool yes)
+void Block::blockSeethrough(Player *player, bool yes)
 {
     if (seeAlpha > 0 && yes) seeAlpha -= 5;
     else if (seeAlpha < 255) seeAlpha += 5;
+
+    drawProp(player);
 }
 
 void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
@@ -279,35 +287,41 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
     }
 }
 
-void Block::draw(Player *player)
+// Draw Block
+
+void Block::drawProp(Player *player)
 {
     int drawX = Camera::objectDrawX(player, this);
     int drawY = Camera::objectDrawY(player, this);
-
-    if (Camera::outOfCam(player, this)) goto highlight;
 
     // Draw
     for (int i = 0; i < textures.size(); i++)
     for (int j = 0; j < textures[i].size(); j++)
     {
-        SDL_Rect desRect = {drawX + j*grid, drawY + i*grid, grid, grid};
+        rects[i][j] = {drawX + j*grid, drawY + i*grid, grid, grid};
 
-        // Empty block or outside => No render
-        if (indexs[i][j] == -1 ||
-            Camera::outOfBound(desRect))
-            continue;
+        noRenders[i][j] =
+            (indexs[i][j] == -1) ||
+            Camera::outOfBound(rects[i][j]);
 
         if (type == -1)
             SDL_SetTextureAlphaMod(textures[i][j], seeAlpha);
-
-        SDL_RenderCopy(CFG->RENDERER, textures[i][j], NULL, &desRect);        
     }
+}
 
-    highlight:
+void Block::draw(Player *player)
+{
+    for (int i = 0; i < textures.size(); i++)
+    for (int j = 0; j < textures[i].size(); j++)
+        if (!noRenders[i][j]) SDL_RenderCopy(
+            CFG->RENDERER, textures[i][j], NULL, &rects[i][j]
+        );
 
     // Highlighter
     if (highlight)
     {
+        int drawX = Camera::objectDrawX(player, this);
+        int drawY = Camera::objectDrawY(player, this);
         SDL_SetRenderDrawColor(CFG->RENDERER, 0, 255, 0, 150);
         SDL_Rect highlightRect = {drawX, drawY, getWidth(), getHeight()};
         SDL_RenderCopy(CFG->RENDERER, highlight_texture, NULL, &highlightRect);
