@@ -29,8 +29,8 @@ void Slime::draw(Player *player)
     // Draw
     SDL_Rect desRect = {Camera::objectDrawX(player, this),
                         Camera::objectDrawY(player, this),
-                        getWidth(), getHeight()};
-    SDL_Rect srcRect = {getSprIndex() * 80, color, 80, 72};
+                        hitbox.w, hitbox.h};
+    SDL_Rect srcRect = {sprite.si * 80, color, 80, 72};
 
     if (!getInvinTime()) 
         SDL_SetTextureAlphaMod(slimeTexture, 255);
@@ -42,9 +42,9 @@ void Slime::enemyAI(Map *map)
     if (getHp() <= 0 && !getDead())
     {
         setDead(true);
-        setSprIndex(0);
-        setSprFrameMax(5);
-        setSprIndexMax(13);
+        sprite.si = 0;
+        sprite.sfm = 5;
+        sprite.sim = 13;
     };
 
     // The current Texture
@@ -55,9 +55,9 @@ void Slime::enemyAI(Map *map)
 
     if (getDead()) return;
 
-    if (getX() > limRight * 64) direction = -1;
-    if (getX() < limLeft * 64) direction = 1;
-    setX(getX() + direction);
+    if (hitbox.x > limRight * 64) direction = -1;
+    if (hitbox.x < limLeft * 64) direction = 1;
+    hitbox.x += direction;
 
     if (getInvinTime())
     {

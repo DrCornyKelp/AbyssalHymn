@@ -18,8 +18,8 @@ void BlockSyntax::Copy(string1D cmd, int &start, BlockSyntaxTemplate &b_syn_temp
     Block *cur_block =  front ? map->BlockMainVec[b_index] :
                         map->BlockBackVec[b_index];
 
-    b_syn_temp.newX = cur_block->getGridLX();
-    b_syn_temp.newY = cur_block->getGridBY();
+    b_syn_temp.newX = cur_block->hitbox.gridLX();
+    b_syn_temp.newY = cur_block->hitbox.gridBY();
     b_syn_temp.newIndex = cur_block->indexs;
     b_syn_temp.type = cur_block->type;
 
@@ -209,8 +209,8 @@ void BlockSyntax::GlobalShift(string1D cmd, int &start)
 
     for (Block *block : (front ? map->BlockMainVec : map->BlockBackVec))
     {
-        block->setX(block->getX() + shiftXY[0] * 64);
-        block->setY(block->getY() + shiftXY[1] * 64);
+        block->hitbox.x += shiftXY[0] * 64;
+        block->hitbox.y += shiftXY[1] * 64;
     }
 
     start += 2;
@@ -330,8 +330,8 @@ void Console::blockCommand(Map *map,string1D cmd)
     if (syntaxComp(cmd, 2, "insert"))
     {
         BlockSyntaxTemplate b_syn_temp = {
-            player->getGridX(),
-            player->getGridY(),
+            player->hitbox.gridX(),
+            player->hitbox.gridY(),
             0, {{0}}
         };
         int step = 3;
@@ -421,7 +421,7 @@ void Console::playerCommand(Map *map, string1D cmd)
     {
         int newMapIndex = std::stoi(cmd[2]);
         world->switchMap({
-            newMapIndex, player->getGridX(), player->getGridY()
+            newMapIndex, player->hitbox.gridX(), player->hitbox.gridY()
         });
     }
 

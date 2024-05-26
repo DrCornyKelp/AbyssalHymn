@@ -5,6 +5,7 @@
 
 #define AudioSFX1D std::vector<AudioSFX>
 
+class Map;
 struct AudioSFX {
     sf::SoundBuffer buffer;
     sf::Sound sound;
@@ -31,7 +32,6 @@ struct AudioPlaylist
     bool comparePlaylist(AudioPlaylist other);
 };
 
-class Map;
 class Audio
 {
 private:

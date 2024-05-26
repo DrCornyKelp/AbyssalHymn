@@ -297,7 +297,7 @@ void Map::updateMapGlobal()
     [](Enemy* enemy) {
         // The other condition is to ensure enemy play dead animation
         return enemy->getDead() &&
-        enemy->getSprIndex() >= enemy->getSprIndexMax() - 1;
+        enemy->sprite.si >= enemy->sprite.sim - 1;
     }), EnemyVec.end());
 
     // ====================== UPDATE SEETHOUGH BLOCK ===================
@@ -407,8 +407,8 @@ void Map::loadCheckpoint(WorldLocation location)
     for (Player *player : MapMulti->Players)
     {
         player->setStatic();
-        player->setX(location.sX*64 + 35);
-        player->setY(location.sY*64 + 51);
+        player->hitbox.x = location.sX*64 + 35;
+        player->hitbox.y = location.sY*64 + 51;
         player->camera.updateStatic();
         player->camera.focus_snap = location.snap;
     }

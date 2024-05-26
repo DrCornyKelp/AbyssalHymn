@@ -9,8 +9,7 @@ ParticleEffect::ParticleEffect(
     float X, float Y, int w, int h, // Box
     int sw, int sh, int sim, int sfm, // Sprite
     bool repeat) :
-    Object2D(X, Y, w, h, 0, 0,
-            sw, sh, sim, sfm, 0, 0),
+    Object2D({X, Y, w, h}, {sw, sh, sim, sfm}),
     pe_texture(peTxture),
     can_repeat(repeat)
 {}
@@ -20,11 +19,10 @@ ParticleEffect::ParticleEffect(
     float X, float Y, int w, int h, // Box
     int sw, int sh, int sim, int srm, int sfm, // Sprite
     bool repeat) :
-    Object2D(X, Y, w, h, 0, 0,
-            sw, sh, sim, sfm, 0, 0),
+    Object2D({X, Y, w, h}, {sw, sh, sim, sfm}),
     pe_texture(peTxture),
     can_repeat(repeat)
-{ setSprRowMax(srm); }
+{ sprite.srm = srm; }
 
 bool ParticleEffect::getIsGone() { return is_gone; }
 
@@ -36,12 +34,12 @@ void ParticleEffect::drawProp(Player *player)
     desRect = {
         Camera::objectDrawX(player, this),
         Camera::objectDrawY(player, this),
-        getWidth(), getHeight()
+        hitbox.w, hitbox.h
     };
     srcRect = {
-        getSprIndex() * getSprWidth(),
-        getSprRow() * getSprHeight(),
-        getSprWidth(), getSprHeight()
+        sprite.si * sprite.sw,
+        sprite.sr * sprite.sh,
+        sprite.sw, sprite.sh
     };
 }
 

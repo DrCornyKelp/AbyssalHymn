@@ -17,11 +17,45 @@ struct ObjectHitbox
 {
     float x = 0, y = 0;
     float w = 0, h = 0;
-    int hw = w, hh = h;
+    int hw = 0, hh = 0;
 
     ObjectHitbox hitboxGrid(int gr = 64);
     void grid(int gr = 64);
+
+    int gridX();
+    int gridY();
+    int gridLX();
+    int gridRX();
+    int gridBY();
+    int gridTY();
+
+    int gridW(bool getExtend = 0);
+    int gridH(bool getExtend = 0);
 };
+
+struct ObjectSprite
+{
+    // Standard Sprite
+    int sw = 0, sh = 0;
+    int sim = 0, sfm = 0;
+    // Sprite Row
+    int srm = 0, srr = 0;
+    // Runtime Value
+    int si = 0, sr = 0, sf = 0;
+};
+
+struct ObjectMovement
+{
+    float vel_x = 0, vel_y = 0;
+    float accel_x = 0, accel_y = 0;
+};
+
+struct ObjectVel
+{ float x = 0, y = 0; };
+
+struct ObjectAccel
+{ float x = 0, y = 0; };
+
 struct ObjectBox
 { 
     int up = -1, down = -1,
@@ -35,35 +69,21 @@ struct ObjectBox
     bool contain(int x, int y);
     ObjectHitbox hitbox();
 };
-struct ObjectCombatHit
+struct ObjectCombatBox
 { int up = 0, down = 0, left = 0, right = 0, dmg = 0; };
-struct ObjectSprite
-{
-    int sw = 0, sh = 0;
-    int sim = 0, sfm = 0;
-    int si = 0, sf = 0;
-};
-struct ObjectMovement
-{
-    float vel_x = 0, vel_y = 0;
-    float accel_x = 0, accel_y = 0;
-};
 
 class Object2D
 {
-private:
+public:
     int special_key = -1;
 
     // Size and position
-    float x = 0, y = 0;
-    int width = 0,
-        height = 0;
-    int hit_w = 0,
-        hit_h = 0;
-
+    ObjectHitbox hitbox;
+    // Sprite
+    ObjectSprite sprite;
     // Speed
-    float vel_x = 0, vel_y = 0;
-    float accel_x = 0, accel_y = 0;
+    ObjectVel vel;
+    ObjectAccel accel;
 
     // Combat (if possible)
     int combat_hit_up = 0;
@@ -72,118 +92,34 @@ private:
     int combat_hit_right = 0;
     int combat_damage = 0;
 
-    // Sprites handling
-    int sprite_index = 0,
-        sprite_index_max = 0;
-    int sprite_row = 0,
-        sprite_row_max = 0,
-        sprite_row_repeat = 0;
-    int sprite_frame = 0,
-        sprite_frame_max = 0;
-    int sprite_width = 0,
-        sprite_height = 0;
-
     // Ignore Object Existance
     bool ignore = 0;
 
     // Camera Dependencey
     bool cam_depend = true;
 
-public:
     ~Object2D(); // Default Destructor
     Object2D(); // Default Constructor
-    Object2D(ObjectHitbox box, ObjectSprite sprite = {}, ObjectMovement movement = {});
-    Object2D(float X, float Y, int w, int h);
-    Object2D(float X, float Y, int w, int h, int hw, int hh);
-    Object2D(float X, float Y, int w, int h, int hw, int hh,
-            int sw, int sh, int sim, int sfm, int si = 0, int sf = 0);
-
-    // Ignore Drawing
-    bool getIgnore();
-    void setIgnore(bool ignore);
-
-    // Camera Independent
-    bool getCamDepend();
-    void setCamDepend(bool depend);
-
-    // Position
-    void setX(float X);
-    void setY(float Y);
-    float getX();
-    float getY();
-    int getGridX();
-    int getGridY();
-    int getGridLX();
-    int getGridRX();
-    int getGridTY();
-    int getGridBY();
-
-    // Size / Hitbox
-    void setWidth(int w);
-    void setHeight(int h);
-    void setHitWidth(int hw);
-    void setHitHeight(int hh);
-    int getWidth();
-    int getHeight();
-    int getGridWidth(bool getExtend = 0);
-    int getGridHeight(bool getExtend = 0);
-    int getHitWidth();
-    int getHitHeight();
+    Object2D(ObjectHitbox box, ObjectSprite spr = {}, ObjectVel v = {}, ObjectAccel a = {});
 
     // Comabt hitbox
-    void setCombatHit(ObjectCombatHit c_hit);
+    void setCombatHit(ObjectCombatBox c_hit);
     void setCombatHitU(int hit);
     void setCombatHitD(int hit);
     void setCombatHitL(int hit);
     void setCombatHitR(int hit);
     void setCombatDamage(int dmg);
-    ObjectCombatHit getCombatHit();
+    ObjectCombatBox getCombatHit();
     int getCombatHitU();
     int getCombatHitD();
     int getCombatHitL();
     int getCombatHitR();
     int getCombatDamage();
 
-    // Speed / Accelaration
-
-    // Simple movement, no extra logic
-    void setVelX(float velX);
-    void setVelY(float velY);
-    void setAccelX(float accX);
-    void setAccelY(float accY);
-    float getVelX();
-    float getVelY();
-    float getAccelX();
-    float getAccelY();
-
-    // Drawing
-    void setSprWidth(int sw);
-    void setSprHeight(int sh);
-    void setSprIndex(int si);
-    void setSprIndexMax(int sim);
-    void setSprRow(int sr);
-    void setSprRowMax(int srm);
-    void setSprRowRepeat(int srr);
-    void setSprFrame(int sf);
-    void setSprFrameMax(int sfm);
-    int getSprWidth();
-    int getSprHeight();
-    int getSprIndex();
-    int getSprIndexMax();
-    int getSprRow();
-    int getSprRowMax();
-    int getSprRowRepeat();
-    int getSprFrame();
-    int getSprFrameMax();
-
     // Box
     bool insideBox(ObjectBox box);
     bool insideGridBox(ObjectBox gridbox);
     ObjectBox getBox();
-
-    // Special Key for customizable value
-    void setSpecialKey(int key);
-    int getSpecialKey();
 
     // =================== VERY HELPFUL METHOD ======================
 

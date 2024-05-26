@@ -276,7 +276,7 @@ public:
     PlayerCombat combat = {this};
 
     // ============== CAMERA/DRAW ================
-    PlayerSprite sprite = {this};
+    PlayerSprite psprite = {this};
     PlayerCamera camera = {this};
 
     // Constructor

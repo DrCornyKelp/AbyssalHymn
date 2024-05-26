@@ -11,21 +11,17 @@ Block::~Block()
 Block::Block() : isValid(0) {}
 // Pull This Shit Out From The CSV Lmao
 Block::Block(float1D main_val) :
-    Object2D((main_val[1] + main_val[3]/2) * 64,
-             (main_val[2] + main_val[4]/2) * 64,
-             main_val[3] * 64, main_val[4] * 64,
-             main_val[3] * 64, main_val[4] * 64),
+    Object2D({
+        (main_val[1] + main_val[3]/2) * 64,
+        (main_val[2] + main_val[4]/2) * 64,
+        (main_val[3] * 64), (main_val[4]) * 64,
+        int(main_val[3] * 64), int(main_val[4]) * 64
+    }),
     type(main_val[0])
-{}
-// Simple Block
-Block::Block(float X, float Y, float w, float h, short t, short gr) :
-    Object2D((X + w/2) * gr, (Y + h/2) * gr,
-            w * gr, h * gr, w * gr, h * gr),
-    type(t), grid(gr)
 {}
 // Simple Block (but with predefined index)
 Block::Block(float X, float Y, short t, int2D b_index) :
-    Object2D(X * 64, Y * 64, 0, 0), // PLACEHOLDER VALUE
+    Object2D({X * 64, Y * 64}), // PLACEHOLDER VALUE
     indexs(b_index), type(t)
 {}
 
@@ -38,36 +34,36 @@ void Block::blockEngine(string1D sPath, int2D bIndex)
 
     // Type 6 block (Texturing and Decoration)
     // can be render outside of camera border
-    setCamDepend(type != 6);
+    cam_depend = type != 6;
 
     paths = sPath;
     // Already Predefined Block Index
     if (indexs.size())
     {
-        setWidth(indexs[0].size() * grid);
-        setHeight(indexs.size() * grid);
-        setX((getX() + getWidth() / 2));
-        setY((getY() + getHeight() / 2));
+        hitbox.w = indexs[0].size() * grid;
+        hitbox.h = indexs.size() * grid;
+        hitbox.x += hitbox.w / 2;
+        hitbox.y += hitbox.h / 2;
     }
     else
     {
-        indexs.resize(getGridHeight(1));
+        indexs.resize(hitbox.gridH());
 
-        for (int i = 0; i < getGridHeight(1); i++)
-        for (int j = 0; j < getGridWidth(1); j++)
+        for (int i = 0; i < hitbox.gridH(); i++)
+        for (int j = 0; j < hitbox.gridW(); j++)
             indexs[i].push_back(bIndex[i][j]);
     }
 
-    setHitWidth(getWidth());
-    setHitHeight(getHeight());
+    hitbox.hw = hitbox.w;
+    hitbox.hh = hitbox.h;
 
     // Init Texture and Rect
-    rects.resize(getGridHeight(1));
-    noRenders.resize(getGridHeight(1));
-    textures.resize(getGridHeight(1));
+    rects.resize(hitbox.gridH());
+    noRenders.resize(hitbox.gridH());
+    textures.resize(hitbox.gridH());
 
-    for (int i = 0; i < getGridHeight(1); i++)
-    for (int j = 0; j < getGridWidth(1); j++)
+    for (int i = 0; i < hitbox.gridH(); i++)
+    for (int j = 0; j < hitbox.gridW(); j++)
     {
         textures[i].push_back(NULL);
         rects[i].push_back({0, 0, 0, 0});
@@ -80,7 +76,8 @@ void Block::blockEngine(string1D sPath, int2D bIndex)
 BlockGrid Block::getGrid()
 {
     return {
-        getGridLX(), getGridBY(),
+        hitbox.gridLX(),
+        hitbox.gridBY(),
         int(indexs[0].size()),
         int(indexs.size()),
         indexs 
@@ -103,23 +100,23 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
     if (objectIgnore(player, this)) return;
 
     // Player Value
-    int px = player->getX();
-    int py = player->getY();
-    int p_vel_y = player->getVelY();
+    int px = player->hitbox.x;
+    int py = player->hitbox.y;
+    int p_vel_y = player->vel.y;
     int p_hit_x = player->move.hitX();
     int p_hit_y = player->move.hitY();
-    int p_hit_w = player->getHitWidth();
-    int p_hit_h = player->getHitHeight();
+    int p_hit_w = player->hitbox.hw;
+    int p_hit_h = player->hitbox.hh;
 
     // Collision Value
-    int colli_x = abs(p_hit_x - getX());
-    int colli_y = abs(p_hit_y - getY());
-    int colli_y_stand = abs(py - getY());
+    int colli_x = abs(p_hit_x - hitbox.x);
+    int colli_y = abs(p_hit_y - hitbox.y);
+    int colli_y_stand = abs(py - hitbox.y);
 
-    int hit_dist_x = (p_hit_w + getWidth()) / 2;
-    int hit_dist_y = (p_hit_h + getHeight()) / 2;
-    int hit_dist_x_crawl = (78 + getWidth()) / 2;
-    int hit_dist_y_stand = (80 + getHeight()) / 2;
+    int hit_dist_x = (p_hit_w + hitbox.w) / 2;
+    int hit_dist_y = (p_hit_h + hitbox.h) / 2;
+    int hit_dist_x_crawl = (78 + hitbox.w) / 2;
+    int hit_dist_y_stand = (80 + hitbox.h) / 2;
 
     state.hugged = false;
     state.stepOn = false;
@@ -127,18 +124,16 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
     // Bridge block has different hitbox detection
     if (type == 3 && !pState.on_ground &&
         p_vel_y <= 0 &&
-        p_hit_y > getY() + hit_dist_y + p_vel_y - 2 &&
+        p_hit_y > hitbox.y + hit_dist_y + p_vel_y - 2 &&
         colli_y < hit_dist_y &&
-        (p_hit_x < getX() + hit_dist_x) &&
-        (p_hit_x > getX() - hit_dist_x))
+        (p_hit_x < hitbox.x + hit_dist_x) &&
+        (p_hit_x > hitbox.x - hit_dist_x))
     {
-        if (getVelX())
-            player->setX(player->getX() + getVelX());
-        if (getVelY())
-            player->setY(player->getY() + getVelY());
+        if (vel.x) player->hitbox.x += vel.x;
+        if (vel.y) player->hitbox.y += vel.y;
 
         if (!player->move.crawl && !player->g_dash.frame)
-            player->setY(getY() + (getHeight() + p_hit_h) / 2 - 1);
+            player->hitbox.y = hitbox.y + (hitbox.h + p_hit_h) / 2 - 1;
 
         state.stepOn = 1;
 
@@ -150,18 +145,18 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
     if (type != 0 && type != 1) return;
 
     // Ceiling min
-    if (colli_x < hit_dist_x - 10 && py < getY())
+    if (colli_x < hit_dist_x - 10 && py < hitbox.y)
     {
         player->jump.ceiling_min = std::min(
                 player->jump.ceiling_min,
-                int(getY() - py - hit_dist_y)
+                int(hitbox.y - py - hit_dist_y)
         );
     }
 
     // Hit Left wall
-    if (p_hit_x < getX() && colli_x < hit_dist_x &&
-        p_hit_y < getY() + hit_dist_y - 10 &&
-        p_hit_y > getY() - hit_dist_y + 10)
+    if (p_hit_x < hitbox.x && colli_x < hit_dist_x &&
+        p_hit_y < hitbox.y + hit_dist_y - 10 &&
+        p_hit_y > hitbox.y - hit_dist_y + 10)
     {
         if (player->moveset.hug_wall &&
             !player->state.on_ground &&
@@ -170,13 +165,14 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
         {
             pState.hug_wall = -1;
 
-            player->setVelX(0);
-            player->setX(getX() - hit_dist_x + 3);
+            player->vel.x = 0;
+            player->hitbox.x = hitbox.x - hit_dist_x + 3;
             state.hugged = -1;
         }
         else
         {
-            player->setX(getX() - 3 -
+            
+            player->hitbox.x = (hitbox.x - 3 -
                 (player->move.crawl ? hit_dist_x_crawl : hit_dist_x)
             );
             if (player->a_dash.frame || player->g_dash.frame)
@@ -184,12 +180,12 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
                 map->appendParticle(new ParticleEffect(
                     CFG->loadTexture(
                         "assets/ParticleSheet/NakuEffect/WallBangRight.png"),
-                    player->getX(), player->getY(), 128, 128,
+                    player->hitbox.x, player->hitbox.y, 128, 128,
                     64, 64, 8, 4, 0
                 ));
 
                 if (player->g_dash.frame)
-                    player->sprite.right = 0;
+                    player->psprite.right = 0;
                 if (player->a_dash.frame)
                     player->a_dash.frame = 0;
             }
@@ -199,9 +195,9 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
     }
 
     // Hit Right wall
-    if (p_hit_x > getX() && colli_x < hit_dist_x &&
-        p_hit_y < getY() + hit_dist_y - 10 &&
-        p_hit_y > getY() - hit_dist_y + 10)
+    if (p_hit_x > hitbox.x && colli_x < hit_dist_x &&
+        p_hit_y < hitbox.y + hit_dist_y - 10 &&
+        p_hit_y > hitbox.y - hit_dist_y + 10)
     {
         if (player->moveset.hug_wall &&
             !player->state.on_ground &&
@@ -210,13 +206,13 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
         {
             pState.hug_wall = 1;
 
-            player->setVelX(0);
-            player->setX(getX() + hit_dist_x - 3);
+            player->vel.x = 0;
+            player->hitbox.x = hitbox.x + hit_dist_x - 3;
             state.hugged = 1;
         }
         else
         {
-            player->setX(getX() + 3 +
+            player->hitbox.x = (hitbox.x + 3 +
                 (player->move.crawl ? hit_dist_x_crawl : hit_dist_x)
             );
             if (player->a_dash.frame || player->g_dash.frame)
@@ -224,12 +220,12 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
                 map->appendParticle(new ParticleEffect(
                     CFG->loadTexture(
                         "assets/ParticleSheet/NakuEffect/WallBangLeft.png"),
-                    player->getX(), player->getY(), 128, 128,
+                    player->hitbox.x, player->hitbox.y, 128, 128,
                     64, 64, 8, 4, 0
                 ));
 
                 if (player->g_dash.frame)
-                    player->sprite.right = 1;
+                    player->psprite.right = 1;
                 if (player->a_dash.frame)
                     player->a_dash.frame = 0;
             }
@@ -239,46 +235,44 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
     }
 
     // Ceiling logic
-    if ((p_hit_x < getX() + hit_dist_x) &&
-        (p_hit_x > getX() - hit_dist_x))
+    if ((p_hit_x < hitbox.x + hit_dist_x) &&
+        (p_hit_x > hitbox.x - hit_dist_x))
     {
         if (p_vel_y > 0 &&
-            p_hit_y < getY() + p_vel_y + 4 &&
+            p_hit_y < hitbox.y + p_vel_y + 4 &&
             colli_y < hit_dist_y)
         {
             map->appendParticle(new ParticleEffect(
                 CFG->loadTexture(
                     "assets/ParticleSheet/NakuEffect/WallBangDown.png"),
-                player->getX(), player->getY(), 70, 70,
+                player->hitbox.x, player->hitbox.y, 70, 70,
                 64, 64, 8, 4, 0
             ));
 
             player->jump.knockout = 50;
-            player->setY(getY() - getHeight() / 2 - 40 - p_vel_y);
-            player->setVelY(-p_vel_y * .1);
+            player->hitbox.y = hitbox.y - hitbox.h / 2 - 40 - p_vel_y;
+            player->vel.y = -p_vel_y * .1;
             return;
         }
 
         if (player->state.on_ground &&
-            player->getY() < getY() &&
+            player->hitbox.y < hitbox.y &&
             colli_y_stand < hit_dist_y_stand)
             pState.crawl_lock = 1;
     }
 
     // Stand on block
     if (!pState.on_ground &&
-        p_hit_y > getY() &&
+        p_hit_y > hitbox.y &&
         colli_y < hit_dist_y &&
-        (p_hit_x < getX() + hit_dist_x) &&
-        (p_hit_x > getX() - hit_dist_x))
+        (p_hit_x < hitbox.x + hit_dist_x) &&
+        (p_hit_x > hitbox.x - hit_dist_x))
     {
-        if (getVelX())
-            player->setX(player->getX() + getVelX());
-        if (getVelY())
-            player->setY(player->getY() + getVelY());
+        if (vel.x) player->hitbox.x += vel.x;
+        if (vel.y) player->hitbox.y += vel.y;
 
         if (!player->move.crawl && !player->g_dash.frame)
-            player->setY(getY() + (getHeight() + p_hit_h) / 2 - 1);
+            player->hitbox.y = hitbox.y + (hitbox.h + p_hit_h) / 2 - 1;
 
         state.stepOn = 1;
 
@@ -325,7 +319,7 @@ void Block::drawHighlight(Player *player)
     int drawX = Camera::objectDrawX(player, this);
     int drawY = Camera::objectDrawY(player, this);
     SDL_SetRenderDrawColor(CFG->RENDERER, 0, 255, 0, 150);
-    SDL_Rect highlightRect = {drawX, drawY, getWidth(), getHeight()};
+    SDL_Rect highlightRect = {drawX, drawY, int(hitbox.w), int(hitbox.h)};
     SDL_RenderCopy(CFG->RENDERER, highlight_texture, NULL, &highlightRect);
 }
 
@@ -341,10 +335,10 @@ void Block::refreshTexture(string1D sPath)
 {
     string1D bPath = sPath.size() ? sPath : paths;
 
-    rects.resize(getGridHeight(1));
-    textures.resize(getGridHeight(1));
-    for (int i = 0; i < getGridHeight(1); i++)
-    for (int j = 0; j < getGridWidth(1); j++)
+    rects.resize(hitbox.gridH());
+    textures.resize(hitbox.gridH());
+    for (int i = 0; i < hitbox.gridH(); i++)
+    for (int j = 0; j < hitbox.gridW(); j++)
     { 
         if (indexs[i][j] >= bPath.size() ||
             indexs[i][j] < 0)
@@ -375,8 +369,8 @@ void Block::overlap(int2D overlap, int offX, int offY)
 
     // Cant overlap shit if the overlaper is too big
     // (like a blonde with a black coc... nvm)
-    if (olapWidth > getGridWidth() || 
-        olapWidth > getGridHeight()) return;
+    if (olapWidth > hitbox.gridW() || 
+        olapWidth > hitbox.gridH()) return;
 
     for (int r = 0; r < olapHeight; r++)
         for (int c = 0; c < olapWidth; c++)

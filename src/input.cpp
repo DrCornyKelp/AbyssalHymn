@@ -120,12 +120,12 @@ int MouseMain::offPlayerY(Player *player)
 { return - ( player->camera.offset.y + offMidY() ); }
 int MouseMain::mapX(Player *player, short grid)
 {
-    int mx = player->getX() + offPlayerX(player);
+    int mx = player->hitbox.x + offPlayerX(player);
     return mx / grid;
 }
 int MouseMain::mapY(Player *player, short grid)
 {
-    int my = player->getY() + offPlayerY(player);
+    int my = player->hitbox.y + offPlayerY(player);
     return my / grid;
 }
 bool MouseMain::inbox(ObjectBox mbox)

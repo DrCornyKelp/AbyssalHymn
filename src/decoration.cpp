@@ -20,32 +20,7 @@ Decoration::Decoration( string0D dPath,
                         float scaleVelY, float velX, bool bg) :
     type(0), decor_path(dPath), w_h_ratio(whRatio),
     scale_vel_x(scaleVelX), scale_vel_y(scaleVelY)
-{ setVelX(velX); }
-
-// Static Decoration
-Decoration::Decoration(string0D dPath, float X, float Y, float w, float h) :
-    Object2D((X + w/2)*64, (Y + h/2)*64, w*64, h*64,
-            0, 0, w, h, 0, 0, 0, 0),
-    type(0), decor_path(dPath)
-{}
-
-// Standard Animated Decoration
-Decoration::Decoration(string0D dPath,
-                        float X, float Y, float w, float h,
-                        int sw, int sh, int sim, int sfm) :
-    Object2D((X + w/2)*64, (Y + h/2)*64, w*64, h*64,
-            0, 0, sw, sh, sim, sfm, 0, 0),
-    type(1), decor_path(dPath)
-{}
-
-// Advanced Animated Decoration
-Decoration::Decoration(string0D dPath, string0D fPath,
-                        float X, float Y, float w, float h,
-                        int sim, int sfm) :
-    Object2D((X + w/2)*64, (Y + h/2)*64, w*64, h*64,
-            0, 0, 0, 0, sim, sfm, 0, 0),
-    type(2), decor_path(dPath)
-{}
+{ vel.x = velX; }
 
 // Getter/setter
 float Decoration::getAddX() { return add_x; }
@@ -55,7 +30,7 @@ float Decoration::getSclVelY() { return scale_vel_y; }
 void Decoration::initDecoration()
 {
     if (type == 2)
-        decor_textures = CFG->loadTextures(decor_path, getSprIndexMax());
+        decor_textures = CFG->loadTextures(decor_path, sprite.sim);
     else
     {
         decor_texture = CFG->loadTexture(decor_path);
@@ -76,12 +51,12 @@ void Decoration::drawProp(Player *player)
     desRect = {
         Camera::objectDrawX(player, this),
         Camera::objectDrawY(player, this),
-        getWidth(), getHeight()
+        int(hitbox.w), int(hitbox.h)
     };
 
     srcRect = {
-        getSprIndex() * getSprWidth(), 0,
-        getSprWidth(), getSprHeight()
+        sprite.si * sprite.sw, 0,
+        sprite.sw, sprite.sh
     };
 }
 
@@ -102,7 +77,7 @@ void Decoration::draw(Player *player)
             break;
 
         case 2:
-            SDL_RenderCopy(CFG->RENDERER, decor_textures[getSprIndex()], NULL, &desRect);
+            SDL_RenderCopy(CFG->RENDERER, decor_textures[sprite.si], NULL, &desRect);
             break;
     }
 }
@@ -112,54 +87,54 @@ void Decoration::updateBackground(Player *player, bool left_prlx)
     // Resize
     if (CFG->WIDTH > CFG->HEIGHT * w_h_ratio)
     {
-        setWidth(CFG->WIDTH);
-        setHeight(CFG->WIDTH / w_h_ratio);
+        hitbox.w = CFG->WIDTH;
+        hitbox.h = CFG->WIDTH / w_h_ratio;
     }
     else
     {
-        setWidth(CFG->HEIGHT * w_h_ratio);
-        setHeight(CFG->HEIGHT);
+        hitbox.w = CFG->HEIGHT * w_h_ratio;
+        hitbox.h = CFG->HEIGHT;
     }
 
-    int bg_shift = left_prlx ? getWidth()/2 : getWidth()*3/2;
+    int bg_shift = left_prlx ? hitbox.w/2 : hitbox.w*3/2;
 
     // ==================== Parallax X ====================
     // Automatic scroll
-    if (getVelX())
+    if (vel.x)
     {
-        add_x += getVelX();
-        if (add_x > getWidth()) add_x = 0;
-        if (add_x < 0) add_x = getWidth();
-        setX(bg_shift - getAddX());
+        add_x += vel.x;
+        if (add_x > hitbox.w) add_x = 0;
+        if (add_x < 0) add_x = hitbox.w;
+        hitbox.x = bg_shift - add_x;
     }
     // Parallax stop (player unfocus)
     else if (player->camera.unfocus.x)
-        setX(bg_shift - int(
+        hitbox.x = (bg_shift - int(
             player->camera.unfocus_offset.x * scale_vel_x
-        ) % getWidth());
+        ) % int(hitbox.w));
     // Parallax moving (player focus)
     else
-        setX(bg_shift - int(
-            (player->getX() - player->camera.offset.x) * scale_vel_x
-        ) % getWidth());
+        hitbox.x = (bg_shift - int(
+            (player->hitbox.x - player->camera.offset.x) * scale_vel_x
+        ) % int(hitbox.w));
 
     // ==================== Parallax Y ====================
     // Parallax stop (player unfocus)
     if (player->camera.unfocus.y)
-        setY(CFG->HEIGHT/2 + int(
+        hitbox.y = (CFG->HEIGHT/2 + int(
             player->camera.unfocus_offset.y * scale_vel_y
         ));
     // Parallax moving (player focus)
     else
-        setY(CFG->HEIGHT/2 + int(
-            (player->getY() - player->camera.offset.y) * scale_vel_y
+        hitbox.y = (CFG->HEIGHT/2 + int(
+            (player->hitbox.y - player->camera.offset.y) * scale_vel_y
         ));
 
     // Update Rect
     desRect = {
-        int(getX() - getWidth() / 2),
-        int(getY() - getHeight() / 2),
-        getWidth(), getHeight()
+        int(hitbox.x - hitbox.w / 2),
+        int(hitbox.y - hitbox.h / 2),
+        int(hitbox.w), int(hitbox.h)
     };
 }
 

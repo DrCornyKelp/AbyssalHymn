@@ -14,15 +14,15 @@ Projectile::Projectile( string0D pPath,
                         float X, float Y, int hw, int hh, int sw, int sh,
                         float velX, float velY, float accelX, float accelY,
                         int dmg, int age, short harm) :
-    Object2D(X, Y, sw, sh, hw, hh),
+    Object2D({X, Y, sw, sh, hw, hh}),
     // Bullet properties
     bullet_age(age), bullet_damage(dmg), proj_path(pPath),
     // Harm who?
     harm_player(harm != -1), harm_enemy(harm != 1)
 {
     proj_texture = CFG->loadTexture(proj_path);
-    setVelX(velX); setVelY(velY);
-    setAccelX(accelX); setAccelY(accelY);
+    vel.x = velX; vel.y = velY;
+    accel.x = accelX; accel.y = accelY;
 }
 
 Projectile::Projectile( string0D pPath,
@@ -30,7 +30,7 @@ Projectile::Projectile( string0D pPath,
                         float velX, float velY, float accelX, float accelY,
                         int dmg, int age, short harm,
                         bool parry, bool pierece, bool thruWall) :
-    Object2D(X, Y, sw, sh, hw, hh),
+    Object2D({X, Y, sw, sh, hw, hh}),
     // Bullet properties
     bullet_age(age), bullet_damage(dmg), proj_path(pPath),
     // Harm who?
@@ -39,8 +39,8 @@ Projectile::Projectile( string0D pPath,
     can_parry(parry), can_pierce(pierece), can_wall(thruWall)
 {
     proj_texture = CFG->loadTexture(proj_path);
-    setVelX(velX); setVelY(velY);
-    setAccelX(accelX); setAccelY(accelY);
+    vel.x = velX; vel.y = velY;
+    accel.x = accelX; accel.y = accelY;
 }
 
 Projectile::Projectile( string0D pPath,
@@ -49,7 +49,7 @@ Projectile::Projectile( string0D pPath,
                         int dmg, int age, short harm,
                         bool parry, bool pierece, bool thruWall,
                         int sim, int sfm) :
-    Object2D(X, Y, sw, sh, hw, hh, sw, sh, sim, sfm, 0, 0),
+    Object2D({X, Y, sw, sh, hw, hh}, {sw, sh, sim, sfm}),
     // Im old
     bullet_age(age), bullet_damage(dmg), proj_path(pPath),
     // Harm who?
@@ -58,8 +58,8 @@ Projectile::Projectile( string0D pPath,
     can_parry(parry), can_pierce(pierece), can_wall(thruWall)
 {
     proj_texture = CFG->loadTexture(proj_path);
-    setVelX(velX); setVelY(velY);
-    setAccelX(accelX); setAccelY(accelY);
+    vel.x = velX; vel.y = velY;
+    accel.x = accelX; accel.y = accelY;
 }
 
 void Projectile::playerCollision(Map *map, Player *player)
@@ -85,12 +85,14 @@ void Projectile::playerCollision(Map *map, Player *player)
         harm_player = true;
         harm_enemy = true;
 
-        vel_parry_x = player->sprite.right ? 10 : -10;
-        vel_parry_y = player->getVelY() + generateRandomFloat() * player->combat.parry_error;
+        vel_parry_x = player->psprite.right ? 10 : -10;
+        vel_parry_y = player->vel.y + generateRandomFloat() * player->combat.parry_error;
 
         // Bullet Stop Motion
-        setVelX(0); setVelY(0);
-        setAccelX(0); setAccelY(0);
+        vel.x = 0;
+        vel.y = 0;
+        accel.x = 0;
+        accel.y = 0;
 
         // Other stuff
         player->combat.delay = 100;
@@ -103,13 +105,13 @@ void Projectile::blockCollision(Block *block)
     // Transparent/Go Through block
     if (block->type == 2 || block->type == -1) return;
 
-    int hit_dist_y = (getHitHeight() + block->getHeight()) / 2;
+    int hit_dist_y = (hitbox.h + block->hitbox.h) / 2;
 
     if (Collision::objectCollision(this, block) &&
         // Different logic for bridge block
         (!block->type == 3 || (
-            getVelY() <= 0 &&
-            getY() > block->getY() + hit_dist_y + getVelY() - 2
+            vel.y <= 0 &&
+            hitbox.y > block->hitbox.y + hit_dist_y + vel.y - 2
         )))
     {
         bullet_dead = true;
@@ -123,10 +125,10 @@ void Projectile::enemyCollision(Map *map)
 
     for (Enemy *enemy : map->EnemyVec)
     {
-        int colli_x = abs(getX() - enemy->getX());
-        int colli_y = abs(getY() - enemy->getY());
-        int hit_dist_x = (getHitWidth() + enemy->getHitWidth()) / 2;
-        int hit_dist_y = (getHitHeight() + enemy->getHitHeight()) / 2;
+        int colli_x = abs(hitbox.x - enemy->hitbox.x);
+        int colli_y = abs(hitbox.y - enemy->hitbox.y);
+        int hit_dist_x = (hitbox.w + enemy->hitbox.w) / 2;
+        int hit_dist_y = (hitbox.h + enemy->hitbox.h) / 2;
 
         if (colli_x < hit_dist_x && colli_y < hit_dist_y)
         {
@@ -173,13 +175,13 @@ void Projectile::projectileAction(Map *map)
                 CFG->loadTexture(
                     "assets/ParticleSheet/BulletParry.png"
                 ),
-                getX(), getY(), 150, 150,
+                hitbox.x, hitbox.y, 150, 150,
                 64, 64, 7, 3, 0
             ), 1);
 
-            setSprFrameMax(getSprFrameMax() / 3);
-            setVelX(vel_parry_x);
-            setVelY(vel_parry_y);
+            sprite.sfm /= 3;
+            vel.x = vel_parry_x;
+            vel.y = vel_parry_y;
         }
     }
 }
@@ -194,13 +196,13 @@ void Projectile::updateProjectile(Map *map)
     desRect = {
         Camera::objectDrawX(map->MapMulti->MAIN, this),
         Camera::objectDrawY(map->MapMulti->MAIN, this),
-        getWidth(), getHeight()
+        hitbox.w, hitbox.h
     };
 
-    if (getSprIndexMax() > 0)
-        srcRect = {getSprIndex() * getWidth(), 0, getWidth(), getHeight()};
+    if (sprite.sim > 0)
+        srcRect = {sprite.si * hitbox.w, 0, hitbox.w, hitbox.h};
     else
-        srcRect = {0, 0, getWidth(), getHeight()};
+        srcRect = {0, 0, hitbox.w, hitbox.h};
 
     setSprite();
 
@@ -208,7 +210,7 @@ void Projectile::updateProjectile(Map *map)
     if (bullet_dead)
         map->appendParticle(new ParticleEffect(
             CFG->loadTexture("assets/ParticleSheet/Explode.png"),
-            getX(), getY(), 200, 200,
+            hitbox.x, hitbox.y, 200, 200,
             100, 100, 10, 7, 3, 0
         ), 1);
 }

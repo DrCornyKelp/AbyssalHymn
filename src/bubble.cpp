@@ -33,8 +33,8 @@ void BubbleObject::update(Bubble *bubble, Player *player)
 
 void BubbleObject::drawProp(Bubble *bubble, Player *player)
 {
-    int b_w = bubble->getWidth();
-    int b_h = bubble->getHeight();
+    int b_w = bubble->hitbox.w;
+    int b_h = bubble->hitbox.h;
 
     // Update Rect
     switch (bubble->type)
@@ -53,8 +53,8 @@ void BubbleObject::drawProp(Bubble *bubble, Player *player)
     }; break;
 
     case 2: desRect = {
-        int(bubble->getX() + style.curOffX),
-        int(bubble->getY() - style.curOffY),
+        int(bubble->hitbox.x + style.curOffX),
+        int(bubble->hitbox.y - style.curOffY),
         b_w, b_h
     }; break;
     }

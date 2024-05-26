@@ -22,7 +22,7 @@ struct MapTransit
 struct DoorObject
 {
     int style, left;
-    int X, Y;
+    float X, Y;
     WorldLocation location;
     int star;
 };
@@ -47,7 +47,7 @@ private:
 public:
     ~Door();
     Door(DoorObject door);
-    Door(int style, bool h_left, int X, int Y,
+    Door(int style, bool h_left, float X, float Y,
         int m_index, int spawnX, int spawnY,
         int star = 0);
     void initDoor();

@@ -330,10 +330,14 @@ $\Rightarrow$ Player can move between location using `Transition` (from Object2D
   - Apply the `hold/threshold/threspeak` paradigm from `key input` to `mouse input`
   - Added `wheel` value for scroll direction
 
-### [`24/5`] USER FRIENDLY INTERFACE
+### [`20/5`] USER FRIENDLY INTERFACE
 
 - Working opening `Intro` sequence
 - Complete `Menu` and `Pause` rework (still under development)
+
+### [`26/5`] AUDITORY ENHANCEMENT: SOUND EFFECTS
+
+- Added `SFX` to actions like walking, jumping, dashing, etc...
 
 ---
 

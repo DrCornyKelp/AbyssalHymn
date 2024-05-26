@@ -9,14 +9,14 @@ Door::~Door()
 
 // Read from file
 Door::Door(DoorObject door) :
-    Object2D(door.X*64 + 32, door.Y*64 + 64, 64, 128, 64, 128),
+    Object2D({door.X*64 + 32, door.Y*64 + 64, 64, 128, 64, 128}),
     style(door.style), handle_left(door.left),
     location(door.location), need_star(door.star)
 { initDoor(); }
 // Create from my ass
-Door::Door( int style, bool h_left, int X, int Y,
+Door::Door( int style, bool h_left, float X, float Y,
             int m_index, int spawnX, int spawnY, int star) :
-    Object2D(X*64 + 32, Y*64 + 64, 64, 128),
+    Object2D({X*64 + 32, Y*64 + 64, 64, 128}),
     location({m_index, spawnX, spawnY}), need_star(star)
 { initDoor(); }
 
@@ -42,8 +42,8 @@ void Door::update(Map *map, Player *player)
 {
     if (Collision::playerCollision(player, this) &&
         player->state.on_ground &&
-        player->getHitHeight() == 80 &&
-        abs(player->getVelX()) < .2 &&
+        player->hitbox.hh >= 80 &&
+        abs(player->vel.x) < .2 &&
         player->INPUT.moveU.press()
         // Star logic here
         )
@@ -91,7 +91,7 @@ Door *Door::codeToDoorInfo(string0D str)
     char cm = ',';
 
     int style; bool handle_left;
-    int X, Y;
+    float X, Y;
     int index, spawnX, spawnY;
     int star;
 

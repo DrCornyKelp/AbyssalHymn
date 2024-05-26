@@ -3,45 +3,45 @@
 // COMBAT COLLIDE
 bool Collision::combatCollision(Object2D *attacker, Object2D *receiver, int1D offset)
 {
-    int colli_x = abs(attacker->getX() - receiver->getX() + offset[0]);
-    int colli_y = abs(attacker->getY() - receiver->getY() + offset[1]);
+    int colli_x = abs(attacker->hitbox.x - receiver->hitbox.x + offset[0]);
+    int colli_y = abs(attacker->hitbox.y - receiver->hitbox.y + offset[1]);
 
-    return  (attacker->getX() < receiver->getX() ?
-                colli_x < attacker->getCombatHitR() + receiver->getHitWidth() / 2 :
-                colli_x < attacker->getCombatHitL() + receiver->getHitWidth() / 2) &&
-            (attacker->getY() < receiver->getY() ? 
-                colli_y < attacker->getCombatHitU() + receiver->getHitHeight() / 2 :
-                colli_y < attacker->getCombatHitD() + receiver->getHitHeight() / 2);
+    return  (attacker->hitbox.x < receiver->hitbox.x ?
+                colli_x < attacker->getCombatHitR() + receiver->hitbox.hw / 2 :
+                colli_x < attacker->getCombatHitL() + receiver->hitbox.hw / 2) &&
+            (attacker->hitbox.y < receiver->hitbox.y ? 
+                colli_y < attacker->getCombatHitU() + receiver->hitbox.hh / 2 :
+                colli_y < attacker->getCombatHitD() + receiver->hitbox.hh / 2);
 }
 bool Collision::playerCombatCollision(Player *player, Object2D *receiver, bool isReceiver)
 {
-    int colli_x = abs(player->move.hitX() - receiver->getX());
-    int colli_y = abs(player->move.hitY() - receiver->getY());
+    int colli_x = abs(player->move.hitX() - receiver->hitbox.x);
+    int colli_y = abs(player->move.hitY() - receiver->hitbox.y);
 
     return  isReceiver
             ?
-            ((player->move.hitX() > receiver->getX() ?
-                colli_x < receiver->getCombatHitR() + player->getHitWidth() / 2 :
-                colli_x < receiver->getCombatHitL() + player->getHitWidth() / 2) &&
-            (player->move.hitY() < receiver->getY() ? 
-                colli_y < receiver->getCombatHitU() + player->getHitHeight() / 2 :
-                colli_y < receiver->getCombatHitD() + player->getHitHeight() / 2))
+            ((player->move.hitX() > receiver->hitbox.x ?
+                colli_x < receiver->getCombatHitR() + player->hitbox.hw / 2 :
+                colli_x < receiver->getCombatHitL() + player->hitbox.hw / 2) &&
+            (player->move.hitY() < receiver->hitbox.y ? 
+                colli_y < receiver->getCombatHitU() + player->hitbox.hh / 2 :
+                colli_y < receiver->getCombatHitD() + player->hitbox.hh / 2))
             :
-            ((player->move.hitX() < receiver->getX() ?
-                colli_x < player->getCombatHitR() + receiver->getHitWidth() / 2 :
-                colli_x < player->getCombatHitL() + receiver->getHitWidth() / 2) &&
-            (player->move.hitY() < receiver->getY() ? 
-                colli_y < player->getCombatHitU() + receiver->getHitHeight() / 2 :
-                colli_y < player->getCombatHitD() + receiver->getHitHeight() / 2));
+            ((player->move.hitX() < receiver->hitbox.x ?
+                colli_x < player->getCombatHitR() + receiver->hitbox.hw / 2 :
+                colli_x < player->getCombatHitL() + receiver->hitbox.hw / 2) &&
+            (player->move.hitY() < receiver->hitbox.y ? 
+                colli_y < player->getCombatHitU() + receiver->hitbox.hh / 2 :
+                colli_y < player->getCombatHitD() + receiver->hitbox.hh / 2));
 }
 
 // PLAYER COLLIDE
 bool Collision::playerCollision(Player *player, Object2D *obj, int1D offset)
 {
-    int colli_x = abs(player->move.hitX() - obj->getX() + offset[0]);
-    int colli_y = abs(player->move.hitY() - obj->getY() + offset[1]);
-    int hit_dist_x = (player->getHitWidth() + obj->getHitWidth()) / 2;
-    int hit_dist_y = (player->getHitHeight() + obj->getHitHeight()) / 2;
+    int colli_x = abs(player->move.hitX() - obj->hitbox.x + offset[0]);
+    int colli_y = abs(player->move.hitY() - obj->hitbox.y + offset[1]);
+    int hit_dist_x = (player->hitbox.hw + obj->hitbox.hw) / 2;
+    int hit_dist_y = (player->hitbox.hh + obj->hitbox.hh) / 2;
 
     return colli_x < hit_dist_x && colli_y < hit_dist_y;
 };
@@ -49,10 +49,10 @@ bool Collision::playerCollision(Player *player, Object2D *obj, int1D offset)
 // OBJECT COLLIDE
 bool Collision::objectCollision(Object2D *obj1, Object2D *obj2, int1D offset)
 {
-    int colli_x = abs(obj1->getX() - obj2->getX()) + offset[0];
-    int colli_y = abs(obj1->getY() - obj2->getY()) + offset[1];
-    int hit_dist_x = (obj1->getHitWidth() + obj2->getHitWidth()) / 2;
-    int hit_dist_y = (obj1->getHitHeight() + obj2->getHitHeight()) / 2;
+    int colli_x = abs(obj1->hitbox.x - obj2->hitbox.x) + offset[0];
+    int colli_y = abs(obj1->hitbox.y - obj2->hitbox.y) + offset[1];
+    int hit_dist_x = (obj1->hitbox.hw + obj2->hitbox.hw) / 2;
+    int hit_dist_y = (obj1->hitbox.hh + obj2->hitbox.hh) / 2;
 
     return colli_x <= hit_dist_x && colli_y <= hit_dist_y;
 }
@@ -93,8 +93,8 @@ void Collision::playerEnemyCollision(Map *map, Player *player)
         if (enemy->getDead()) continue;
 
     // ================== TAKING DAMAGE =======================
-        int colli_x = abs(player->move.hitX() - enemy->getX());
-        int colli_y = abs(player->move.hitY() - enemy->getY());
+        int colli_x = abs(player->move.hitX() - enemy->hitbox.x);
+        int colli_y = abs(player->move.hitY() - enemy->hitbox.y);
 
         if (playerCollision(player, enemy))
         {
@@ -116,13 +116,13 @@ void Collision::playerEnemyCollision(Map *map, Player *player)
                 map->appendParticle(new ParticleEffect(
                     CFG->loadTexture(
                         "assets/ParticleSheet/NakuEffect/Attack.png"),
-                    enemy->getX(), enemy->getY(), 100, 100,
+                    enemy->hitbox.x, enemy->hitbox.y, 100, 100,
                     64, 64, 8, 4, 0
                 ));
 
                 // When dash get push back
                 if (player->a_dash.frame || player->g_dash.frame)
-                    player->setVelX(-player->getVelX());
+                    player->vel.x = -player->vel.x;
             }
         }
     }

@@ -4,7 +4,7 @@
 
 Enemy::Enemy(float X, float Y, int w, int h, int hw, int hh,
 			int sw, int sh, int sim, int sfm) :
-    Object2D(X, Y, w, h, hw, hh, sw, sh, sim, sfm, 0, 0)
+    Object2D({X, Y, w, h, hw, hh}, {sw, sh, sim, sfm})
 {}
 
 void Enemy::initEnemy() {}

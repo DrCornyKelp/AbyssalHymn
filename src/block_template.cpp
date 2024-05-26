@@ -14,9 +14,9 @@ int2D BlockTemplate::getColumn(int2D vec, int col_index)
 
 Block1D BlockTemplate::splitX(Block *block)
 {
-    int oldHeight = block->getGridHeight();
-    int oldGridX = block->getGridLX();
-    int oldGridY = block->getGridBY();
+    int oldHeight = block->hitbox.gridH();
+    int oldGridX = block->hitbox.gridLX();
+    int oldGridY = block->hitbox.gridBY();
     short oldType = block->type;
 
     Block1D block1d;
@@ -32,9 +32,9 @@ Block1D BlockTemplate::splitX(Block *block)
 }
 Block1D BlockTemplate::splitY(Block *block)
 {
-    int oldWidth = block->getGridWidth();
-    int oldGridX = block->getGridLX();
-    int oldGridY = block->getGridBY();
+    int oldWidth = block->hitbox.gridW();
+    int oldGridX = block->hitbox.gridLX();
+    int oldGridY = block->hitbox.gridBY();
     short oldType = block->type;
 
     Block1D block1d;
@@ -72,11 +72,11 @@ Block1D BlockTemplate::split(Block *block)
 bool BlockTemplate::compareX(Block *block1, Block *block2, bool descend)
 {
     // Block 1
-    int lx1 = block1->getGridLX();
-    int by1 = block1->getGridBY();
+    int lx1 = block1->hitbox.gridLX();
+    int by1 = block1->hitbox.gridBY();
     // Block 2
-    int lx2 = block2->getGridLX();
-    int by2 = block2->getGridBY();
+    int lx2 = block2->hitbox.gridLX();
+    int by2 = block2->hitbox.gridBY();
     // Blocks Prop (with priority)
     int pr1 = block1->type;
     int pr2 = block2->type;
@@ -96,11 +96,11 @@ bool BlockTemplate::compareX(Block *block1, Block *block2, bool descend)
 bool BlockTemplate::compareY(Block *block1, Block *block2, bool descend)
 {
     // Block 1
-    int lx1 = block1->getGridLX();
-    int by1 = block1->getGridBY();
+    int lx1 = block1->hitbox.gridLX();
+    int by1 = block1->hitbox.gridBY();
     // Block 2
-    int lx2 = block2->getGridLX();
-    int by2 = block2->getGridBY();
+    int lx2 = block2->hitbox.gridLX();
+    int by2 = block2->hitbox.gridBY();
     // Blocks Prop (with priority)
     int pr1 = block1->type;
     int pr2 = block2->type;
@@ -190,7 +190,7 @@ Block *BlockTemplate::mergeBlockX(Block *block1, Block *block2)
 
     BlockGrid gridLeft, gridRight;
 
-    if (block1->getGridLX() > block2->getGridLX())
+    if (block1->hitbox.gridLX() > block2->hitbox.gridLX())
     {
         gridRight = block1->getGrid();
         gridLeft = block2->getGrid();
@@ -221,7 +221,7 @@ Block *BlockTemplate::mergeBlockY(Block *block1, Block *block2)
 
     BlockGrid gridUp, gridDown;
 
-    if (block1->getGridBY() > block2->getGridBY())
+    if (block1->hitbox.gridBY() > block2->hitbox.gridBY())
     {
         gridUp = block1->getGrid();
         gridDown = block2->getGrid();
@@ -346,10 +346,10 @@ string0D BlockTemplate::blockToCode(Block *block)
 {
     string0D block_main =
         std::to_string(block->type) + "," +
-        std::to_string(block->getGridLX()) + "," +
-        std::to_string(block->getGridBY()) + "," +
-        std::to_string(block->getGridWidth()) + "," +
-        std::to_string(block->getGridHeight());
+        std::to_string(block->hitbox.gridLX()) + "," +
+        std::to_string(block->hitbox.gridBY()) + "," +
+        std::to_string(block->hitbox.gridW()) + "," +
+        std::to_string(block->hitbox.gridH());
 
     string0D block_engine = "";
     for (int1D r : block->indexs)

@@ -2,17 +2,17 @@
 
 // Destructor
 Player::~Player()
-{ sprite.clearTexture(); }
+{ psprite.clearTexture(); }
 // Constructor
 Player::Player(bool mc) : Object2D(), MAIN(mc)
 {
     // Nakuru normal mvoement
-    sprite.RightTexture = CFG->loadTexture("assets/NakuSheet/NakuRight.png");
-    sprite.LeftTexture = CFG->loadTexture("assets/NakuSheet/NakuLeft.png");
+    psprite.RightTexture = CFG->loadTexture("assets/NakuSheet/NakuRight.png");
+    psprite.LeftTexture = CFG->loadTexture("assets/NakuSheet/NakuLeft.png");
 
     // Nakuru holding weapon
-    sprite.RightWeaponTexture = CFG->loadTexture("assets/NakuSheet/NakuRightWeapon.png");
-    sprite.LeftWeaponTexture = CFG->loadTexture("assets/NakuSheet/NakuLeftWeapon.png");
+    psprite.RightWeaponTexture = CFG->loadTexture("assets/NakuSheet/NakuRightWeapon.png");
+    psprite.LeftWeaponTexture = CFG->loadTexture("assets/NakuSheet/NakuLeftWeapon.png");
 }
 
 // ============================ PLAYER MOVESET ============================
@@ -50,9 +50,9 @@ void PlayerState::resetState()
 // ============================ PLAYER MOVING ============================
 
 int PlayerMoving::hitX()
-{ return player->getX() + hit_offset_x; }
+{ return player->hitbox.x + hit_offset_x; }
 int PlayerMoving::hitY()
-{ return player->getY() + hit_offset_y; }
+{ return player->hitbox.y + hit_offset_y; }
 
 // ============================ PLAYER DRAW PROP ============================
 
@@ -73,8 +73,8 @@ void PlayerSprite::setAct(int idx, bool r)
 
 void PlayerSprite::setSprite(int m_index, int m_frame)
 {
-    player->setSprFrameMax(m_frame);
-    player->setSprIndexMax(m_index);
+    player->sprite.sim = m_index;
+    player->sprite.sfm = m_frame;
 }
 
 void PlayerSprite::setSpriteAlpha(int alp)
@@ -90,8 +90,8 @@ void PlayerSprite::setEndLock(bool lock)
 {
     if (lock && !end_lock)
     {
-        player->setSprFrame(0);
-        player->setSprIndex(0);
+        player->sprite.sf = 0;
+        player->sprite.si = 0;
     }
     end_lock = lock;
 }
@@ -108,8 +108,8 @@ void PlayerSprite::drawProp()
 {
     // ======================== SRPITES ===========================
     // Set index and stuff
-    right = player->getVelX() > .2 ? 1 :
-            player->getVelX() < -.2 ? 0 : right;
+    right = player->vel.x > .2 ? 1 :
+            player->vel.x < -.2 ? 0 : right;
 
     // Movement
     if (!player->combat.index)
@@ -117,13 +117,13 @@ void PlayerSprite::drawProp()
         // ============= MOVEMENT SPRITE =============
 
         // Idling
-        if (abs(player->getVelX()) <= .2)
+        if (abs(player->vel.x) <= .2)
             setActSprElock({0, right}, {2, 64});
         // Moving
         else
             setActSprElock(
                 {1, right},
-                {8, 30 - int(abs(player->getVelX()) * 4)}
+                {8, 30 - int(abs(player->vel.x) * 4)}
             );
         // Decelerating
         if (player->move.decel != 0)
@@ -131,8 +131,8 @@ void PlayerSprite::drawProp()
         // Jumping
         if (!player->jump.coyote && !player->state.on_ground)
             setActSprElock({3, right}, {
-                (player->getVelY() > .2 ? 4 : 8),
-                (player->getVelY() > .2 ? 16 : 8)
+                (player->vel.y > .2 ? 4 : 8),
+                (player->vel.y > .2 ? 16 : 8)
             });
         // Ground Dashing
         if (player->g_dash.frame)
@@ -144,7 +144,7 @@ void PlayerSprite::drawProp()
         if (player->move.crawl &&
             !(player->g_dash.frame && player->state.crawl_lock))
             setActSprElock({6, right}, {
-                (abs(player->getVelX()) > 0 ? 4 : 1), 8
+                (abs(player->vel.x) > 0 ? 4 : 1), 8
             });
         // Wall Sliding
         if (player->state.hug_wall)
@@ -175,8 +175,8 @@ void PlayerSprite::drawProp()
 
             case 1:
                 setActSprElock({12, right}, {
-                    player->getVelX() ? 4 : 1,
-                    30 - int(abs(player->getVelX()) * 4)
+                    player->vel.x ? 4 : 1,
+                    30 - int(abs(player->vel.x) * 4)
                 });
                 break;
             }
@@ -215,21 +215,22 @@ void PlayerSprite::drawProp()
         (player->combat.weapon_equip ? RightWeaponTexture : RightTexture) :
         (player->combat.weapon_equip ? LeftWeaponTexture : LeftTexture);
 
-    player->setWidth(player->combat.weapon_equip ? 64 : 32);
+    player->hitbox.w = player->combat.weapon_equip ? 64 : 32;
 
     // Update Draw Properties
     
     player->setSprite(end_lock);
+    std::cout << player->sprite.si << "\n";
 
     desRect = {
-        Camera::objectDrawX(player->MULTI->MAIN, player) - player->getWidth()*3/2,
-        Camera::objectDrawY(player->MULTI->MAIN, player) - player->getWidth()*2,
-        player->getWidth()*4, player->getWidth()*4
+        Camera::objectDrawX(player->MULTI->MAIN, player) - int(player->hitbox.w*3/2),
+        Camera::objectDrawY(player->MULTI->MAIN, player) - int(player->hitbox.w*2),
+        int(player->hitbox.w*4), int(player->hitbox.w*4)
     };
     srcRect = {
-        player->getSprIndex() * player->getWidth(),
-        index * player->getWidth(),
-        player->getWidth(), player->getWidth()
+        player->sprite.si * int(player->hitbox.w),
+        index * int(player->hitbox.w),
+        int(player->hitbox.w), int(player->hitbox.w)
     };
 
     if (!player->combat.invulnerable)
@@ -246,15 +247,15 @@ void PlayerSprite::draw()
 void PlayerSFX::updateWalkSFX()
 {
     // Check player state
-    if (player->state.on_ground && player->getVelX() &&
+    if (player->state.on_ground && player->vel.x &&
         !player->move.crawl && !player->g_dash.frame &&
         !player->move.decel)
     {
         // Counting steps based on sprite index
-        if (player->getSprIndex() != walk_sprite)
+        if (player->sprite.si != walk_sprite)
         {
             walk_step ++;
-            walk_sprite = player->getSprIndex();
+            walk_sprite = player->sprite.si;
         }
 
         // Play sound effect after enough steps
@@ -350,8 +351,8 @@ ObjectXY PlayerCamera::getCenterOffset() {
 // Camera Focus Trigger
 ObjectXYf PlayerCamera::getFocusTrigger() {
     return {
-        player->getX() - shift.x - center_off.x,
-        player->getY() - shift.y - center_off.y
+        player->hitbox.x - shift.x - center_off.x,
+        player->hitbox.y - shift.y - center_off.y
     };
 }
 // Camera Shift
@@ -394,7 +395,7 @@ void PlayerCamera::playerCameraFocus()
     {
         unfocus.x = 1;
         unfocus_offset.x = focus_true.left;
-        mid.x = player->getX() - focus_true.left;
+        mid.x = player->hitbox.x - focus_true.left;
     }
     // Boundary right
     else if (focus_dir.right &&
@@ -402,7 +403,7 @@ void PlayerCamera::playerCameraFocus()
     {
         unfocus.x = 1;
         unfocus_offset.x = focus_true.right;
-        mid.x = player->getX() - focus_true.right;
+        mid.x = player->hitbox.x - focus_true.right;
     }
     else
     {
@@ -418,7 +419,7 @@ void PlayerCamera::playerCameraFocus()
     {
         unfocus.y = 1;
         unfocus_offset.y = focus_true.down;
-        mid.y = player->getY() - focus_true.down;
+        mid.y = player->hitbox.y - focus_true.down;
     }
     // Boundary Up
     else if (focus_dir.up &&
@@ -426,7 +427,7 @@ void PlayerCamera::playerCameraFocus()
     {
         unfocus.y = 1;
         unfocus_offset.y = focus_true.up;
-        mid.y = player->getY() - focus_true.up;
+        mid.y = player->hitbox.y - focus_true.up;
     }
     else
     {
@@ -453,22 +454,22 @@ void PlayerCamera::updateDynamic()
     {
         float ease_x_max =  (player->combat.weapon_equip ? 64 : 96) +
                             // Velociy pass a cap
-                            (player->getVelX()>player->move.vel_max ?
-                                (player->getVelX() - player->move.vel_max)*64 : 0);
+                            (player->vel.x>player->move.vel_max ?
+                                (player->vel.x - player->move.vel_max)*64 : 0);
         // Damping / Easing effect X
-        if (player->sprite.right && ease.x > -ease_x_max)
-            ease.x -= abs(player->getVelX() / 5);
-        if (!player->sprite.right && ease.x < ease_x_max)
-            ease.x += abs(player->getVelX() / 5);
+        if (player->psprite.right && ease.x > -ease_x_max)
+            ease.x -= abs(player->vel.x / 5);
+        if (!player->psprite.right && ease.x < ease_x_max)
+            ease.x += abs(player->vel.x / 5);
         // Turn off easing effect
-        if (!player->getVelX() || abs(ease.x) > ease_x_max)
+        if (!player->vel.x || abs(ease.x) > ease_x_max)
             ease.x -= ease.x / 100;
 
         // Dash Feel Faster
         if (player->g_dash.frame || player->a_dash.frame)
         {
             if (abs(effect.x) < 64)
-                effect.x += player->getVelX() > 0 ? -2 : 2;
+                effect.x += player->vel.x > 0 ? -2 : 2;
         }
         else if (effect.x)
             effect.x -= effect.x / 40;
@@ -478,12 +479,12 @@ void PlayerCamera::updateDynamic()
     {
         float ease_y_max =  (player->combat.weapon_equip ? 32 : 64);
         // Damping / Easing effect Y
-        if (ease.y > -ease_y_max && player->getVelY() > 0)
-            ease.y -= abs(player->getVelY() / 5);
-        if (ease.y < ease_y_max && player->getVelY() < 0)
-            ease.y += abs(player->getVelY() / 5);
+        if (ease.y > -ease_y_max && player->vel.y > 0)
+            ease.y -= abs(player->vel.y / 5);
+        if (ease.y < ease_y_max && player->vel.y < 0)
+            ease.y += abs(player->vel.y / 5);
         // Turn off easing effect
-        if (!player->getVelY() || abs(ease.y) > ease_y_max)
+        if (!player->vel.y || abs(ease.y) > ease_y_max)
             ease.y -= ease.y / 100;
     }
 }
@@ -491,7 +492,7 @@ void PlayerCamera::updateDynamic()
 void Player::playerMovement(Map *map)
 {
 // ======================== Helpful values ==============================
-    short dir = sprite.right ? 1 : -1;
+    short dir = psprite.right ? 1 : -1;
 
 // ======================== MOVEMENT INPUT ==============================
     // Moving L/R
@@ -500,22 +501,22 @@ void Player::playerMovement(Map *map)
         if (INPUT.moveL.state && state.hug_wall < 1)
         {
             // Release from wall
-            if (state.hug_wall) setX(getX() - 4);
+            if (state.hug_wall) hitbox.x -= 4;
             state.hug_wall = 0;
 
-            move.decel = getVelX() > 1;
-            if (getVelX() - getAccelX() > -move.vel_max)
-                setVelX(getVelX() - getAccelX() * (move.decel ? 2.5 : 1));
+            move.decel = vel.x > 1;
+            if (vel.x - accel.x > -move.vel_max)
+                vel.x -= accel.x * (move.decel ? 2.5 : 1);
         }
 
         if (INPUT.moveR.state && state.hug_wall > -1)
         {
-            if (state.hug_wall) setX(getX() + 4);
+            if (state.hug_wall) hitbox.x += 4;
             state.hug_wall = 0;
 
-            move.decel = -(getVelX() < -1);
-            if (getVelX() + getAccelX() < move.vel_max)
-                setVelX(getVelX() + getAccelX() * (move.decel ? 2.5 : 1));
+            move.decel = -(vel.x < -1);
+            if (vel.x + accel.x < move.vel_max)
+                vel.x += accel.x * (move.decel ? 2.5 : 1);
         }
     }
 
@@ -523,10 +524,10 @@ void Player::playerMovement(Map *map)
     if (!INPUT.moveL.state && !INPUT.moveR.state &&
         !g_dash.frame && !a_dash.frame)
     {
-        if (abs(getVelX()) >= getAccelX())
-            setVelX(getVelX() - getAccelX() * dir);
+        if (abs(vel.x) >= accel.x)
+            vel.x -= accel.x * dir;
         else
-            setVelX(0);
+            vel.x = 0;
     }
 
     // No more deceleration
@@ -538,13 +539,13 @@ void Player::playerMovement(Map *map)
     move.crawl= moveset.crawl && INPUT.moveD.state &&
                 state.on_ground && !move.decel &&
                 !g_dash.delay && !g_dash.frame &&
-                abs(getVelX()) < move.vel_max / 2;
+                abs(vel.x) < move.vel_max / 2;
     move.crawl = state.crawl_lock || move.crawl;
 
     if (move.crawl && INPUT.moveL.state && !g_dash.frame)
-        setVelX(-move.vel_crawl);
+        vel.x = - move.vel_crawl;
     if (move.crawl && INPUT.moveR.state && !g_dash.frame)
-        setVelX(move.vel_crawl);
+        vel.y = move.vel_crawl;
 
     // Ground dash (more like sliding but whatever)
     if (moveset.g_dash && INPUT.dash.press() && !g_dash.delay &&
@@ -554,11 +555,11 @@ void Player::playerMovement(Map *map)
         INPUT.dash.hold = 1;
 
         map->appendParticle(new ParticleEffect(
-            CFG->loadTexture(sprite.right ?
+            CFG->loadTexture(psprite.right ?
                 "assets/ParticleSheet/NakuEffect/GDashSmokeRight.png" :
                 "assets/ParticleSheet/NakuEffect/GDashSmokeLeft.png"
             ),
-            getX(), getY(), 100, 71,
+            hitbox.x, hitbox.y, 100, 71,
             59, 42, 7, 5, 0
         ));
 
@@ -571,18 +572,18 @@ void Player::playerMovement(Map *map)
         !a_dash.frame && a_dash.cur &&
         !state.on_ground && !state.hug_wall &&
         !combat.index && !combat.weapon_equip_frame &&
-        (   (getVelX() > 0 && a_dash.lock != 1) ||
-            (getVelX() < 0 && a_dash.lock != -1) )
+        (   (vel.x > 0 && a_dash.lock != 1) ||
+            (vel.x < 0 && a_dash.lock != -1) )
         )
     {
         INPUT.dash.hold = 1;
 
         map->appendParticle(new ParticleEffect(
-            CFG->loadTexture(sprite.right ?
+            CFG->loadTexture(psprite.right ?
                 "assets/ParticleSheet/NakuEffect/ADashSmokeRight.png" :
                 "assets/ParticleSheet/NakuEffect/ADashSmokeLeft.png"
             ),
-            getX(), getY(), 150, 150,
+            hitbox.x, hitbox.y, 150, 150,
             64, 64, 8, 3, 0
         ));
 
@@ -598,10 +599,8 @@ void Player::playerMovement(Map *map)
     {
         INPUT.jump.hold = 1;
 
-        setY(getY() + 10);
-        setVelY(
-            (jump.cur == jump.max || jump.coyote_fail) ? 6.5 : 5
-        );
+        hitbox.y += 10;
+        vel.y = (jump.cur == jump.max || jump.coyote_fail) ? 6.5 : 5;
 
         state.on_ground = 0;
         if (state.on_ice) condition.jump_on_ice = 1;
@@ -617,391 +616,391 @@ void Player::playerMovement(Map *map)
                 118, 29, 8, 5, 0
             ));
 
-            setVelY(7.3);
+            vel.y = 7.3;
         } else if (state.on_ground)
             map->appendParticle(new ParticleEffect(
                 CFG->loadTexture(
                     "assets/ParticleSheet/NakuEffect/JumpSmoke.png"),
-                getX(), getY() - 24, 50, 50,
+                hitbox.x, hitbox.y - 24, 50, 50,
                 14, 12, 8, 5, 0
             ));
 
         // Wall jump
         a_dash.lock = 0;
         if (state.hug_wall)
-        {
-            map->appendParticle(new ParticleEffect(
-                CFG->loadTexture(
-                    state.hug_wall > 0 ?
-                    "assets/ParticleSheet/NakuEffect/JumpWallRight.png" :
-                    "assets/ParticleSheet/NakuEffect/JumpWallLeft.png"),
-                getX(), getY(), 50, 50,
-                25, 25, 7, 3, 0
-            ));
+                {
+                    map->appendParticle(new ParticleEffect(
+                        CFG->loadTexture(
+                            state.hug_wall > 0 ?
+                            "assets/ParticleSheet/NakuEffect/JumpWallRight.png" :
+                            "assets/ParticleSheet/NakuEffect/JumpWallLeft.png"),
+                        hitbox.x, hitbox.y, 50, 50,
+                        25, 25, 7, 3, 0
+                    ));
 
-            setVelX(8 * state.hug_wall);
-            setVelY(4);
-            setX(getX() + getHitWidth() * state.hug_wall / 2);
+                    vel.x = 8 * state.hug_wall;
+                    vel.y = 4;
+                    hitbox.x += hitbox.hw * state.hug_wall / 2;
 
-            a_dash.cur = a_dash.max;
-            a_dash.lock = -state.hug_wall;
+                    a_dash.cur = a_dash.max;
+                    a_dash.lock = -state.hug_wall;
+                }
+
+                state.hug_wall = 0;
+            }
+
+        // ======================== MOVEMENT LOGIC ==============================
+
+            // Velocity
+            move.vel_max = 6.5;
+            move.vel_max*= ((state.on_ice || condition.jump_on_ice) ? 1.2 : 1) *
+                        (combat.weapon_equip ? .8 : 1) *
+                        (combat.charge_time ? .8 : 1);
+            // Acceleration x
+            accel.x =  (state.on_ice ? .06 : .1) *
+                        (combat.weapon_equip ? .8 : 1) *
+                        (combat.charge_time ? .8 : 1);
+            // Acceleration y
+            accel.y =  ((INPUT.jump.hold && vel.y > 0) ? -.1 : -.2) *
+                        (combat.weapon_equip ? 1.2 : 1) *
+                        (combat.charge_time ? 1.2 : 1);
+
+            // Velocity X Correction 😭
+            // - Check the time spent over speed cap
+            if (abs(vel.x) > move.vel_max) move.vel_over_time++;
+            else                               move.vel_over_time = 0;
+            // - Self correct speed
+            if (move.vel_over_time > move.vel_over_max)
+            {
+                if (vel.x > move.vel_max)
+                    vel.x = vel.x - (vel.x - move.vel_max) / 50;
+                if (vel.x < -move.vel_max)
+                    vel.x = vel.x - (vel.x + move.vel_max) / 50;
+            }
+
+            // Terminal Velocity
+            if (vel.y + accel.y > jump.terminal)
+                vel.y = vel.y + accel.y;
+            // No Velo Y on ground
+            if (state.on_ground) vel.y = 0;
+            // Slow but painful Velo Y
+            if (state.hug_wall) vel.y = -1;
+
+            // SUPER JUMP
+            if (move.crawl && !state.crawl_lock && !vel.x)
+                jump.super += jump.super < jump.super_max;
+            else jump.super = 0;
+
+            // Ground dash
+            if (g_dash.frame)
+            {
+                g_dash.frame--;
+                if (g_dash.frame) vel.x = 18 * dir;
+                else vel.x = move.vel_max * dir * 1.1;
+            }
+            if (g_dash.delay > 0) g_dash.delay--;
+
+            // a_Dashing
+            if (a_dash.frame)
+            {
+                a_dash.frame--;
+                if (a_dash.frame) vel.x = 20 * dir;
+                else vel.x = move.vel_max * dir * 1.05;
+                vel.y = 0;
+            }
+
+            // Jump knock out
+            if (jump.knockout > 0) jump.knockout--;
+
+            // Coyote Jump
+            if (!state.on_ground &&
+                jump.cur == jump.max)
+            {
+                if (jump.coyote < jump.coyote_max)
+                    jump.coyote++;
+                else
+                {
+                    jump.coyote_fail = 1;
+                    jump.cur = jump.max - 1;
+                }
+            }
+            else jump.coyote = 0;
+
+            // Reset Stuff when land on ground
+            if (state.on_ground)
+            {
+                condition.jump_on_ice = 0;
+
+                jump.cur = jump.max;
+                jump.coyote_fail = 0;
+
+                a_dash.lock = 0;
+                a_dash.cur = a_dash.max;
+            }
+
+            // Setting Position
+            if (dev.godmode) return;
+            objectStandardMovement(1);
         }
 
-        state.hug_wall = 0;
-    }
-
-// ======================== MOVEMENT LOGIC ==============================
-
-    // Velocity
-    move.vel_max = 6.5;
-    move.vel_max*= ((state.on_ice || condition.jump_on_ice) ? 1.2 : 1) *
-                (combat.weapon_equip ? .8 : 1) *
-                (combat.charge_time ? .8 : 1);
-    // Acceleration x
-    setAccelX(  (state.on_ice ? .06 : .1) *
-                (combat.weapon_equip ? .8 : 1) *
-                (combat.charge_time ? .8 : 1));
-    // Acceleration y
-    setAccelY(  ((INPUT.jump.hold && getVelY() > 0) ? -.1 : -.2) *
-                (combat.weapon_equip ? 1.2 : 1) *
-                (combat.charge_time ? 1.2 : 1));
-
-    // Velocity X Correction 😭
-    // - Check the time spent over speed cap
-    if (abs(getVelX()) > move.vel_max) move.vel_over_time++;
-    else                               move.vel_over_time = 0;
-    // - Self correct speed
-    if (move.vel_over_time > move.vel_over_max)
-    {
-        if (getVelX() > move.vel_max)
-            setVelX(getVelX() - (getVelX() - move.vel_max) / 50);
-        if (getVelX() < -move.vel_max)
-            setVelX(getVelX() - (getVelX() + move.vel_max) / 50);
-    }
-
-    // Terminal Velocity
-    if (getVelY() + getAccelY() > jump.terminal)
-        setVelY(getVelY() + getAccelY());
-    // No Velo Y on ground
-    if (state.on_ground) setVelY(0);
-    // Slow but painful Velo Y
-    if (state.hug_wall) setVelY(-1);
-
-    // SUPER JUMP
-    if (move.crawl && !state.crawl_lock && !getVelX())
-        jump.super += jump.super < jump.super_max;
-    else jump.super = 0;
-
-    // Ground dash
-    if (g_dash.frame)
-    {
-        g_dash.frame--;
-        if (g_dash.frame) setVelX(18 * dir);
-        else setVelX(move.vel_max * dir * 1.1);
-    }
-    if (g_dash.delay > 0) g_dash.delay--;
-
-    // a_Dashing
-    if (a_dash.frame)
-    {
-        a_dash.frame--;
-        if (a_dash.frame) setVelX(20 * dir);
-        else setVelX(move.vel_max * dir * 1.05);
-        setVelY(0);
-    }
-
-    // Jump knock out
-    if (jump.knockout > 0) jump.knockout--;
-
-    // Coyote Jump
-    if (!state.on_ground &&
-        jump.cur == jump.max)
-    {
-        if (jump.coyote < jump.coyote_max)
-            jump.coyote++;
-        else
+        void Player::playerCombat(Map *map)
         {
-            jump.coyote_fail = 1;
-            jump.cur = jump.max - 1;
+        // ======================== COMBAT INPUT ==============================
+
+            // Weapon equipment
+            if (INPUT.equip.state && !combat.weapon_equip_delay &&
+                state.on_ground)
+            {
+                sprite.si = 0;
+                combat.weapon_equip_frame = 24;
+                combat.weapon_equip_delay = combat.weapon_equip_delay_max;
+                combat.weapon_equip = !combat.weapon_equip;
+            };
+            // Weapon draw ("draw" weapon, not "draw" painting) delay
+            if (combat.weapon_equip_delay > 0)
+                combat.weapon_equip_delay --;
+            if (combat.weapon_equip_frame) 
+                combat.weapon_equip_frame --;
+
+            // Special Jelly Projectile
+            if (combat.weapon_equip && INPUT.proj.press())
+            {
+                INPUT.proj.hold = 1;
+
+                map->ProjectileVec.push_back(new Projectile(
+                    "assets/NakuSheet/NakuSquid.png",
+                    hitbox.x, hitbox.y + 50, 16, 16,
+                    32, 32,
+                    vel.x*.8 + psprite.right*2 - 1,
+                    vel.y + 10, 0, -.2,
+                    10, 1000, 0,
+                    1, 0, 0,
+                    4, 10
+                ));
+            }
+
+        // ======================== COMBAT LOGIC ==============================
+
+            // Invincibility frame
+            if (combat.invincible)
+                combat.invincible--;
+
+            // Invulnerable frame
+            if (combat.invulnerable) {
+                combat.invulnerable--;
+
+                if (combat.invulnerable > combat.invulnerable_max * .8)
+                {
+                    // When got hit reset all movement and stuff
+                    vel.x = 0;
+                    vel.y = 0;
+
+                    a_dash.frame = 0;
+                    g_dash.frame = 0;
+
+                    combat.charge_time = 0;
+                    combat.combo_time = 0;
+                    combat.time = 0;
+                    combat.index = 0;
+                }
+                SDL_SetTextureAlphaMod(psprite.CurrentTexture, (combat.invulnerable % 15 > 0) ? 200 : 160);
+            }
+
+            if (combat.time > 0)
+                combat.time --;
+            else
+                combat.time = 0;
+            
+            if (combat.combo_time > 0)
+                combat.combo_time--;
+            else
+            {
+                combat.combo_time = 0;
+                combat.index = 0;
+            }
+
+            if (combat.delay > 0)
+                combat.delay --;
+            else
+                combat.delay = 0;
+
+            if (!combat.weapon_equip || combat.weapon_equip_frame) return;
+
+            // =================== Combat hitbox handler ===================
+            if (!combat.time && !a_dash.frame && !g_dash.frame)
+            {
+                setCombatHit({});
+                combat.parry_error = 10;
+            }
+
+            if (a_dash.frame)
+                setCombatHit({
+                    30, 30, 
+                    psprite.right ? 0 : 80,
+                    psprite.right ? 80 : 0,
+                    10
+                });
+
+            if (g_dash.frame)
+                setCombatHit({
+                    20, 20,
+                    psprite.right ? 0 : 100,
+                    psprite.right ? 100 : 0,
+                    move.crawl ? 20 : 12
+                });
+
+            if (combat.index == 1)
+            {
+                setCombatHit({
+                    40, 40,
+                    psprite.right? 0 : 100,
+                    psprite.right? 100 : 0,
+                    10
+                });
+                combat.parry_error = 3;
+            }
+
+            if (combat.index == 2)
+            {
+                setCombatHit({
+                    15, 15,
+                    psprite.right ? 0 : 120,
+                    psprite.right ? 120 : 0,
+                    20
+                });
+                combat.parry_error = 1;
+            }
+
+            if (combat.index == 3)
+            {
+                setCombatHit({
+                    80, 60,
+                    psprite.right ? 0 : 130,
+                    psprite.right ? 130 : 0,
+                    30
+                });
+                combat.parry_error = 0;
+            }
+
+            if (combat.index == 4)
+            {
+                setCombatHit({76, 0, 64, 64, 15});
+                combat.parry_error = 40;
+            }
+
+            if (combat.index == 5)
+            {
+                setCombatHit({
+                    64, 64, psprite.right?0:93, psprite.right?93:0, 15
+                });
+                combat.parry_error = 20;
+            }
+
+            // =================== Combat Attack Pattern ===================
+
+            // On ground
+            if (!combat.delay && !move.crawl && !g_dash.frame &&
+                INPUT.attack.threspeak &&
+                INPUT.attack.threspeak < 100)
+            {
+                INPUT.attack.threspeak = 0;
+
+                if (!state.hug_wall && !INPUT.moveU.state)
+                {
+                    if (!combat.combo_time && !combat.index)
+                    {
+                        combat.index = 1;
+                        combat.time = 15;
+                        combat.combo_time = 40;
+                        psprite.end_lock = 0;
+
+                        vel.x = vel.x * .8;
+                        vel.y = state.on_ground ? 0 : 1;
+                    }
+                    else if (!combat.time && combat.index == 1 && combat.combo_time)
+                    {
+                        combat.index = 2;
+                        combat.time = 15;
+                        combat.combo_time = 15;
+                        combat.delay = 35;
+                        psprite.end_lock = 0;
+
+                        vel.x = vel.x * .4;
+                        vel.y = state.on_ground ? 0 : 1;
+                    }
+                }
+                else if (!state.hug_wall && INPUT.moveU.state)
+                {
+                    if (!combat.combo_time && !combat.index)
+                    {
+                        combat.index = 4;
+                        combat.time = 15;
+                        combat.combo_time = 15;
+                        combat.delay = state.on_ground ? 40 : 70;
+                        psprite.end_lock = 0;
+
+                        vel.y = 3;
+                    }
+                }
+                else if (state.hug_wall)
+                {
+                    if (!combat.combo_time && !combat.index)
+                    {
+                        combat.index = 5;
+                        combat.time = 12;
+                        combat.combo_time = 40;
+                        psprite.end_lock = 0;
+                    }
+                }
+            }
+
+            // Charge Attack
+            if (combat.charge_time > 0)
+            {
+                combat.index = 3;
+
+                if (!INPUT.attack.state &&
+                    combat.charge_time > 50)
+                {
+                    combat.time = 10;
+                    combat.combo_time = 10;
+                    combat.delay = 150;
+
+                    psprite.end_lock = 0;
+                }
+            }
+
+            if (!combat.delay && !combat.time &&
+                INPUT.attack.threspass(100) &&
+                !psprite.end_lock && !move.crawl &&
+                !state.hug_wall &&
+                !a_dash.frame && !g_dash.frame)
+                combat.charge_time ++;
+            else
+                combat.charge_time = 0;
         }
-    }
-    else jump.coyote = 0;
 
-    // Reset Stuff when land on ground
-    if (state.on_ground)
-    {
-        condition.jump_on_ice = 0;
-
-        jump.cur = jump.max;
-        jump.coyote_fail = 0;
-
-        a_dash.lock = 0;
-        a_dash.cur = a_dash.max;
-    }
-
-    // Setting Position
-    if (dev.godmode) return;
-    objectStandardMovement(1);
-}
-
-void Player::playerCombat(Map *map)
-{
-// ======================== COMBAT INPUT ==============================
-
-    // Weapon equipment
-    if (INPUT.equip.state && !combat.weapon_equip_delay &&
-        state.on_ground)
-    {
-        setSprIndex(0);
-        combat.weapon_equip_frame = 24;
-        combat.weapon_equip_delay = combat.weapon_equip_delay_max;
-        combat.weapon_equip = !combat.weapon_equip;
-    };
-    // Weapon draw ("draw" weapon, not "draw" painting) delay
-    if (combat.weapon_equip_delay > 0)
-        combat.weapon_equip_delay --;
-    if (combat.weapon_equip_frame) 
-        combat.weapon_equip_frame --;
-
-    // Special Jelly Projectile
-    if (combat.weapon_equip && INPUT.proj.press())
-    {
-        INPUT.proj.hold = 1;
-
-        map->ProjectileVec.push_back(new Projectile(
-            "assets/NakuSheet/NakuSquid.png",
-            getX(), getY() + 50, 16, 16,
-            32, 32,
-            getVelX()*.8 + sprite.right*2 - 1,
-            getVelY() + 10, 0, -.2,
-            10, 1000, 0,
-            1, 0, 0,
-            4, 10
-        ));
-    }
-
-// ======================== COMBAT LOGIC ==============================
-
-    // Invincibility frame
-    if (combat.invincible)
-        combat.invincible--;
-
-    // Invulnerable frame
-    if (combat.invulnerable) {
-        combat.invulnerable--;
-
-        if (combat.invulnerable > combat.invulnerable_max * .8)
-        {
-            // When got hit reset all movement and stuff
-            setVelX(0);
-            setVelY(0);
-
+        // Stop Player Current State
+        void Player::setStatic()
+        {   
+            // Reset Sprite State
+            sprite.sf = 0;
+            sprite.si = 0;
+            setSprite(0);
+            // Reset Movement
+            vel.x = 0;
+            vel.y = 0;
+            move.crawl = 0;
             a_dash.frame = 0;
             g_dash.frame = 0;
-
-            combat.charge_time = 0;
+            // Reset HitBox
+            hitbox.hw = 58;
+            hitbox.hh = 80;
+            // Reset Combat
+            combat.delay = 0;
             combat.combo_time = 0;
-            combat.time = 0;
-            combat.index = 0;
+            combat.charge_time = 0;
         }
-        SDL_SetTextureAlphaMod(sprite.CurrentTexture, (combat.invulnerable % 15 > 0) ? 200 : 160);
-    }
-
-    if (combat.time > 0)
-        combat.time --;
-    else
-        combat.time = 0;
-    
-    if (combat.combo_time > 0)
-        combat.combo_time--;
-    else
-    {
-        combat.combo_time = 0;
-        combat.index = 0;
-    }
-
-    if (combat.delay > 0)
-        combat.delay --;
-    else
-        combat.delay = 0;
-
-    if (!combat.weapon_equip || combat.weapon_equip_frame) return;
-
-    // =================== Combat hitbox handler ===================
-    if (!combat.time && !a_dash.frame && !g_dash.frame)
-    {
-        setCombatHit({});
-        combat.parry_error = 10;
-    }
-
-    if (a_dash.frame)
-        setCombatHit({
-            30, 30, 
-            sprite.right ? 0 : 80,
-            sprite.right ? 80 : 0,
-            10
-        });
-
-    if (g_dash.frame)
-        setCombatHit({
-            20, 20,
-            sprite.right ? 0 : 100,
-            sprite.right ? 100 : 0,
-            move.crawl ? 20 : 12
-        });
-
-    if (combat.index == 1)
-    {
-        setCombatHit({
-            40, 40,
-            sprite.right? 0 : 100,
-            sprite.right? 100 : 0,
-            10
-        });
-        combat.parry_error = 3;
-    }
-
-    if (combat.index == 2)
-    {
-        setCombatHit({
-            15, 15,
-            sprite.right ? 0 : 120,
-            sprite.right ? 120 : 0,
-            20
-        });
-        combat.parry_error = 1;
-    }
-
-    if (combat.index == 3)
-    {
-        setCombatHit({
-            80, 60,
-            sprite.right ? 0 : 130,
-            sprite.right ? 130 : 0,
-            30
-        });
-        combat.parry_error = 0;
-    }
-
-    if (combat.index == 4)
-    {
-        setCombatHit({76, 0, 64, 64, 15});
-        combat.parry_error = 40;
-    }
-
-    if (combat.index == 5)
-    {
-        setCombatHit({
-            64, 64, sprite.right?0:93, sprite.right?93:0, 15
-        });
-        combat.parry_error = 20;
-    }
-
-    // =================== Combat Attack Pattern ===================
-
-    // On ground
-    if (!combat.delay && !move.crawl && !g_dash.frame &&
-        INPUT.attack.threspeak &&
-        INPUT.attack.threspeak < 100)
-    {
-        INPUT.attack.threspeak = 0;
-
-        if (!state.hug_wall && !INPUT.moveU.state)
-        {
-            if (!combat.combo_time && !combat.index)
-            {
-                combat.index = 1;
-                combat.time = 15;
-                combat.combo_time = 40;
-                sprite.end_lock = 0;
-
-                setVelX(getVelX() * .8);
-                setVelY(state.on_ground ? 0 : 1);
-            }
-            else if (!combat.time && combat.index == 1 && combat.combo_time)
-            {
-                combat.index = 2;
-                combat.time = 15;
-                combat.combo_time = 15;
-                combat.delay = 35;
-                sprite.end_lock = 0;
-
-                setVelX(getVelX() * .4);
-                setVelY(state.on_ground ? 0 : 1);
-            }
-        }
-        else if (!state.hug_wall && INPUT.moveU.state)
-        {
-            if (!combat.combo_time && !combat.index)
-            {
-                combat.index = 4;
-                combat.time = 15;
-                combat.combo_time = 15;
-                combat.delay = state.on_ground ? 40 : 70;
-                sprite.end_lock = 0;
-
-                setVelY(3);
-            }
-        }
-        else if (state.hug_wall)
-        {
-            if (!combat.combo_time && !combat.index)
-            {
-                combat.index = 5;
-                combat.time = 12;
-                combat.combo_time = 40;
-                sprite.end_lock = 0;
-            }
-        }
-    }
-
-    // Charge Attack
-    if (combat.charge_time > 0)
-    {
-        combat.index = 3;
-
-        if (!INPUT.attack.state &&
-            combat.charge_time > 50)
-        {
-            combat.time = 10;
-            combat.combo_time = 10;
-            combat.delay = 150;
-
-            sprite.end_lock = 0;
-        }
-    }
-
-    if (!combat.delay && !combat.time &&
-        INPUT.attack.threspass(100) &&
-        !sprite.end_lock && !move.crawl &&
-        !state.hug_wall &&
-        !a_dash.frame && !g_dash.frame)
-        combat.charge_time ++;
-    else
-        combat.charge_time = 0;
-}
-
-// Stop Player Current State
-void Player::setStatic()
-{   
-    // Reset Sprite State
-    setSprFrame(0);
-    setSprIndex(0);
-    setSprite(0);
-    // Reset Movement
-    setVelX(0);
-    setVelY(0);
-    move.crawl = 0;
-    a_dash.frame = 0;
-    g_dash.frame = 0;
-    // Reset HitBox
-    setHitWidth(58);
-    setHitHeight(80);
-    // Reset Combat
-    combat.delay = 0;
-    combat.combo_time = 0;
-    combat.charge_time = 0;
-}
 
 void Player::playerHitBox()
 {
@@ -1009,15 +1008,15 @@ void Player::playerHitBox()
         !g_dash.frame &&
         !state.crawl_lock)
     {
-        setHitWidth(58);
-        setHitHeight(80);
+        hitbox.hw = 58;
+        hitbox.hh = 80;
         move.hit_offset_x = 0;
         move.hit_offset_y = 0;
     }
     else
     {
-        setHitWidth(78);
-        setHitHeight(40);
+        hitbox.hw = 78;
+        hitbox.hh = 40;
         move.hit_offset_x = -10;
         move.hit_offset_y = -20;
     }
@@ -1030,14 +1029,14 @@ void Player::playerGetHit(Map *map, int dmg)
     // map->appendParticle(new ParticleEffect(
     //     CFG->loadTexture(CFG->RENDERER,
     //         "assets/ParticleSheet/NakuEffect/BloodSplatter.png"),
-    //     getX(), getY(), 300, 300,
+    //     hitbox.x, hitbox.y, 300, 300,
     //     100, 100, 6, 3, 4, 0
     // ));
 
     // map->appendParticle(new ParticleEffect(
     //     CFG->loadTexture(CFG->RENDERER,
     //         "assets/ParticleSheet/Explode.png"),
-    //     getX(), getY(), 300, 300,
+    //     hitbox.x, hitbox.y, 300, 300,
     //     100, 100, 10, 7, 3, 0
     // ));
 
@@ -1059,11 +1058,11 @@ void PlayerDeveloper::developer(Map *map)
         SDL_SetRenderDrawColor(CFG->RENDERER, 0, 255, 0, 255);
 
         int gridLineX = player->camera.unfocus.x ? 0 :
-            int(player->getX()) % 64 -
+            int(player->hitbox.x) % 64 -
             player->camera.shift.x -
             player->camera.center_off.x;
         int gridLineY = player->camera.unfocus.y ? 0 :
-            int(player->getY()) % 64 -
+            int(player->hitbox.y) % 64 -
             player->camera.shift.y -
             player->camera.center_off.y;
 
@@ -1096,8 +1095,8 @@ void PlayerDeveloper::developer(Map *map)
 
         CFG->addDevlog("Player", 42);
         CFG->addDevlog(
-            "X: " + std::to_string(player->getGridX()) +
-            " - Y: " + std::to_string(player->getGridY())
+            "X: " + std::to_string(player->hitbox.gridX()) +
+            " - Y: " + std::to_string(player->hitbox.gridY())
         ,32);
     }
 
@@ -1113,13 +1112,13 @@ void PlayerDeveloper::developer(Map *map)
     {
         int vel_developer = player->INPUT.lctrl.state ? 20 : 4;
         if (player->INPUT.moveU.state)
-            player->setY(player->getY() + vel_developer);
+            player->hitbox.y += vel_developer;
         if (player->INPUT.moveD.state)
-            player->setY(player->getY() - vel_developer);
+            player->hitbox.y -= vel_developer;
         if (player->INPUT.moveL.state)
-            player->setX(player->getX() - vel_developer);
+            player->hitbox.x -= vel_developer;
         if (player->INPUT.moveR.state)
-            player->setX(player->getX() + vel_developer);
+            player->hitbox.x += vel_developer;
     }
 
     // DISPLAY GRID
@@ -1142,6 +1141,6 @@ void Player::playerUpdate(Map *map)
     playerCombat(map);
     playerHitBox();
 
-    sprite.drawProp();
+    psprite.drawProp();
     sfx.updateSFX();
 }

@@ -3,7 +3,7 @@
 
 AudioObject::AudioObject(string0D path, float X, float Y,
                         float R, float maxvolR, float overrideR) :
-    Object2D(X, Y, 0, 0),
+    Object2D({X, Y, 0, 0}),
     radius(R),
     radius_max_vol(maxvolR),
     radius_override(overrideR)

@@ -40,12 +40,6 @@ public:
     Decoration(DecorObject decor_obj);
     // Background
     Decoration(string0D dPath, float whRatio, float scaleVelX = .1, float scaleVelY = .1, float velX = 0, bool bg = 1);
-    // Static Decoration
-    Decoration(string0D dPath, float X, float Y, float w, float h);
-    // Standard Animated Decoration
-    Decoration(string0D dPath, float X, float Y, float w, float h, int sw, int sh, int sim, int sfm);
-    // Advance Animated Decoration
-    Decoration(string0D dPath, string0D fPath, float X, float Y, float w, float h, int sim, int sfm);
 
     float getAddX();
     float getSclVelX();

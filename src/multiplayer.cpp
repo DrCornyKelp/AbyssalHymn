@@ -30,8 +30,8 @@ void Multiplayer::addPlayer()
     Players.back()->MULTI = this;
     Players.back()->INPUT.setTemplate(PlayerCount);
     // Set Player Initial Postion
-    Players.back()->setX(MAIN->getX());
-    Players.back()->setY(MAIN->getY());
+    Players.back()->hitbox.x = MAIN->hitbox.x;
+    Players.back()->hitbox.y = MAIN->hitbox.y;
     
     // ================== TESTING ==================
     MAIN->INPUT.setTemplate(0);
@@ -91,8 +91,8 @@ void Multiplayer::update(Map *map)
         for (Player *player : Players)
         if (!player->MAIN)
         {
-            player->setX(MAIN->getX());
-            player->setY(MAIN->getY());
+            player->hitbox.x = MAIN->hitbox.x;
+            player->hitbox.y = MAIN->hitbox.y;
         }
     }
 
@@ -118,7 +118,7 @@ void Multiplayer::update(Map *map)
 void Multiplayer::drawPlayers()
 {
     for (Player *player : Players)
-        player->sprite.draw();
+        player->psprite.draw();
 }
 
 void Multiplayer::drawHuds()
