@@ -104,6 +104,13 @@ void Multiplayer::update(Map *map)
         MAIN->INPUT.executeScript("player_data/ExecuteScript.csv", MAIN->INPUT.lctrl.state);
     }
 
+    if (MAIN->INPUT.f6.press())
+    {
+        MAIN->INPUT.f6.hold = 1;
+
+        singlePlayer();
+    }
+
     std::ofstream outputFile("player_data/PlayerScript.csv");
     outputFile << MAIN->INPUT.script_history_full;
 }

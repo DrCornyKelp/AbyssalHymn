@@ -146,7 +146,6 @@ void Input::update()
 
 	script_history_full = "";
 
-    // UPDATE MOVESET KEY
     moveU.update(keystate, this);
     moveD.update(keystate, this);
     moveL.update(keystate, this);
@@ -157,7 +156,6 @@ void Input::update()
     jump.update(keystate, this);
     dash.update(keystate, this);
 
-    // UPDATE OTHER KEYS
     lctrl.update(keystate, this);
     arrowU.update(keystate, this);
     arrowD.update(keystate, this);
@@ -174,6 +172,7 @@ void Input::update()
     f3.update(keystate, this);
     f4.update(keystate, this);
     f5.update(keystate, this);
+    f6.update(keystate, this);
 
     // UPDATE MOUSE IN GENERAL
     mouse.update();
@@ -207,6 +206,19 @@ void Input::executeScript(string0D script_dir, bool from_cur)
         if (index == 8) jump.script = script;
         if (index == 9) dash.script = script;
     }
+}
+
+void Input::endScript()
+{
+    moveU.script = {};
+    moveD.script = {};
+    moveL.script = {};
+    moveR.script = {};
+    proj.script = {};
+    equip.script = {};
+    attack.script = {};
+    jump.script = {};
+    dash.script = {};
 }
 
 // ============================== OLD AND OBSOLETE ==============================

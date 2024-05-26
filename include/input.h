@@ -147,7 +147,8 @@ public:
 		f2 = {SDL_SCANCODE_F2, 0},
 		f3 = {SDL_SCANCODE_F3, 0},
 		f4 = {SDL_SCANCODE_F4, 0},
-		f5 = {SDL_SCANCODE_F5, 0};
+		f5 = {SDL_SCANCODE_F5, 0},
+		f6 = {SDL_SCANCODE_F6, 0};
 
 	string0D script_history_full = "";
 	bool script_active = 0;
@@ -164,12 +165,11 @@ public:
 	void setTemplate(int keytemplate);
 	void update();
 	void executeScript(string0D script_dir, bool from_cur = 0);
+	void endScript();
 
 	// ==================== OBSOLETE ======================
 
 	SDL_GameController *controller;
-
-	// MOUSE STATE
 };
 
 #endif
