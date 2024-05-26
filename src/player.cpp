@@ -217,10 +217,8 @@ void PlayerSprite::drawProp()
 
     player->hitbox.w = player->combat.weapon_equip ? 64 : 32;
 
-    // Update Draw Properties
-    
+    // Update Sprite Properties
     player->setSprite(end_lock);
-    std::cout << player->sprite.si << "\n";
 
     desRect = {
         Camera::objectDrawX(player->MULTI->MAIN, player) - int(player->hitbox.w*3/2),
