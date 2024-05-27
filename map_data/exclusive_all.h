@@ -42,9 +42,6 @@
 
 void applyExclusive(Map *map)
 {
-    // Tutorial Map
-    std::cout << map->MapInfo.name << std::endl;
-
     if (map->MapInfo.name == "Tutorial1")
     { Tutorial1Init(map); map->UpdateExclusive = Tutorial1Update; }
     if (map->MapInfo.name == "Tutorial2")
