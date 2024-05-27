@@ -26,8 +26,7 @@
 #### Lưu ý:
 
 - Tất cả các file hình ảnh được lưu dưới định dạng .png 
-- Giải thích *dải hình*: là một dải bao gồm nhiều `state` (trạng thái) của một hình động, mỗi một `state` được gán với 1 hình cụ thể của một giải hình
-
+- Giải thích *dải hình*: là một dải bao gồm nhiều `state` (trạng thái) của một hình động, mỗi một `state` được gán với 1 *hình* cụ thể của *giải hình* đó
 
 ## B. MÃ NGUỒN GAME
 
@@ -42,7 +41,7 @@
 
 ## C. THÀNH PHẦN CHỦ TRÌ
 
-- Là các thành phần mang tính chất cài đặt, là tiền đề cho sự tồn tại của các thành phần nội dun
+- Là các thành phần mang tính chất cài đặt, là tiền đề cho sự tồn tại của các thành phần nội dung
 
 ### 1. Cài đặt [`configuration`]
 
@@ -786,31 +785,211 @@ public:
 - Gồm hàm cập nhật các người chơi `updatePlayer()`
 - Gồm hàm vẽ người chơi `drawPlayers()` và vẽ hiển thị trực quan (các thông số như máu, năng lượng, ...) `drawHuds()`
 
+### 8. Va chạm [`collision`]
+
+- Một class xử lý sự tương tác va chạm của các người chơi `players` đối với các thành phần:
+  - Khối hộp `block`
+  - Kẻ địch `enemy`
+  - Vật phẩm `item` (*WIP*)
+- Gồm các phương thức liên quan tới tấn công `combat` và tương tác của các vật thể `object2D` nói chung
+
 ```cpp
-class Multiplayer
+class Collision
 {
 public:
-    Player1D Players;
-    Player *MAIN;
-
-    int PlayerCount = 0;
-
-    ~Multiplayer();
-    Multiplayer(Player1D players);
+    static bool combatCollision(Object2D *attacker, Object2D *receiver, int1D offset = {0, 0});
+    static bool playerCombatCollision(Player *player, Object2D *receiver, bool isReceiver = 0);
     
-    // Player Count Control
-    void addPlayer();
-    void changeMain(int index);
-    void singlePlayer();
+    static bool playerCollision(Player *player, Object2D *obj, int1D offset = {0, 0});
 
-    void update(Map *map);
-    void drawPlayers();
-    void drawHuds();
+    static bool objectCollision(Object2D *obj1, Object2D *obj2, int1D offset = {0, 0});
+    static bool hitboxCollision(ObjectHitbox hbox1, ObjectHitbox hbox2, int1D offset = {0, 0});
+    static bool boxCollision(ObjectBox box1, ObjectBox box2, int1D offset = {0, 0});
+
+    // Phần cập nhật va chạm chính 
+    void playerBlockCollision(Map *map, Player *player);
+    void playerEnemyCollision(Map *map, Player *player);
+    void playerItemCollision(Map *map, Player *player);
+    void playerUpdateCollision(Map *map, Player *player);
+};
+```
+
+### 9. Camera động [`camera`]
+
+- Một class sử dụng để vẽ các vật thể tương đối với vị trí của người chơi, đồng thời kiểm tra các vật nằm ngoài giới hạn màn hình / camera
+
+```cpp
+class Camera
+{
+public:
+    // For drawing object relative to player
+    static int objectDrawX(Player *player, Object2D *obj);
+    static int objectDrawY(Player *player, Object2D *obj);
+
+    // Object outside screen
+    static bool outOfBound(SDL_Rect desRect);
+    static bool outOfCam(Player *player, Object2D *obj);
 };
 ```
 
 ## D. THÀNH PHẦN NỘI DUNG
 
-- Là các thành phần cụ thể của game mang tính chất bổ trợ nội dung
+- Là các thành phần cụ thể của game, đặt sự quan trọng về tính nội dung cũng như tính năng
 
 ### 1. Người chơi [`Player`]
+
+- Ngôi sao và tâm điểm của cuộc chơi, người chơi là thành phần thực thể `entity` có lượng logic dày đặc và linh hoạt nhất game
+- `Player` kế thừa các đặc tính của `Object2D`
+- Các hành động, trạng thái của người chơi được gói gọn trong các `struct Player<content>` đặc trưng cho 1 đặc điểm của người chơi
+
+
+#### $\star$ Các thuộc tính của người chơi:
+
+##### # `struct PlayerState`
+
+- Các trạng thái với môi trường của người chơi, cùng với các điều kiện đặc biệt xảy ra từ sự tương tác với môi trường (giả sử: điều kiện <người chơi nhảy khi đang chạy trên băng> sẽ <nhảy thấp hơn nhưng xa hơn>)
+
+```cpp
+struct PlayerState
+{
+    bool on_ground = 0;
+    bool on_ice = 0;
+    bool in_water = 0;
+    short hug_wall = 0;
+    bool crawl_lock = 0;
+
+    // Special Condition
+    bool jump_on_ice = 0;
+
+    void resetState();
+};
+```
+
+##### # `struct PlayerMoveset`
+
+- Trạng thái các kỹ năng của người chơi, mở/khóa
+
+```cpp
+struct PlayerMoveset
+{
+    bool move = 1;
+    bool jump = 1;
+    bool crawl = 1;
+    bool g_dash = 1;
+    bool a_dash = 1;
+    bool hug_wall = 1;
+
+    void enableAll();
+    void disableAll();
+};
+```
+
+##### # `struct PlayerMove`
+
+- Sự di chuyển của người chơi trên trục Ox (hướng ngang trái phải) với các giá trị thao túng vận tốc, gia tốc cũng như hitbox
+
+```cpp
+struct PlayerMoving
+{
+    Player *player;
+    // MOVING
+    int decel = 0;
+    float vel_max = 5;
+    int vel_over_time = 0, // Time you spent over the speed cap
+        vel_over_max = 100; // Max time before speed corretion
+    float vel_jump_saved = 0;
+    // CRAWLING
+    bool crawl = 0;
+    float vel_crawl = .8;
+    int hit_offset_x = 0;
+    int hit_offset_y = 0;
+
+    int hitX();
+    int hitY();
+};
+```
+
+##### # `struct PlayerJump`
+
+- Sự di chuyển của người chơi trên trục Oy (hướng dọc trên dưới) với các giá trị thao túng vận tốc, gia tốc trọng trường, độ cao của nhảy, độ cao trần nhà, và cả Coyote Jump (một phương thức phổ biến sử dụng trong game platformer nhằm tạo sự khoan dung cho độ khó trò chơi bằng cách tha thứ cho những input chậm của người chơi)
+
+```cpp
+struct PlayerJumping
+{
+    Player *player;
+    // Jumping
+    int cur = 0,
+        max = 2;
+    float terminal = -10;
+    // SUPER JUMPING
+    int super = 0;
+    int super_max = 80;
+    // Coyote jump (forgiving jump)
+    int coyote = 0;
+    int coyote_max = 15;
+    bool coyote_fail = 0;
+
+    // Ceiling lock jump
+    int ceiling_min = 10;
+    int knockout = 0;
+    int knockout_delay = 50;
+};
+```
+
+##### # `struct PlayerADash` và `struct PlayerGDash`
+
+- Hai kỹ năng của người chơi cho phép tăng tốc đột biến theo hướng ngang nhằm né tránh kẻ thù và khám phá map một cách thoải mái hơn, bao gồm các giá trị thời gian, độ trễ, ...
+
+```cpp
+struct PlayerAirDash
+{
+    Player *player;
+    // 1 : lock right, -1 : lock left
+    short lock = 0;
+    int cur = 0;
+    int max = 1;
+    int frame = 0;
+};
+
+struct PlayerGroundDash
+{
+    Player *player;
+    bool super = 0;
+    int frame = 0;
+    int delay = 0;
+};
+```
+
+##### # `struct PlayerSprite`
+
+- Bao gồm các `texture` cũng như phương thức để vẽ các dải của người chơi một cách dễ dàng hơn
+
+```cpp
+struct PlayerSprite
+{
+    Player *player;
+    int index = 0;
+    bool right = true;
+    bool end_lock = false;
+    int alpha = 255;
+
+    SDL_Texture *CurrentTexture,
+                *LeftTexture,
+                *RightTexture,
+                *LeftWeaponTexture,
+                *RightWeaponTexture;
+
+    SDL_Rect desRect, srcRect;
+
+    void clearTexture();
+    void setSpriteAlpha(int alp);
+
+    void setAct(int idx, bool r);
+    void setSprite(int m_index, int m_frame);
+    void setEndLock(bool lock);
+    void setActSprElock(int1D act, int1D spr, short lock = 0);
+
+    void draw();
+    void drawProp();
+};
+```

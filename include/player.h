@@ -39,12 +39,10 @@ struct PlayerState
     short hug_wall = 0;
     bool crawl_lock = 0;
 
-    void resetState();
-};
-
-struct PlayerCondition
-{
+    // Special Condition
     bool jump_on_ice = 0;
+
+    void resetState();
 };
 
 struct PlayerMoving
@@ -105,6 +103,34 @@ struct PlayerGroundDash
     int delay = 0;
 };
 
+struct PlayerSprite
+{
+    Player *player;
+    int index = 0;
+    bool right = true;
+    bool end_lock = false;
+    int alpha = 255;
+
+    SDL_Texture *CurrentTexture,
+                *LeftTexture,
+                *RightTexture,
+                *LeftWeaponTexture,
+                *RightWeaponTexture;
+
+    SDL_Rect desRect, srcRect;
+
+    void clearTexture();
+    void setSpriteAlpha(int alp);
+
+    void setAct(int idx, bool r);
+    void setSprite(int m_index, int m_frame);
+    void setEndLock(bool lock);
+    void setActSprElock(int1D act, int1D spr, short lock = 0);
+
+    void draw();
+    void drawProp();
+};
+
 struct PlayerCamera
 {
     Player *player;
@@ -157,34 +183,6 @@ struct PlayerCamera
 
     void updateStatic();
     void updateDynamic();
-};
-
-struct PlayerSprite
-{
-    Player *player;
-    int index = 0;
-    bool right = true;
-    int alpha = 255;
-    bool end_lock = false;
-
-    SDL_Texture *CurrentTexture,
-                *LeftTexture,
-                *RightTexture,
-                *LeftWeaponTexture,
-                *RightWeaponTexture;
-
-    SDL_Rect desRect, srcRect;
-
-    void clearTexture();
-    void setSpriteAlpha(int alp);
-
-    void setAct(int idx, bool r);
-    void setSprite(int m_index, int m_frame);
-    void setEndLock(bool lock);
-    void setActSprElock(int1D act, int1D spr, short lock = 0);
-
-    void draw();
-    void drawProp();
 };
 
 struct PlayerCombat
@@ -257,15 +255,8 @@ public:
     Hud HUD = Hud(this);
     Multiplayer *MULTI;
 
-    // ============== SOUND EFFECT ===============
-    PlayerSFX sfx = {this};
-
-    // ============== DEVELOPER ==================
-    PlayerDeveloper dev = {this};
-
     // ================ STATE ====================
     PlayerState state;
-    PlayerCondition condition;
 
     // ============ MOVEMENT/COMBAT ==============
     PlayerMoveset moveset;
@@ -278,6 +269,12 @@ public:
     // ============== CAMERA/DRAW ================
     PlayerSprite psprite = {this}; // To avoid conflict with sprite
     PlayerCamera camera = {this};
+
+    // ============== SOUND EFFECT ===============
+    PlayerSFX sfx = {this};
+
+    // ============== DEVELOPER ==================
+    PlayerDeveloper dev = {this};
 
     // Constructor
     ~Player();

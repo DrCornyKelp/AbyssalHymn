@@ -601,7 +601,7 @@ void Player::playerMovement(Map *map)
         vel.y = (jump.cur == jump.max || jump.coyote_fail) ? 6.5 : 5;
 
         state.on_ground = 0;
-        if (state.on_ice) condition.jump_on_ice = 1;
+        if (state.on_ice) state.jump_on_ice = 1;
         if (!state.hug_wall) jump.cur--;
 
         // Particle effect
@@ -651,7 +651,7 @@ void Player::playerMovement(Map *map)
 
             // Velocity
             move.vel_max = 6.5;
-            move.vel_max*= ((state.on_ice || condition.jump_on_ice) ? 1.2 : 1) *
+            move.vel_max*= ((state.on_ice || state.jump_on_ice) ? 1.2 : 1) *
                         (combat.weapon_equip ? .8 : 1) *
                         (combat.charge_time ? .8 : 1);
             // Acceleration x
@@ -727,7 +727,7 @@ void Player::playerMovement(Map *map)
             // Reset Stuff when land on ground
             if (state.on_ground)
             {
-                condition.jump_on_ice = 0;
+                state.jump_on_ice = 0;
 
                 jump.cur = jump.max;
                 jump.coyote_fail = 0;
