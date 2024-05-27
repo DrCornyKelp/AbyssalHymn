@@ -840,10 +840,9 @@ public:
 
 - Ngôi sao và tâm điểm của cuộc chơi, người chơi là thành phần thực thể `entity` có lượng logic dày đặc và linh hoạt nhất game
 - `Player` kế thừa các đặc tính của `Object2D`
-- Các hành động, trạng thái của người chơi được gói gọn trong các `struct Player<content>` đặc trưng cho 1 đặc điểm của người chơi
+- Các hành động, trạng thái của người chơi được gói gọn trong các `struct Player<feature>` đặc trưng cho 1 đặc tính của người chơi
 
-
-#### $\star$ Các thuộc tính của người chơi:
+#### $\star$ Các đặc tính của người chơi:
 
 ##### # `struct PlayerState`
 
@@ -960,6 +959,36 @@ struct PlayerGroundDash
 };
 ```
 
+##### # `struct PlayerCombat`
+
+- Trạng thái tấn công của người chơi, với các moveset combat cực kỳ linh hoạt cho phép thực hiện các đòn đánh theo một trình tự cũng như khả năng thay đổi đòn đánh dựa trên môi trường, trạng thái hiện tại người chơi, đấm vỡ mồm lũ sao đỏ Atralis
+
+```cpp
+struct PlayerCombat
+{
+    Player *player;
+    // Invincibility (is when you are god)
+    int invincible = 0;
+    // Invulnerability (is when you get hurt)
+    int invulnerable = 0;
+    int invulnerable_max = 150;
+
+    // Weapon handler
+    bool weapon_equip = 0;
+    int weapon_equip_frame = 0; // Only use for drawing
+    int weapon_equip_delay = 0;
+    int weapon_equip_delay_max = 200;
+
+    int index = 0;
+    float time = 0; 
+    float combo_time = 0;
+    int charge_time = 0;
+    float delay = 0; 
+    float parry_error = 0;
+};
+```
+
+
 ##### # `struct PlayerSprite`
 
 - Bao gồm các `texture` cũng như phương thức để vẽ các dải của người chơi một cách dễ dàng hơn
@@ -991,5 +1020,152 @@ struct PlayerSprite
 
     void draw();
     void drawProp();
+};
+```
+
+##### # `struct PlayerCamera`
+
+- Một chiếc camera linh hoạt với khả năng:
+  - Khóa màn hình vào điểm cần chú ý / rìa map
+  - Di chuyển tự nhiên với người chơi thay vì khóa một cách cứng nhắc vào tâm màn hình
+  - Tạo các hiệu ứng rung, giật như động đất, dash, ...
+  - Và nhiều yếu tố thú vị khác ...
+
+```cpp
+struct PlayerCamera
+{
+    Player *player;
+
+    /*
+    Mid: Position Based Camera Offset
+    - Based on the player's position
+    Shift: The Camera Shift (include Effect and Ease)
+    - Based on the player's movement
+    Center_Off: The Average Position of the Players
+    - Based on the number of players
+
+    Offset: The True Camera Offset (include Mid, Shift and Center_Off)
+    */
+
+    ObjectXY mid;
+    ObjectXY center_off; 
+    ObjectXYf focus_trigger;
+    ObjectXYb unfocus;
+    ObjectXY unfocus_offset;
+    ObjectXY offset;
+
+    // Camera Shift Effect
+    ObjectXYf shift;
+    ObjectXYf ease;
+    ObjectXYf effect;
+
+    /*
+    Most of the time camera will not snap to the player
+    but ease to the player when encounter changes
+    */
+
+    // Goal Value
+    ObjectBox focus_dir;
+    ObjectBox focus_point;
+    ObjectBox focus_border;
+    bool outside_render = true;
+    // Progress Value
+    ObjectBox focus_true;
+    int focus_speed = 4;
+    bool focus_snap = 0;
+
+    ObjectXYf getShift();
+    ObjectXY getCenterOffset();
+    ObjectXYf getFocusTrigger();
+
+    void setCameraBorder(ObjectBox f_dir, ObjectBox f_val);
+    void setCameraFocus(ObjectBox f_dir, ObjectBox f_val, short gr);
+    void playerCameraFocus();
+
+    void updateStatic();
+    void updateDynamic();
+};
+```
+
+##### # `struct PlayerSFX`
+
+- Bao gồm các phương thức tạo hiệu ứng âm thanh dựa trên môi trường tương tác người chơi
+
+```cpp
+struct PlayerSFX
+{
+    Player *player;
+
+    // Walking
+    int walk_step = 0;
+    int walk_sprite = 0;
+    int walk_index = 0;
+    AudioSFX walk0 = AudioSFX("assets/Audio/PlayerSFX/walk0.mp3");
+    AudioSFX walk1 = AudioSFX("assets/Audio/PlayerSFX/walk1.mp3");
+    AudioSFX walk2 = AudioSFX("assets/Audio/PlayerSFX/walk2.mp3");
+    void updateWalkSFX();
+
+    // Bổ sung sau này ...
+
+    void updateSFX();
+};
+
+```
+
+#### Người chơi tổng bộ `class Player`
+
+- Bao gồm các đặc tính kể trên, cùng với các phương thức tạo sự tương tác giữa các đặc tính (Giả sử: Đặc tính đi trên băng trơn `PlayerState.on_ice` sẽ quyết định vận tốc tối đa của `PlayerMove.vel_x_max`)
+
+```cpp
+class Player : public Object2D
+{
+public:
+    // Elden ring
+    int hp = 100;
+    int hp_max = 100;
+    int mp = 100;
+    int mp_max = 100;
+
+    // ================== META ===================
+    bool MAIN;
+    int INDEX;
+    Input INPUT;
+    Hud HUD = Hud(this);
+    Multiplayer *MULTI;
+
+    // ================ STATE ====================
+    PlayerState state;
+
+    // ============ MOVEMENT/COMBAT ==============
+    PlayerMoveset moveset;
+    PlayerMoving move = {this};
+    PlayerJumping jump = {this};
+    PlayerAirDash a_dash = {this};
+    PlayerGroundDash g_dash = {this};
+    PlayerCombat combat = {this};
+
+    // ============== CAMERA/DRAW ================
+    PlayerSprite psprite = {this}; // To avoid conflict with sprite
+    PlayerCamera camera = {this};
+
+    // ============== SOUND EFFECT ===============
+    PlayerSFX sfx = {this};
+
+    // ============== DEVELOPER ==================
+    PlayerDeveloper dev = {this};
+
+    // Constructor
+    ~Player();
+    Player(bool mc = 0);
+
+    // Stop Player Current State
+    void setStatic();
+
+    // ========================= PLAYER LOGIC =========================
+    void playerMovement(Map *map);
+    void playerCombat(Map *map);
+    void playerHitBox();
+    void playerGetHit(Map *map, int dmg);
+    void playerUpdate(Map *map);
 };
 ```
