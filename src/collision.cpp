@@ -7,11 +7,11 @@ bool Collision::combatCollision(Object2D *attacker, Object2D *receiver, int1D of
     int colli_y = abs(attacker->hitbox.y - receiver->hitbox.y + offset[1]);
 
     return  (attacker->hitbox.x < receiver->hitbox.x ?
-                colli_x < attacker->getCombatHitR() + receiver->hitbox.hw / 2 :
-                colli_x < attacker->getCombatHitL() + receiver->hitbox.hw / 2) &&
+                colli_x < attacker->combatbox.right + receiver->hitbox.hw / 2 :
+                colli_x < attacker->combatbox.left + receiver->hitbox.hw / 2) &&
             (attacker->hitbox.y < receiver->hitbox.y ? 
-                colli_y < attacker->getCombatHitU() + receiver->hitbox.hh / 2 :
-                colli_y < attacker->getCombatHitD() + receiver->hitbox.hh / 2);
+                colli_y < attacker->combatbox.up + receiver->hitbox.hh / 2 :
+                colli_y < attacker->combatbox.down + receiver->hitbox.hh / 2);
 }
 bool Collision::playerCombatCollision(Player *player, Object2D *receiver, bool isReceiver)
 {
@@ -21,18 +21,18 @@ bool Collision::playerCombatCollision(Player *player, Object2D *receiver, bool i
     return  isReceiver
             ?
             ((player->move.hitX() > receiver->hitbox.x ?
-                colli_x < receiver->getCombatHitR() + player->hitbox.hw / 2 :
-                colli_x < receiver->getCombatHitL() + player->hitbox.hw / 2) &&
+                colli_x < receiver->combatbox.right + player->hitbox.hw / 2 :
+                colli_x < receiver->combatbox.left + player->hitbox.hw / 2) &&
             (player->move.hitY() < receiver->hitbox.y ? 
-                colli_y < receiver->getCombatHitU() + player->hitbox.hh / 2 :
-                colli_y < receiver->getCombatHitD() + player->hitbox.hh / 2))
+                colli_y < receiver->combatbox.up + player->hitbox.hh / 2 :
+                colli_y < receiver->combatbox.down + player->hitbox.hh / 2))
             :
             ((player->move.hitX() < receiver->hitbox.x ?
-                colli_x < player->getCombatHitR() + receiver->hitbox.hw / 2 :
-                colli_x < player->getCombatHitL() + receiver->hitbox.hw / 2) &&
+                colli_x < player->combatbox.right + receiver->hitbox.hw / 2 :
+                colli_x < player->combatbox.left + receiver->hitbox.hw / 2) &&
             (player->move.hitY() < receiver->hitbox.y ? 
-                colli_y < player->getCombatHitU() + receiver->hitbox.hh / 2 :
-                colli_y < player->getCombatHitD() + receiver->hitbox.hh / 2));
+                colli_y < player->combatbox.up + receiver->hitbox.hh / 2 :
+                colli_y < player->combatbox.down + receiver->hitbox.hh / 2));
 }
 
 // PLAYER COLLIDE
@@ -111,7 +111,7 @@ void Collision::playerEnemyCollision(Map *map, Player *player)
         {
             if (playerCombatCollision(player, enemy))
             {
-                enemy->enemyGetHit(player->getCombatDamage());
+                enemy->enemyGetHit(player->combatbox.dmg);
 
                 map->appendParticle(new ParticleEffect(
                     CFG->loadTexture(

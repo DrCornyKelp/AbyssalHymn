@@ -827,70 +827,70 @@ void Player::playerMovement(Map *map)
             // =================== Combat hitbox handler ===================
             if (!combat.time && !a_dash.frame && !g_dash.frame)
             {
-                setCombatHit({});
+                combatbox = {};
                 combat.parry_error = 10;
             }
 
             if (a_dash.frame)
-                setCombatHit({
+                combatbox = {
                     30, 30, 
                     psprite.right ? 0 : 80,
                     psprite.right ? 80 : 0,
                     10
-                });
+                };
 
             if (g_dash.frame)
-                setCombatHit({
+                combatbox = {
                     20, 20,
                     psprite.right ? 0 : 100,
                     psprite.right ? 100 : 0,
                     move.crawl ? 20 : 12
-                });
+                };
 
             if (combat.index == 1)
             {
-                setCombatHit({
+                combatbox = {
                     40, 40,
                     psprite.right? 0 : 100,
                     psprite.right? 100 : 0,
                     10
-                });
+                };
                 combat.parry_error = 3;
             }
 
             if (combat.index == 2)
             {
-                setCombatHit({
+                combatbox = {
                     15, 15,
                     psprite.right ? 0 : 120,
                     psprite.right ? 120 : 0,
                     20
-                });
+                };
                 combat.parry_error = 1;
             }
 
             if (combat.index == 3)
             {
-                setCombatHit({
+                combatbox = {
                     80, 60,
                     psprite.right ? 0 : 130,
                     psprite.right ? 130 : 0,
                     30
-                });
+                };
                 combat.parry_error = 0;
             }
 
             if (combat.index == 4)
             {
-                setCombatHit({76, 0, 64, 64, 15});
+                combatbox = {76, 0, 64, 64, 15};
                 combat.parry_error = 40;
             }
 
             if (combat.index == 5)
             {
-                setCombatHit({
+                combatbox = {
                     64, 64, psprite.right?0:93, psprite.right?93:0, 15
-                });
+                };
                 combat.parry_error = 20;
             }
 

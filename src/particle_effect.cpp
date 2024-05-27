@@ -6,7 +6,7 @@ ParticleEffect::~ParticleEffect()
 
 ParticleEffect::ParticleEffect(
     SDL_Texture *peTxture,
-    float X, float Y, int w, int h, // Box
+    float X, float Y, float w, float h, // Box
     int sw, int sh, int sim, int sfm, // Sprite
     bool repeat) :
     Object2D({X, Y, w, h}, {sw, sh, sim, sfm}),
@@ -16,7 +16,7 @@ ParticleEffect::ParticleEffect(
 
 ParticleEffect::ParticleEffect(
     SDL_Texture *peTxture,
-    float X, float Y, int w, int h, // Box
+    float X, float Y, float w, float h, // Box
     int sw, int sh, int sim, int srm, int sfm, // Sprite
     bool repeat) :
     Object2D({X, Y, w, h}, {sw, sh, sim, sfm}),
@@ -34,7 +34,7 @@ void ParticleEffect::drawProp(Player *player)
     desRect = {
         Camera::objectDrawX(player, this),
         Camera::objectDrawY(player, this),
-        hitbox.w, hitbox.h
+        int(hitbox.w), int(hitbox.h)
     };
     srcRect = {
         sprite.si * sprite.sw,

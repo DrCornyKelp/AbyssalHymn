@@ -14,7 +14,7 @@ Projectile::Projectile( string0D pPath,
                         float X, float Y, int hw, int hh, int sw, int sh,
                         float velX, float velY, float accelX, float accelY,
                         int dmg, int age, short harm) :
-    Object2D({X, Y, sw, sh, hw, hh}),
+    Object2D({X, Y, float(sw), float(sh), hw, hh}),
     // Bullet properties
     bullet_age(age), bullet_damage(dmg), proj_path(pPath),
     // Harm who?
@@ -30,7 +30,7 @@ Projectile::Projectile( string0D pPath,
                         float velX, float velY, float accelX, float accelY,
                         int dmg, int age, short harm,
                         bool parry, bool pierece, bool thruWall) :
-    Object2D({X, Y, sw, sh, hw, hh}),
+    Object2D({X, Y, float(sw), float(sh), hw, hh}),
     // Bullet properties
     bullet_age(age), bullet_damage(dmg), proj_path(pPath),
     // Harm who?
@@ -49,7 +49,10 @@ Projectile::Projectile( string0D pPath,
                         int dmg, int age, short harm,
                         bool parry, bool pierece, bool thruWall,
                         int sim, int sfm) :
-    Object2D({X, Y, sw, sh, hw, hh}, {sw, sh, sim, sfm}),
+    Object2D(
+        {X, Y, float(sw), float(sh), hw, hh},
+        {sw, sh, sim, sfm}
+    ),
     // Im old
     bullet_age(age), bullet_damage(dmg), proj_path(pPath),
     // Harm who?
@@ -196,13 +199,13 @@ void Projectile::updateProjectile(Map *map)
     desRect = {
         Camera::objectDrawX(map->MapMulti->MAIN, this),
         Camera::objectDrawY(map->MapMulti->MAIN, this),
-        hitbox.w, hitbox.h
+        int(hitbox.w), int(hitbox.h)
     };
 
     if (sprite.sim > 0)
-        srcRect = {sprite.si * hitbox.w, 0, hitbox.w, hitbox.h};
+        srcRect = {sprite.si * int(hitbox.w), 0, int(hitbox.w), int(hitbox.h)};
     else
-        srcRect = {0, 0, hitbox.w, hitbox.h};
+        srcRect = {0, 0, int(hitbox.w), int(hitbox.h)};
 
     setSprite();
 

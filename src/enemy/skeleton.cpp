@@ -39,7 +39,7 @@ void Skeleton::draw(Player *player)
     // Draw
     SDL_Rect desRect = {Camera::objectDrawX(player, this),
                         Camera::objectDrawY(player, this),
-                        hitbox.w, hitbox.h};
+                        int(hitbox.w), int(hitbox.h)};
     SDL_Rect srcRect = {(direction > 0 ? sprite.si : sprite.sim - sprite.si - 1) * 96,
                         0, 96, 64};
 
@@ -151,18 +151,12 @@ void Skeleton::enemyAI(Map *map)
 
     if (attack_state && sprite.si == 4)
     {
-        setCombatHitU(40);
-        setCombatHitD(40);
-        setCombatHitL(direction > 0 ? 0 : 120);
-        setCombatHitR(direction > 0 ? 120 : 0);
+        combatbox = {
+            40, 40, direction > 0 ? 0 : 120, direction > 0 ? 120 : 0
+        };
     }
     else
-    {
-        setCombatHitU(0);
-        setCombatHitD(0);
-        setCombatHitL(0);
-        setCombatHitR(0);
-    }
+        combatbox = {};
 
     if ((getInvinTime() < 60 || stunt_resistance) && !idle_time && !attack_state)
         hitbox.x += direction;

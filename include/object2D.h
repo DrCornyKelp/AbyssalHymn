@@ -86,11 +86,7 @@ public:
     ObjectAccel accel;
 
     // Combat (if possible)
-    int combat_hit_up = 0;
-    int combat_hit_down = 0;
-    int combat_hit_left = 0;
-    int combat_hit_right = 0;
-    int combat_damage = 0;
+    ObjectCombatBox combatbox;
 
     // Ignore Object Existance
     bool ignore = 0;
@@ -101,20 +97,6 @@ public:
     ~Object2D(); // Default Destructor
     Object2D(); // Default Constructor
     Object2D(ObjectHitbox box, ObjectSprite spr = {}, ObjectVel v = {}, ObjectAccel a = {});
-
-    // Comabt hitbox
-    void setCombatHit(ObjectCombatBox c_hit);
-    void setCombatHitU(int hit);
-    void setCombatHitD(int hit);
-    void setCombatHitL(int hit);
-    void setCombatHitR(int hit);
-    void setCombatDamage(int dmg);
-    ObjectCombatBox getCombatHit();
-    int getCombatHitU();
-    int getCombatHitD();
-    int getCombatHitL();
-    int getCombatHitR();
-    int getCombatDamage();
 
     // Box
     bool insideBox(ObjectBox box);

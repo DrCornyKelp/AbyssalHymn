@@ -76,31 +76,6 @@ Object2D::Object2D(ObjectHitbox box, ObjectSprite spr, ObjectVel v, ObjectAccel 
     hitbox(box), sprite(spr), vel(v), accel(a)
 {}
 
-// Combat hitbox
-void Object2D::setCombatHit(ObjectCombatBox c_hit)
-{
-    combat_hit_up = c_hit.up;
-    combat_hit_down = c_hit.down;
-    combat_hit_left = c_hit.left;
-    combat_hit_right = c_hit.right;
-    combat_damage = c_hit.dmg;
-}
-void Object2D::setCombatHitU(int hit) { combat_hit_up = hit; }
-void Object2D::setCombatHitD(int hit) { combat_hit_down = hit; }
-void Object2D::setCombatHitL(int hit) { combat_hit_left = hit; }
-void Object2D::setCombatHitR(int hit) { combat_hit_right = hit; }
-void Object2D::setCombatDamage(int dmg) { combat_damage = dmg; }
-ObjectCombatBox Object2D::getCombatHit() { return {
-    combat_hit_up, combat_hit_down,
-    combat_hit_left, combat_hit_right,
-    combat_damage
-}; }
-int Object2D::getCombatHitU() { return combat_hit_up; }
-int Object2D::getCombatHitD() { return combat_hit_down; }
-int Object2D::getCombatHitL() { return combat_hit_left; }
-int Object2D::getCombatHitR() { return combat_hit_right; }
-int Object2D::getCombatDamage() { return combat_damage; }
-
 // BOX
 ObjectBox Object2D::getBox()
 { return {
