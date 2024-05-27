@@ -10,7 +10,7 @@ World::~World()
 
 World::World(Map1D mapvec, int startmap) :
     MapVec(mapvec), MapCur(mapvec[startmap]), MapIndex(startmap)
-{ MapCur->MapActive = 1; }
+{ MapCur->Active = 1; }
 
 void World::initWorld(Multiplayer *multi, Audio *audio, Collision *collision)
 {
@@ -82,11 +82,11 @@ void World::switchMap(WorldLocation location)
         MapIndex = location.index;
         // Set Maps Activity
         for (Map *map : MapVec)
-            map->MapActive = 0;
+            map->Active = 0;
 
         // Set Current Map
         MapCur = MapVec[MapIndex];
-        MapCur->MapActive = 1;
+        MapCur->Active = 1;
     }
 
     MapCur->loadCheckpoint(location);

@@ -139,7 +139,7 @@
   - **[`exclusive_update`]**: For runtime.
 
 - **NOTES for [`exclusive_update`]**
-  - Use *`map->MapActive`* for updates between *global* and *active* function
+  - Use *`map->Active`* for updates between *global* and *active* function
     - **`GlobalFunction`**: functions that are updated globally despite their activity state (E.X: daynight cycle, weather, ... must be consitent between each map as, well, that's kinda common sense).
       - **DISCLAIMER**: There's no weather/daytime cycle for my game (yet).
     - **`ActiveFunction`**: functions that are only updated while their `map` are active (E.X: halt all enemy movement/logic to avoid those pesky spawn camper).

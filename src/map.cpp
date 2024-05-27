@@ -13,9 +13,8 @@ void MapInformation::readInfo(string0D dir)
         if (CFG->isComment(line)) continue;
 
         string1D info = CFG->convertStr1D(line, ':');
-        if (info[0] == "name") name = info[1];
-        else if (info[0] == "difficulty")
-            difficulty = info[1];
+        if (info[0] == "name") 
+            name = info[1];
         else if (info[0] == "pause_bg")
             pause_bg = CFG->loadTexture(info[1]);
         else if (info[0] == "pause_ratio")
@@ -33,19 +32,19 @@ void MapInformation::clearInfo()
 
 void MapComponent::appendDirectory()
 {
-    playlist = map->MapDirectory + "/playlist.csv";
-    block_path = map->MapDirectory + "/block_path.csv";
-    block_main = map->MapDirectory + "/block_main.csv";
-    block_back = map->MapDirectory + "/block_back.csv";
-    block_hidden = map->MapDirectory + "/block_hidden.csv";
-    background = map->MapDirectory + "/background.csv";
-    decor_back = map->MapDirectory + "/decoration_back.csv";
-    decor_front = map->MapDirectory + "/decoration_front.csv";
-    bubble = map->MapDirectory + "/bubble.csv";
-    door = map->MapDirectory + "/door.csv";
-    audio_obj = map->MapDirectory + "/audio_obj.csv";
-    camera_box = map->MapDirectory + "/camera_box.csv";
-    transit_map = map->MapDirectory + "/transit_map.csv";
+    playlist = map->MapInfo.path + "/playlist.csv";
+    block_path = map->MapInfo.path + "/block_path.csv";
+    block_main = map->MapInfo.path + "/block_main.csv";
+    block_back = map->MapInfo.path + "/block_back.csv";
+    block_hidden = map->MapInfo.path + "/block_hidden.csv";
+    background = map->MapInfo.path + "/background.csv";
+    decor_back = map->MapInfo.path + "/decoration_back.csv";
+    decor_front = map->MapInfo.path + "/decoration_front.csv";
+    bubble = map->MapInfo.path + "/bubble.csv";
+    door = map->MapInfo.path + "/door.csv";
+    audio_obj = map->MapInfo.path + "/audio_obj.csv";
+    camera_box = map->MapInfo.path + "/camera_box.csv";
+    transit_map = map->MapInfo.path + "/transit_map.csv";
 }
 
 void MapComponent::appendComponent()
@@ -232,31 +231,29 @@ void MapComponent::eraseTransitMap(int i)
 // ========================= MAP ==============================
 
 Map::~Map() { MapComp.clearComponent(); }
-Map::Map(string0D mapname) :
-    MapName(mapname),
-    MapDirectory("map_data/" + mapname)
-{}
+Map::Map(string0D mapname)
+{
+    MapInfo.name = mapname;
+    MapInfo.path = "map_data/" + mapname;
+}
 
 void Map::initMapStandard()
 {
     MapComp.map = this;
     MapComp.appendDirectory();
     MapComp.appendComponent();
-
-    MapInfo = MapInformation();
 }
 
 void Map::initMap(World *world, Multiplayer *multi, Audio *audio,
                 Collision *collision, int id)
 {
-    MapId = id;
+    // Default
     AUDIO = audio;
     WORLD = world;
     COLLI = collision;
     MULTI = multi;
 
-    if (MapEmpty) return;
-
+    // Load Map Info
     initMapStandard();
     applyExclusive(this);
 }
@@ -308,7 +305,7 @@ void Map::updateMapGlobal()
         for (Block *block : blockSection)
             for (Player *player : MULTI->Players)
                 seethru = Collision::objectCollision(player, block) || seethru;
-        seethru = seethru && MapActive;
+        seethru = seethru && Active;
 
         for (Block *block : blockSection)
             block->blockSeethrough(MULTI->MAIN, seethru);

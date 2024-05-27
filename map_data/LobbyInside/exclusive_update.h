@@ -2,7 +2,7 @@
 
 void LobbyInsideUpdate(Map *map)
 {
-    if (!map->MapActive) return;
+    if (!map->Active) return;
 
     // ======================== UPDATE AUDIO PROPERTIES ========================
     map->AUDIO->setPlistVolMax(30);

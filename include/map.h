@@ -29,7 +29,7 @@ struct MapBgColor
 struct MapInformation
 {
     string0D name = "";
-    string0D difficulty = "";
+    string0D path = "";
 
     SDL_Texture *pause_bg = CFG->loadTexture(
         "assets/PauseScreen/Default.png"
@@ -119,19 +119,14 @@ struct MapComponent
 class Map
 {
 public:
-    // =============== ATTRIBUTE =================
-    bool MapId = -1;
-    bool MapEmpty = false;
-    bool MapActive = 0;
+    // ======== STATE ================
+    bool Active = 0;
 
-    // =================== DEFAULT ===================
+    // ======== DEFAULT ==============
     World *WORLD;
     Audio *AUDIO;
     Collision *COLLI;
     Multiplayer *MULTI;
-
-    string0D MapName = "";
-    string0D MapDirectory = "";
 
     // ======== MAP INFO =============
     MapInformation MapInfo;
@@ -170,7 +165,7 @@ public:
     // AUDIO SOURCE
     AudioObj1D AudioObjVec;
     // Exclusive update function
-    ExclusiveUpdate UpdateExclusive;
+    ExclusiveUpdate UpdateExclusive = [](Map *map) {};
 
     // ======== MAP INTERACTION ========
     bool OutsideRender = 0;

@@ -43,44 +43,46 @@
 void applyExclusive(Map *map)
 {
     // Tutorial Map
-    if (map->MapName == "Tutorial1")
+    std::cout << map->MapInfo.name << std::endl;
+
+    if (map->MapInfo.name == "Tutorial1")
     { Tutorial1Init(map); map->UpdateExclusive = Tutorial1Update; }
-    if (map->MapName == "Tutorial2")
+    if (map->MapInfo.name == "Tutorial2")
     { Tutorial2Init(map); map->UpdateExclusive = Tutorial2Update; }
-    if (map->MapName == "Tutorial3")
+    if (map->MapInfo.name == "Tutorial3")
     { Tutorial3Init(map); map->UpdateExclusive = Tutorial3Update; }
-    if (map->MapName == "Tutorial4")
+    if (map->MapInfo.name == "Tutorial4")
     { Tutorial4Init(map); map->UpdateExclusive = Tutorial4Update; }
 
     // Main Map
-    if (map->MapName == "LobbyInside")
+    if (map->MapInfo.name == "LobbyInside")
     { LobbyInsideInit(map); map->UpdateExclusive = LobbyInsideUpdate; }
     
-    if (map->MapName == "LobbyOutside")
+    if (map->MapInfo.name == "LobbyOutside")
     { LobbyOutsideInit(map); map->UpdateExclusive = LobbyOutsideUpdate; }
     
-    if (map->MapName == "SunlightValley")
+    if (map->MapInfo.name == "SunlightValley")
     { SunlightValleyInit(map); map->UpdateExclusive = SunlightValleyUpdate; }
     
-    if (map->MapName == "SnowyCanyon")
+    if (map->MapInfo.name == "SnowyCanyon")
     { SnowyCanyonInit(map); map->UpdateExclusive = SnowyCanyonUpdate; }
     
-    if (map->MapName == "DustyMirage")
+    if (map->MapInfo.name == "DustyMirage")
     { DustyMirageInit(map); map->UpdateExclusive = DustyMirageUpdate; }
     
-    if (map->MapName == "AncientEmrald")
+    if (map->MapInfo.name == "AncientEmrald")
     { AncientEmraldInit(map); map->UpdateExclusive = AncientEmraldUpdate; }
     
-    if (map->MapName == "DeepCavern")
+    if (map->MapInfo.name == "DeepCavern")
     { DeepCavernInit(map); map->UpdateExclusive = DeepCavernUpdate; }
     
-    if (map->MapName == "DeadAhead")
+    if (map->MapInfo.name == "DeadAhead")
     { DeadAheadInit(map); map->UpdateExclusive = DeadAheadUpdate; }
 
-    if (map->MapName == "SeaHorizon")
+    if (map->MapInfo.name == "SeaHorizon")
     { SeaHorizonInit(map); map->UpdateExclusive = SeaHorizonUpdate; }
     
-    if (map->MapName == "CloudHighway")
+    if (map->MapInfo.name == "CloudHighway")
     { CloudHighwayInit(map); map->UpdateExclusive = CloudHighwayUpdate; }
 }
 

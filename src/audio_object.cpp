@@ -16,10 +16,10 @@ AudioObject::AudioObject(string0D path, float X, float Y,
 void AudioObject::updateProximity(Map *map)
 {
     // Play if active
-    if (map->MapActive &&
+    if (map->Active &&
         music.getStatus() != sf::Music::Playing)
         music.play();
-    if (!map->MapActive)
+    if (!map->Active)
     {
         // Pause if not active
         if (music.getStatus() == sf::Music::Playing) 

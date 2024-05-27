@@ -3,7 +3,7 @@
 // std::vector<MapTransit> deep_cavern_transit;
 
 void SeaHorizonUpdate(Map *map) {
-    if (map->MapActive)
+    if (map->Active)
     {
     // ============ CAN CAMERA RENDER ANYTHING OUTSIDE FOCUS BORDER ============
         map->MULTI->MAIN->camera.outside_render = 0;

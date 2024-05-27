@@ -284,7 +284,7 @@ void BlockSyntax::GlobalMerge(string1D cmd,  int &start, short &sorted)
 
 void BlockSyntax::UpdateBlock(bool back, bool f2m)
 {
-    string0D block_path = map->MapDirectory +
+    string0D block_path = map->MapInfo.path +
                             (back ? "/block_back.csv" :
                                     "/block_main.csv");
 
@@ -443,7 +443,6 @@ void Console::execute(Map *map, string1D cmd)
     if (syntaxComp(cmd, 0, "read")) readFile(map, cmd[1]);
     if (syntaxComp(cmd, 0, "block")) 
     {
-        if (world->MapCur->MapEmpty) return;
         blocksyntax = {world->MapCur, player, collision};
         blockCommand(map, cmd);
     }
