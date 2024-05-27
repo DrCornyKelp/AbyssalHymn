@@ -113,9 +113,9 @@ struct TransitionEffect
 ```
 
 - `Transition` chuyển cảnh bao gồm 3 quá trình
-    - Làm đen màn hình
-    - Giữ nguyên màn hình đen (dành cho việc thực hiện các thuật toán trong quá trình màn hình đen)
-    - Làm sáng màn hình
+  - Làm đen màn hình
+  - Giữ nguyên màn hình đen (dành cho việc thực hiện các thuật toán trong quá trình màn hình đen)
+  - Làm sáng màn hình
 
 #### Lớp cài đặt `class Configuration`
 
@@ -832,6 +832,49 @@ public:
 };
 ```
 
+### 10. Hiển thị trực quan [`Hud`]
+
+- `class Hud` quản lý việc vẽ các trạng thái người chơi, những yếu tố trên màn hình như vạch máu, thể lực.
+
+```cpp
+class Hud {
+private:
+    float alpha = 120; // Opacity
+
+    Player *player;
+
+    int bobbing = 0;
+    int bobbing_direction = 1;
+
+    int airbornDisplay = 300;
+
+    // Hud texture
+    SDL_Texture *airbornTexture;
+
+    // Head Up texture
+    SDL_Texture *combatReadyTexture;
+    SDL_Texture *combatDelayTexture;
+    SDL_Texture *combatChargeTexture;
+
+    SDL_Texture *jumpTexture;
+    SDL_Texture *jumpDoubleTexture;
+    SDL_Texture *jumpSuperTexture;
+
+    SDL_Texture *invincibleTexture;
+public:
+    ~Hud();
+    Hud(Player *p);
+
+    // Setter
+    void setAlpha(int a);
+    // No Getter
+
+    // Alot of drawing
+    void drawHeadUpStat();
+    void draw();
+}
+```
+
 ## D. THÀNH PHẦN NỘI DUNG
 
 - Là các thành phần cụ thể của game, đặt sự quan trọng về tính nội dung cũng như tính năng
@@ -1042,11 +1085,11 @@ struct PlayerCamera
 
     /*
     Mid: Position Based Camera Offset
-    - Based on the player's position
+  - Based on the player's position
     Shift: The Camera Shift (include Effect and Ease)
-    - Based on the player's movement
+  - Based on the player's movement
     Center_Off: The Average Position of the Players
-    - Based on the number of players
+  - Based on the number of players
 
     Offset: The True Camera Offset (include Mid, Shift and Center_Off)
     */
@@ -1523,7 +1566,180 @@ public:
 };
 ```
 
-### 7. Vật thể âm thanh [`AudioObject`]
+### 7. Trang trí [`Decoration`]
+
+- `class Decoration` là con của `Object2D`, với các thuộc tính riêng như:
+  - Độ alpha, loại decor.
+  - Đường dẫn, khung.
+  - Tọa độ trên sprite sheet, tọa độ được vẽ lên trên cửa sổ.
+  - Texture chứa sprite sheet.
+  - Tỉ lệ rộng/cao, giá trị x thêm vào, tỉ lệ vận tốc (giúp décor di chuyển với tốc độ khác người chơi)
+
+- Các phương thức của class:
+  - Các phương thức khởi tạo riêng cho các trường hợp (background, static, animated standard, animated advance)
+  - Các setter, getter, hàm init.
+  - Phương thức vẽ, vẽ nền, cập nhật trong lúc chạy.
+  - Các phương thức làm việc với file.
+
+```cpp
+class Decoration : public Object2D
+{
+private:
+    int alpha = 255;
+    short type = 0;
+
+    string0D decor_path;
+    string0D decor_frame = "";
+
+    SDL_Rect desRect, srcRect;
+    SDL_Texture *decor_texture;
+    SDLTexture1D decor_textures;
+
+    float   w_h_ratio = 1;
+    float   add_x = 0;
+    float   scale_vel_x = 0,
+            scale_vel_y = 0;
+public:
+    // Destructor
+    ~Decoration();
+    // File Manip Decoration
+    Decoration(DecorObject decor_obj);
+    // Background
+    Decoration(string0D dPath, float whRatio, float scaleVelX = .1, float scaleVelY = .1, float velX = 0, bool bg = 1);
+    // Static Decoration
+    Decoration(string0D dPath, float X, float Y, float w, float h);
+    // Standard Animated Decoration
+    Decoration(string0D dPath, float X, float Y, float w, float h, int sw, int sh, int sim, int sfm);
+    // Advance Animated Decoration
+    Decoration(string0D dPath, string0D fPath, float X, float Y, float w, float h, int sim, int sfm);
+
+    float getAddX();
+    float getSclVelX();
+    float getSclVelY();
+
+    void setAbs(bool ab);
+    void setAlpha(int a);
+    void initDecoration();
+
+    // Decoration
+    void drawProp(Player *player);
+    void draw(Player *player);
+    // Background
+    void updateBackground(Player *player, bool left_prlx = 0);
+    void drawBackground();
+
+    // File manip
+    static Decoration *codeToDecorInfo(string0D str);
+    static void appendDecor(Map *map, string0D decor_dir, bool front = 0);
+    static void appendBackground(Map *map, string0D bg_dir);
+}
+```
+
+### 8. Đạn [`Projectile`]
+
+- `class Projectile` kế thừa từ `Object2D`, là các vật thể đạn trong game.
+- Các thuộc tính bao gồm có thể làm giảm máu của địch hay người chơi, đi xuyên tường, địch, có thể được phản lại hay không, biến mất hoặc bị phản lại hay chưa, sát thương, vận tốc, đường dẫn đến asset và texture.
+- Các phương thức bao gồm:
+  - Các hàm khởi tạo cho mỗi loại đạn.
+  - Setters, getters.
+  - Xử lý va chạm với các vật thể khác.
+  - Xử lý vận tốc, cập nhật, vẽ đạn.
+
+```cpp
+class Projectile : public Object2D
+{
+private:
+    bool harm_player;
+    bool harm_enemy;
+    bool can_pierce = false;
+    bool can_wall = false;
+    bool can_parry = true;
+
+    bool bullet_dead = false;
+    bool bullet_parried = false;
+
+    int bullet_age = 0;
+    int bullet_damage = 0;
+    float vel_parry_x = 0, vel_parry_y = 0;
+
+    string0D proj_path;
+    SDL_Rect desRect, srcRect;
+    SDL_Texture *proj_texture;
+
+    // Fun but unnecessary
+    int parry_effect = 0;
+
+public:
+    ~Projectile();
+    // Standard Projectile (can parry, no wall, no pierce)
+    Projectile(string0D pPath, float X, float Y, int hw, int hh, int sw, int sh, float velX, float velY, float accelX, float accelY, int dmg, int age, short harm);
+    // Customizable No Animation Projectile
+    Projectile(string0D pPath, float X, float Y, int hw, int hh, int sw, int sh, float velX, float velY, float accelX, float accelY, int dmg, int age, short harm, bool parry, bool pierce, bool thruWall);
+    // Customizable Yes Animation Projectile
+    Projectile(string0D pPath, float X, float Y, int hw, int hh, int sw, int sh, float velX, float velY, float accelX, float accelY, int dmg, int age, short harm, bool parry, bool pierce, bool thruWall, int sim, int sfm);
+
+    // some things
+    static float generateRandomFloat();
+
+    // Getter
+    bool getBulletDead();
+    bool getBulletParried();
+    // Setter
+    void setBulletDead(bool dead);
+    
+    // ================== Deadly =======================
+    // Harm the environment (not really, they immortal)
+    void blockCollision(Block *block);
+    // Harm you
+    void playerCollision(Map *map, Player *player);
+    // Harm them
+    void enemyCollision(Map *map);
+    // Harmful in general (lookin at you America)
+    void projectileCollision(Map *map);
+
+    // =================== Velocity ====================
+    void projectileAction(Map *map);
+
+    // =================== Update ======================
+    void updateProjectile(Map *map);
+
+    // =================== Draw ====-===================
+    void draw(Player *player);
+};
+```
+
+
+### 9. Hiệu ứng [ParticleEffect]
+- `class ParticleEffect` kế thừa từ `Object2D`, quản lý các hiệu ứng trong game, với các thuộc tính để quản lý trạng thái mỗi hiệu ứng. Các phương thức vẽ được sử dụng ở đây cùng 1 getter để xét hiệu ứng đã biến mất hay chưa.
+
+```cpp
+class ParticleEffect : public Object2D
+{
+private:
+    bool is_gone = false;
+    bool can_repeat = false;
+
+    SDL_Rect desRect, srcRect;
+    SDL_Texture *pe_texture;
+
+public:
+    ~ParticleEffect();
+    ParticleEffect( SDL_Texture *peTxture,
+                    float X, float Y, int w, int h, // Position/Size in game
+                    int sw, int sh, int sim, int sfm, // Animation properties
+                    bool repeat);
+    ParticleEffect( SDL_Texture *peTxture,
+                    float X, float Y, int w, int h, // Position/Size in game
+                    int sw, int sh, int sim, int srm, int sfm, // Animation properties
+                    bool repeat);
+    bool getIsGone();
+
+    void drawProp(Player *player);
+    void draw(Player *player);
+};
+```
+
+### 10. Vật thể âm thanh [`AudioObject`]
 
 - `class AudioObject` kế thừa từ `Object2D`, quản lý các vật thể khi tiếp xúc sẽ chạy đoạn âm thanh nhất định.
 
