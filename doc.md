@@ -43,7 +43,7 @@
 
 - Là các thành phần mang tính chất cài đặt, là tiền đề cho sự tồn tại của các thành phần nội dung
 
-### 1. Cài đặt [`configuration`]
+### 1. Cài đặt [`Configuration`]
 
 #### Bao quát
 
@@ -218,7 +218,7 @@ public:
 }; 
 ```
 
-### 2. Nhập vào [`input`] 
+### 2. Nhập vào [`Input`] 
 
 #### Trạng thái phím `struct KeyState`
 
@@ -387,7 +387,7 @@ public:
 };
 ```
 
-### 3. Âm thanh [`audio`]
+### 3. Âm thanh [`Audio`]
 
 #### Hiệu ứng âm thanh `struct AudioSFX`
 
@@ -464,7 +464,7 @@ public:
 };
 ```
 
-### 4. Tạo hình [`renderer`]
+### 4. Tạo hình [`Renderer`]
 
 #### Quản lý các phương thức vẽ
 
@@ -495,7 +495,7 @@ public:
 
 - Lưu ý: hàm `renderGameplay` sẽ phụ trách phần vẽ và **CHỈ PHẦN VẼ**, các hàm liên quan đến việc cập nhật thuật toán phức tạp như di chuyển sẽ không bao gồm trong này nhằm phân chia nguồn lực thích hợp, tránh việc hình vẽ bị thiếu đồng bộ.
 
-### 5. Vật thể 2D [`object2D`]
+### 5. Vật thể 2D [`Object2D`]
 
 #### Bao quát
 
@@ -582,7 +582,7 @@ public:
 };
 ```
 
-### 6. Bản đồ [`map`]
+### 6. Bản đồ [`Map`]
 
 #### Thông tin map `struct MapInfo`
 
@@ -776,7 +776,7 @@ public:
 };
 ```
 
-### 7. Đa người chơi [`multiplayer`]
+### 7. Đa người chơi [`Multiplayer`]
 
 - Gồm một vector chứa các người chơi `std::vector<Player *>`
 - Gồm các phương thức điều khiển số lượng / vai trò của người chơi
@@ -785,7 +785,7 @@ public:
 - Gồm hàm cập nhật các người chơi `updatePlayer()`
 - Gồm hàm vẽ người chơi `drawPlayers()` và vẽ hiển thị trực quan (các thông số như máu, năng lượng, ...) `drawHuds()`
 
-### 8. Va chạm [`collision`]
+### 8. Va chạm [`Collision`]
 
 - Một class xử lý sự tương tác va chạm của các người chơi `players` đối với các thành phần:
   - Khối hộp `block`
@@ -814,7 +814,7 @@ public:
 };
 ```
 
-### 9. Camera động [`camera`]
+### 9. Camera động [`Camera`]
 
 - Một class sử dụng để vẽ các vật thể tương đối với vị trí của người chơi, đồng thời kiểm tra các vật nằm ngoài giới hạn màn hình / camera
 
@@ -1337,3 +1337,214 @@ public:
 };
 ```
 
+### 4. Địch [`Enemy`]
+
+- `class Enemy` kế thừa từ `class Object2D`, là khuôn mẫu cho các loại kẻ địch khác nhau. Vì vậy nên các hàm được sử dụng là hàm ảo (khởi tạo, vẽ, AI, logic), setters, getters và hàm cập nhật.
+
+```cpp
+class Enemy : public Object2D
+{
+private:
+    // Standard stat
+    int hp;
+
+    int invincible_time = 0;
+
+    // death come to us all :(
+    bool dead = false;
+    
+    int collide_damage = 0;
+
+public:
+    Enemy(  float X = 0, float Y = 0, float w = 0, float h = 0, int hw = 2, int hh = 2,
+            int sw = 0, int sh = 0, int sim = 2, int sfm = 20);
+    virtual void initEnemy();
+
+    virtual void draw(Player *player);
+
+    virtual void enemyAI(Map *map);
+    virtual void enemyGetHit(int dmg);
+
+    void updateEnemy(Map *map);
+
+    // Getter
+    int getHp();
+    bool getDead();
+    int getInvinTime();
+    int getCollideDamage();
+
+    // Setter
+    void setHp(int h);
+    void setDead(bool d);
+    void setInvinTime(int time);
+    void setCollideDamage(int dmg);
+};
+```
+
+### 5. Cửa [`Door`]
+
+- `class Door` kế thừa từ `Object2D`, quản lý việc dịch chuyển người chơi trong map và world.
+
+
+#### Địa điểm thế giới
+
+- Là vị trí trên thế giới, gồm `id map` và vị trí `x, y`
+
+```cpp
+struct WorldLocation
+{ 
+    int index = -1, sX, sY;
+    bool snap = 0;
+
+    bool invalid = 0;
+};
+```
+
+#### Địa điểm dịch chuyển
+
+- Là vùng khi mà người chơi bước vào sẽ thực hiện việc dịch chuyển sang địa điểm thế giới `WorldLocation` mới
+
+```cpp
+struct MapTransit
+{
+    ObjectBox box;
+    WorldLocation location;
+};
+```
+
+#### Cửa
+
+- Quản lý việc dịch chuyển người chơi trong `map` và `world`
+
+```cpp
+class Door : public Object2D
+{
+private:
+    int style = 0;
+    bool handle_left = 0;
+    WorldLocation location;
+
+    // DOOOR STUCK, DOOR STUCKKKK, PLEASE I BEG YOU
+    int need_star = 0;
+    int lock_alpha = 0;
+
+    SDL_Rect doorRect, lockRect;
+    SDL_Texture *door_texture, *lock_texture;
+
+public:
+    ~Door();
+    Door(DoorObject door);
+    Door(int style, bool h_left, float X, float Y,
+        int m_index, int spawnX, int spawnY,
+        int star = 0);
+    void initDoor();
+
+    void setStar(int star);
+    int getStar();
+
+    void update(Map *map, Player *player);
+    void drawProp(Player *player);
+    void draw(Player *player);
+
+    static Door *codeToDoorInfo(string0D str);
+    static void appendDoor(Map *map, string0D door_dir);
+};
+```
+
+### 6. Bong bóng [`Bubble`]
+
+- Bong bóng chat
+
+#### # `struct BubbleStyle`
+
+- Chứa các giá trị phục vụ mục đích tạo hiệu ứng hiện hình của bong bóng
+
+```cpp
+struct BubbleStyle
+{
+    // Max Value (for initialization)
+    int maxOffX = 0,
+        maxOffY = 0;
+    float maxAlpha = 200;
+    // Current Value (for runtime)
+    int curOffX = 0,
+        curOffY = 0;
+    float curAlpha = 0;
+
+    float alphaRatio();
+};
+```
+
+#### # `struct BubbleObject`
+
+- Chứa các thông tin về bubble
+
+```cpp
+struct BubbleObject
+{
+    SDL_Texture *texture;
+    BubbleStyle style;
+
+    SDL_Rect desRect;
+
+    // ~BubbleObject();
+    // == Update ==
+    void update(Bubble *bubble, Player *player);
+    void drawProp(Bubble *bubble, Player *player);
+    void draw(Player *player);
+};
+```
+
+#### # `class Bubble`
+
+```cpp
+class Bubble : public Object2D
+{
+private:
+    string0D bubble_path;
+    BubbleObject1D bubble_objs;
+
+public:
+    short type;
+    BubbleStyle style;
+    ObjectBox active_box;
+
+    ~Bubble();
+    Bubble( string0D bPath, ObjectHitbox bHitbox,
+            ObjectBox bActivebox, BubbleStyle bStyle,
+            short type = 0, int grid = 64 );
+
+    void update(Multiplayer *multi);
+    void draw(Multiplayer *multi);
+
+    // File Manip
+    static Bubble *codeToBubbleInfo(string0D str);
+    static void appendBubble(Map *map, string0D bubble_dir);
+};
+```
+
+### 7. Vật thể âm thanh [`AudioObject`]
+
+- `class AudioObject` kế thừa từ `Object2D`, quản lý các vật thể khi tiếp xúc sẽ chạy đoạn âm thanh nhất định.
+
+```cpp
+class AudioObject : public Object2D
+{
+private:
+    float radius = 0;
+    float radius_override = 0;
+    float radius_max_vol = 0;
+    sf::Music music;
+
+    bool play_once = 0;
+    bool is_loop = 1;
+    int volume = 0;
+    int vol_max = 100;
+
+public:
+    AudioObject(string0D path, float X, float Y, float R,
+                float maxvolR, float override);
+    void updateProximity(Map *map);
+    static void appendAudioObject(Map *map, string0D a_dir);
+};
+```
