@@ -836,9 +836,14 @@ public:
 
 - Là các thành phần cụ thể của game, đặt sự quan trọng về tính nội dung cũng như tính năng
 
+### 0. Lưu ý
+
+- Các thành phần nội dung thường tồn tại bên trong một `std::vector` của `map` nên được định nghĩa `define` như sau:
+  - Giả sử: `class Block` $\rightarrow$ `#define std::vector<Block*> Block1D`
+
 ### 1. Người chơi [`Player`]
 
-- Ngôi sao và tâm điểm của cuộc chơi, người chơi là thành phần thực thể `entity` có lượng logic dày đặc và linh hoạt nhất game
+- Ngôi sao và tâm điểm của cuộc chơi, người chơi là thành phần thực thể `entity` có lượng logic dày đặc và phức tạp nhất game. Các hành động của người chơi vượt xa di chuyển đơn giản của những con game platformer nửa mùa với chỉ mỗi khả năng đi, nhảy đơn thuần
 - `Player` kế thừa các đặc tính của `Object2D`
 - Các hành động, trạng thái của người chơi được gói gọn trong các `struct Player<feature>` đặc trưng cho 1 đặc tính của người chơi
 
@@ -987,7 +992,6 @@ struct PlayerCombat
     float parry_error = 0;
 };
 ```
-
 
 ##### # `struct PlayerSprite`
 
@@ -1169,3 +1173,167 @@ public:
     void playerUpdate(Map *map);
 };
 ```
+
+### 2. Khối hộp [`Block`]
+
+#### Khối nhỏ `struct BlockRect`
+
+- Mỗi một khối hộp được cấu thành từ nhiều khối nhỏ với kích cỡ `64x64`, để quản lý từng khối nhỏ như vậy cần có sự tồn tại của một thành phần mang tên `struct BlockRect` với mục đích lưu giữ thông tin của các khối nhỏ đó: `texture`, `index`, `path`
+
+```cpp
+struct BlockRect
+{
+    SDL_Texture *texture;
+    SDL_Rect *rect;
+    int index;
+    string0D path;
+};
+```
+
+#### Trạng thái khối `struct BlockState`
+
+- Trạng thái tương tác với người chơi của khối
+
+```cpp
+struct BlockState
+{
+    // Condition
+    bool moving = 0;
+    bool stepOn = 0;
+    short hugged = 0; // -1: left, 1: right
+};
+```
+
+#### Khối tổng bộ `class Block`
+
+- Gồm `BlockRect` và `BlockState`
+- Gồm các thuộc tính đặc trưng của `block` như:
+  - Thể loại `type`
+  - Độ xuyên thấu `alpha` (dành cho block hiện hình)
+- Gồm các thao tác logic
+
+```cpp
+class Block : public Object2D
+{
+public:
+    // Sprite handler
+    SDLTexture2D textures;
+    SDLRect2D rects;
+    bool2D noRenders;
+    int2D indexs;
+    string1D paths;
+
+    // Default
+    short grid = 64;
+    int seeAlpha = 255;
+
+    // 0:Solid
+    // 1:Ice
+    // 2:GoThrough
+    // 3:Bridge
+    // 4:Water
+    // 5:SeeThrough
+    // 6:TEXTURE
+    short type = 0;
+
+    // State
+    BlockState state;
+
+    // Condition
+    bool can_hug = false;
+
+    // Movement
+    float vel_x = 0, vel_y = 0;
+
+    // Developer
+    bool highlight = 0;
+    SDL_Texture *highlight_texture;
+    bool isValid = 1;
+    bool needReset = 0;
+
+    ~Block();
+    Block();
+    // Read From File
+    Block(float1D main_val);
+    // Simple
+    Block(float X, float Y, float w, float h, short type = 0, short gr = 64);
+    // Simple (with predefined index)
+    Block(float X, float Y, short t, int2D b_index);
+    // Block Engine
+    void blockEngine(string1D sPath, int2D bIndex = {});
+
+    BlockGrid getGrid();
+
+    void setHighlight(short hl = 2);
+    void setBlockIndexs(int2D newIndex);
+
+    void blockSeethrough(Player *player, bool yes = 0);
+    void blockCollision(Map *map, Player *player, PlayerState &pState);
+    void drawProp(Player *player);
+    void draw(Player *player);
+
+    void drawHighlight(Player *player);
+
+    // ============================ BLOCK MANIPULATION =============================
+
+    void refreshTexture(string1D sPath = {});
+    void tileEdit(string1D sPath, int1D tIndex, int bIndex);
+    void overlap(int2D overlap, int offX, int offY);
+};
+```
+
+##### $\star$ Phương thức BlockEngine: khởi tạo các block nhỏ rồi ghép chúng với nhau để tạo nên một block hoàn chỉnh
+
+### 3. Thao tác khối hộp [`BlockTemplate`]
+
+- Chứa các phương thức làm việc với `block` như là tách, hợp, kéo dài, so sánh, ...
+
+```cpp
+class BlockTemplate
+{
+private:
+
+public:
+    // ================ Block Manipulation =================
+
+    // Get A Column (Why not also Row? Are you fucking stupid)
+    static int2D getColumn(int2D vec, int col_index);
+    // Split
+    static Block1D splitX(Block *block);
+    static Block1D splitY(Block *block);
+    static Block1D split(Block *block);
+    // Compare (for sorting algorithm)
+    static bool compareX(Block *block1, Block *block2, bool descend = 0);
+    static bool compareY(Block *block1, Block *block2, bool descend = 0);
+    // Swap Index
+    static void replaceIndex(Block *block, int pre, int post);
+    // Expand
+    static int2D expandX(int2D original, int cols);
+    static int2D expandY(int2D original, int rows);
+    // Merge 2 
+    static int2D mergeX(int2D vec1, int2D vec2);
+    static int2D mergeY(int2D vec1, int2D vec2);
+    // Also Merge 2 but more convenient for my fucking console
+    static Block *mergeBlockX(Block *blockMain, Block *blockSub);
+    static Block *mergeBlockY(Block *blockMain, Block *blockSub);
+    // Merge 3
+    static int2D mergeX2(int2D vecPre, int2D vecCur, int2D vecPost);
+    static int2D mergeY2(int2D vecPre, int2D vecCur, int2D vecPost);
+    // MERGE SUPER!!!
+    static Block1D mergeGlobal(Block1D oldVec, bool mergeRow = 0);
+    // Rectangle Template
+    static int2D rect(int2D vecSqr, int row, int col);
+
+    // ================ File/Map Manipulation =================
+
+    // Generate Block Code (.csv)
+    static string0D blockToCode(Block *block);
+    // Generate Block Info From Code
+    static float2D codeToBlockInfo(string0D str);
+    // Append Block To Map Based On File
+    static void appendBlock(
+        Map *map, string0D block_dir, short type = 0
+    );
+};
+```
+
