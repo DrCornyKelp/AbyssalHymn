@@ -29,7 +29,7 @@ void Slime::draw(Player *player)
     // Draw
     SDL_Rect desRect = {Camera::objectDrawX(player, this),
                         Camera::objectDrawY(player, this),
-                        hitbox.w, hitbox.h};
+                        int(hitbox.w), int(hitbox.h)};
     SDL_Rect srcRect = {sprite.si * 80, color, 80, 72};
 
     if (!getInvinTime()) 
