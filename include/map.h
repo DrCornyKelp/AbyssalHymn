@@ -177,21 +177,20 @@ public:
     ~Map();
     Map(string0D mapname);
 
-    void initMapStandard();
     void initMap(World *world, Multiplayer *multi, Audio *audio,
                 Collision *collision, int id = -1);
+    void initMapStandard();
 
     void updateMapActive();
     void updateMapGlobal();
 
     // ================== MAP ... IDK WHAT ALGORITHM =====================
-    
+
     void loadCheckpoint(WorldLocation location);
     void appendTransitMap(string0D trans_dir);
     void appendCameraBox(string0D cam_dir);
 
     void appendParticle(ParticleEffect *particle, bool front = 0);
-
 };
 
 #endif

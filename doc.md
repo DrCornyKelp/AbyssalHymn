@@ -698,7 +698,84 @@ struct MapComponent
   - `<Global>`: phương thức được thực hiện ở mọi thời điểm mặc cho việc `player` không có mặt trong `map`
   - `<Active>`: phương thức chỉ thực hiện với sự có mặt của `player` trong `map`
 
+```cpp
+class Map
+{
+public:
+    // ======== STATE ================
+    bool Active = 0;
 
+    // ======== DEFAULT ==============
+    World *WORLD;
+    Audio *AUDIO;
+    Collision *COLLI;
+    Multiplayer *MULTI;
+
+    // ======== MAP INFO =============
+    MapInformation MapInfo;
+
+    // ======== MAP COMPONENT ========
+    // COMPONENT HANDLER
+    MapComponent MapComp;
+    // Music Album
+    AudioPlaylist MapPlaylist;
+    // Block Path
+    string1D BlockPath;
+    // Block Preview Texture
+    SDLTexture1D BlockPreview;
+    // Enemy
+    Enemy1D EnemyVec;
+    // Npc
+    Bubble1D BubbleVec;
+    // Particle_Effect
+    Particle1D ParticleBackVec;
+    Particle1D ParticleFrontVec;
+    // Block
+    Block1D BlockMainVec;
+    Block1D BlockBackVec;
+    Block2D BlockHiddenVec;
+    // Yuki Makoto
+    Door1D DoorVec;
+    // Item
+    Item1D ItemVec;
+    // Cosmetic
+    MapBgColor MapColor;
+    Decoration1D BackgroundVec;
+    Decoration1D DecorBackVec;
+    Decoration1D DecorFrontVec;
+    // Projectile
+    Projectile1D ProjectileVec;
+    // AUDIO SOURCE
+    AudioObj1D AudioObjVec;
+    // Exclusive update function
+    ExclusiveUpdate UpdateExclusive = [](Map *map) {};
+
+    // ======== MAP INTERACTION ========
+    bool OutsideRender = 0;
+    CameraBox1D CameraBox;
+    MapTransit1D TransitMap;
+
+    // =================== Stage stuff idc ===================
+
+    ~Map();
+    Map(string0D mapname);
+
+    void initMap(World *world, Multiplayer *multi, Audio *audio,
+                Collision *collision, int id = -1);
+    void initMapStandard();
+
+    void updateMapActive();
+    void updateMapGlobal();
+
+    // ================== MAP ... IDK WHAT ALGORITHM =====================
+
+    void loadCheckpoint(WorldLocation location);
+    void appendTransitMap(string0D trans_dir);
+    void appendCameraBox(string0D cam_dir);
+
+    void appendParticle(ParticleEffect *particle, bool front = 0);
+};
+```
 
 ### 7. Đa người chơi [`multiplayer`]
 
