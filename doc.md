@@ -40,7 +40,9 @@
 
 - Các file `.cpp` được lưu trong folder **`src`** 
 
-## C. THIẾT LẬP GAME
+## C. THÀNH PHẦN CHỦ TRÌ
+
+- Là các thành phần mang tính chất cài đặt, là tiền đề cho sự tồn tại của các thành phần nội dun
 
 ### 1. Cài đặt [`configuration`]
 
@@ -404,7 +406,7 @@ struct AudioSFX {
 };
 ```
 
-#### Danh sách âm thanh nền
+#### Danh sách âm thanh nền `struct AudioPlaylist`
 
 - Chứa một danh sách âm thanh `AudioPlaylist`, chơi theo một thứ tự lần lượt/ngẫu nhiên (dựa trên cài đặt của người chơi) với một khoảng `delay` bất kỳ
 - Bao gồm các hàm phụ trách trạng thái và âm lượng của `Audio`
@@ -520,7 +522,7 @@ public:
 #### Các phương thức
 
 - `getter` và `setter` cho tất cả các thuộc tính được kể trên
-- Các phương thức tĩnh tính khoảng cách `distX(), distY(), distR()` cũng như tương tác giữa các vật thể 
+- Các phương thức tĩnh tính khoảng cách `distX(), distY(), distR()` cũng như tương tác giữa các `ObjectBox`
 - Các phương thức quản lý tiến trình vẽ dải hình của vật thể `setSprite()`
 - Các phương thức phụ trách cho việc tấn công
 - Các phương thức tạo/xóa `texture`
@@ -528,139 +530,33 @@ public:
 ```cpp
 class Object2D
 {
-private:
+public:
     int special_key = -1;
 
     // Size and position
-    float x = 0, y = 0;
-    int width = 0,
-        height = 0;
-    int hit_w = 0,
-        hit_h = 0;
-
-    // Speed
-    float vel_x = 0, vel_y = 0;
-    float accel_x = 0, accel_y = 0;
+    ObjectHitbox hitbox;
+    // Sprite
+    ObjectSprite sprite;
+    // Movement
+    ObjectVel vel;
+    ObjectAccel accel;
 
     // Combat (if possible)
-    int combat_hit_up = 0;
-    int combat_hit_down = 0;
-    int combat_hit_left = 0;
-    int combat_hit_right = 0;
-    int combat_damage = 0;
-
-    // Sprites handling
-    int sprite_index = 0,
-        sprite_index_max = 0;
-    int sprite_row = 0,
-        sprite_row_max = 0,
-        sprite_row_repeat = 0;
-    int sprite_frame = 0,
-        sprite_frame_max = 0;
-    int sprite_width = 0,
-        sprite_height = 0;
+    ObjectCombatBox combatbox;
 
     // Ignore Object Existance
     bool ignore = 0;
-
     // Camera Dependencey
-    bool cam_depend = true;
+    bool cam_depend = 1;
 
-public:
     ~Object2D(); // Default Destructor
     Object2D(); // Default Constructor
-    Object2D(ObjectHitbox box, ObjectSprite sprite = {}, ObjectMovement movement = {});
-    Object2D(float X, float Y, int w, int h);
-    Object2D(float X, float Y, int w, int h, int hw, int hh);
-    Object2D(float X, float Y, int w, int h, int hw, int hh,
-            int sw, int sh, int sim, int sfm, int si = 0, int sf = 0);
-
-    // Ignore Drawing
-    bool getIgnore();
-    void setIgnore(bool ignore);
-
-    // Camera Independent
-    bool getCamDepend();
-    void setCamDepend(bool depend);
-
-    // Position
-    void setX(float X);
-    void setY(float Y);
-    float getX();
-    float hitbox.y;
-    int hitbox.gridX();
-    int hitbox.gridY();
-    int getGridLX();
-    int getGridRX();
-    int getGridTY();
-    int getGridBY();
-
-    // Size / Hitbox
-    void setWidth(int w);
-    void setHeight(int h);
-    void setHitWidth(int hw);
-    void setHitHeight(int hh);
-    int hitbox.w;
-    int hitbox.h;
-    int getGridWidth(bool getExtend = 0);
-    int getGridHeight(bool getExtend = 0);
-    int getHitWidth();
-    int getHitHeight();
-
-    // Comabt hitbox
-    void setCombatHit(ObjectCombatBox c_hit);
-    void setCombatHitU(int hit);
-    void setCombatHitD(int hit);
-    void setCombatHitL(int hit);
-    void setCombatHitR(int hit);
-    void setCombatDamage(int dmg);
-    ObjectCombatBox getCombatHit();
-    int getCombatHitU();
-    int getCombatHitD();
-    int getCombatHitL();
-    int getCombatHitR();
-    int getCombatDamage();
-
-    // Speed / Accelaration
-
-    // Simple movement, no extra logic
-    void setVelX(float velX);
-    void setVelY(float velY);
-    void setAccelX(float accX);
-    void setAccelY(float accY);
-    float getVelX();
-    float getVelY();
-    float getAccelX();
-    float getAccelY();
-
-    // Drawing
-    void setSprWidth(int sw);
-    void setSprHeight(int sh);
-    void setSprIndex(int si);
-    void setSprIndexMax(int sim);
-    void setSprRow(int sr);
-    void setSprRowMax(int srm);
-    void setSprRowRepeat(int srr);
-    void setSprFrame(int sf);
-    void setSprFrameMax(int sfm);
-    int sprite.sw;
-    int sprite.sh;
-    int sprite.si;
-    int sprite.sim;
-    int sprite.sr;
-    int getSprRowMax();
-    int getSprRowRepeat();
-    int getSprFrame();
-    int sprite.sfm;
+    Object2D(ObjectHitbox box, ObjectSprite spr = {}, ObjectVel v = {}, ObjectAccel a = {});
 
     // Box
     bool insideBox(ObjectBox box);
     bool insideGridBox(ObjectBox gridbox);
     ObjectBox getBox();
-
-    // Special Key for customizable value
-    void setSpecialKey(int key);
-    int getSpecialKey();
 
     // =================== VERY HELPFUL METHOD ======================
 
@@ -687,432 +583,157 @@ public:
 };
 ```
 
-class Multiplayer 
-
-{ 
-
-public: 
-
-    Player1D Players; 
-
-    Player *MAIN; 
-
-    int PlayerCount = 0; 
-
-    ~Multiplayer(); 
-
-    Multiplayer(Player1D players); 
-
-     
-
-    // Player Count Control 
-
-    void addPlayer(); 
-
-    void changeMain(int index); 
-
-    void singlePlayer(); 
-
-    void update(Map *map); 
-
-    void drawPlayers(); 
-
-    void drawHuds(); 
-
-}; 
-
-object2D.h 
-
-+ Class Object2D là 1 abstract class, superclass của mọi vật thể 2D trong game (người chơi, block, kẻ địch, trang trí, đạn, cửa, vật thể âm thanh, ô hội thoại, hiệu ứng). 
-
-+ Các thuộc tính của lớp bao gồm:  
-
-Tọa độ x, y, kích cỡ rộng, cao thường và của hitbox. 
-
-Tốc độ, gia tốc. 
-
-Các biến combat. 
-
-Những giá trị kích cỡ rộng, cao của sprite trên sprite sheet, sprite index cho sheet (hỗ trợ di chuyển giữa 1 hoạt ảnh trong sheet sang hoạt ảnh tiếp theo), và sprite frame (số frame mà hoạt ảnh này được in trên màn hình). 
-
-Tính phụ thuộc vào camera của vật (boolean). 
-
-+ Các phương thức bao gồm: 
-
-Getter, setter cho tất cả các thuộc tính trên. 
-
-Trả về giá trị bool khi vật ở trong khu vực box, gridbox nhất định 
-
-Các phương thức tĩnh trả về khoảng cách vector giữa x, y 2 vật hoặc x, y ở rìa 2 vật. 
-
-Các phương thức tĩnh biến ObjectBox thành SDL_rect và ngược lại (Hỗ trợ việc tạo box và xác định vị trí box). 
-
-Phương thức tĩnh giúp 2 vật không tương tác với nhau. 
-
-Phương thức tĩnh xóa texture. 
-
-Cài đặt sprite cho vật, cùng phương thức tĩnh. 
-
-Phương thức di chuyển của vật, mảng vector 1 chiều trả về vị trí dự đoán vật sẽ đi qua. 
-
-class Object2D 
-
-{ 
-
-private: 
-
-    int special_key = -1; 
-
-    // Size and position 
-
-    float x = 0, y = 0; 
-
-    int width = 0, 
-
-        height = 0; 
-
-    int hit_w = 0, 
-
-        hit_h = 0; 
-
-    // Speed 
-
-    float vel_x = 0, vel_y = 0; 
-
-    float accel_x = 0, accel_y = 0; 
-
-    // Combat (if possible) 
-
-    int combat_hit_up = 0; 
-
-    int combat_hit_down = 0; 
-
-    int combat_hit_left = 0; 
-
-    int combat_hit_right = 0; 
-
-    int combat_damage = 0; 
-
-    // Sprites handling 
-
-    int sprite_index = 0, 
-
-        sprite_index_max = 0; 
-
-    int sprite_row = 0, 
-
-        sprite_row_max = 0, 
-
-        sprite_row_repeat = 0; 
-
-    int sprite_frame = 0, 
-
-        sprite_frame_max = 0; 
-
-    int sprite_width = 0, 
-
-        sprite_height = 0; 
-
-    // Ignore Object Existance 
-
-    bool ignore = 0; 
-
-    // Camera Dependencey 
-
-    bool cam_depend = true; 
-
-public: 
-
-    ~Object2D(); // Default Destructor 
-
-    Object2D(); // Default Constructor 
-
-    Object2D(ObjectHitbox box, ObjectSprite sprite = {}, ObjectMovement movement = {}); 
-
-    Object2D(float X, float Y, int w, int h); 
-
-    Object2D(float X, float Y, int w, int h, int hw, int hh); 
-
-    Object2D(float X, float Y, int w, int h, int hw, int hh, 
-
-            int sw, int sh, int sim, int sfm, int si = 0, int sf = 0); 
-
-    // Ignore Drawing 
-
-    bool getIgnore(); 
-
-    void setIgnore(bool ignore); 
-
-    // Camera Independent 
-
-    bool getCamDepend(); 
-
-    void setCamDepend(bool depend); 
-
-    // Position 
-
-    void setX(float X); 
-
-    void setY(float Y); 
-
-    float getX(); 
-
-    float hitbox.y; 
-
-    int hitbox.gridX(); 
-
-    int hitbox.gridY(); 
-
-    int getGridLX(); 
-
-    int getGridRX(); 
-
-    int getGridTY(); 
-
-    int getGridBY(); 
-
-    // Size / Hitbox 
-
-    void setWidth(int w); 
-
-    void setHeight(int h); 
-
-    void setHitWidth(int hw); 
-
-    void setHitHeight(int hh); 
-
-    int hitbox.w; 
-
-    int hitbox.h; 
-
-    int getGridWidth(bool getExtend = 0); 
-
-    int getGridHeight(bool getExtend = 0); 
-
-    int getHitWidth(); 
-
-    int getHitHeight(); 
-
-    // Comabt hitbox 
-
-    void setCombatHit(ObjectCombatBox c_hit); 
-
-    void setCombatHitU(int hit); 
-
-    void setCombatHitD(int hit); 
-
-    void setCombatHitL(int hit); 
-
-    void setCombatHitR(int hit); 
-
-    void setCombatDamage(int dmg); 
-
-    ObjectCombatBox getCombatHit(); 
-
-    int getCombatHitU(); 
-
-    int getCombatHitD(); 
-
-    int getCombatHitL(); 
-
-    int getCombatHitR(); 
-
-    int getCombatDamage(); 
-
-    // Speed / Accelaration 
-
-    // Simple movement, no extra logic 
-
-    void setVelX(float velX); 
-
-    void setVelY(float velY); 
-
-    void setAccelX(float accX); 
-
-    void setAccelY(float accY); 
-
-    float getVelX(); 
-
-    float getVelY(); 
-
-    float getAccelX(); 
-
-    float getAccelY(); 
-
-    // Drawing 
-
-    void setSprWidth(int sw); 
-
-    void setSprHeight(int sh); 
-
-    void setSprIndex(int si); 
-
-    void setSprIndexMax(int sim); 
-
-    void setSprRow(int sr); 
-
-    void setSprRowMax(int srm); 
-
-    void setSprRowRepeat(int srr); 
-
-    void setSprFrame(int sf); 
-
-    void setSprFrameMax(int sfm); 
-
-    int sprite.sw; 
-
-    int sprite.sh; 
-
-    int sprite.si; 
-
-    int sprite.sim; 
-
-    int sprite.sr; 
-
-    int getSprRowMax(); 
-
-    int getSprRowRepeat(); 
-
-    int getSprFrame(); 
-
-    int sprite.sfm; 
-
-    // Box 
-
-    bool insideBox(ObjectBox box); 
-
-    bool insideGridBox(ObjectBox gridbox); 
-
-    ObjectBox getBox(); 
-
-    // Special Key for customizable value 
-
-    void setSpecialKey(int key); 
-
-    int getSpecialKey(); 
-
-    // =================== VERY HELPFUL METHOD ====================== 
-
-    // Note!!!: dist is a vector in both direction, 
-
-    // not the absolute value 
-
-    static int distX(Object2D *obj1, Object2D *obj2, bool absolute = 0); 
-
-    static int distY(Object2D *obj1, Object2D *obj2, bool absolute = 0); 
-
-    static int distBorderX(Object2D *obj1, Object2D *obj2); 
-
-    static int distBorderY(Object2D *obj1, Object2D *obj2); 
-
-    static int distR(Object2D *obj1, Object2D *obj2); 
-
-    static ObjectBox SDLRectToBox(SDL_Rect rect); 
-
-    static SDL_Rect BoxToSDLRect(ObjectBox box); 
-
-    static bool objectIgnore(Object2D *objMain, Object2D *objSub); 
-
-    static void deleteTextures(SDLTexture1D textures); 
-
-    bool setSprite(bool end_lock = 0); 
-
-    static void objectSetSprite(ObjectSprite &sprite); 
-
-    void objectStandardMovement(bool lock_vel = 0); 
-
-    float1D objectPredictMovement(); 
-
-}; 
-
-+ struct ObjectXY, struct ObjectXYb, struct ObjectXYs, struct ObjectXYf, struct ObjectXYWH, đều chứa tọa độ x, y của object, với b, s, f được dùng để xác định kiểu dữ liệu của x và y của mỗi struct. ObjectXYWH còn bao gồm thêm chiều rộng và chiều cao của vật. 
-
-struct ObjectXY { int x = 0, y = 0; }; 
-
-struct ObjectXYb { bool x = 0, y = 0; }; 
-
-struct ObjectXYs { short x = 0, y = 0; }; 
-
-struct ObjectXYf { float x = 0, y = 0; }; 
-
-struct ObjectXYWH { int x = 0, y = 0, w = 0, h = 0; }; 
-
-+ struct ObjectHitBox chứa tọa độ x, y, chiều rộng, chiều cao, chiều rộng hitbox, chiều cao hitbox, kích cỡ grid (mặc định là 64) 
-
-struct ObjectHitbox 
-
-{ 
-
-    float x = 0, y = 0; 
-
-    float w = 0, h = 0; 
-
-    int hw = w, hh = h; 
-
-    ObjectHitbox hitboxGrid(int gr = 64); 
-
-    void grid(int gr = 64); 
-
-}; 
-
-+ struct ObjectBox 
-
-struct ObjectBox 
-
-{  
-
-    int up = -1, down = -1, 
-
-        left = -1, right = -1; 
-
-    // Some Method 
-
-    ObjectBox boxGrid(int gr = 64); 
-
-    void grid(int gr = 64); 
-
-    void reorder(); 
-
-    void copy(ObjectBox box); 
-
-    bool compare(ObjectBox box); 
-
-    bool contain(int x, int y); 
-
-    ObjectHitbox hitbox(); 
-
-}; 
-
-+ struct ObjectCombatBox 
-
-struct ObjectCombatBox 
-
-{ int up = 0, down = 0, left = 0, right = 0, dmg = 0; }; 
-
-+ struct ObjectSprite chứa những giá trị kích cỡ rộng, cao của sprite trên sprite sheet, sprite index cho sheet (hỗ trợ di chuyển giữa 1 hoạt ảnh trong sheet sang hoạt ảnh tiếp theo), và sprite frame (số frame mà hoạt ảnh này được in trên màn hình). 
-
-struct ObjectSprite 
-
-{ 
-
-    int sw = 0, sh = 0; 
-
-    int sim = 0, sfm = 0; 
-
-    int si = 0, sf = 0; 
-
-}; 
-
-+ struct ObjectMovement chứa các biến vận tốc x, y, gia tốc x, y. 
-
-struct ObjectMovement 
-
-{ 
-
-    float vel_x = 0, vel_y = 0; 
-
-    float accel_x = 0, accel_y = 0; 
-
-}; 
-
-	+ class Object2D chứa các thuộc tính  
+### 6. Bản đồ [`map`]
+
+#### Thông tin map `struct MapInfo`
+
+- Gồm các thông tin liên quan đến map như tên map, độ khó, hình nền chủ đạo, ...
+
+```cpp
+struct MapInformation
+{
+    string0D name = "";
+    string0D difficulty = "";
+
+    SDL_Texture *pause_bg = CFG->loadTexture(
+        "assets/PauseScreen/Default.png"
+    );
+    float pause_ratio = 1.77;
+
+    void readInfo(string0D dir);
+    void clearInfo();
+};
+```
+
+#### Thành phần map `struct MapComponent`
+
+- Gồm các thành phần động tương tác với map như khối `block`, thực thể `entity` như người chơi `player` với địch `enemy`, hình nền `background`, trang trí `decoration`, ...
+- Các thành phần của map được gói bên trong một `std::vector<COMPONENT>` tương ứng với các thành phần đó
+- Gồm các hàm thao túng sự tồn tại của các vật thể, với hàm xóa địa chỉ bộ nhớ động `*pointer` triệt để
+
+```cpp
+struct MapComponent
+{
+    Map *map;
+    // Directory
+    string0D 
+        map_dir = "",
+        playlist = "",
+        block_path = "",
+        block_main = "",
+        block_back = "",
+        block_hidden = "",
+        background = "",
+        decor_back = "",
+        decor_front = "",
+        door = "",
+        bubble = "",
+        enemy = "",
+        item = "",
+        audio_obj = "",
+        camera_box = "",
+        transit_map = "";
+
+    void appendDirectory();
+    void appendComponent();
+    void clearComponent();
+
+    // Append specific
+    void appendPlaylist();
+    void appendBlockPath();
+    void appendBlockMain();
+    void appendBlockHidden();
+    void appendBlockBack();
+    void appendBackground();
+    void appendDecorBack();
+    void appendDecorFront();
+    void appendDoor();
+    void appendBubble();
+    void appendEnemy();
+    void appendItem();
+    void appendAudioObj();
+    void appendCameraBox();
+    void appendTransitMap();
+
+    // Clear specific
+    void clearPlaylist();
+    void clearBlockPath();
+    void clearBlockMain();
+    void clearBlockHidden();
+    void clearBlockBack();
+    void clearBackground();
+    void clearDecorBack();
+    void clearDecorFront();
+    void clearDoor();
+    void clearBubble();
+    void clearEnemy();
+    void clearItem();
+    void clearAudioObj();
+    void clearCameraBox();
+    void clearTransitMap();
+
+    // Delete specific
+    void eraseBlockMain(int i);
+    void eraseBlockBack(int i);
+    void eraseBlockHidden(int i);
+    void eraseBackground(int i);
+    void eraseDecorBack(int i);
+    void eraseDecorFront(int i);
+    void eraseDoor(int i);
+    void eraseBubble(int i);
+    void eraseEnemy(int i);
+    void eraseItem(int i);
+    void eraseAudioObj(int i);
+    void eraseCameraBox(int i);
+    void eraseTransitMap(int i);
+};
+```
+
+#### Lớp Map tổng bộ `class Map`
+
+- Gồm `MapInfo` với `MapComponent` cùng với các thành phần động của map
+- Gồm các hàm khởi tạo thành phần động bằng phương thức đọc file `append<COMPONENT>(string0D địa_chỉ_file_csv_của_thành_phần)`
+- Gồm các phương thức khởi tạo `init<_>` và cập nhật `update<_>`
+- Các phương thức `init<_>` và `update<_>` sẽ tồn tại dưới dạng:
+  - `<Global>`: phương thức được thực hiện ở mọi thời điểm mặc cho việc `player` không có mặt trong `map`
+  - `<Active>`: phương thức chỉ thực hiện với sự có mặt của `player` trong `map`
+
+
+
+### 7. Đa người chơi [`multiplayer`]
+
+- Gồm một vector chứa các người chơi `std::vector<Player *>`
+- Gồm các phương thức điều khiển số lượng / vai trò của người chơi
+  - `addPlayer()`, `singlePlayer()`: thao túng số lượng người chơi
+  - `changeMain()`: thay đổi người chơi chính
+- Gồm hàm cập nhật các người chơi `updatePlayer()`
+- Gồm hàm vẽ người chơi `drawPlayers()` và vẽ hiển thị trực quan (các thông số như máu, năng lượng, ...) `drawHuds()`
+
+```cpp
+class Multiplayer
+{
+public:
+    Player1D Players;
+    Player *MAIN;
+
+    int PlayerCount = 0;
+
+    ~Multiplayer();
+    Multiplayer(Player1D players);
+    
+    // Player Count Control
+    void addPlayer();
+    void changeMain(int index);
+    void singlePlayer();
+
+    void update(Map *map);
+    void drawPlayers();
+    void drawHuds();
+};
+```
+
+## D. THÀNH PHẦN NỘI DUNG
+
+- Là các thành phần cụ thể của game mang tính chất bổ trợ nội dung
+
+### 1. Người chơi [`Player`]

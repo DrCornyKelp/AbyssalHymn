@@ -37,7 +37,7 @@ void World::setTransit(WorldLocation location)
         location.index != MapIndex &&
         !MapCur->MapPlaylist.comparePlaylist(
         MapVec[location.index]->MapPlaylist))
-        MapCur->MapAudio->setPlistStop(1);
+        MapCur->AUDIO->setPlistStop(1);
 
     transit_location = location;
     CFG->TRANSIT_EFFECT.set(20, 10);
@@ -71,7 +71,7 @@ void World::switchMap(WorldLocation location)
     // Create new audio track for new map
     if (location.index != -1 &&
         location.index != MapIndex)
-        MapCur->MapAudio->createPlaylist(
+        MapCur->AUDIO->createPlaylist(
             MapVec[location.index]->MapPlaylist
         );
 

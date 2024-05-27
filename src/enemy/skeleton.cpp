@@ -107,7 +107,7 @@ void Skeleton::enemyAI(Map *map)
         };
     }
 
-    for (Player *player : map->MapMulti->Players)
+    for (Player *player : map->MULTI->Players)
     {
         if (!attack_delay && !attack_state &&
             abs(player->hitbox.x - hitbox.x) < 150 && (

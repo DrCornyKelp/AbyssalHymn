@@ -250,10 +250,10 @@ void Map::initMap(World *world, Multiplayer *multi, Audio *audio,
                 Collision *collision, int id)
 {
     MapId = id;
-    MapAudio = audio;
-    MapWorld = world;
-    MapCollision = collision;
-    MapMulti = multi;
+    AUDIO = audio;
+    WORLD = world;
+    COLLI = collision;
+    MULTI = multi;
 
     if (MapEmpty) return;
 
@@ -306,12 +306,12 @@ void Map::updateMapGlobal()
     {
         bool seethru = 0;
         for (Block *block : blockSection)
-            for (Player *player : MapMulti->Players)
+            for (Player *player : MULTI->Players)
                 seethru = Collision::objectCollision(player, block) || seethru;
         seethru = seethru && MapActive;
 
         for (Block *block : blockSection)
-            block->blockSeethrough(MapMulti->MAIN, seethru);
+            block->blockSeethrough(MULTI->MAIN, seethru);
     }
 
     // ====================== UPDATE EXCLUSIVE =========================
@@ -327,17 +327,17 @@ void Map::updateMapActive()
 {
     // ================= In the middle of a transition =================
     if (CFG->TRANSIT_EFFECT.leftactive())
-        for (Player *player : MapMulti->Players)
+        for (Player *player : MULTI->Players)
             player->setStatic();
 
     // ================= Update Players ==================================
-    MapMulti->update(this);
+    MULTI->update(this);
 
     // ================= Update Component logic for each Player ==========
-    for (Player *player : MapMulti->Players)
+    for (Player *player : MULTI->Players)
     {
         // Collision
-        MapCollision->playerUpdateCollision(this, player);
+        COLLI->playerUpdateCollision(this, player);
         // Door
         for (Door *door : DoorVec)
             door->update(this, player);
@@ -345,7 +345,7 @@ void Map::updateMapActive()
         for (MapTransit m_trans : TransitMap)
         if (player->insideGridBox(m_trans.box))
         {
-            MapWorld->setTransit(m_trans.location);
+            WORLD->setTransit(m_trans.location);
             break;
         }
     }
@@ -354,23 +354,23 @@ void Map::updateMapActive()
     // (It has other player logic in mind)
 
     for (Bubble *bubble : BubbleVec)
-        bubble->update(MapMulti);
+        bubble->update(MULTI);
 
     for (Enemy *enemy : EnemyVec)
         enemy->updateEnemy(this);
 
     for (int i = 0; i < BackgroundVec.size(); i += 2)
     {
-        BackgroundVec[i]->updateBackground(MapMulti->MAIN, 1);
-        BackgroundVec[i+1]->updateBackground(MapMulti->MAIN);
+        BackgroundVec[i]->updateBackground(MULTI->MAIN, 1);
+        BackgroundVec[i+1]->updateBackground(MULTI->MAIN);
     }
 
     // ====================== UPDATE CAMERA ============================
-    MapMulti->MAIN->camera.outside_render = OutsideRender;
+    MULTI->MAIN->camera.outside_render = OutsideRender;
     for (PlayerCameraBox f_cam_box : CameraBox)
-    if (MapMulti->MAIN->insideGridBox(f_cam_box.box))
+    if (MULTI->MAIN->insideGridBox(f_cam_box.box))
     {
-        MapMulti->MAIN->camera.setCameraBorder({1, 1, 1, 1}, f_cam_box.cam);
+        MULTI->MAIN->camera.setCameraBorder({1, 1, 1, 1}, f_cam_box.cam);
         break;
     }
 
@@ -387,24 +387,24 @@ void Map::updateMapActive()
         inside of those function instead of explicitly called down here
     */
     for (Block *block : BlockMainVec)
-        block->drawProp(MapMulti->MAIN);
+        block->drawProp(MULTI->MAIN);
     for (Block *block : BlockBackVec)
-        block->drawProp(MapMulti->MAIN);
+        block->drawProp(MULTI->MAIN);
     for (Decoration *background : DecorBackVec)
-        background->drawProp(MapMulti->MAIN);
+        background->drawProp(MULTI->MAIN);
     for (Decoration *background : DecorFrontVec)
-        background->drawProp(MapMulti->MAIN);
+        background->drawProp(MULTI->MAIN);
     for (ParticleEffect *particle_fx : ParticleBackVec)
-        particle_fx->drawProp(MapMulti->MAIN);
+        particle_fx->drawProp(MULTI->MAIN);
     for (ParticleEffect *particle_fx : ParticleFrontVec)
-        particle_fx->drawProp(MapMulti->MAIN);
+        particle_fx->drawProp(MULTI->MAIN);
 }
 
 // ================== MAP ... IDK WHAT ALGORITHM =====================
 
 void Map::loadCheckpoint(WorldLocation location)
 {
-    for (Player *player : MapMulti->Players)
+    for (Player *player : MULTI->Players)
     {
         player->setStatic();
         player->hitbox.x = location.sX*64 + 35;

@@ -124,14 +124,15 @@ public:
     bool MapEmpty = false;
     bool MapActive = 0;
 
-    World *MapWorld;
-    Audio *MapAudio;
-    Collision *MapCollision;
-    Multiplayer *MapMulti;
+    // =================== DEFAULT ===================
+    World *WORLD;
+    Audio *AUDIO;
+    Collision *COLLI;
+    Multiplayer *MULTI;
 
     string0D MapName = "";
     string0D MapDirectory = "";
-    
+
     // ======== MAP INFO =============
     MapInformation MapInfo;
 

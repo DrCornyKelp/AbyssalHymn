@@ -433,7 +433,7 @@ void Console::playerCommand(Map *map, string1D cmd)
 
     if (syntaxComp(cmd, 1, "remove"))
     {
-        map->MapMulti->singlePlayer();
+        map->MULTI->singlePlayer();
     }
 }
 

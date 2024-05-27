@@ -147,7 +147,7 @@ void Projectile::enemyCollision(Map *map)
 
 void Projectile::projectileCollision(Map *map)
 {
-    for (Player *player : map->MapMulti->Players)
+    for (Player *player : map->MULTI->Players)
         playerCollision(map, player);
     // Enemy
     if (harm_enemy) enemyCollision(map);
@@ -197,8 +197,8 @@ void Projectile::updateProjectile(Map *map)
 
     // Drawing properties
     desRect = {
-        Camera::objectDrawX(map->MapMulti->MAIN, this),
-        Camera::objectDrawY(map->MapMulti->MAIN, this),
+        Camera::objectDrawX(map->MULTI->MAIN, this),
+        Camera::objectDrawY(map->MULTI->MAIN, this),
         int(hitbox.w), int(hitbox.h)
     };
 

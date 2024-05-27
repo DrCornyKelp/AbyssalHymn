@@ -32,7 +32,7 @@ void AudioObject::updateProximity(Map *map)
         music.getDuration().asMilliseconds())
         play_once = true;
 
-    float distant = distR(map->MapMulti->MAIN, this);
+    float distant = distR(map->MULTI->MAIN, this);
 
     float dr_ratio = (distant - radius_max_vol) / radius;
     volume = vol_max * (1 - (dr_ratio < 0 ? 0 : dr_ratio) );
@@ -42,11 +42,11 @@ void AudioObject::updateProximity(Map *map)
     if (distant < radius)
     {
         if (distant > radius_override)
-            map->MapAudio->setPlistVolMax(
-                map->MapAudio->getPlistVolMax() * dr_ratio
+            map->AUDIO->setPlistVolMax(
+                map->AUDIO->getPlistVolMax() * dr_ratio
             );
         else
-            map->MapAudio->setPlistVolMax(0);
+            map->AUDIO->setPlistVolMax(0);
     }
 
     // Update current audio source
