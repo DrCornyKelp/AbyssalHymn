@@ -543,7 +543,7 @@ void Player::playerMovement(Map *map)
     if (move.crawl && INPUT.moveL.state && !g_dash.frame)
         vel.x = - move.vel_crawl;
     if (move.crawl && INPUT.moveR.state && !g_dash.frame)
-        vel.y = move.vel_crawl;
+        vel.x = move.vel_crawl;
 
     // Ground dash (more like sliding but whatever)
     if (moveset.g_dash && INPUT.dash.press() && !g_dash.delay &&
