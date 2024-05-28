@@ -107,6 +107,9 @@ void MouseMain::update()
     {
         if (CFG->EVENT.type == SDL_MOUSEWHEEL)
             W = CFG->EVENT.wheel.y;
+
+        if (CFG->EVENT.type == SDL_QUIT)
+            CFG->QUIT = 1;
     }
 }
 
