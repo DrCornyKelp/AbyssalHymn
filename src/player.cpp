@@ -36,6 +36,24 @@ void PlayerMoveset::disableAll()
     hug_wall = 0;
 }
 
+// ============================ PLAYER MOVELOCK =========================
+void PlayerMovelock::reset()
+{
+    up = 0;
+    down = 0;
+    left = 0;
+    right = 0;
+}
+void PlayerMovelock::movement()
+{
+    if ((!up && player->vel.y > 0) ||
+        (!down && player->vel.y < 0))
+        player->hitbox.y += player->vel.y;
+    if ((!left && player->vel.x < 0) ||
+        (!right && player->vel.x > 0))
+        player->hitbox.x += player->vel.x;
+}
+
 // ============================ PLAYER STATE ============================
 
 void PlayerState::resetState()
@@ -626,379 +644,380 @@ void Player::playerMovement(Map *map)
         // Wall jump
         a_dash.lock = 0;
         if (state.hug_wall)
-                {
-                    map->appendParticle(new ParticleEffect(
-                        CFG->loadTexture(
-                            state.hug_wall > 0 ?
-                            "assets/ParticleSheet/NakuEffect/JumpWallRight.png" :
-                            "assets/ParticleSheet/NakuEffect/JumpWallLeft.png"),
-                        hitbox.x, hitbox.y, 50, 50,
-                        25, 25, 7, 3, 0
-                    ));
-
-                    vel.x = 8 * state.hug_wall;
-                    vel.y = 4;
-                    hitbox.x += hitbox.hw * state.hug_wall / 2;
-
-                    a_dash.cur = a_dash.max;
-                    a_dash.lock = -state.hug_wall;
-                }
-
-                state.hug_wall = 0;
-            }
-
-        // ======================== MOVEMENT LOGIC ==============================
-
-            // Velocity
-            move.vel_max = 6.5;
-            move.vel_max*= ((state.on_ice || state.jump_on_ice) ? 1.2 : 1) *
-                        (combat.weapon_equip ? .8 : 1) *
-                        (combat.charge_time ? .8 : 1);
-            // Acceleration x
-            accel.x =  (state.on_ice ? .06 : .1) *
-                        (combat.weapon_equip ? .8 : 1) *
-                        (combat.charge_time ? .8 : 1);
-            // Acceleration y
-            accel.y =  ((INPUT.jump.hold && vel.y > 0) ? -.1 : -.2) *
-                        (combat.weapon_equip ? 1.2 : 1) *
-                        (combat.charge_time ? 1.2 : 1);
-
-            // Velocity X Correction 😭
-            // - Check the time spent over speed cap
-            if (abs(vel.x) > move.vel_max) move.vel_over_time++;
-            else                               move.vel_over_time = 0;
-            // - Self correct speed
-            if (move.vel_over_time > move.vel_over_max)
-            {
-                if (vel.x > move.vel_max)
-                    vel.x = vel.x - (vel.x - move.vel_max) / 50;
-                if (vel.x < -move.vel_max)
-                    vel.x = vel.x - (vel.x + move.vel_max) / 50;
-            }
-
-            // Terminal Velocity
-            if (vel.y + accel.y > jump.terminal)
-                vel.y = vel.y + accel.y;
-            // No Velo Y on ground
-            if (state.on_ground) vel.y = 0;
-            // Slow but painful Velo Y
-            if (state.hug_wall) vel.y = -1;
-
-            // SUPER JUMP
-            if (move.crawl && !state.crawl_lock && !vel.x)
-                jump.super += jump.super < jump.super_max;
-            else jump.super = 0;
-
-            // Ground dash
-            if (g_dash.frame)
-            {
-                g_dash.frame--;
-                if (g_dash.frame) vel.x = 18 * dir;
-                else vel.x = move.vel_max * dir * 1.1;
-            }
-            if (g_dash.delay > 0) g_dash.delay--;
-
-            // a_Dashing
-            if (a_dash.frame)
-            {
-                a_dash.frame--;
-                if (a_dash.frame) vel.x = 20 * dir;
-                else vel.x = move.vel_max * dir * 1.05;
-                vel.y = 0;
-            }
-
-            // Jump knock out
-            if (jump.knockout > 0) jump.knockout--;
-
-            // Coyote Jump
-            if (!state.on_ground &&
-                jump.cur == jump.max)
-            {
-                if (jump.coyote < jump.coyote_max)
-                    jump.coyote++;
-                else
-                {
-                    jump.coyote_fail = 1;
-                    jump.cur = jump.max - 1;
-                }
-            }
-            else jump.coyote = 0;
-
-            // Reset Stuff when land on ground
-            if (state.on_ground)
-            {
-                state.jump_on_ice = 0;
-
-                jump.cur = jump.max;
-                jump.coyote_fail = 0;
-
-                a_dash.lock = 0;
-                a_dash.cur = a_dash.max;
-            }
-
-            // Setting Position
-            if (dev.godmode) return;
-            objectStandardMovement(1);
-        }
-
-        void Player::playerCombat(Map *map)
         {
-        // ======================== COMBAT INPUT ==============================
+            map->appendParticle(new ParticleEffect(
+                CFG->loadTexture(
+                    state.hug_wall > 0 ?
+                    "assets/ParticleSheet/NakuEffect/JumpWallRight.png" :
+                    "assets/ParticleSheet/NakuEffect/JumpWallLeft.png"),
+                hitbox.x, hitbox.y, 50, 50,
+                25, 25, 7, 3, 0
+            ));
 
-            // Weapon equipment
-            if (INPUT.equip.state && !combat.weapon_equip_delay &&
-                state.on_ground)
-            {
-                sprite.si = 0;
-                combat.weapon_equip_frame = 24;
-                combat.weapon_equip_delay = combat.weapon_equip_delay_max;
-                combat.weapon_equip = !combat.weapon_equip;
-            };
-            // Weapon draw ("draw" weapon, not "draw" painting) delay
-            if (combat.weapon_equip_delay > 0)
-                combat.weapon_equip_delay --;
-            if (combat.weapon_equip_frame) 
-                combat.weapon_equip_frame --;
+            vel.x = 8 * state.hug_wall;
+            vel.y = 4;
+            hitbox.x += hitbox.hw * state.hug_wall / 2;
 
-            // Special Jelly Projectile
-            if (combat.weapon_equip && INPUT.proj.press())
-            {
-                INPUT.proj.hold = 1;
-
-                map->ProjectileVec.push_back(new Projectile(
-                    "assets/NakuSheet/NakuSquid.png",
-                    hitbox.x, hitbox.y + 50, 16, 16,
-                    32, 32,
-                    vel.x*.8 + psprite.right*2 - 1,
-                    vel.y + 10, 0, -.2,
-                    10, 1000, 0,
-                    1, 0, 0,
-                    4, 10
-                ));
-            }
-
-        // ======================== COMBAT LOGIC ==============================
-
-            // Invincibility frame
-            if (combat.invincible)
-                combat.invincible--;
-
-            // Invulnerable frame
-            if (combat.invulnerable) {
-                combat.invulnerable--;
-
-                if (combat.invulnerable > combat.invulnerable_max * .8)
-                {
-                    // When got hit reset all movement and stuff
-                    vel.x = 0;
-                    vel.y = 0;
-
-                    a_dash.frame = 0;
-                    g_dash.frame = 0;
-
-                    combat.charge_time = 0;
-                    combat.combo_time = 0;
-                    combat.time = 0;
-                    combat.index = 0;
-                }
-                SDL_SetTextureAlphaMod(psprite.CurrentTexture, (combat.invulnerable % 15 > 0) ? 200 : 160);
-            }
-
-            if (combat.time > 0)
-                combat.time --;
-            else
-                combat.time = 0;
-            
-            if (combat.combo_time > 0)
-                combat.combo_time--;
-            else
-            {
-                combat.combo_time = 0;
-                combat.index = 0;
-            }
-
-            if (combat.delay > 0)
-                combat.delay --;
-            else
-                combat.delay = 0;
-
-            if (!combat.weapon_equip || combat.weapon_equip_frame) return;
-
-            // =================== Combat hitbox handler ===================
-            if (!combat.time && !a_dash.frame && !g_dash.frame)
-            {
-                combatbox = {};
-                combat.parry_error = 10;
-            }
-
-            if (a_dash.frame)
-                combatbox = {
-                    30, 30, 
-                    psprite.right ? 0 : 80,
-                    psprite.right ? 80 : 0,
-                    10
-                };
-
-            if (g_dash.frame)
-                combatbox = {
-                    20, 20,
-                    psprite.right ? 0 : 100,
-                    psprite.right ? 100 : 0,
-                    move.crawl ? 20 : 12
-                };
-
-            if (combat.index == 1)
-            {
-                combatbox = {
-                    40, 40,
-                    psprite.right? 0 : 100,
-                    psprite.right? 100 : 0,
-                    10
-                };
-                combat.parry_error = 3;
-            }
-
-            if (combat.index == 2)
-            {
-                combatbox = {
-                    15, 15,
-                    psprite.right ? 0 : 120,
-                    psprite.right ? 120 : 0,
-                    20
-                };
-                combat.parry_error = 1;
-            }
-
-            if (combat.index == 3)
-            {
-                combatbox = {
-                    80, 60,
-                    psprite.right ? 0 : 130,
-                    psprite.right ? 130 : 0,
-                    30
-                };
-                combat.parry_error = 0;
-            }
-
-            if (combat.index == 4)
-            {
-                combatbox = {76, 0, 64, 64, 15};
-                combat.parry_error = 40;
-            }
-
-            if (combat.index == 5)
-            {
-                combatbox = {
-                    64, 64, psprite.right?0:93, psprite.right?93:0, 15
-                };
-                combat.parry_error = 20;
-            }
-
-            // =================== Combat Attack Pattern ===================
-
-            // On ground
-            if (!combat.delay && !move.crawl && !g_dash.frame &&
-                INPUT.attack.threspeak &&
-                INPUT.attack.threspeak < 100)
-            {
-                INPUT.attack.threspeak = 0;
-
-                if (!state.hug_wall && !INPUT.moveU.state)
-                {
-                    if (!combat.combo_time && !combat.index)
-                    {
-                        combat.index = 1;
-                        combat.time = 15;
-                        combat.combo_time = 40;
-                        psprite.end_lock = 0;
-
-                        vel.x = vel.x * .8;
-                        vel.y = state.on_ground ? 0 : 1;
-                    }
-                    else if (!combat.time && combat.index == 1 && combat.combo_time)
-                    {
-                        combat.index = 2;
-                        combat.time = 15;
-                        combat.combo_time = 15;
-                        combat.delay = 35;
-                        psprite.end_lock = 0;
-
-                        vel.x = vel.x * .4;
-                        vel.y = state.on_ground ? 0 : 1;
-                    }
-                }
-                else if (!state.hug_wall && INPUT.moveU.state)
-                {
-                    if (!combat.combo_time && !combat.index)
-                    {
-                        combat.index = 4;
-                        combat.time = 15;
-                        combat.combo_time = 15;
-                        combat.delay = state.on_ground ? 40 : 70;
-                        psprite.end_lock = 0;
-
-                        vel.y = 3;
-                    }
-                }
-                else if (state.hug_wall)
-                {
-                    if (!combat.combo_time && !combat.index)
-                    {
-                        combat.index = 5;
-                        combat.time = 12;
-                        combat.combo_time = 40;
-                        psprite.end_lock = 0;
-                    }
-                }
-            }
-
-            // Charge Attack
-            if (combat.charge_time > 0)
-            {
-                combat.index = 3;
-
-                if (!INPUT.attack.state &&
-                    combat.charge_time > 50)
-                {
-                    combat.time = 10;
-                    combat.combo_time = 10;
-                    combat.delay = 150;
-
-                    psprite.end_lock = 0;
-                }
-            }
-
-            if (!combat.delay && !combat.time &&
-                INPUT.attack.threspass(100) &&
-                !psprite.end_lock && !move.crawl &&
-                !state.hug_wall &&
-                !a_dash.frame && !g_dash.frame)
-                combat.charge_time ++;
-            else
-                combat.charge_time = 0;
+            a_dash.cur = a_dash.max;
+            a_dash.lock = -state.hug_wall;
         }
 
-        // Stop Player Current State
-        void Player::setStatic()
-        {   
-            // Reset Sprite State
-            sprite.sf = 0;
-            sprite.si = 0;
-            setSprite(0);
-            // Reset Movement
+        state.hug_wall = 0;
+    }
+
+// ======================== MOVEMENT LOGIC ==============================
+
+    // Velocity
+    move.vel_max = 6.5;
+    move.vel_max*= ((state.on_ice || state.jump_on_ice) ? 1.2 : 1) *
+                (combat.weapon_equip ? .8 : 1) *
+                (combat.charge_time ? .8 : 1);
+    // Acceleration x
+    accel.x =  (state.on_ice ? .06 : .1) *
+                (combat.weapon_equip ? .8 : 1) *
+                (combat.charge_time ? .8 : 1);
+    // Acceleration y
+    accel.y =  ((INPUT.jump.hold && vel.y > 0) ? -.1 : -.2) *
+                (combat.weapon_equip ? 1.2 : 1) *
+                (combat.charge_time ? 1.2 : 1);
+
+    // Velocity X Correction 😭
+    // - Check the time spent over speed cap
+    if (abs(vel.x) > move.vel_max) move.vel_over_time++;
+    else                               move.vel_over_time = 0;
+    // - Self correct speed
+    if (move.vel_over_time > move.vel_over_max)
+    {
+        if (vel.x > move.vel_max)
+            vel.x = vel.x - (vel.x - move.vel_max) / 50;
+        if (vel.x < -move.vel_max)
+            vel.x = vel.x - (vel.x + move.vel_max) / 50;
+    }
+
+    // Terminal Velocity
+    if (vel.y + accel.y > jump.terminal)
+        vel.y = vel.y + accel.y;
+    // No Velo Y on ground
+    if (state.on_ground) vel.y = 0;
+    // Slow but painful Velo Y
+    if (state.hug_wall) vel.y = -1;
+
+    // SUPER JUMP
+    if (move.crawl && !state.crawl_lock && !vel.x)
+        jump.super += jump.super < jump.super_max;
+    else jump.super = 0;
+
+    // Ground dash
+    if (g_dash.frame)
+    {
+        g_dash.frame--;
+        if (g_dash.frame) vel.x = 18 * dir;
+        else vel.x = move.vel_max * dir * 1.1;
+    }
+    if (g_dash.delay > 0) g_dash.delay--;
+
+    // a_Dashing
+    if (a_dash.frame)
+    {
+        a_dash.frame--;
+        if (a_dash.frame) vel.x = 20 * dir;
+        else vel.x = move.vel_max * dir * 1.05;
+        vel.y = 0;
+    }
+
+    // Jump knock out
+    if (jump.knockout > 0) jump.knockout--;
+
+    // Coyote Jump
+    if (!state.on_ground &&
+        jump.cur == jump.max)
+    {
+        if (jump.coyote < jump.coyote_max)
+            jump.coyote++;
+        else
+        {
+            jump.coyote_fail = 1;
+            jump.cur = jump.max - 1;
+        }
+    }
+    else jump.coyote = 0;
+
+    // Reset Stuff when land on ground
+    if (state.on_ground)
+    {
+        state.jump_on_ice = 0;
+
+        jump.cur = jump.max;
+        jump.coyote_fail = 0;
+
+        a_dash.lock = 0;
+        a_dash.cur = a_dash.max;
+    }
+
+    // Setting Position
+    if (dev.godmode) return;
+
+    movelock.movement();
+}
+
+void Player::playerCombat(Map *map)
+{
+// ======================== COMBAT INPUT ==============================
+
+    // Weapon equipment
+    if (INPUT.equip.state && !combat.weapon_equip_delay &&
+        state.on_ground)
+    {
+        sprite.si = 0;
+        combat.weapon_equip_frame = 24;
+        combat.weapon_equip_delay = combat.weapon_equip_delay_max;
+        combat.weapon_equip = !combat.weapon_equip;
+    };
+    // Weapon draw ("draw" weapon, not "draw" painting) delay
+    if (combat.weapon_equip_delay > 0)
+        combat.weapon_equip_delay --;
+    if (combat.weapon_equip_frame) 
+        combat.weapon_equip_frame --;
+
+    // Special Jelly Projectile
+    if (combat.weapon_equip && INPUT.proj.press())
+    {
+        INPUT.proj.hold = 1;
+
+        map->ProjectileVec.push_back(new Projectile(
+            "assets/NakuSheet/NakuSquid.png",
+            hitbox.x, hitbox.y + 50, 16, 16,
+            32, 32,
+            vel.x*.8 + psprite.right*2 - 1,
+            vel.y + 10, 0, -.2,
+            10, 1000, 0,
+            1, 0, 0,
+            4, 10
+        ));
+    }
+
+// ======================== COMBAT LOGIC ==============================
+
+    // Invincibility frame
+    if (combat.invincible)
+        combat.invincible--;
+
+    // Invulnerable frame
+    if (combat.invulnerable) {
+        combat.invulnerable--;
+
+        if (combat.invulnerable > combat.invulnerable_max * .8)
+        {
+            // When got hit reset all movement and stuff
             vel.x = 0;
             vel.y = 0;
-            move.crawl = 0;
+
             a_dash.frame = 0;
             g_dash.frame = 0;
-            // Reset HitBox
-            hitbox.hw = 58;
-            hitbox.hh = 80;
-            // Reset Combat
-            combat.delay = 0;
-            combat.combo_time = 0;
+
             combat.charge_time = 0;
+            combat.combo_time = 0;
+            combat.time = 0;
+            combat.index = 0;
         }
+        SDL_SetTextureAlphaMod(psprite.CurrentTexture, (combat.invulnerable % 15 > 0) ? 200 : 160);
+    }
+
+    if (combat.time > 0)
+        combat.time --;
+    else
+        combat.time = 0;
+    
+    if (combat.combo_time > 0)
+        combat.combo_time--;
+    else
+    {
+        combat.combo_time = 0;
+        combat.index = 0;
+    }
+
+    if (combat.delay > 0)
+        combat.delay --;
+    else
+        combat.delay = 0;
+
+    if (!combat.weapon_equip || combat.weapon_equip_frame) return;
+
+    // =================== Combat hitbox handler ===================
+    if (!combat.time && !a_dash.frame && !g_dash.frame)
+    {
+        combatbox = {};
+        combat.parry_error = 10;
+    }
+
+    if (a_dash.frame)
+        combatbox = {
+            30, 30, 
+            psprite.right ? 0 : 80,
+            psprite.right ? 80 : 0,
+            10
+        };
+
+    if (g_dash.frame)
+        combatbox = {
+            20, 20,
+            psprite.right ? 0 : 100,
+            psprite.right ? 100 : 0,
+            move.crawl ? 20 : 12
+        };
+
+    if (combat.index == 1)
+    {
+        combatbox = {
+            40, 40,
+            psprite.right? 0 : 100,
+            psprite.right? 100 : 0,
+            10
+        };
+        combat.parry_error = 3;
+    }
+
+    if (combat.index == 2)
+    {
+        combatbox = {
+            15, 15,
+            psprite.right ? 0 : 120,
+            psprite.right ? 120 : 0,
+            20
+        };
+        combat.parry_error = 1;
+    }
+
+    if (combat.index == 3)
+    {
+        combatbox = {
+            80, 60,
+            psprite.right ? 0 : 130,
+            psprite.right ? 130 : 0,
+            30
+        };
+        combat.parry_error = 0;
+    }
+
+    if (combat.index == 4)
+    {
+        combatbox = {76, 0, 64, 64, 15};
+        combat.parry_error = 40;
+    }
+
+    if (combat.index == 5)
+    {
+        combatbox = {
+            64, 64, psprite.right?0:93, psprite.right?93:0, 15
+        };
+        combat.parry_error = 20;
+    }
+
+    // =================== Combat Attack Pattern ===================
+
+    // On ground
+    if (!combat.delay && !move.crawl && !g_dash.frame &&
+        INPUT.attack.threspeak &&
+        INPUT.attack.threspeak < 100)
+    {
+        INPUT.attack.threspeak = 0;
+
+        if (!state.hug_wall && !INPUT.moveU.state)
+        {
+            if (!combat.combo_time && !combat.index)
+            {
+                combat.index = 1;
+                combat.time = 15;
+                combat.combo_time = 40;
+                psprite.end_lock = 0;
+
+                vel.x = vel.x * .8;
+                vel.y = state.on_ground ? 0 : 1;
+            }
+            else if (!combat.time && combat.index == 1 && combat.combo_time)
+            {
+                combat.index = 2;
+                combat.time = 15;
+                combat.combo_time = 15;
+                combat.delay = 35;
+                psprite.end_lock = 0;
+
+                vel.x = vel.x * .4;
+                vel.y = state.on_ground ? 0 : 1;
+            }
+        }
+        else if (!state.hug_wall && INPUT.moveU.state)
+        {
+            if (!combat.combo_time && !combat.index)
+            {
+                combat.index = 4;
+                combat.time = 15;
+                combat.combo_time = 15;
+                combat.delay = state.on_ground ? 40 : 70;
+                psprite.end_lock = 0;
+
+                vel.y = 3;
+            }
+        }
+        else if (state.hug_wall)
+        {
+            if (!combat.combo_time && !combat.index)
+            {
+                combat.index = 5;
+                combat.time = 12;
+                combat.combo_time = 40;
+                psprite.end_lock = 0;
+            }
+        }
+    }
+
+    // Charge Attack
+    if (combat.charge_time > 0)
+    {
+        combat.index = 3;
+
+        if (!INPUT.attack.state &&
+            combat.charge_time > 50)
+        {
+            combat.time = 10;
+            combat.combo_time = 10;
+            combat.delay = 150;
+
+            psprite.end_lock = 0;
+        }
+    }
+
+    if (!combat.delay && !combat.time &&
+        INPUT.attack.threspass(100) &&
+        !psprite.end_lock && !move.crawl &&
+        !state.hug_wall &&
+        !a_dash.frame && !g_dash.frame)
+        combat.charge_time ++;
+    else
+        combat.charge_time = 0;
+}
+
+// Stop Player Current State
+void Player::setStatic()
+{   
+    // Reset Sprite State
+    sprite.sf = 0;
+    sprite.si = 0;
+    setSprite(0);
+    // Reset Movement
+    vel.x = 0;
+    vel.y = 0;
+    move.crawl = 0;
+    a_dash.frame = 0;
+    g_dash.frame = 0;
+    // Reset HitBox
+    hitbox.hw = 58;
+    hitbox.hh = 80;
+    // Reset Combat
+    combat.delay = 0;
+    combat.combo_time = 0;
+    combat.charge_time = 0;
+}
 
 void Player::playerHitBox()
 {

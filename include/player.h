@@ -18,6 +18,21 @@ struct PlayerCameraBox
     ObjectBox cam;
 };
 
+struct PlayerState
+{
+    bool on_ground = 0;
+    bool on_ice = 0;
+    bool in_water = 0;
+    short hug_wall = 0;
+    bool crawl_lock = 0;
+
+    // Special Condition
+
+    bool jump_on_ice = 0;
+
+    void resetState();
+};
+
 struct PlayerMoveset
 {
     bool move = 1;
@@ -31,18 +46,13 @@ struct PlayerMoveset
     void disableAll();
 };
 
-struct PlayerState
-{
-    bool on_ground = 0;
-    bool on_ice = 0;
-    bool in_water = 0;
-    short hug_wall = 0;
-    bool crawl_lock = 0;
+struct PlayerMovelock
+{ 
+    Player *player;
+    bool up = 0, down = 0, left = 0, right = 0;
 
-    // Special Condition
-    bool jump_on_ice = 0;
-
-    void resetState();
+    void reset();
+    void movement();
 };
 
 struct PlayerMoving
@@ -260,6 +270,7 @@ public:
 
     // ============ MOVEMENT/COMBAT ==============
     PlayerMoveset moveset;
+    PlayerMovelock movelock = {this};
     PlayerMoving move = {this};
     PlayerJumping jump = {this};
     PlayerAirDash a_dash = {this};
