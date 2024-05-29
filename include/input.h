@@ -162,9 +162,11 @@ public:
 
 	Input();
 	void setTemplate(int keytemplate);
-	void update();
 	void executeScript(string0D script_dir, bool from_cur = 0);
 	void endScript();
+
+	void updateMoveset();
+	void updateOther();
 
 	// ==================== OBSOLETE ======================
 

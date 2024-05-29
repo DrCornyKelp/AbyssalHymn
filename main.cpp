@@ -114,7 +114,7 @@ int main(int argc, char *argv[])
         case 2:
             // Render what currently onscreen
             REND->renderGameplay(WORLD->MapCur);
-            MULTI->MAIN->INPUT.update();
+            MULTI->MAIN->INPUT.updateOther();
 
             PAUSE->update(&MULTI->MAIN->INPUT);
 

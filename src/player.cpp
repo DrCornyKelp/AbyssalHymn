@@ -1133,7 +1133,7 @@ void PlayerDeveloper::developer(Map *map)
 // by intensive <player> calculation
 void Player::playerUpdate(Map *map)
 {
-    INPUT.update();
+    INPUT.updateMoveset();
 
     playerMovement(map);
     playerCombat(map);

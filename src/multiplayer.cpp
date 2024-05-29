@@ -70,6 +70,9 @@ void Multiplayer::update(Map *map)
     for (Player *player : Players)
         player->playerUpdate(map);
 
+    // Update Special Keys
+    MAIN->INPUT.updateOther();
+
     // Update the camera for only MAIN player
     if (MAIN->dev.godmode)
         MAIN->camera.updateStatic();

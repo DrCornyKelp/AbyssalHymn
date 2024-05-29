@@ -18,7 +18,7 @@ Menu::Menu() {
 
 void Menu::update()
 {
-    INPUT.update();
+    INPUT.updateOther();
 
     // Draw Background
     Object2D::objectSetSprite(menuBGsprite);

@@ -139,7 +139,7 @@ bool MouseMain::inbox(ObjectBox mbox)
     (x > mbox.right && mbox.right > -1)
 ); }
 
-void Input::update()
+void Input::updateMoveset()
 {
     // ====================== Update Delay ======================
     if (delay) delay--;
@@ -158,6 +158,11 @@ void Input::update()
     attack.update(keystate, this);
     jump.update(keystate, this);
     dash.update(keystate, this);
+}
+
+void Input::updateOther()
+{
+    const Uint8* keystate = SDL_GetKeyboardState(NULL);
 
     lctrl.update(keystate, this);
     arrowU.update(keystate, this);
@@ -177,7 +182,7 @@ void Input::update()
     f5.update(keystate, this);
     f6.update(keystate, this);
 
-    // UPDATE MOUSE IN GENERAL
+    // Mouse Update
     mouse.update();
 }
 
