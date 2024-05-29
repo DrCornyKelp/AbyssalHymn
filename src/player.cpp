@@ -37,14 +37,54 @@ void PlayerMoveset::disableAll()
 }
 
 // ============================ PLAYER MOVELOCK =========================
-void PlayerMovelock::reset()
+
+// SIDE COLLIDE
+bool PlayerCollision::predictU(Object2D *obj)
+{
+    return player->vel.y > 0 &&
+        player->move.hitY() + player->hitbox.hh / 2 + player->vel.y <
+        obj->hitbox.y - obj->hitbox.hh / 2;
+}
+bool PlayerCollision::predictD(Object2D *obj)
+{
+    return player->vel.y < 0 &&
+        player->move.hitY() - player->hitbox.hh / 2 + player->vel.y <
+        obj->hitbox.y + obj->hitbox.hh / 2;
+}
+bool PlayerCollision::predictL(Object2D *obj)
+{
+    return player->vel.x < 0 &&
+        player->move.hitX() - player->hitbox.hw / 2 + player->vel.x <
+        obj->hitbox.x + obj->hitbox.hw / 2;
+}
+bool PlayerCollision::predictR(Object2D *obj)
+{
+    return player->vel.x > 0 &&
+        player->move.hitX() + player->hitbox.hw / 2 + player->vel.x <
+        obj->hitbox.x - obj->hitbox.hw / 2;
+}
+
+bool PlayerCollision::collideHorizontal(Object2D *obj)
+{
+    int colli_x = abs(player->move.hitX() - obj->hitbox.x);
+    int hit_dist_x = (player->hitbox.hw + obj->hitbox.hw) / 2;
+    return colli_x < hit_dist_x;
+}
+bool PlayerCollision::collideVertical(Object2D *obj)
+{
+    int colli_y = abs(player->move.hitY() - obj->hitbox.y);
+    int hit_dist_y = (player->hitbox.hh + obj->hitbox.hh) / 2;
+    return colli_y < hit_dist_y;
+}
+
+void PlayerCollision::reset()
 {
     up = 0;
     down = 0;
     left = 0;
     right = 0;
 }
-void PlayerMovelock::movement()
+void PlayerCollision::movement()
 {
     if ((!up && player->vel.y > 0) ||
         (!down && player->vel.y < 0))
@@ -699,7 +739,7 @@ void Player::playerMovement(Map *map)
         vel.y = vel.y + accel.y;
     // No Velo Y on ground
     if (state.on_ground) vel.y = 0;
-    // Slow but painful Velo Y
+    // Slow but painful Velo Y on wall
     if (state.hug_wall) vel.y = -1;
 
     // SUPER JUMP
@@ -757,7 +797,7 @@ void Player::playerMovement(Map *map)
     // Setting Position
     if (dev.godmode) return;
 
-    movelock.movement();
+    collision.movement();
 }
 
 void Player::playerCombat(Map *map)

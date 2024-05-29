@@ -46,10 +46,23 @@ struct PlayerMoveset
     void disableAll();
 };
 
-struct PlayerMovelock
+struct PlayerCollision
 { 
     Player *player;
-    bool up = 0, down = 0, left = 0, right = 0;
+
+    // Movement Lock
+    bool up = 0;
+    bool down = 0;
+    bool left = 0;
+    bool right = 0;
+
+    bool predictU(Object2D *obj);
+    bool predictD(Object2D *obj);
+    bool predictL(Object2D *obj);
+    bool predictR(Object2D *obj);
+
+    bool collideHorizontal(Object2D *obj);
+    bool collideVertical(Object2D *obj);
 
     void reset();
     void movement();
@@ -270,7 +283,7 @@ public:
 
     // ============ MOVEMENT/COMBAT ==============
     PlayerMoveset moveset;
-    PlayerMovelock movelock = {this};
+    PlayerCollision collision = {this};
     PlayerMoving move = {this};
     PlayerJumping jump = {this};
     PlayerAirDash a_dash = {this};
