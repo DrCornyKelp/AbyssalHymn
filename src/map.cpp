@@ -327,6 +327,9 @@ void Map::updateMapActive()
         for (Player *player : MULTI->Players)
             player->setStatic();
 
+    // ================= Update Players ==================================
+    MULTI->update(this);
+
     // ================= Update Component logic for each Player ==========
     for (Player *player : MULTI->Players)
     {
@@ -343,9 +346,6 @@ void Map::updateMapActive()
             break;
         }
     }
-
-    // ================= Update Players ==================================
-    MULTI->update(this);
 
     // ==== Component that has function distinct from other component ======
     // (It has other player logic in mind)

@@ -154,13 +154,9 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
     }
 
     // Hit Left wall
-    //  old code 
-    //      p_hit_x < hitbox.x && colli_x < hit_dist_x &&
-    //      p_hit_y < hitbox.y + hit_dist_y - 10 &&
-    //      p_hit_y > hitbox.y - hit_dist_y + 10
-
-    if (player->collision.collideVertical(this) &&
-        player->collision.predictL(this))
+    if (p_hit_x < hitbox.x && colli_x < hit_dist_x &&
+        p_hit_y < hitbox.y + hit_dist_y - 10 &&
+        p_hit_y > hitbox.y - hit_dist_y + 10)
     {
         if (player->moveset.hug_wall &&
             !player->state.on_ground &&
@@ -175,6 +171,7 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
         }
         else
         {
+            
             player->hitbox.x = (hitbox.x - 3 -
                 (player->move.crawl ? hit_dist_x_crawl : hit_dist_x)
             );
