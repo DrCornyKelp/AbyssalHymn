@@ -16,12 +16,12 @@ int ObjectHitbox::gridRX() { return (x + w/2) / 64; }
 int ObjectHitbox::gridBY() { return (y - h/2) / 64; }
 int ObjectHitbox::gridTY() { return (y + h/2) / 64; }
 int ObjectHitbox::gridW(bool getExtend) { 
-    return (int(w / 64) < h / 64) && getExtend ?
-            int(w / 64) + 1 : int(w / 64);
+    return (w / 64 < float(w) / 64) && getExtend ?
+            w / 64 + 1 : w / 64;
 }
 int ObjectHitbox::gridH(bool getExtend) {
-    return (int(h / 64) < h / 64) && getExtend ?
-            int(h / 64) + 1 : int(h / 64);
+    return (h / 64 < float(h) / 64) && getExtend ?
+            h / 64 + 1 : h / 64;
 }
 
 // ========================== OBJECT BOX ==========================

@@ -31,14 +31,21 @@ struct PlayerMoveset
     void disableAll();
 };
 
-struct PlayerMovelock
+struct PlayerPredict
 {
-    bool up = 0;
-    bool down = 0;
-    bool left = 0;
-    bool right = 0;
+    Player *player;
 
+    bool lockU = 0;
+    bool lockD = 0;
+    bool lockL = 0;
+    bool lockR = 0;
     void resetLock();
+
+    bool predictU(Object2D *obj);
+    bool predictD(Object2D *obj);
+    bool predictL(Object2D *obj);
+    bool predictR(Object2D *obj);
+
 };
 
 struct PlayerState
@@ -70,8 +77,8 @@ struct PlayerMoving
     int hit_offset_x = 0;
     int hit_offset_y = 0;
 
-    int hitX();
-    int hitY();
+    float hitX();
+    float hitY();
 };
 
 struct PlayerJumping
@@ -274,6 +281,7 @@ public:
     PlayerJumping jump = {this};
     PlayerAirDash a_dash = {this};
     PlayerGroundDash g_dash = {this};
+    PlayerPredict predict = {this};
     PlayerCombat combat = {this};
 
     // ============== CAMERA/DRAW ================

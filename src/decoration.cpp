@@ -51,7 +51,7 @@ void Decoration::drawProp(Player *player)
     desRect = {
         Camera::objectDrawX(player, this),
         Camera::objectDrawY(player, this),
-        int(hitbox.w), int(hitbox.h)
+        hitbox.w, hitbox.h
     };
 
     srcRect = {
@@ -111,12 +111,12 @@ void Decoration::updateBackground(Player *player, bool left_prlx)
     else if (player->camera.unfocus.x)
         hitbox.x = (bg_shift - int(
             player->camera.unfocus_offset.x * scale_vel_x
-        ) % int(hitbox.w));
+        ) % hitbox.w);
     // Parallax moving (player focus)
     else
         hitbox.x = (bg_shift - int(
             (player->hitbox.x - player->camera.offset.x) * scale_vel_x
-        ) % int(hitbox.w));
+        ) % hitbox.w);
 
     // ==================== Parallax Y ====================
     // Parallax stop (player unfocus)
@@ -134,7 +134,7 @@ void Decoration::updateBackground(Player *player, bool left_prlx)
     desRect = {
         int(hitbox.x - hitbox.w / 2),
         int(hitbox.y - hitbox.h / 2),
-        int(hitbox.w), int(hitbox.h)
+        hitbox.w, hitbox.h
     };
 }
 
@@ -152,7 +152,8 @@ Decoration *Decoration::codeToDecorInfo(string0D str)
 
     string0D decor_type; // 0: static, 1: sprite sheet, 2: sprite folder
     string0D path;
-    float x, y, w, h;
+    float x, y;
+    int w, h;
     int sw = 0, sh = 0,
         sim = 0, sfm = 0;
     int alpha = 255;

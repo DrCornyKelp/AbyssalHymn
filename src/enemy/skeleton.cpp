@@ -39,7 +39,7 @@ void Skeleton::draw(Player *player)
     // Draw
     SDL_Rect desRect = {Camera::objectDrawX(player, this),
                         Camera::objectDrawY(player, this),
-                        int(hitbox.w), int(hitbox.h)};
+                        hitbox.w, hitbox.h};
     SDL_Rect srcRect = {(direction > 0 ? sprite.si : sprite.sim - sprite.si - 1) * 96,
                         0, 96, 64};
 

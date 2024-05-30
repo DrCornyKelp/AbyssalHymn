@@ -1,6 +1,6 @@
 #include <multiplayer.h>
 
-bool Camera::outOfBound(SDL_Rect desRect)
+bool Camera::outOfBound(SDL_Rect &desRect)
 {
     return
         desRect.x + desRect.w < 0 ||

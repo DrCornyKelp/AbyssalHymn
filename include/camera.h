@@ -12,7 +12,7 @@ public:
     static int objectDrawY(Player *player, Object2D *obj);
 
     // Object outside screen
-    static bool outOfBound(SDL_Rect desRect);
+    static bool outOfBound(SDL_Rect &desRect);
     static bool outOfCam(Player *player, Object2D *obj);
 };
 

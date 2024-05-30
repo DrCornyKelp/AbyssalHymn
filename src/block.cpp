@@ -14,7 +14,7 @@ Block::Block(float1D main_val) :
     Object2D({
         (main_val[1] + main_val[3]/2) * 64,
         (main_val[2] + main_val[4]/2) * 64,
-        (main_val[3] * 64), (main_val[4]) * 64,
+        int(main_val[3] * 64), int(main_val[4]) * 64,
         int(main_val[3] * 64), int(main_val[4]) * 64
     }),
     type(main_val[0])
@@ -102,9 +102,9 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
     // Player Value
     int px = player->hitbox.x;
     int py = player->hitbox.y;
-    int p_vel_y = player->vel.y;
-    int p_hit_x = player->move.hitX();
-    int p_hit_y = player->move.hitY();
+    float p_vel_y = player->vel.y;
+    float p_hit_x = player->move.hitX();
+    float p_hit_y = player->move.hitY();
     int p_hit_w = player->hitbox.hw;
     int p_hit_h = player->hitbox.hh;
 
@@ -144,6 +144,47 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
     // Not Solid or Not Ice => No standard hitbox detection 
     if (type != 0 && type != 1) return;
 
+    // if (p_hit_x < hitbox.x + hit_dist_x - 1 &&
+    //     p_hit_x > hitbox.x - hit_dist_x + 1)
+    // {
+    //     if (player->predict.predictU(this))
+    //     {
+    //         player->hitbox.y = hitbox.y - hit_dist_y - 1;
+    //         player->vel.y = 0;
+    //         player->predict.lockU = 1;
+    //     }
+    //     if (player->predict.predictD(this))
+    //     {
+    //         state.stepOn = 1;
+
+    //         pState.on_ground = true;
+    //         if (type == 1) pState.on_ice = true;
+    //         pState.hug_wall = 0;
+
+    //         player->vel.y = 0;
+    //         player->hitbox.y = hitbox.y + hit_dist_y + 1;
+    //         player->predict.lockD = 1;
+    //     }
+    // }
+
+    // if (p_hit_y < hitbox.y + hit_dist_y - 1 &&
+    //     p_hit_y > hitbox.y - hit_dist_y + 1)
+    // {
+    //     if (player->predict.predictL(this))
+    //     {
+    //         player->vel.x = 0;
+    //         player->hitbox.x = hitbox.x + hit_dist_x;
+    //         player->predict.lockL = 1;
+    //     }
+    //     if (player->predict.predictR(this))
+    //     {
+    //         std::cout << "predict \n";
+    //         player->vel.x = 0;
+    //         player->hitbox.x = hitbox.x - hit_dist_x;
+    //         player->predict.lockR = 1;
+    //     }
+    // }
+
     // Ceiling min
     if (colli_x < hit_dist_x - 10 && py < hitbox.y)
     {
@@ -154,7 +195,8 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
     }
 
     // Hit Left wall
-    if (p_hit_x < hitbox.x && colli_x < hit_dist_x &&
+    if (true &&
+        p_hit_x < hitbox.x && colli_x < hit_dist_x &&
         p_hit_y < hitbox.y + hit_dist_y - 10 &&
         p_hit_y > hitbox.y - hit_dist_y + 10)
     {
@@ -195,7 +237,8 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
     }
 
     // Hit Right wall
-    if (p_hit_x > hitbox.x && colli_x < hit_dist_x &&
+    if (true &&
+        p_hit_x > hitbox.x && colli_x < hit_dist_x &&
         p_hit_y < hitbox.y + hit_dist_y - 10 &&
         p_hit_y > hitbox.y - hit_dist_y + 10)
     {
@@ -235,7 +278,8 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
     }
 
     // Ceiling logic
-    if ((p_hit_x < hitbox.x + hit_dist_x) &&
+    if (true &&
+        (p_hit_x < hitbox.x + hit_dist_x) &&
         (p_hit_x > hitbox.x - hit_dist_x))
     {
         if (p_vel_y > 0 &&
@@ -262,7 +306,8 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
     }
 
     // Stand on block
-    if (!pState.on_ground &&
+    if (true &&
+        !pState.on_ground &&
         p_hit_y > hitbox.y &&
         colli_y < hit_dist_y &&
         (p_hit_x < hitbox.x + hit_dist_x) &&
@@ -319,7 +364,7 @@ void Block::drawHighlight(Player *player)
     int drawX = Camera::objectDrawX(player, this);
     int drawY = Camera::objectDrawY(player, this);
     SDL_SetRenderDrawColor(CFG->RENDERER, 0, 255, 0, 150);
-    SDL_Rect highlightRect = {drawX, drawY, int(hitbox.w), int(hitbox.h)};
+    SDL_Rect highlightRect = {drawX, drawY, hitbox.w, hitbox.h};
     SDL_RenderCopy(CFG->RENDERER, highlight_texture, NULL, &highlightRect);
 }
 

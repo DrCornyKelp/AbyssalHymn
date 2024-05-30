@@ -49,7 +49,7 @@ void World::updateWorld()
     CFG->WORLDTIME++;
 
     // Update Audio Track
-    AUDIO->updateTrack();
+    // AUDIO->updateTrack();
 
     // Update Transition Transit
     if (CFG->TRANSIT_EFFECT.midpoint() &&

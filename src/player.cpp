@@ -37,12 +37,61 @@ void PlayerMoveset::disableAll()
 }
 
 // ============================ PLAYER MOVELOCK ============================
-void PlayerMovelock::resetLock()
+void PlayerPredict::resetLock()
 {
-    up = 0;
-    down = 0;
-    left = 0;
-    right = 0;
+    lockU = 0;
+    lockD = 0;
+    lockL = 0;
+    lockR = 0;
+}
+
+bool PlayerPredict::predictU(Object2D *obj)
+{
+    if (player->vel.y < 0) return 0;
+
+    float predict_y = player->move.hitY() + player->vel.y + player->hitbox.hh / 2;
+    float o_half_h = obj->hitbox.hh / 2;
+    if (predict_y < obj->hitbox.y + o_half_h &&
+        predict_y > obj->hitbox.y - o_half_h)
+        return 1;
+
+    return 0;
+}
+bool PlayerPredict::predictD(Object2D *obj)
+{
+    if (player->vel.y > 0) return 0;
+
+    float predict_y = player->move.hitY() + player->vel.y - player->hitbox.hh / 2;
+    float o_half_h = obj->hitbox.hh / 2;
+    if (predict_y < obj->hitbox.y + o_half_h &&
+        predict_y > obj->hitbox.y - o_half_h)
+        return 1;
+
+    return 0;
+}
+bool PlayerPredict::predictL(Object2D *obj)
+{
+    if (player->vel.x > 0) return 0;
+
+    float predict_x = player->move.hitX() + player->vel.x - player->hitbox.hw / 2;
+    float o_half_w = obj->hitbox.hw / 2;
+    if (predict_x < obj->hitbox.x + o_half_w &&
+        predict_x > obj->hitbox.x - o_half_w)
+        return 1;
+
+    return 0;
+}
+bool PlayerPredict::predictR(Object2D *obj)
+{
+    if (player->vel.x < 0) return 0;
+
+    int predict_x = player->move.hitX() + player->vel.x + player->hitbox.hw / 2;
+    int o_half_w = obj->hitbox.hw / 2;
+    if (predict_x < obj->hitbox.x + o_half_w &&
+        predict_x > obj->hitbox.x - o_half_w)
+        return 1;
+
+    return 0;
 }
 
 // ============================ PLAYER STATE ============================
@@ -58,9 +107,9 @@ void PlayerState::resetState()
 
 // ============================ PLAYER MOVING ============================
 
-int PlayerMoving::hitX()
+float PlayerMoving::hitX()
 { return player->hitbox.x + hit_offset_x; }
-int PlayerMoving::hitY()
+float PlayerMoving::hitY()
 { return player->hitbox.y + hit_offset_y; }
 
 // ============================ PLAYER DRAW PROP ============================
@@ -230,14 +279,14 @@ void PlayerSprite::drawProp()
     player->setSprite(end_lock);
 
     desRect = {
-        Camera::objectDrawX(player->MULTI->MAIN, player) - int(player->hitbox.w*3/2),
-        Camera::objectDrawY(player->MULTI->MAIN, player) - int(player->hitbox.w*2),
-        int(player->hitbox.w*4), int(player->hitbox.w*4)
+        Camera::objectDrawX(player->MULTI->MAIN, player) - player->hitbox.w*3/2,
+        Camera::objectDrawY(player->MULTI->MAIN, player) - player->hitbox.w*2,
+        player->hitbox.w*4, player->hitbox.w*4
     };
     srcRect = {
-        player->sprite.si * int(player->hitbox.w),
-        index * int(player->hitbox.w),
-        int(player->hitbox.w), int(player->hitbox.w)
+        player->sprite.si * player->hitbox.w,
+        index * player->hitbox.w,
+        player->hitbox.w, player->hitbox.w
     };
 
     if (!player->combat.invulnerable)
@@ -747,7 +796,13 @@ void Player::playerMovement(Map *map)
 
     // Setting Position
     if (dev.godmode) return;
-    objectStandardMovement(1);
+
+    if ((!predict.lockU && vel.y > 0) ||
+        (!predict.lockD && vel.y < 0))
+        hitbox.y += vel.y;
+    if ((!predict.lockL && vel.x < 0) ||
+        (!predict.lockR && vel.x > 0))
+        hitbox.x += vel.x;
 }
 
 void Player::playerCombat(Map *map)

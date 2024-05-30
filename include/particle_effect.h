@@ -18,11 +18,11 @@ private:
 public:
     ~ParticleEffect();
     ParticleEffect( SDL_Texture *peTxture,
-                    float X, float Y, float w, float h, // Position/Size in game
+                    float X, float Y, int w, int h, // Position/Size in game
                     int sw, int sh, int sim, int sfm, // Animation properties
                     bool repeat);
     ParticleEffect( SDL_Texture *peTxture,
-                    float X, float Y, float w, float h, // Position/Size in game
+                    float X, float Y, int w, int h, // Position/Size in game
                     int sw, int sh, int sim, int srm, int sfm, // Animation properties
                     bool repeat);
     bool getIsGone();

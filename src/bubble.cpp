@@ -76,7 +76,7 @@ Bubble::~Bubble() {
 Bubble::Bubble( string0D bPath, ObjectHitbox bHitbox,
                 ObjectBox bActivebox, BubbleStyle bStyle,
                 short type, int grid ) :
-    Object2D(bHitbox.hitboxGrid(grid)),
+    Object2D(bHitbox),
     active_box(bActivebox), type(type),
     bubble_path(bPath), style(bStyle)
 {}
@@ -130,7 +130,7 @@ Bubble *Bubble::codeToBubbleInfo(string0D str)
             up >> cm >> down >> cm >> left >> cm >> right >> cm >>
             offX >> cm >> offY >> cm >> mAlpha;
 
-    ObjectHitbox bHitbox = {x, y, w, h};
+    ObjectHitbox bHitbox = {x * 64, y * 64, w * 64, h * 64};
     ObjectBox bActivebox = {up, down, left, right};
     BubbleStyle bStyle = {offX, offY, mAlpha};
 

@@ -22,7 +22,7 @@ private:
     int collide_damage = 0;
 
 public:
-    Enemy(  float X = 0, float Y = 0, float w = 0, float h = 0, int hw = 2, int hh = 2,
+    Enemy(  float X = 0, float Y = 0, int w = 0, int h = 0, int hw = 2, int hh = 2,
             int sw = 0, int sh = 0, int sim = 2, int sfm = 20);
     virtual void initEnemy();
 

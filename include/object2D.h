@@ -16,8 +16,8 @@ struct ObjectXYWH { int x = 0, y = 0, w = 0, h = 0; };
 struct ObjectHitbox
 {
     float x = 0, y = 0;
-    float w = 0, h = 0;
-    int hw = 0, hh = 0;
+    int w = 0, h = 0,
+        hw = 0, hh = 0;
 
     ObjectHitbox hitboxGrid(int gr = 64);
     void grid(int gr = 64);
