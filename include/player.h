@@ -31,6 +31,16 @@ struct PlayerMoveset
     void disableAll();
 };
 
+struct PlayerMovelock
+{
+    bool up = 0;
+    bool down = 0;
+    bool left = 0;
+    bool right = 0;
+
+    void resetLock();
+};
+
 struct PlayerState
 {
     bool on_ground = 0;
@@ -39,10 +49,10 @@ struct PlayerState
     short hug_wall = 0;
     bool crawl_lock = 0;
 
+    void resetState();
+
     // Special Condition
     bool jump_on_ice = 0;
-
-    void resetState();
 };
 
 struct PlayerMoving
@@ -52,7 +62,7 @@ struct PlayerMoving
     int decel = 0;
     float vel_max = 5;
     int vel_over_time = 0, // Time you spent over the speed cap
-        vel_over_max = 100; // Max time before speed corretion
+        vel_over_max = 100; // Max time before speed correction
     float vel_jump_saved = 0;
     // CRAWLING
     bool crawl = 0;
