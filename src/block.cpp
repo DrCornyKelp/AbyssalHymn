@@ -185,38 +185,30 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
     //     }
     // }
 
-    // Ceiling min
-    if (colli_x < hit_dist_x - 10 && py < hitbox.y)
-    {
-        player->jump.ceiling_min = std::min(
-                player->jump.ceiling_min,
-                int(hitbox.y - py - hit_dist_y)
-        );
-    }
-
     // Hit Left wall
-    if (true &&
-        p_hit_x < hitbox.x && colli_x < hit_dist_x &&
+    if (player->predict.predictR(this) &&
         p_hit_y < hitbox.y + hit_dist_y - 10 &&
         p_hit_y > hitbox.y - hit_dist_y + 10)
     {
+        player->vel.x = 0;
+
         if (player->moveset.hug_wall &&
             !player->state.on_ground &&
             !player->a_dash.frame &&
             type == 0)
         {
             pState.hug_wall = -1;
-
-            player->vel.x = 0;
-            player->hitbox.x = hitbox.x - hit_dist_x + 3;
             state.hugged = -1;
+
+            player->hitbox.x = hitbox.x - hit_dist_x + 1;
         }
         else
         {
-            
-            player->hitbox.x = (hitbox.x - 3 -
+            player->predict.lockR = 1;
+            player->hitbox.x = (hitbox.x -
                 (player->move.crawl ? hit_dist_x_crawl : hit_dist_x)
             );
+
             if (player->a_dash.frame || player->g_dash.frame)
             {
                 map->appendParticle(new ParticleEffect(
@@ -237,27 +229,28 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
     }
 
     // Hit Right wall
-    if (true &&
-        p_hit_x > hitbox.x && colli_x < hit_dist_x &&
+    if (player->predict.predictL(this) &&
         p_hit_y < hitbox.y + hit_dist_y - 10 &&
         p_hit_y > hitbox.y - hit_dist_y + 10)
     {
+        player->vel.x = 0;
+
         if (player->moveset.hug_wall &&
             !player->state.on_ground &&
             !player->a_dash.frame &&
             type == 0)
         {
             pState.hug_wall = 1;
-
-            player->vel.x = 0;
-            player->hitbox.x = hitbox.x + hit_dist_x - 3;
             state.hugged = 1;
+            player->hitbox.x = hitbox.x + hit_dist_x - 1;
         }
         else
         {
-            player->hitbox.x = (hitbox.x + 3 +
+            player->predict.lockL = 1;
+            player->hitbox.x = (hitbox.x +
                 (player->move.crawl ? hit_dist_x_crawl : hit_dist_x)
             );
+
             if (player->a_dash.frame || player->g_dash.frame)
             {
                 map->appendParticle(new ParticleEffect(
@@ -278,8 +271,7 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
     }
 
     // Ceiling logic
-    if (true &&
-        (p_hit_x < hitbox.x + hit_dist_x) &&
+    if ((p_hit_x < hitbox.x + hit_dist_x) &&
         (p_hit_x > hitbox.x - hit_dist_x))
     {
         if (p_vel_y > 0 &&
@@ -294,7 +286,7 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
             ));
 
             player->jump.knockout = 50;
-            player->hitbox.y = hitbox.y - hitbox.h / 2 - 40 - p_vel_y;
+            player->hitbox.y = hitbox.y - hit_dist_y - p_vel_y;
             player->vel.y = -p_vel_y * .1;
             return;
         }
@@ -306,8 +298,7 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
     }
 
     // Stand on block
-    if (true &&
-        !pState.on_ground &&
+    if (!pState.on_ground &&
         p_hit_y > hitbox.y &&
         colli_y < hit_dist_y &&
         (p_hit_x < hitbox.x + hit_dist_x) &&
