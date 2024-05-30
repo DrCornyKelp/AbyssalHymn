@@ -554,8 +554,11 @@ void Player::playerMovement(Map *map)
     // Moving L/R
     if (moveset.move && !g_dash.frame && !a_dash.frame && !move.crawl)
     {
+
         if (INPUT.moveL.state && state.hug_wall < 1)
         {
+            psprite.right = 0;
+
             // Release from wall
             if (state.hug_wall) hitbox.x -= 4;
             state.hug_wall = 0;
@@ -567,6 +570,8 @@ void Player::playerMovement(Map *map)
 
         if (INPUT.moveR.state && state.hug_wall > -1)
         {
+            psprite.right = 1;
+
             if (state.hug_wall) hitbox.x += 4;
             state.hug_wall = 0;
 
