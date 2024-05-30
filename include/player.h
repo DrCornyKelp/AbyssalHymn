@@ -31,7 +31,7 @@ struct PlayerMoveset
     void disableAll();
 };
 
-struct PlayerPredict
+struct PlayerCollide
 {
     Player *player;
 
@@ -281,7 +281,7 @@ public:
     PlayerJumping jump = {this};
     PlayerAirDash a_dash = {this};
     PlayerGroundDash g_dash = {this};
-    PlayerPredict predict = {this};
+    PlayerCollide collide = {this};
     PlayerCombat combat = {this};
 
     // ============== CAMERA/DRAW ================

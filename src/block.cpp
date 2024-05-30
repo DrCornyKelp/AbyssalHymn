@@ -147,13 +147,13 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
     // if (p_hit_x < hitbox.x + hit_dist_x - 1 &&
     //     p_hit_x > hitbox.x - hit_dist_x + 1)
     // {
-    //     if (player->predict.predictU(this))
+    //     if (player->collide.predictU(this))
     //     {
     //         player->hitbox.y = hitbox.y - hit_dist_y - 1;
     //         player->vel.y = 0;
-    //         player->predict.lockU = 1;
+    //         player->collide.lockU = 1;
     //     }
-    //     if (player->predict.predictD(this))
+    //     if (player->collide.predictD(this))
     //     {
     //         state.stepOn = 1;
 
@@ -163,146 +163,147 @@ void Block::blockCollision(Map *map, Player *player, PlayerState &pState)
 
     //         player->vel.y = 0;
     //         player->hitbox.y = hitbox.y + hit_dist_y + 1;
-    //         player->predict.lockD = 1;
+    //         player->collide.lockD = 1;
     //     }
     // }
 
     // if (p_hit_y < hitbox.y + hit_dist_y - 1 &&
     //     p_hit_y > hitbox.y - hit_dist_y + 1)
     // {
-    //     if (player->predict.predictL(this))
+    //     if (player->collide.predictL(this))
     //     {
     //         player->vel.x = 0;
     //         player->hitbox.x = hitbox.x + hit_dist_x;
-    //         player->predict.lockL = 1;
+    //         player->collide.lockL = 1;
     //     }
-    //     if (player->predict.predictR(this))
+    //     if (player->collide.predictR(this))
     //     {
     //         std::cout << "predict \n";
     //         player->vel.x = 0;
     //         player->hitbox.x = hitbox.x - hit_dist_x;
-    //         player->predict.lockR = 1;
+    //         player->collide.lockR = 1;
     //     }
     // }
-
-    // Hit Left wall
-    if (player->predict.predictR(this) &&
-        p_hit_y < hitbox.y + hit_dist_y - 10 &&
+    
+    // Hit Wall
+    if (p_hit_y < hitbox.y + hit_dist_y - 10 &&
         p_hit_y > hitbox.y - hit_dist_y + 10)
     {
-        player->vel.x = 0;
-
-        if (player->moveset.hug_wall &&
-            !player->state.on_ground &&
-            !player->a_dash.frame &&
-            type == 0)
+        // Going Right Then Hitting Left wall
+        if (player->collide.predictR(this))
         {
-            pState.hug_wall = -1;
-            state.hugged = -1;
+            player->vel.x = 0;
 
-            player->hitbox.x = hitbox.x - hit_dist_x + 1;
-        }
-        else
-        {
-            player->predict.lockR = 1;
-            player->hitbox.x = (hitbox.x -
-                (player->move.crawl ? hit_dist_x_crawl : hit_dist_x)
-            );
-
-            if (player->a_dash.frame || player->g_dash.frame)
+            if (player->moveset.hug_wall &&
+                !player->state.on_ground &&
+                !player->a_dash.frame &&
+                type == 0)
             {
-                map->appendParticle(new ParticleEffect(
-                    CFG->loadTexture(
-                        "assets/ParticleSheet/NakuEffect/WallBangRight.png"),
-                    player->hitbox.x, player->hitbox.y, 128, 128,
-                    64, 64, 8, 4, 0
-                ));
+                pState.hug_wall = -1;
+                state.hugged = -1;
 
-                if (player->g_dash.frame)
-                    player->psprite.right = 0;
-                if (player->a_dash.frame)
-                    player->a_dash.frame = 0;
+                player->hitbox.x = hitbox.x - hit_dist_x + 1;
             }
-        }
-
-        return;
-    }
-
-    // Hit Right wall
-    if (player->predict.predictL(this) &&
-        p_hit_y < hitbox.y + hit_dist_y - 10 &&
-        p_hit_y > hitbox.y - hit_dist_y + 10)
-    {
-        player->vel.x = 0;
-
-        if (player->moveset.hug_wall &&
-            !player->state.on_ground &&
-            !player->a_dash.frame &&
-            type == 0)
-        {
-            pState.hug_wall = 1;
-            state.hugged = 1;
-            player->hitbox.x = hitbox.x + hit_dist_x - 1;
-        }
-        else
-        {
-            player->predict.lockL = 1;
-            player->hitbox.x = (hitbox.x +
-                (player->move.crawl ? hit_dist_x_crawl : hit_dist_x)
-            );
-
-            if (player->a_dash.frame || player->g_dash.frame)
+            else
             {
-                map->appendParticle(new ParticleEffect(
-                    CFG->loadTexture(
-                        "assets/ParticleSheet/NakuEffect/WallBangLeft.png"),
-                    player->hitbox.x, player->hitbox.y, 128, 128,
-                    64, 64, 8, 4, 0
-                ));
+                player->collide.lockR = 1;
+                player->hitbox.x = (hitbox.x -
+                    (player->move.crawl ? hit_dist_x_crawl : hit_dist_x)
+                );
 
-                if (player->g_dash.frame)
-                    player->psprite.right = 1;
-                if (player->a_dash.frame)
-                    player->a_dash.frame = 0;
+                if (player->a_dash.frame || player->g_dash.frame)
+                {
+                    map->appendParticle(new ParticleEffect(
+                        CFG->loadTexture(
+                            "assets/ParticleSheet/NakuEffect/WallBangRight.png"),
+                        player->hitbox.x, player->hitbox.y, 128, 128,
+                        64, 64, 8, 4, 0
+                    ));
+
+                    if (player->g_dash.frame)
+                        player->psprite.right = 0;
+                    if (player->a_dash.frame)
+                        player->a_dash.frame = 0;
+                }
             }
-        }
 
-        return;
-    }
-
-    // Ceiling logic
-    if ((p_hit_x < hitbox.x + hit_dist_x) &&
-        (p_hit_x > hitbox.x - hit_dist_x))
-    {
-        if (p_vel_y > 0 &&
-            p_hit_y < hitbox.y + p_vel_y + 4 &&
-            colli_y < hit_dist_y)
-        {
-            map->appendParticle(new ParticleEffect(
-                CFG->loadTexture(
-                    "assets/ParticleSheet/NakuEffect/WallBangDown.png"),
-                player->hitbox.x, player->hitbox.y, 70, 70,
-                64, 64, 8, 4, 0
-            ));
-
-            player->jump.knockout = 50;
-            player->hitbox.y = hitbox.y - hit_dist_y - p_vel_y;
-            player->vel.y = -p_vel_y * .1;
             return;
         }
 
-        if (player->state.on_ground &&
-            player->hitbox.y < hitbox.y &&
-            colli_y_stand < hit_dist_y_stand)
-            pState.crawl_lock = 1;
+        // Going Left Then Hitting Right wall
+        if (player->collide.predictL(this))
+        {
+            player->vel.x = 0;
+
+            if (player->moveset.hug_wall &&
+                !player->state.on_ground &&
+                !player->a_dash.frame &&
+                type == 0)
+            {
+                pState.hug_wall = 1;
+                state.hugged = 1;
+                player->hitbox.x = hitbox.x + hit_dist_x - 1;
+            }
+            else
+            {
+                player->collide.lockL = 1;
+                player->hitbox.x = (hitbox.x +
+                    (player->move.crawl ? hit_dist_x_crawl : hit_dist_x)
+                );
+
+                if (player->a_dash.frame || player->g_dash.frame)
+                {
+                    map->appendParticle(new ParticleEffect(
+                        CFG->loadTexture(
+                            "assets/ParticleSheet/NakuEffect/WallBangLeft.png"),
+                        player->hitbox.x, player->hitbox.y, 128, 128,
+                        64, 64, 8, 4, 0
+                    ));
+
+                    if (player->g_dash.frame)
+                        player->psprite.right = 1;
+                    if (player->a_dash.frame)
+                        player->a_dash.frame = 0;
+                }
+            }
+
+            return;
+        }
     }
+
+    // Ceiling logic
+
+    if ((p_hit_x >= hitbox.x + hit_dist_x - 1) ||
+        (p_hit_x <= hitbox.x - hit_dist_x + 1))
+        return;
+
+    if (p_vel_y > 0 &&
+        p_hit_y < hitbox.y + p_vel_y + 4 &&
+        colli_y < hit_dist_y)
+    {
+        map->appendParticle(new ParticleEffect(
+            CFG->loadTexture(
+                "assets/ParticleSheet/NakuEffect/WallBangDown.png"),
+            player->hitbox.x, player->hitbox.y, 70, 70,
+            64, 64, 8, 4, 0
+        ));
+
+        player->jump.knockout = 50;
+        player->hitbox.y = hitbox.y - hit_dist_y - p_vel_y;
+        player->vel.y = -p_vel_y * .1;
+        return;
+    }
+
+    // Stuck Under Ceiling
+    if (player->state.on_ground &&
+        player->hitbox.y < hitbox.y &&
+        colli_y_stand < hit_dist_y_stand)
+        pState.crawl_lock = 1;
 
     // Stand on block
     if (!pState.on_ground &&
         p_hit_y > hitbox.y &&
-        colli_y < hit_dist_y &&
-        (p_hit_x < hitbox.x + hit_dist_x) &&
-        (p_hit_x > hitbox.x - hit_dist_x))
+        colli_y < hit_dist_y)
     {
         if (vel.x) player->hitbox.x += vel.x;
         if (vel.y) player->hitbox.y += vel.y;

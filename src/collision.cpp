@@ -140,7 +140,7 @@ void Collision::playerUpdateCollision(Map *map, Player *player)
     if (player->dev.godmode) return;
 
     player->jump.ceiling_min = 20;
-    player->predict.resetLock();
+    player->collide.resetLock();
     playerBlockCollision(map, player);
 
     playerEnemyCollision(map, player);

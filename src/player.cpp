@@ -36,8 +36,8 @@ void PlayerMoveset::disableAll()
     hug_wall = 0;
 }
 
-// ============================ PLAYER MOVELOCK ============================
-void PlayerPredict::resetLock()
+// ============================ PLAYER COLLIDE ============================
+void PlayerCollide::resetLock()
 {
     lockU = 0;
     lockD = 0;
@@ -45,7 +45,7 @@ void PlayerPredict::resetLock()
     lockR = 0;
 }
 
-bool PlayerPredict::predictU(Object2D *obj)
+bool PlayerCollide::predictU(Object2D *obj)
 {
     if (player->vel.y < 0) return 0;
 
@@ -57,7 +57,7 @@ bool PlayerPredict::predictU(Object2D *obj)
 
     return 0;
 }
-bool PlayerPredict::predictD(Object2D *obj)
+bool PlayerCollide::predictD(Object2D *obj)
 {
     if (player->vel.y > 0) return 0;
 
@@ -69,7 +69,7 @@ bool PlayerPredict::predictD(Object2D *obj)
 
     return 0;
 }
-bool PlayerPredict::predictL(Object2D *obj)
+bool PlayerCollide::predictL(Object2D *obj)
 {
     if (player->vel.x > 0) return 0;
 
@@ -81,12 +81,12 @@ bool PlayerPredict::predictL(Object2D *obj)
 
     return 0;
 }
-bool PlayerPredict::predictR(Object2D *obj)
+bool PlayerCollide::predictR(Object2D *obj)
 {
     if (player->vel.x < 0) return 0;
 
-    int predict_x = player->move.hitX() + player->vel.x + player->hitbox.hw / 2;
-    int o_half_w = obj->hitbox.hw / 2;
+    float predict_x = player->move.hitX() + player->vel.x + player->hitbox.hw / 2;
+    float o_half_w = obj->hitbox.hw / 2;
     if (predict_x < obj->hitbox.x + o_half_w &&
         predict_x > obj->hitbox.x - o_half_w)
         return 1;
@@ -797,11 +797,11 @@ void Player::playerMovement(Map *map)
     // Setting Position
     if (dev.godmode) return;
 
-    if ((!predict.lockU && vel.y > 0) ||
-        (!predict.lockD && vel.y < 0))
+    if ((!collide.lockU && vel.y > 0) ||
+        (!collide.lockD && vel.y < 0))
         hitbox.y += vel.y;
-    if ((!predict.lockL && vel.x < 0) ||
-        (!predict.lockR && vel.x > 0))
+    if ((!collide.lockL && vel.x < 0) ||
+        (!collide.lockR && vel.x > 0))
         hitbox.x += vel.x;
 }
 
@@ -1055,6 +1055,7 @@ void Player::setStatic()
     move.crawl = 0;
     a_dash.frame = 0;
     g_dash.frame = 0;
+
     // Reset HitBox
     hitbox.hw = 58;
     hitbox.hh = 80;
