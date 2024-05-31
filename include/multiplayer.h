@@ -23,6 +23,8 @@ public:
     void update(Map *map);
     void drawPlayers();
     void drawHuds();
+
+    void setStatic();
 };
 
 #endif

@@ -129,3 +129,9 @@ void Multiplayer::drawHuds()
     for (Player *player : Players)
         player->HUD.draw();
 }
+
+void Multiplayer::setStatic()
+{
+    for (Player *player : Players)
+        player->setStatic();
+}

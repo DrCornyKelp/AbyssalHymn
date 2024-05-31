@@ -1121,7 +1121,7 @@ void Player::playerCombat(Map *map)
 
 // Stop Player Current State
 void Player::setStatic()
-{   
+{
     // Reset Sprite State
     sprite.sf = 0;
     sprite.si = 0;
@@ -1136,6 +1136,8 @@ void Player::setStatic()
     // Reset HitBox
     hitbox.hw = 58;
     hitbox.hh = 80;
+    move.hit_offset_x = 0;
+    move.hit_offset_y = 0;
     // Reset Combat
     combat.delay = 0;
     combat.combo_time = 0;
@@ -1144,9 +1146,7 @@ void Player::setStatic()
 
 void Player::playerHitBox()
 {
-    if (!move.crawl &&
-        !g_dash.frame &&
-        !state.crawl_lock)
+    if (!move.crawl && !g_dash.frame)
     {
         hitbox.hw = 58;
         hitbox.hh = 80;

@@ -322,55 +322,6 @@ void Map::updateMapGlobal()
 
 void Map::updateMapActive()
 {
-    // ================= In the middle of a transition =================
-    if (CFG->TRANSIT_EFFECT.leftactive())
-        for (Player *player : MULTI->Players)
-            player->setStatic();
-
-    // ================= Update Component logic for each Player ==========
-    for (Player *player : MULTI->Players)
-    {
-        // Collision
-        COLLI->playerUpdateCollision(this, player);
-        // Door
-        for (Door *door : DoorVec)
-            door->update(this, player);
-        // Map Transitor
-        for (MapTransit m_trans : TransitMap)
-        if (player->insideGridBox(m_trans.box))
-        {
-            WORLD->setTransit(m_trans.location);
-            break;
-        }
-    }
-
-    // ================= Update Players ==================================
-    MULTI->update(this);
-
-    // ==== Component that has function distinct from other component ======
-    // (It has other player logic in mind)
-
-    for (Bubble *bubble : BubbleVec)
-        bubble->update(MULTI);
-
-    for (Enemy *enemy : EnemyVec)
-        enemy->updateEnemy(this);
-
-    for (int i = 0; i < BackgroundVec.size(); i += 2)
-    {
-        BackgroundVec[i]->updateBackground(MULTI->MAIN, 1);
-        BackgroundVec[i+1]->updateBackground(MULTI->MAIN);
-    }
-
-    // ====================== UPDATE CAMERA ============================
-    MULTI->MAIN->camera.outside_render = OutsideRender;
-    for (PlayerCameraBox f_cam_box : CameraBox)
-    if (MULTI->MAIN->insideGridBox(f_cam_box.box))
-    {
-        MULTI->MAIN->camera.setCameraBorder({1, 1, 1, 1}, f_cam_box.cam);
-        break;
-    }
-
     // ============== UPDATE DRAW PROPERTIES =================
 
     /*
@@ -397,6 +348,58 @@ void Map::updateMapActive()
         particle_fx->drawProp(MULTI->MAIN);
     for (Door *door : DoorVec)
         door->drawProp(MULTI->MAIN);
+
+    // ================= In the middle of a transition =================
+    // if (CFG->TRANSIT_EFFECT.leftactive())
+    //     for (Player *player : MULTI->Players)
+    //         player->setStatic();
+
+    // ================= Update Component logic for each Player ==========
+    for (Player *player : MULTI->Players)
+    {
+        // Collision
+        COLLI->playerUpdateCollision(this, player);
+        // Door
+        for (Door *door : DoorVec)
+            door->update(this, player);
+        // Map Transitor
+        for (MapTransit m_trans : TransitMap)
+        if (player->insideGridBox(m_trans.box))
+        {
+            WORLD->setTransit(m_trans.location);
+            break;
+        }
+    }
+
+    // ================= Update Players ==================================
+    if (!CFG->TRANSIT_EFFECT.leftactive())
+        MULTI->update(this);
+    else
+        MULTI->setStatic();
+
+    // ==== Component that has function distinct from other component ======
+    // (It has other player logic in mind)
+
+    for (Bubble *bubble : BubbleVec)
+        bubble->update(MULTI);
+
+    for (Enemy *enemy : EnemyVec)
+        enemy->updateEnemy(this);
+
+    for (int i = 0; i < BackgroundVec.size(); i += 2)
+    {
+        BackgroundVec[i]->updateBackground(MULTI->MAIN, 1);
+        BackgroundVec[i+1]->updateBackground(MULTI->MAIN);
+    }
+
+    // ====================== UPDATE CAMERA ============================
+    MULTI->MAIN->camera.outside_render = OutsideRender;
+    for (PlayerCameraBox f_cam_box : CameraBox)
+    if (MULTI->MAIN->insideGridBox(f_cam_box.box))
+    {
+        MULTI->MAIN->camera.setCameraBorder({1, 1, 1, 1}, f_cam_box.cam);
+        break;
+    }
 }
 
 // ================== MAP ... IDK WHAT ALGORITHM =====================
