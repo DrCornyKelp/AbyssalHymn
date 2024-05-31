@@ -372,10 +372,8 @@ void Map::updateMapActive()
     }
 
     // ================= Update Players ==================================
-    if (!CFG->TRANSIT_EFFECT.leftactive())
-        MULTI->update(this);
-    else
-        MULTI->setStatic();
+    if (CFG->TRANSIT_EFFECT.leftactive()) MULTI->setStatic();
+    else                                  MULTI->update(this);
 
     // ==== Component that has function distinct from other component ======
     // (It has other player logic in mind)
