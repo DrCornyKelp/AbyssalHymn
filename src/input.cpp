@@ -118,9 +118,9 @@ int MouseMain::offMidX()
 int MouseMain::offMidY()
 { return y - CFG->HEIGHT / 2; }
 int MouseMain::offPlayerX(Player *player)
-{ return - ( player->camera.offset.x + offMidX() ); }
+{ return - ( player->camera.mid.x + offMidX() ); }
 int MouseMain::offPlayerY(Player *player)
-{ return - ( player->camera.offset.y + offMidY() ); }
+{ return - ( player->camera.mid.y + offMidY() ); }
 int MouseMain::mapX(Player *player, short grid)
 {
     int mx = player->hitbox.x + offPlayerX(player);

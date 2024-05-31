@@ -15,6 +15,37 @@ Player::Player(bool mc) : Object2D(), MAIN(mc)
     psprite.LeftWeaponTexture = CFG->loadTexture("assets/NakuSheet/NakuLeftWeapon.png");
 }
 
+// ============================ PLAYER CONFIG =============================
+
+void PlayerCFG::setVelXMax()
+{
+    player->move.vx_max = vx_max;
+    player->move.vx_max *=
+        ((player->state.on_ice ||
+        player->state.jump_on_ice) ? vx_ice_mult : 1) *
+        (player->combat.weapon_equip ? vx_weapon_mult : 1) *
+        (player->combat.charge_time ? vx_charge_mult : 1);
+}
+
+void PlayerCFG::setAccelX()
+{
+    player->accel.x = (player->state.on_ice ? ax_ice : ax);
+    player->accel.x *=
+        (player->combat.weapon_equip ? ax_weapon_mult : 1) *
+        (player->combat.charge_time ? ax_charge_mult : 1);
+}
+
+void PlayerCFG::setAccelY()
+{
+    player->accel.y = (
+        (player->INPUT.jump.hold && player->vel.y > 0) ?
+            ay_hold : ay_tap
+    );
+    player->accel.y *=
+        (player->combat.weapon_equip ? ay_weapon_mult : 1) *
+        (player->combat.charge_time ? ay_charge_mult : 1);
+}
+
 // ============================ PLAYER MOVESET ============================
 
 void PlayerMoveset::enableAll()
@@ -510,8 +541,8 @@ void PlayerCamera::updateDynamic()
     {
         float ease_x_max =  (player->combat.weapon_equip ? 64 : 96) +
                             // Velociy pass a cap
-                            (player->vel.x>player->move.vel_max ?
-                                (player->vel.x - player->move.vel_max)*64 : 0);
+                            (player->vel.x>player->move.vx_max ?
+                                (player->vel.x - player->move.vx_max)*64 : 0);
         // Damping / Easing effect X
         if (player->psprite.right && ease.x > -ease_x_max)
             ease.x -= abs(player->vel.x / 5);
@@ -564,7 +595,7 @@ void Player::playerMovement(Map *map)
             state.hug_wall = 0;
 
             move.decel = vel.x > 1;
-            if (vel.x - accel.x > -move.vel_max)
+            if (vel.x - accel.x > -move.vx_max)
                 vel.x -= accel.x * (move.decel ? 2.5 : 1);
         }
 
@@ -576,7 +607,7 @@ void Player::playerMovement(Map *map)
             state.hug_wall = 0;
 
             move.decel = -(vel.x < -1);
-            if (vel.x + accel.x < move.vel_max)
+            if (vel.x + accel.x < move.vx_max)
                 vel.x += accel.x * (move.decel ? 2.5 : 1);
         }
     }
@@ -600,13 +631,13 @@ void Player::playerMovement(Map *map)
     move.crawl= moveset.crawl && INPUT.moveD.state &&
                 state.on_ground && !move.decel &&
                 !g_dash.delay && !g_dash.frame &&
-                abs(vel.x) < move.vel_max / 2;
+                abs(vel.x) < move.vx_max / 2;
     move.crawl = state.crawl_lock || move.crawl;
 
     if (move.crawl && INPUT.moveL.state && !g_dash.frame)
-        vel.x = - move.vel_crawl;
+        vel.x = - move.vx_crawl;
     if (move.crawl && INPUT.moveR.state && !g_dash.frame)
-        vel.x = move.vel_crawl;
+        vel.x = move.vx_crawl;
 
     // Ground dash (more like sliding but whatever)
     if (moveset.g_dash && INPUT.dash.press() && !g_dash.delay &&
@@ -660,8 +691,9 @@ void Player::playerMovement(Map *map)
     {
         INPUT.jump.hold = 1;
 
-        hitbox.y += 10;
-        vel.y = (jump.cur == jump.max || jump.coyote_fail) ? 6.5 : 5;
+        hitbox.y += 1;
+        vel.y = (jump.cur == jump.max || jump.coyote_fail) ?
+            cfg.vy_jump_1 : cfg.vy_jump_2;
 
         state.on_ground = 0;
         if (state.on_ice) state.jump_on_ice = 1;
@@ -677,7 +709,7 @@ void Player::playerMovement(Map *map)
                 118, 29, 8, 5, 0
             ));
 
-            vel.y = 7.3;
+            vel.y = cfg.vy_super;
         } else if (state.on_ground)
             map->appendParticle(new ParticleEffect(
                 CFG->loadTexture(
@@ -699,8 +731,8 @@ void Player::playerMovement(Map *map)
                 25, 25, 7, 3, 0
             ));
 
-            vel.x = 8 * state.hug_wall;
-            vel.y = 4;
+            vel.x = cfg.vx_wall * state.hug_wall;
+            vel.y = cfg.vy_wall;
             hitbox.x += hitbox.hw * state.hug_wall / 2;
 
             a_dash.cur = a_dash.max;
@@ -712,31 +744,35 @@ void Player::playerMovement(Map *map)
 
 // ======================== MOVEMENT LOGIC ==============================
 
-    // Velocity
-    move.vel_max = 6.5;
-    move.vel_max*= ((state.on_ice || state.jump_on_ice) ? 1.2 : 1) *
-                (combat.weapon_equip ? .8 : 1) *
-                (combat.charge_time ? .8 : 1);
-    // Acceleration x
-    accel.x =  (state.on_ice ? .06 : .1) *
-                (combat.weapon_equip ? .8 : 1) *
-                (combat.charge_time ? .8 : 1);
-    // Acceleration y
-    accel.y =  ((INPUT.jump.hold && vel.y > 0) ? -.1 : -.2) *
-                (combat.weapon_equip ? 1.2 : 1) *
-                (combat.charge_time ? 1.2 : 1);
+    // Max Velocity
+    cfg.setVelXMax();
+    cfg.setAccelX();
+    cfg.setAccelY();
+    
+    // move.vx_max = 50;
+    // move.vx_max*= ((state.on_ice || state.jump_on_ice) ? 1.2 : 1) *
+    //             (combat.weapon_equip ? .8 : 1) *
+    //             (combat.charge_time ? .8 : 1);
+    // // Acceleration x
+    // accel.x =  (state.on_ice ? .06 : .1) *
+    //             (combat.weapon_equip ? .8 : 1) *
+    //             (combat.charge_time ? .8 : 1);
+    // // Acceleration y
+    // accel.y =  ((INPUT.jump.hold && vel.y > 0) ? -.1 : -.2) *
+    //             (combat.weapon_equip ? 1.2 : 1) *
+    //             (combat.charge_time ? 1.2 : 1);
 
     // Velocity X Correction 😭
     // - Check the time spent over speed cap
-    if (abs(vel.x) > move.vel_max) move.vel_over_time++;
-    else                               move.vel_over_time = 0;
+    if (abs(vel.x) > move.vx_max) move.vx_over_time++;
+    else                          move.vx_over_time = 0;
     // - Self correct speed
-    if (move.vel_over_time > move.vel_over_max)
+    if (move.vx_over_time > move.vx_over_max)
     {
-        if (vel.x > move.vel_max)
-            vel.x = vel.x - (vel.x - move.vel_max) / 50;
-        if (vel.x < -move.vel_max)
-            vel.x = vel.x - (vel.x + move.vel_max) / 50;
+        if (vel.x > move.vx_max)
+            vel.x = vel.x - (vel.x - move.vx_max) / 50;
+        if (vel.x < -move.vx_max)
+            vel.x = vel.x - (vel.x + move.vx_max) / 50;
     }
 
     // Terminal Velocity
@@ -757,7 +793,7 @@ void Player::playerMovement(Map *map)
     {
         g_dash.frame--;
         if (g_dash.frame) vel.x = 18 * dir;
-        else vel.x = move.vel_max * dir * 1.1;
+        else vel.x = move.vx_max * dir * 1.1;
     }
     if (g_dash.delay > 0) g_dash.delay--;
 
@@ -766,7 +802,7 @@ void Player::playerMovement(Map *map)
     {
         a_dash.frame--;
         if (a_dash.frame) vel.x = 20 * dir;
-        else vel.x = move.vel_max * dir * 1.05;
+        else vel.x = move.vx_max * dir * 1.05;
         vel.y = 0;
     }
 

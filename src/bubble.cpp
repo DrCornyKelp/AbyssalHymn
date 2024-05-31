@@ -130,7 +130,7 @@ Bubble *Bubble::codeToBubbleInfo(string0D str)
             up >> cm >> down >> cm >> left >> cm >> right >> cm >>
             offX >> cm >> offY >> cm >> mAlpha;
 
-    ObjectHitbox bHitbox = {x * 64, y * 64, w * 64, h * 64};
+    ObjectHitbox bHitbox = {x * 64, y * 64, int(w * 64), int(h * 64)};
     ObjectBox bActivebox = {up, down, left, right};
     BubbleStyle bStyle = {offX, offY, mAlpha};
 

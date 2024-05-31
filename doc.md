@@ -941,13 +941,13 @@ struct PlayerMoving
     Player *player;
     // MOVING
     int decel = 0;
-    float vel_max = 5;
-    int vel_over_time = 0, // Time you spent over the speed cap
-        vel_over_max = 100; // Max time before speed corretion
-    float vel_jump_saved = 0;
+    float vx_max = 5;
+    int vx_over_time = 0, // Time you spent over the speed cap
+        vx_over_max = 100; // Max time before speed corretion
+    float vx_jump_saved = 0;
     // CRAWLING
     bool crawl = 0;
-    float vel_crawl = .8;
+    float vx_crawl = .8;
     int hit_offset_x = 0;
     int hit_offset_y = 0;
 

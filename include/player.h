@@ -12,10 +12,38 @@
 class Map;
 class Multiplayer;
 
-struct PlayerCameraBox
+struct PlayerCFG
 {
-    ObjectBox box;
-    ObjectBox cam;
+    Player *player;
+
+    // Ground Speed
+    float vx_max = 6.5;
+    float vx_ice_mult = 1.2;
+    float vx_weapon_mult = .8;
+    float vx_charge_mult = .8;
+    void setVelXMax();
+
+    // Ground Acceleration
+    float ax = .1;
+    float ax_ice = .06;
+    float ax_weapon_mult = .8;
+    float ax_charge_mult = .8;
+    void setAccelX();
+
+    // Air Acceleration
+    float ay_tap = -.2;
+    float ay_hold = -.1;
+    float ay_weapon_mult = 1.2;
+    float ay_charge_mult = 1.2;
+    void setAccelY();
+
+    // Jump
+    float vy_jump_1 = 6.5;
+    float vy_jump_2 = 5;
+    float vy_super = 7.3;
+    // Wall Jump
+    float vx_wall = 8;
+    float vy_wall = 4;
 };
 
 struct PlayerMoveset
@@ -67,16 +95,16 @@ struct PlayerMoving
     Player *player;
     // MOVING
     int decel = 0;
-    float vel_max = 5;
-    int vel_over_time = 0, // Time you spent over the speed cap
-        vel_over_max = 100; // Max time before speed correction
-    float vel_jump_saved = 0;
+    float vx_max = 0;
+    int vx_over_time = 0, // Time you spent over the speed cap
+        vx_over_max = 100; // Max time before speed correction
+    float vx_jump_saved = 0;
     // CRAWLING
     bool crawl = 0;
-    float vel_crawl = .8;
+    float vx_crawl = .8;
+    // Hitbox Offset
     int hit_offset_x = 0;
     int hit_offset_y = 0;
-
     float hitX();
     float hitY();
 };
@@ -95,7 +123,6 @@ struct PlayerJumping
     int coyote = 0;
     int coyote_max = 15;
     bool coyote_fail = 0;
-
     // Ceiling lock jump
     int ceiling_min = 10;
     int knockout = 0;
@@ -146,6 +173,12 @@ struct PlayerSprite
 
     void draw();
     void drawProp();
+};
+
+struct PlayerCameraBox
+{
+    ObjectBox box;
+    ObjectBox cam;
 };
 
 struct PlayerCamera
@@ -271,6 +304,9 @@ public:
     Input INPUT;
     Hud HUD = Hud(this);
     Multiplayer *MULTI;
+
+    // ================== CONFIG =================
+    PlayerCFG cfg = {this};
 
     // ================ STATE ====================
     PlayerState state;
