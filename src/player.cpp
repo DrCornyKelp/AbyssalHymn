@@ -17,6 +17,11 @@ Player::Player(bool mc) : Object2D(), MAIN(mc)
 
 // ============================ PLAYER CONFIG =============================
 
+float PlayerCFG::getDecelMult()
+{
+    return player->move.decel ? decel_mult : 1;
+}
+
 void PlayerCFG::setVelXMax()
 {
     player->move.vx_max = vx_max;
@@ -142,6 +147,50 @@ float PlayerMoving::hitX()
 { return player->hitbox.x + hit_offset_x; }
 float PlayerMoving::hitY()
 { return player->hitbox.y + hit_offset_y; }
+
+// ============================ PLAYER JUMP ==============================
+
+void PlayerJumping::update()
+{
+    // SUPER JUMP
+    if (player->move.crawl &&
+        !player->state.crawl_lock &&
+        !player->vel.x)
+        super += super < super_max;
+    else 
+        super = 0;
+
+    // Jump knock out
+    knockout -= knockout > 0;
+
+    if (player->state.on_ground &&
+        player->jump.cur == player->jump.max)
+    {
+        if (coyote < coyote_max)
+            coyote++;
+        else
+        {
+            coyote_fail = 1;
+            cur = max - 1;
+        }
+    }
+}
+
+// ============================ PLAYER AIR DASH ============================
+
+void PlayerAirDash::update()
+{
+    frame -= frame > 0;
+    if (!frame && !cur) cur = max;
+
+    if (frame)
+    {
+        frame --;
+        player->vel.x =  player->psprite.right ? 4 : -4;
+    }
+}
+
+// ============================ PLAYER GROUND DASH =========================
 
 // ============================ PLAYER DRAW PROP ============================
 
@@ -596,7 +645,7 @@ void Player::playerMovement(Map *map)
 
             move.decel = vel.x > 1;
             if (vel.x - accel.x > -move.vx_max)
-                vel.x -= accel.x * (move.decel ? 2.5 : 1);
+                vel.x -= accel.x * cfg.getDecelMult();
         }
 
         if (INPUT.moveR.state && state.hug_wall > -1)
@@ -608,7 +657,7 @@ void Player::playerMovement(Map *map)
 
             move.decel = -(vel.x < -1);
             if (vel.x + accel.x < move.vx_max)
-                vel.x += accel.x * (move.decel ? 2.5 : 1);
+                vel.x += accel.x * cfg.getDecelMult();
         }
     }
 
@@ -655,8 +704,8 @@ void Player::playerMovement(Map *map)
             59, 42, 7, 5, 0
         ));
 
-        g_dash.frame = move.crawl ? 32 : 24;
-        g_dash.delay = move.crawl ? 40 : 25;
+        g_dash.frame = move.crawl ? cfg.gd_frame_crawl : cfg.gd_frame;
+        g_dash.delay = move.crawl ? cfg.gd_delay_crawl : cfg.gd_delay;
     }
 
     // Air dash
@@ -680,7 +729,7 @@ void Player::playerMovement(Map *map)
         ));
 
         a_dash.cur--;
-        a_dash.frame = 20;
+        a_dash.frame = cfg.ad_frame;
     }
 
     // Jump held key
@@ -770,11 +819,6 @@ void Player::playerMovement(Map *map)
     // Slow but painful Velo Y
     if (state.hug_wall) vel.y = -1;
 
-    // SUPER JUMP
-    if (move.crawl && !state.crawl_lock && !vel.x)
-        jump.super += jump.super < jump.super_max;
-    else jump.super = 0;
-
     // Ground dash
     if (g_dash.frame)
     {
@@ -792,6 +836,11 @@ void Player::playerMovement(Map *map)
         else vel.x = move.vx_max * dir * 1.05;
         vel.y = 0;
     }
+
+    // SUPER JUMP
+    if (move.crawl && !state.crawl_lock && !vel.x)
+        jump.super += jump.super < jump.super_max;
+    else jump.super = 0;
 
     // Jump knock out
     if (jump.knockout > 0) jump.knockout--;

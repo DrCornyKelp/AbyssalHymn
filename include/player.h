@@ -16,6 +16,10 @@ struct PlayerCFG
 {
     Player *player;
 
+    // Deceleration
+    float decel_mult = 2.5;
+    float getDecelMult();
+
     // Ground Speed
     float vx_max = 6.5;
     float vx_ice_mult = 1.2;
@@ -44,6 +48,17 @@ struct PlayerCFG
     // Wall Jump
     float vx_wall = 8;
     float vy_wall = 4;
+
+    // Ground Dash
+    float gd_vx = 10;
+    float gd_frame = 24;
+    float gd_delay = 25;
+    float gd_frame_crawl = 32;
+    float gd_delay_crawl = 40;
+
+    // Air Dash
+    float ad_vx = 8;
+    float ad_frame = 20;
 };
 
 struct PlayerMoveset
@@ -126,7 +141,8 @@ struct PlayerJumping
     // Ceiling lock jump
     int ceiling_min = 10;
     int knockout = 0;
-    int knockout_delay = 50;
+
+    void update();
 };
 
 struct PlayerAirDash
@@ -137,6 +153,8 @@ struct PlayerAirDash
     int cur = 0;
     int max = 1;
     int frame = 0;
+    
+    void update();
 };
 
 struct PlayerGroundDash
@@ -145,6 +163,8 @@ struct PlayerGroundDash
     bool super = 0;
     int frame = 0;
     int delay = 0;
+
+    void update();
 };
 
 struct PlayerSprite
