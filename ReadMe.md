@@ -96,7 +96,7 @@ Yea gonna be honest I am too focus on functionality of the game I completely neg
 
 - **REASONS:**
   - `Player` block collision for `wall_sliding` cannot work properly for any *seperate vertically adjacent blocks* due to faulty collision coding (sorry about that) therefore blocks must be *vertically merged*.
-  - UPDATES (`31/5/24`): Collision logic's rework allow `wall_sliding` to work properly for those *seperate vertically adjacent blocks*
+  - UPDATES [`May 30, 2024`]: Collision logic's rework allow `wall_sliding` to work properly for those *seperate vertically adjacent blocks*
 
 - **ADDITIONAL NOTES:**
   - **Live Blocks**: singular (`1`x`1`) blocks that are placed using editor.
@@ -116,7 +116,6 @@ Yea gonna be honest I am too focus on functionality of the game I completely neg
 
 #### Player stats:
 - health (max 3), mp (for ranged attacks, later stage of dev)
-- Update `21/5`
 
 #### Gameplay:
 - Getting from the start to the end of the stage, beating enemies along the way, collecting items for power up, exploring for secrets 
@@ -160,7 +159,7 @@ Yea gonna be honest I am too focus on functionality of the game I completely neg
 
 ## PROGRESSES UPDATE
 
-### [`10/3`] Planning stages
+### [`March 10, 2024`] Planning stages
 
 Movement and game design planning: 
 
@@ -183,27 +182,27 @@ Movement and game design planning:
 - C++, using the SDL library for display and sound output (foreshadowing)
 - Java wasn’t considered because of the lack of performance and because I f*cking hate java lmao 
 
-### [`14/3`] WITTY NITTY STUFF UNVEILED
+### [`March 14, 2024`] WITTY NITTY STUFF UNVEILED
 - Use case, component diagram finished, ready for development 
 
-### [`15/3`] DEMO: DISPLAYING PROGRESS
+### [`March 15, 2024`] DEMO: DISPLAYING PROGRESS
 
 - Creating a demo version, with only display output 
 - Draft version of movement finished, able to move left to right, jump 
 
-### [`16/3`] INDEXING FOR STABILITY
+### [`March 16, 2024`] INDEXING FOR STABILITY
 
 - Added fps control, allowing for consistent framerates
 - Drawing sprites, making sprites sheets, indexing actions, adding code for indexes 
 
-### [`17/3`] DYNAMIC OBJECTS AND DIVERSE MOVEMENTS
+### [`March 17, 2024`] DYNAMIC OBJECTS AND DIVERSE MOVEMENTS
 
 - Debugging, adding `object2d`
 - Added double jump, crawl, dash, added animations for the new moves 
 - Added demo block tile (ground)
 - Cleaning up the code
 
-### [`18/3`] ENHANCING QUALITY OF LIFE
+### [`March 18, 2024`] ENHANCING QUALITY OF LIFE
 - Added `Hud`
 - Added `Decoration` (static and dynamic)
 - Added BGM (demo)
@@ -217,21 +216,21 @@ Movement and game design planning:
 - Improved movement flow 
 - Added crouch under ceiling limit
 
-### [`22/3`] GRID-BASED DECOR AND DEBUGGING
+### [`March 22, 2024`] GRID-BASED DECOR AND DEBUGGING
 
 - Combined `dynamic` and `static` `decorations` into one class `Decoration`, `Decoration` now inherit `Object2D` 
 - Implement grid style for block, decoration placement in stages
 - Moving block logic implementation, setting up debug mode (printing grid lines, grid positions, add godmode) 
 - Design and import `Map1` layout 
 
-### [`25/3`] REFINEMENT AND HITBOX FIXES
+### [`March 25, 2024`] REFINEMENT AND HITBOX FIXES
 
 - Fixes hitbox
 - Reorder and split some methods for more consistency: seperation between heavy performance logic like `player movement/collision` and `drawing`
 - Implemented `Block Engine`: combine many adjacent block into a singular retangle to reduce collision logic
 - Clean up code 
 
-### [`27/3`] EXPANDING GAMEPLAY ELEMENTS
+### [`March 27, 2024`] EXPANDING GAMEPLAY ELEMENTS
 
 - Added `Npc`
 - Combat finished (range attack, parry, charged attack) 
@@ -241,15 +240,15 @@ Movement and game design planning:
 - Added `Item` 
 - Added `Collision`
 
-### [`28/3`] MAP OVERHAUL: SIMPLIFICATION
+### [`March 28, 2024`] MAP OVERHAUL: SIMPLIFICATION
 
 - Maps’ components are now created/loaded from `<component>.csv` files, no more code, only numbers and letters
 
-### [`1/4`] DYNAMIC PARALLAX IMPLEMENTATION
+### [`April 1, 2024`] DYNAMIC PARALLAX IMPLEMENTATION
 
 - Added dynamic parallax background that correspond with the player movement
 
-### [`3/4`] INPUT EVOLUTION: VERSATILITY
+### [`April 3, 2024`] INPUT EVOLUTION: VERSATILITY
 
 - Input can now exist in 3 states: 
   - `Press`: for instant action
@@ -257,7 +256,7 @@ Movement and game design planning:
   - `Threshold`: similar to Hold but only start trigger after a certain time (threshold)
 - Clean up old input method for the combat charge attack
 
-### [`8/4`] WORLD NAVIGATION
+### [`April 8, 2024`] WORLD NAVIGATION
 
 - `Object2D` has additional method for boundary checking
 - Added class `World`
@@ -269,13 +268,13 @@ Movement and game design planning:
   - `Location`: {`map index`, `spawn x`, `spawn y`} 
 $\Rightarrow$ Player can move between location using `Transition` (from Object2D boundary method) or using `Door`
 
-### [`14/4`] ENGINE CREATION: EMPOWERING DEVELOPMENT
+### [`April 14, 2024`] ENGINE CREATION: EMPOWERING DEVELOPMENT
 
 - Includes a lot of functions for map manipulation 
 - Flexible syntax
 - Current Map Component Manip: `Block`, `Player`
 
-### [`20/4`] EMPOWERING MAP EDITING (ft. Parallax Bg Revamp)
+### [`April 20, 2024`] EMPOWERING MAP EDITING (ft. Parallax Bg Revamp)
 
 ##### Block Editor
 - Includes a user-friendly interface allowing for an easier time making map 
@@ -289,35 +288,35 @@ $\Rightarrow$ Player can move between location using `Transition` (from Object2D
 - Fixes background jittering when entering new map
 - Fixes background snapping when entering a `camera unfocus` section (section where `camera` no longer depends on `player`)
 
-### [`25/4`] LIBRARY ARCHITECTURE OVERHAUL.
+### [`April 25, 2024`] LIBRARY ARCHITECTURE OVERHAUL.
 
 - Libraries are now `x64` instead of `x32` $\Rightarrow$ More compatibility with modern system + Higher `long` value (`max: 2^64 - 1`)
 - Update `g++` from `6.3.0` to `13.2.0` $\Rightarrow$ Added a new library previously incompatible:
   - `SFML` for audio playback
   - Removing `SDL_mixer` from libraries list due to bad performance and bug infestation
 
-### [`26/4`] AUDIO INTEGRATION AND HARMONY
+### [`April 26, 2024`] AUDIO INTEGRATION AND HARMONY
 
 - Created class `Audio`, each map has their own BGMs playlist with simple properties: { `music’s paths`, `delays`, `random playlist flag` }
 
-### [`27/4`] SPEED CONTROL OPTIMIZATION
+### [`April 27, 2024`] SPEED CONTROL OPTIMIZATION
 
 - `Speed` (both `horizontal` and `vertical`) is now dynamically adjusted, no longer rigidly constrained to the `speed limit` once it exceeds the maximum threshold.
 - If `speed` remains above the `limit` for a certain period of time, it will automatically ease back to the `limit` instead of a "snap back to reality"
 
-### [`28/4`] MEMORY MANAGEMENT
+### [`April 28, 2024`] MEMORY MANAGEMENT
 
 - Added destructors and memory freeing methods to every component in `map` to avoid memory leakage
 
-### [`29/4`] DYNAMIC AUDIO OBJECT
+### [`April 29, 2024`] DYNAMIC AUDIO OBJECT
 
 - Created a dynamic `audio object`: audio get louder as player get closer, as well as the ability to override the background music
 
-### [`6/5`] MULTIPLAYER: CONCEPT
+### [`May 6, 2024`] MULTIPLAYER: CONCEPT
 
 - ADDED MULTIPLAYER (concept): Multiple `Player` entities can exist in game, opening up opportunities for functioning multiplayer
 
-### [`12/5`] MULTIPLAYER: FUNCTIONALITY
+### [`May 12, 2024`] MULTIPLAYER: FUNCTIONALITY
 
 - `Muliplayer` is now functioning (in demo stages, bugs and missing interactions to be expected)
 - `Map Components` now have more interactions with each seperate `player`
@@ -331,14 +330,20 @@ $\Rightarrow$ Player can move between location using `Transition` (from Object2D
   - Apply the `hold/threshold/threspeak` paradigm from `key input` to `mouse input`
   - Added `wheel` value for scroll direction
 
-### [`20/5`] USER FRIENDLY INTERFACE
+### [`May 20, 2024`] USER FRIENDLY INTERFACE
 
 - Working opening `Intro` sequence
 - Complete `Menu` and `Pause` rework (still under development)
 
-### [`26/5`] AUDITORY ENHANCEMENT: SOUND EFFECTS
+### [`May 26, 2024`] AUDITORY ENHANCEMENT: SOUND EFFECTS
 
 - Added `SFX` to actions like walking, jumping, dashing, etc...
+
+### [`May 30, 2024`] A COLLIDING OVERHAUL
+
+- Rework block `collision` for player
+  $\rightarrow$ Fix some flaws with `wall_slide`
+  $\rightarrow$ Fix jittering from player running into a wall by adding a full stop
 
 ---
 
