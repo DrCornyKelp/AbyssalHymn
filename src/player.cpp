@@ -748,19 +748,6 @@ void Player::playerMovement(Map *map)
     cfg.setVelXMax();
     cfg.setAccelX();
     cfg.setAccelY();
-    
-    // move.vx_max = 50;
-    // move.vx_max*= ((state.on_ice || state.jump_on_ice) ? 1.2 : 1) *
-    //             (combat.weapon_equip ? .8 : 1) *
-    //             (combat.charge_time ? .8 : 1);
-    // // Acceleration x
-    // accel.x =  (state.on_ice ? .06 : .1) *
-    //             (combat.weapon_equip ? .8 : 1) *
-    //             (combat.charge_time ? .8 : 1);
-    // // Acceleration y
-    // accel.y =  ((INPUT.jump.hold && vel.y > 0) ? -.1 : -.2) *
-    //             (combat.weapon_equip ? 1.2 : 1) *
-    //             (combat.charge_time ? 1.2 : 1);
 
     // Velocity X Correction 😭
     // - Check the time spent over speed cap
