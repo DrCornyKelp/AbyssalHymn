@@ -51,8 +51,6 @@ void Door::update(Map *map, Player *player)
         player->INPUT.moveU.hold = 1;
         map->WORLD->setTransit(location);
     }
-
-    if (player->MAIN) drawProp(player);
 }
 
 // Draw Door

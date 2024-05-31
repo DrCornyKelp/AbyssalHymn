@@ -395,6 +395,8 @@ void Map::updateMapActive()
         particle_fx->drawProp(MULTI->MAIN);
     for (ParticleEffect *particle_fx : ParticleFrontVec)
         particle_fx->drawProp(MULTI->MAIN);
+    for (Door *door : DoorVec)
+        door->drawProp(MULTI->MAIN);
 }
 
 // ================== MAP ... IDK WHAT ALGORITHM =====================

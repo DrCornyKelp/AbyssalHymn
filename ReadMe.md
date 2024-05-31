@@ -92,10 +92,11 @@ Yea gonna be honest I am too focus on functionality of the game I completely neg
   - Blocks are sorted in the ascending `X` direction.
   - Blocks are merged into `column`.
   - Blocks are sorted in the ascending `Y` direction.
-  - Blocks are merged into `row` to become rectangle
+  - Blocks are merged into `row` to become `rectangle`
 
 - **REASONS:**
-  - `Player` block collision for `wall_sliding` cannot work properly for any *seperate vertically adjacent blocks* due to faulty coding (sorry about that) therefore blocks must be *vertically merged*.
+  - `Player` block collision for `wall_sliding` cannot work properly for any *seperate vertically adjacent blocks* due to faulty collision coding (sorry about that) therefore blocks must be *vertically merged*.
+  - UPDATES (`31/5/24`): Collision logic's rework allow `wall_sliding` to work properly for those *seperate vertically adjacent blocks*
 
 - **ADDITIONAL NOTES:**
   - **Live Blocks**: singular (`1`x`1`) blocks that are placed using editor.
