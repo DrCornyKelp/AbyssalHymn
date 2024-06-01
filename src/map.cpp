@@ -338,6 +338,10 @@ void Map::updateMapActive()
         block->drawProp(MULTI->MAIN);
     for (Block *block : BlockBackVec)
         block->drawProp(MULTI->MAIN);
+    for (Block1D block1D : BlockHiddenVec)
+        for (Block *block : block1D)
+            block->drawProp(MULTI->MAIN);
+
     for (Decoration *background : DecorBackVec)
         background->drawProp(MULTI->MAIN);
     for (Decoration *background : DecorFrontVec)

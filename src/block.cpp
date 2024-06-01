@@ -91,8 +91,6 @@ void Block::blockSeethrough(Player *player, bool yes)
 {
     if (seeAlpha > 0 && yes) seeAlpha -= 5;
     else if (seeAlpha < 255) seeAlpha += 5;
-
-    drawProp(player);
 }
 
 void Block::blockCollision(Map *map, Player *player, PlayerState &pState)

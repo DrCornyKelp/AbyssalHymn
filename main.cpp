@@ -12,14 +12,15 @@ int main(int argc, char *argv[])
 {
     SDL_Init(SDL_INIT_GAMECONTROLLER);
 
-    CFG->TRANSIT_EFFECT.BLACKSCREEN = CFG->loadTexture("assets/BlackScreen.png");
+    CFG->TRANSIT_EFFECT.BLACKSCREEN = CFG->loadTexture(
+        "assets/BlackScreen.png"
+    );
 
     // Renderer
     Renderer *REND = new Renderer();
-
-    // Audio Handler
+    // Audio
     Audio *AUDIO = new Audio();
-    // Multiplayer (can support single player dont worry)
+    // Multiplayer
     Multiplayer *MULTI = new Multiplayer({new Player()});
     // Collision
     Collision *COLLI = new Collision();
@@ -62,7 +63,7 @@ int main(int argc, char *argv[])
     // }
     // delete intro;
 
-    // Menu
+    // Menu + Pause
     Menu *MENU = new Menu();
     Pause *PAUSE = new Pause(WORLD);
 
